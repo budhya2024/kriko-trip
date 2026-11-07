@@ -45,7 +45,7 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("tours")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
             activeTab === "tours"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
@@ -59,7 +59,7 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("hotels")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
             activeTab === "hotels"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
@@ -73,7 +73,7 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("visa")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
             activeTab === "visa"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
@@ -87,14 +87,14 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("experience")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
             activeTab === "experience"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
           }`}
         >
           {/* Yellow Badge with Wave/Activity */}
-          <span className="w-5 h-5 rounded-md bg-[#EAB308] flex items-center justify-center text-white shrink-0">
+          <span className="w-5 h-5 rounded-full bg-[#EAB308] flex items-center justify-center text-white shrink-0">
             <svg
               className="w-3.5 h-3.5"
               viewBox="0 0 24 24"
@@ -329,7 +329,7 @@ export default function HeroSearchForm() {
           <div className="md:col-span-2">
             <button
               type="button"
-              className="w-full h-[72px] bg-[#1877F2] hover:bg-[#1466d3] text-white font-bold rounded-lg flex items-center justify-center gap-2 text-[16px] tracking-wide shadow-xs hover:shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
+              className="w-full h-[72px] bg-[#1877F2] hover:bg-[#1466d3] text-white font-bold rounded-full flex items-center justify-center gap-2 text-[16px] tracking-wide shadow-xs hover:shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
             >
               <Search className="w-5 h-5 stroke-[2.4]" />
               <span>SEARCH</span>

@@ -60,7 +60,7 @@ export default function BlogListPage() {
                   key={cat}
                   type="button"
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
                     selectedCategory === cat
                       ? "bg-[#1877F2] text-white shadow-xs"
                       : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
@@ -158,7 +158,7 @@ export default function BlogListPage() {
 
                     <Link
                       href={`/blogs/${featuredPost.slug}`}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-[#1877F2] hover:bg-blue-600 text-white text-xs font-bold transition-all shadow-xs shrink-0"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white text-xs font-bold transition-all shadow-xs shrink-0"
                     >
                       <span>Read Story</span>
                       <ArrowRight className="w-3.5 h-3.5" />
@@ -252,7 +252,7 @@ export default function BlogListPage() {
                     setSelectedCategory("All");
                     setSearchQuery("");
                   }}
-                  className="mt-4 px-4 py-2 rounded-lg bg-[#1877F2] text-white text-xs font-bold"
+                  className="mt-4 px-5 py-2 rounded-full bg-[#1877F2] text-white text-xs font-bold"
                 >
                   Reset Filters
                 </button>

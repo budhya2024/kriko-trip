@@ -232,7 +232,7 @@ export default function Header() {
                 setAuthModalMode("login");
                 setIsAuthModalOpen(true);
               }}
-              className="flex items-center gap-2 bg-[#121820] hover:bg-black text-white px-5 py-2.5 rounded-lg font-medium text-sm shadow-xs transition-all duration-200 active:scale-95 cursor-pointer"
+              className="flex items-center gap-2 bg-[#121820] hover:bg-black text-white px-5 py-2.5 rounded-full font-medium text-sm shadow-xs transition-all duration-200 active:scale-95 cursor-pointer"
             >
               <User className="w-4 h-4" />
               <span>Login</span>
@@ -248,7 +248,7 @@ export default function Header() {
                 setAuthModalMode("login");
                 setIsAuthModalOpen(true);
               }}
-              className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
               aria-label="Login"
             >
               <User className="w-4 h-4 stroke-[2]" />
@@ -258,7 +258,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-              className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
               aria-label="Search"
             >
               <Search className="w-4 h-4 stroke-[2]" />
@@ -268,7 +268,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setIsMobileDrawerOpen(true)}
-              className="w-10 h-10 rounded-xl border border-gray-200 flex flex-col items-center justify-center gap-[5px] bg-white hover:bg-gray-50 transition-colors focus:outline-none p-2"
+              className="w-10 h-10 rounded-full border border-gray-200 flex flex-col items-center justify-center gap-[5px] bg-white hover:bg-gray-50 transition-colors focus:outline-none p-2"
               aria-label="Open navigation menu"
             >
               <span className="w-5 h-[2px] bg-gray-900 rounded-full" />
@@ -551,7 +551,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setIsMobileDrawerOpen(false)}
-            className="w-9 h-9 rounded-xl border border-gray-200/90 flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none"
+            className="w-9 h-9 rounded-full border border-gray-200/90 flex items-center justify-center text-gray-700 hover:bg-gray-100 transition-colors focus:outline-none"
             aria-label="Close menu"
           >
             <X className="w-4 h-4 stroke-[2.2]" />
@@ -834,7 +834,7 @@ export default function Header() {
               setAuthModalMode("login");
               setIsAuthModalOpen(true);
             }}
-            className="w-full bg-[#111827] hover:bg-black text-white py-3.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 mt-3.5 shadow-xs transition-colors active:scale-98 cursor-pointer"
+            className="w-full bg-[#111827] hover:bg-black text-white py-3.5 rounded-full font-bold text-sm flex items-center justify-center gap-2 mt-3.5 shadow-xs transition-colors active:scale-98 cursor-pointer"
           >
             <User className="w-4 h-4" />
             <span>Login / Register</span>

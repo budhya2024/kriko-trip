@@ -189,7 +189,7 @@ export default function FilterSidebar({
                   onClick={() =>
                     onSelectTravelType(isSelected ? null : type.id)
                   }
-                  className={`flex items-center justify-center gap-2 py-3 px-3 rounded-xl border text-[13.5px] transition-all duration-150 cursor-pointer ${
+                  className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-full border text-[13.5px] transition-all duration-150 cursor-pointer ${
                     isSelected
                       ? "border-[#1877F2] bg-blue-50/60 text-[#1877F2] font-semibold shadow-xs"
                       : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
@@ -233,7 +233,7 @@ export default function FilterSidebar({
                   key={b.id}
                   type="button"
                   onClick={() => onSelectBudget(isSelected ? null : b.id)}
-                  className={`py-3 px-3 rounded-xl border text-[13.5px] transition-all duration-150 cursor-pointer text-center ${
+                  className={`py-2.5 px-3 rounded-full border text-[13.5px] transition-all duration-150 cursor-pointer text-center ${
                     isSelected
                       ? "border-[#1877F2] bg-blue-50/60 text-[#1877F2] font-semibold shadow-xs"
                       : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
@@ -273,7 +273,7 @@ export default function FilterSidebar({
                   onClick={() =>
                     onSelectDestination(isSelected ? null : dest.id)
                   }
-                  className={`flex items-center justify-center gap-1.5 py-3 px-2.5 rounded-xl border text-[13px] transition-all duration-150 cursor-pointer ${
+                  className={`flex items-center justify-center gap-1.5 py-2.5 px-2.5 rounded-full border text-[13px] transition-all duration-150 cursor-pointer ${
                     isSelected
                       ? "border-[#1877F2] bg-blue-50/60 text-[#1877F2] font-semibold shadow-xs"
                       : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
@@ -317,7 +317,7 @@ export default function FilterSidebar({
               <button
                 type="button"
                 onClick={onCloseMobile}
-                className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500"
+                className="p-1.5 rounded-full hover:bg-gray-100 text-gray-500"
               >
                 <X className="w-5 h-5" />
               </button>

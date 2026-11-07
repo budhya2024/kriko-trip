@@ -3,8 +3,8 @@ import { BlogPost } from "./types";
 export const blogPosts: BlogPost[] = [
   {
     slug: "tropical-escapes-beach-getaways",
-    title: "Tropical Escapes & Beach Getaways",
-    location: "Bali, Indonesia",
+    title: "Tropical Escapes & Beach Getaways.",
+    location: "Rome , Italy",
     date: "12 Sep, 2025",
     author: {
       name: "Elena Rostova",
@@ -48,9 +48,9 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "crystal-clear-waters-white-sands",
-    title: "Crystal-Clear Waters & White Sands",
-    location: "Phuket & Krabi, Thailand",
-    date: "18 Sep, 2025",
+    title: "Crystal-Clear Waters & White Sands.",
+    location: "Rome , Italy",
+    date: "12 Sep, 2025",
     author: {
       name: "Marcus Vance",
       role: "Adventure Photographer",
@@ -58,8 +58,8 @@ export const blogPosts: BlogPost[] = [
     },
     category: "Beach & Islands",
     readTime: "6 min read",
-    image: "https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=1200&q=80",
-    excerpt: "Discover hidden coves, emerald lagoons, and iconic limestone karst cliffs.",
+    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=80",
+    excerpt: "Escape to the World's Most Breathtaking Islands and immerse yourself in paradise.",
     content: {
       intro:
         "The Andaman Sea coastline of southern Thailand has enchanted travelers for decades. Towering limestone karsts rising dramatically from emerald waters create an otherworldly seascape that feels lifted straight from a fantasy novel.",

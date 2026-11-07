@@ -76,7 +76,7 @@ export default function AuthModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-4 h-4" />
@@ -85,11 +85,11 @@ export default function AuthModal({
 
         {/* Segmented Mode Switcher (Sign In / Register) */}
         <div className="px-6 pt-4">
-          <div className="grid grid-cols-2 p-1 bg-gray-100 rounded-lg">
+          <div className="grid grid-cols-2 p-1 bg-gray-100 rounded-full">
             <button
               type="button"
               onClick={() => setMode("login")}
-              className={`py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer ${
+              className={`py-2 text-xs sm:text-sm font-bold rounded-full transition-all cursor-pointer ${
                 mode === "login"
                   ? "bg-white text-gray-950 shadow-xs"
                   : "text-gray-600 hover:text-gray-900"
@@ -100,7 +100,7 @@ export default function AuthModal({
             <button
               type="button"
               onClick={() => setMode("register")}
-              className={`py-2 text-xs sm:text-sm font-bold rounded-lg transition-all cursor-pointer ${
+              className={`py-2 text-xs sm:text-sm font-bold rounded-full transition-all cursor-pointer ${
                 mode === "register"
                   ? "bg-white text-gray-950 shadow-xs"
                   : "text-gray-600 hover:text-gray-900"
@@ -118,7 +118,7 @@ export default function AuthModal({
             <button
               type="button"
               onClick={() => alert("Google Login")}
-              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs font-semibold transition-colors cursor-pointer"
+              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-full border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs font-semibold transition-colors cursor-pointer"
             >
               <FaGoogle className="w-3.5 h-3.5 text-red-500" />
               <span>Google</span>
@@ -126,7 +126,7 @@ export default function AuthModal({
             <button
               type="button"
               onClick={() => alert("Facebook Login")}
-              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs font-semibold transition-colors cursor-pointer"
+              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-full border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs font-semibold transition-colors cursor-pointer"
             >
               <FaFacebookF className="w-3.5 h-3.5 text-[#1877F2]" />
               <span>Facebook</span>
@@ -223,7 +223,7 @@ export default function AuthModal({
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer mt-1"
+                className="w-full py-2.5 rounded-full bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer mt-1"
               >
                 Sign In
               </button>
@@ -364,7 +364,7 @@ export default function AuthModal({
               {/* Submit Button */}
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer mt-1"
+                className="w-full py-2.5 rounded-full bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer mt-1"
               >
                 Create Account
               </button>

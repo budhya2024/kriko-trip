@@ -217,7 +217,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-black hover:text-white flex items-center justify-center text-gray-700 transition-colors"
+                    className="w-8 h-8 rounded-full bg-gray-100 hover:bg-black hover:text-white flex items-center justify-center text-gray-700 transition-colors"
                   >
                     <FaXTwitter className="w-3.5 h-3.5" />
                   </a>
@@ -225,7 +225,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     href="https://facebook.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-[#1877F2] hover:text-white flex items-center justify-center text-gray-700 transition-colors"
+                    className="w-8 h-8 rounded-full bg-gray-100 hover:bg-[#1877F2] hover:text-white flex items-center justify-center text-gray-700 transition-colors"
                   >
                     <FaFacebookF className="w-3.5 h-3.5" />
                   </a>
@@ -233,7 +233,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     href={`https://wa.me/?text=${encodeURIComponent(post.title)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-8 h-8 rounded-lg bg-gray-100 hover:bg-[#25D366] hover:text-white flex items-center justify-center text-gray-700 transition-colors"
+                    className="w-8 h-8 rounded-full bg-gray-100 hover:bg-[#25D366] hover:text-white flex items-center justify-center text-gray-700 transition-colors"
                   >
                     <FaWhatsapp className="w-3.5 h-3.5" />
                   </a>
@@ -294,14 +294,14 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     href="https://wa.me/18004567890"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs"
+                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs"
                   >
                     <MessageCircle className="w-4 h-4" />
                     <span>WhatsApp Inquiry</span>
                   </a>
                   <a
                     href="tel:+18004567890"
-                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/15"
+                    className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/15"
                   >
                     <Phone className="w-4 h-4 text-[#1877F2]" />
                     <span>Call Travel Expert</span>

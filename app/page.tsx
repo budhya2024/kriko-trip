@@ -19,36 +19,28 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1">
-        {/* Hero Section with Search Bar Component */}
+
         <HeroSection />
 
-        {/* Stats Counter Bar Section */}
+
         <StatsBar />
 
-        {/* Popular Packages Slider Section */}
+
         <Suspense fallback={null}>
           <PopularPackages />
         </Suspense>
-
-        {/* Featured Destinations (4 Circular Cards Grid) */}
         <FeaturedDestinations />
 
-        {/* Discounts & Special Offers Section */}
+
         <Suspense fallback={null}>
           <SpecialOffers />
         </Suspense>
-
-        {/* GoFly Gallery Section */}
         <GallerySection />
-
-        {/* Travel Inspirations (Blog Stories Section) */}
-        <TravelInspirations />
-
-        {/* Client Testimonials Section with 2-Row Opposite Infinite Marquee */}
         <TestimonialsSection />
 
-        {/* General Questions FAQ Section */}
         <GeneralQuestionsFAQ />
+
+        <TravelInspirations />
       </main>
 
       {/* Global Footer */}

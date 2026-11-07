@@ -141,10 +141,10 @@ export default function PackageCard({ pkg }: PackageCardProps) {
             </div>
           </div>
 
-          {/* Action Button with standard clean rounded corners */}
+          {/* Action Button with rounded-full pill format */}
           <Link
             href={`#package-${pkg.id}`}
-            className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-lg bg-[#102A6B] hover:bg-[#1877F2] text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 shrink-0"
+            className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-full bg-[#102A6B] hover:bg-[#1877F2] text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 shrink-0"
           >
             <span>View Details</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
