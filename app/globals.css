@@ -1,26 +1,175 @@
 @import "tailwindcss";
 
+html,
+body {
+  font-family: var(--font-poppins), "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  scroll-behavior: smooth;
+}
+
+input,
+button,
+textarea,
+select {
+  font-family: inherit;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #09090b;
+  --card: #ffffff;
+  --card-foreground: #09090b;
+  --popover: #ffffff;
+  --popover-foreground: #09090b;
+  --primary: #1d82f5;
+  --primary-foreground: #ffffff;
+  --secondary: #f4f4f5;
+  --secondary-foreground: #18181b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --accent: #f4f4f5;
+  --accent-foreground: #18181b;
+  --destructive: #ef4444;
+  --destructive-foreground: #fafafa;
+  --border: #e4e4e7;
+  --input: #e4e4e7;
+  --ring: #1d82f5;
+  --radius: 0.75rem;
+  --title-color: #0b132a;
+  --text-color: #64748b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-poppins), "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-poppins: var(--font-poppins), "Poppins", sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Custom 1320px container with 16px inline padding */
+.container {
+  width: 100%;
+  max-width: 1320px;
+  margin-inline: auto;
+  padding-inline: 16px;
+}
+
+/* Reusable Section Headers */
+.section-title {
+  color: var(--title-color);
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 0;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 640px) {
+  .section-title {
+    font-size: 28px;
+    line-height: 1.2;
   }
+}
+
+.section-description {
+  color: var(--text-color);
+  font-family: var(--font-poppins), sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  margin-top: 12px;
+  margin-bottom: 0;
+}
+
+@media (max-width: 640px) {
+  .section-description {
+    font-size: 14px;
+    margin-top: 8px;
+  }
+}
+
+/* Infinite Marquee Animations for Testimonial Rows */
+@keyframes marquee-left {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-right {
+  0% {
+    transform: translateX(-50%);
+  }
+
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marquee-left 35s linear infinite;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marquee-right 35s linear infinite;
+}
+
+.animate-marquee-left:hover,
+.animate-marquee-right:hover {
+  animation-play-state: paused;
+}
+
+/* Swiper Custom Large Width Dot Pagination */
+.custom-offers-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-offers-pagination .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+  background-color: #cbd5e1;
+  opacity: 1;
+  border-radius: 9999px;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  margin: 0 4px !important;
+}
+
+.custom-offers-pagination .swiper-pagination-bullet-active {
+  width: 34px !important;
+  background-color: #0284c7 !important;
+  border-radius: 9999px !important;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), sans-serif;
+  overflow-x: hidden;
 }

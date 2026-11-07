@@ -1,0 +1,162 @@
+import { TourPackage } from "./types";
+
+export const initialTourPackages: TourPackage[] = [
+  {
+    id: "andaman-short-stay",
+    title: "Andaman Short Stay Tour Package (3 nts Port Blair + 1 nt Havelock)",
+    location: "Andaman",
+    duration: "5 Days/4 Nights",
+    days: 5,
+    nights: 4,
+    travelType: "Couple",
+    price: 380,
+    originalPrice: 450,
+    rating: 4.8,
+    reviewsCount: 124,
+    description:
+      "Discover the perfect Andaman Tour package, with 3-night stays in Port Blair and 1 night in tranquil Havelock Island.",
+    image:
+      "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
+    featured: true,
+  },
+  {
+    id: "andaman-wonders",
+    title: "Andaman Wonders Tour Package (3 nts Port Blair + 2 nts Havelock)",
+    location: "Andaman",
+    duration: "6 Days/5 Nights",
+    days: 6,
+    nights: 5,
+    travelType: "Family",
+    price: 495,
+    originalPrice: 560,
+    rating: 4.9,
+    reviewsCount: 198,
+    description:
+      "Book the perfect Andaman tour package with 3 nights' stay in Port Blair and 2 nights' stay in scenic Havelock beaches.",
+    image:
+      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    featured: true,
+  },
+  {
+    id: "best-of-andaman",
+    title:
+      "Best of Andaman Tour Package (3 nts Port Blair + 2 nts Havelock + 01 nt Neil Island)",
+    location: "Andaman",
+    duration: "7 Days/6 Nights",
+    days: 7,
+    nights: 6,
+    travelType: "Honeymoon",
+    price: 640,
+    originalPrice: 720,
+    rating: 4.9,
+    reviewsCount: 230,
+    description:
+      "Enjoy a relaxed 7-day trip with our comprehensive Andaman tour package including Neil Island and Elephant Beach.",
+    image:
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80",
+    featured: true,
+  },
+  {
+    id: "bali-island-escape",
+    title: "Bali Island Dream Tour (4 nts Ubud + 2 nts Seminyak Luxury Villa)",
+    location: "Bali, Indonesia",
+    duration: "7 Days/6 Nights",
+    days: 7,
+    nights: 6,
+    travelType: "Leisure",
+    price: 580,
+    originalPrice: 690,
+    rating: 4.8,
+    reviewsCount: 165,
+    description:
+      "Immerse yourself in Bali's lush rice terraces, sacred temples, and stunning sunset beaches with full luxury transfers.",
+    image:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "swiss-alps-express",
+    title: "Swiss Alpine Wonders (3 nts Lucerne + 2 nts Interlaken + Jungfrau)",
+    location: "Switzerland",
+    duration: "6 Days/5 Nights",
+    days: 6,
+    nights: 5,
+    travelType: "Adventure",
+    price: 1150,
+    originalPrice: 1300,
+    rating: 5.0,
+    reviewsCount: 310,
+    description:
+      "Witness snow-capped Swiss Alps, pristine alpine lakes, and historic trains through the heart of Switzerland.",
+    image:
+      "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "dubai-luxury-desert",
+    title: "Dubai Highlights & Dunes (3 nts Marina + 1 nt Desert Camp Resort)",
+    location: "Dubai, UAE",
+    duration: "5 Days/4 Nights",
+    days: 5,
+    nights: 4,
+    travelType: "Group",
+    price: 490,
+    originalPrice: 590,
+    rating: 4.7,
+    reviewsCount: 142,
+    description:
+      "Explore Burj Khalifa, private desert 4x4 safaris with sunset BBQ, and futuristic architecture in Dubai.",
+    image:
+      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "maldives-water-villa",
+    title: "Maldives Overwater Sanctuary (4 nts Luxury All-Inclusive Resort)",
+    location: "Maldives",
+    duration: "5 Days/4 Nights",
+    days: 5,
+    nights: 4,
+    travelType: "Honeymoon",
+    price: 920,
+    originalPrice: 1100,
+    rating: 4.9,
+    reviewsCount: 285,
+    description:
+      "Direct ocean lagoon access, coral reef snorkeling, and romantic sunset dining on powder white sand beaches.",
+    image:
+      "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "thailand-phuket-krabi",
+    title: "Thailand Tropical Escape (3 nts Phuket + 3 nts Krabi Beach Resort)",
+    location: "Thailand",
+    duration: "7 Days/6 Nights",
+    days: 7,
+    nights: 6,
+    travelType: "Couple",
+    price: 430,
+    originalPrice: 510,
+    rating: 4.7,
+    reviewsCount: 188,
+    description:
+      "Speedboat trips to Phi Phi Islands, sea caves of Phang Nga, and authentic Thai street cuisine adventures.",
+    image:
+      "https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "costa-rica-rainforest",
+    title: "Costa Rica Eco Wildlife & Volcano (3 nts Arenal + 2 nts Manuel Antonio)",
+    location: "Costa Rica",
+    duration: "6 Days/5 Nights",
+    days: 6,
+    nights: 5,
+    travelType: "Adventure",
+    price: 760,
+    originalPrice: 890,
+    rating: 4.8,
+    reviewsCount: 110,
+    description:
+      "Zipline through cloud forests, relax in volcanic hot springs, and spot toucans and sloths in lush reserves.",
+    image:
+      "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
+  },
+];
+
