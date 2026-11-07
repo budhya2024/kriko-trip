@@ -12,24 +12,11 @@ export default function TourPackagesContent() {
   const [selectedBudget, setSelectedBudget] = useState<string | null>(null);
   const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("popular");
-  const [searchQuery, setSearchQuery] = useState("");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   // Filter and Sort Logic
   const filteredPackages = useMemo(() => {
     let result = [...initialTourPackages];
-
-    // Search Query
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.title.toLowerCase().includes(q) ||
-          p.location.toLowerCase().includes(q) ||
-          p.destination.toLowerCase().includes(q) ||
-          p.description.toLowerCase().includes(q)
-      );
-    }
 
     // Travel Type Filter
     if (selectedTravelType) {
@@ -73,21 +60,19 @@ export default function TourPackagesContent() {
     }
 
     return result;
-  }, [searchQuery, selectedTravelType, selectedBudget, selectedDestination, sortBy]);
+  }, [selectedTravelType, selectedBudget, selectedDestination, sortBy]);
 
   const handleClearAll = () => {
     setSelectedTravelType(null);
     setSelectedBudget(null);
     setSelectedDestination(null);
     setSortBy("popular");
-    setSearchQuery("");
   };
 
   const activeFiltersCount =
     (selectedTravelType ? 1 : 0) +
     (selectedBudget ? 1 : 0) +
-    (selectedDestination ? 1 : 0) +
-    (searchQuery ? 1 : 0);
+    (selectedDestination ? 1 : 0);
 
   const budgetLabelMap: Record<string, string> = {
     "0-20k": "₹0 - ₹20k",
@@ -100,54 +85,31 @@ export default function TourPackagesContent() {
   return (
     <section className="w-full bg-[#f8f9fb] py-10 sm:py-14 lg:py-16">
       <div className="container">
-        {/* ─── Top Bar: Search & Mobile Filter Toggle ─── */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 mb-8">
-          {/* Search Input */}
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search destination, package or keywords..."
-              className="w-full bg-white border border-gray-200 rounded-2xl pl-10 pr-4 py-3 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-blue-100 transition-all shadow-xs"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery("")}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400 hover:text-gray-600"
-              >
-                Clear
-              </button>
+        {/* ─── Top Bar: Results Count & Mobile Filter Toggle ─── */}
+        <div className="flex items-center justify-between gap-4 mb-6">
+          {/* Results Count */}
+          <span className="text-xs sm:text-sm font-semibold text-gray-600">
+            Showing{" "}
+            <strong className="text-gray-950 font-bold">
+              {filteredPackages.length}
+            </strong>{" "}
+            Packages
+          </span>
+
+          {/* Mobile Filter Toggle Button */}
+          <button
+            type="button"
+            onClick={() => setIsMobileFilterOpen(true)}
+            className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-gray-200 bg-white text-gray-800 text-xs sm:text-sm font-semibold shadow-xs hover:bg-gray-50 transition-colors cursor-pointer"
+          >
+            <SlidersHorizontal className="w-4 h-4 text-[#1877F2]" />
+            <span>Filters</span>
+            {activeFiltersCount > 0 && (
+              <span className="w-5 h-5 rounded-full bg-[#1877F2] text-white text-[11px] font-bold flex items-center justify-center">
+                {activeFiltersCount}
+              </span>
             )}
-          </div>
-
-          <div className="flex items-center justify-between sm:justify-end gap-3">
-            {/* Results Count */}
-            <span className="text-xs sm:text-sm font-semibold text-gray-600">
-              Showing{" "}
-              <strong className="text-gray-950 font-bold">
-                {filteredPackages.length}
-              </strong>{" "}
-              Packages
-            </span>
-
-            {/* Mobile Filter Toggle Button */}
-            <button
-              type="button"
-              onClick={() => setIsMobileFilterOpen(true)}
-              className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-gray-200 bg-white text-gray-800 text-xs sm:text-sm font-semibold shadow-xs hover:bg-gray-50 transition-colors cursor-pointer"
-            >
-              <SlidersHorizontal className="w-4 h-4 text-[#1877F2]" />
-              <span>Filters</span>
-              {activeFiltersCount > 0 && (
-                <span className="w-5 h-5 rounded-full bg-[#1877F2] text-white text-[11px] font-bold flex items-center justify-center">
-                  {activeFiltersCount}
-                </span>
-              )}
-            </button>
-          </div>
+          </button>
         </div>
 
         {/* ─── Active Filter Badges ─── */}
