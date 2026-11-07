@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Header, Footer } from "@/components/shared";
+import { Header, Footer, GeneralQuestionsFAQ } from "@/components/shared";
 import {
   HeroSection,
   StatsBar,
@@ -42,6 +42,9 @@ export default function Home() {
 
         {/* Client Testimonials Section with 2-Row Opposite Infinite Marquee */}
         <TestimonialsSection />
+
+        {/* General Questions FAQ Section */}
+        <GeneralQuestionsFAQ />
       </main>
 
       {/* Global Footer */}
