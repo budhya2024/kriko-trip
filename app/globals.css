@@ -188,15 +188,32 @@ select {
   transform: translate(-50%, -50%) rotate(-45deg);
   content: "";
   z-index: 1;
-  transition: all 0.5s ease-in-out;
   pointer-events: none;
+  opacity: 0;
+}
+
+@keyframes shine-sweep {
+  0% {
+    height: 0%;
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    height: 250%;
+    opacity: 0;
+  }
 }
 
 .image-shine:hover::before,
 .img-shine:hover::before,
 .group:hover .image-shine::before,
 .group:hover .img-shine::before {
-  height: 250%;
+  animation: shine-sweep 0.75s linear forwards;
 }
 
 body {

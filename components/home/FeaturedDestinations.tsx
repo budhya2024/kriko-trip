@@ -124,8 +124,8 @@ export default function FeaturedDestinations() {
               href={`#${item.id}`}
               className="group flex flex-col items-center text-center cursor-pointer"
             >
-              {/* Circular Destination Image Container */}
-              <div className="w-full max-w-[190px] aspect-square rounded-full overflow-hidden relative shadow-sm  transition-all duration-300">
+              {/* Circular Destination Image Container with Diagonal Shine Hover Effect */}
+              <div className="w-full max-w-[190px] aspect-square rounded-full overflow-hidden relative shadow-sm transition-all duration-300 image-shine">
                 <Image
                   src={item.image}
                   alt={item.name}

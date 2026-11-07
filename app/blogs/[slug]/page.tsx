@@ -113,7 +113,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
               </div>
 
               {/* Main Featured Photo */}
-              <div className="relative w-full h-[320px] sm:h-[420px] lg:h-[460px] rounded-2xl overflow-hidden mb-8 shadow-xs">
+              <div className="relative w-full h-[320px] sm:h-[420px] lg:h-[460px] rounded-2xl overflow-hidden mb-8 shadow-xs image-shine">
                 <Image
                   src={post.image}
                   alt={post.title}
@@ -321,7 +321,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                       href={`/blogs/${rPost.slug}`}
                       className="flex items-center gap-3.5 group"
                     >
-                      <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100">
+                      <div className="relative w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-gray-100 image-shine">
                         <Image
                           src={rPost.image}
                           alt={rPost.title}

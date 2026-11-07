@@ -107,7 +107,7 @@ export default function SpecialOffers() {
                     href={offer.href}
                     className="group block  rounded-xl overflow-hidden  transition-all duration-300 relative focus:outline-none"
                   >
-                    <div className="relative w-full overflow-hidden bg-gray-100">
+                    <div className="relative w-full overflow-hidden bg-gray-100 image-shine">
                       <Image
                         src={offer.image}
                         alt={offer.title}
