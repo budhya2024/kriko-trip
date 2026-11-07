@@ -1,6 +1,5 @@
 import React from "react";
-import Link from "next/link";
-import { Header, Footer } from "@/components/shared";
+import { Header, Footer, PageHeader } from "@/components/shared";
 import { ContactFormSection } from "@/components/contact-us";
 
 export const metadata = {
@@ -17,25 +16,12 @@ export default function ContactUsPage() {
 
       {/* Main Page Content */}
       <main className="flex-1">
-        {/* Subpage Hero & Breadcrumbs */}
-        <section className="w-full bg-[#08182B] text-white py-12 sm:py-14 text-center relative overflow-hidden">
-          {/* Concentric Decorative Rings */}
-          <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full border border-white/10 pointer-events-none" />
-          <div className="absolute -bottom-24 -left-24 w-60 h-60 rounded-full border border-white/5 pointer-events-none" />
-
-          <div className="container relative z-10">
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
-              Contact Us
-            </h1>
-            <div className="flex items-center justify-center gap-2 mt-3 text-sm text-gray-300 font-medium">
-              <Link href="/" className="hover:text-white transition-colors">
-                Home
-              </Link>
-              <span>/</span>
-              <span className="text-[#1877F2]">Contact Us</span>
-            </div>
-          </div>
-        </section>
+        {/* Left-Aligned Subpage Hero & Breadcrumbs with Background Image */}
+        <PageHeader
+          title="Contact Us"
+          subtitle="Get in touch with our certified destination planners for bookings, customized itineraries, and 24/7 travel assistance."
+          bgImage="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2000&q=80"
+        />
 
         {/* Form & Google Map Section */}
         <ContactFormSection />
