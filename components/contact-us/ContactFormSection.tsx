@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import {
-  Send,
   User,
   Mail,
   FileText,
@@ -37,6 +36,7 @@ export default function ContactFormSection() {
     subject: "",
     message: "",
   });
+  const [agreed, setAgreed] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -56,6 +56,7 @@ export default function ContactFormSection() {
         subject: "",
         message: "",
       });
+      setAgreed(false);
     }, 800);
   };
 
@@ -218,23 +219,38 @@ export default function ContactFormSection() {
                   </div>
                 </div>
 
-                {/* Submit Button */}
-                <div className="pt-1 flex justify-end">
+                {/* Checkbox Above Submit Button */}
+                <div className="pt-1 flex items-start sm:items-center justify-start gap-2.5">
+                  <input
+                    type="checkbox"
+                    id="consentCheckbox"
+                    required
+                    checked={agreed}
+                    onChange={(e) => setAgreed(e.target.checked)}
+                    className="w-4 h-4 mt-0.5 sm:mt-0 rounded border-gray-300 text-[#1877F2] accent-[#1877F2] focus:ring-0 outline-none cursor-pointer shrink-0"
+                  />
+                  <label
+                    htmlFor="consentCheckbox"
+                    className="text-xs text-gray-600 select-none cursor-pointer leading-tight"
+                  >
+                    I agree to the terms & privacy policy and consent to be contacted regarding this inquiry.
+                  </label>
+                </div>
+
+                {/* Center-Aligned Submit Button without Icon */}
+                <div className="pt-3 flex justify-center">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer disabled:opacity-70"
+                    className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer disabled:opacity-70"
                   >
                     {isSubmitting ? (
-                      <>
+                      <span className="flex items-center gap-2">
                         <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                         <span>Sending...</span>
-                      </>
+                      </span>
                     ) : (
-                      <>
-                        <Send className="w-4 h-4" />
-                        <span>Send Message</span>
-                      </>
+                      <span>Send Message</span>
                     )}
                   </button>
                 </div>
