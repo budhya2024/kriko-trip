@@ -56,8 +56,8 @@ export default function TravelInspirations() {
                 key={post.slug}
                 className="bg-white rounded-2xl border border-gray-200 hover:border-blue-300 transition-colors duration-200 overflow-hidden flex flex-col sm:flex-row group"
               >
-                {/* Left: Card Image */}
-                <div className="relative sm:w-[45%]  h-80 overflow-hidden bg-gray-100 shrink-0">
+                {/* Left: Card Image with Diagonal Shine Hover Layer */}
+                <div className="relative sm:w-[45%] h-80 overflow-hidden bg-gray-100 shrink-0 image-shine">
                   <Link href={`/blogs/${post.slug}`} className="block w-full h-full relative">
                     <Image
                       src={post.image}

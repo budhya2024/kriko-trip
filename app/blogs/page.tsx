@@ -47,8 +47,8 @@ export default function BlogListPage() {
                 key={post.slug}
                 className="bg-white rounded-2xl border border-gray-200/90 transition-colors duration-200 overflow-hidden flex flex-col group h-full cursor-pointer hover:border-gray-300"
               >
-                {/* Top: Card Image with Category Badge */}
-                <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100 cursor-pointer">
+                {/* Top: Card Image with Category Badge & Diagonal Shine Hover Layer */}
+                <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100 cursor-pointer image-shine">
                   <Link href={`/blogs/${post.slug}`} className="block w-full h-full relative cursor-pointer">
                     <Image
                       src={post.image}

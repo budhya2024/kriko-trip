@@ -36,7 +36,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-200/90 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col group h-full">
       {/* ─── Card Image Slider with Multiple Images & Indicator Dots ─── */}
-      <div className="relative w-full h-52 sm:h-56 overflow-hidden bg-gray-100 select-none">
+      <div className="relative w-full h-52 sm:h-56 overflow-hidden bg-gray-100 select-none image-shine">
         {/* Top Badges: Travel Type & Discount Percent OFF */}
         <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20 pointer-events-none">
           <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-semibold drop-shadow-sm">
