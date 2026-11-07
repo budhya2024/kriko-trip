@@ -9,6 +9,8 @@ export interface BlogPost {
     avatar: string;
   };
   category: string;
+  badge?: string;
+  tags?: string[];
   readTime: string;
   image: string;
   excerpt: string;

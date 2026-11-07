@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header, Footer, PageHeader } from "@/components/shared";
 import { blogPosts } from "@/components/blogs/data";
-import { MapPin, Calendar, Clock, ArrowRight, Search, Tag } from "lucide-react";
+import { Clock, ArrowRight, Search, Tag } from "lucide-react";
 
 const categories = [
   "All",
@@ -26,14 +26,11 @@ export default function BlogListPage() {
       const matchesSearch =
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
+        post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (post.tags && post.tags.some((t) => t.toLowerCase().includes(searchQuery.toLowerCase())));
       return matchesCategory && matchesSearch;
     });
   }, [selectedCategory, searchQuery]);
-
-  // Featured post is the first one
-  const featuredPost = filteredPosts[0];
-  const regularPosts = filteredPosts.slice(1);
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] flex flex-col font-sans">
@@ -71,7 +68,7 @@ export default function BlogListPage() {
               ))}
             </div>
 
-            {/* Search Input (No large rounded) */}
+            {/* Search Input (Clean rounded-lg) */}
             <div className="relative w-full md:w-72">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
               <input
@@ -84,153 +81,87 @@ export default function BlogListPage() {
             </div>
           </div>
 
-          {/* ─── Featured Hero Article (if available) ─── */}
-          {featuredPost && (
-            <div className="mb-12">
-              <div className="bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden grid grid-cols-1 lg:grid-cols-12 group">
-                {/* Image (7 cols) */}
-                <div className="relative lg:col-span-7 h-72 sm:h-96 lg:h-auto min-h-[300px] overflow-hidden bg-gray-100">
-                  <Image
-                    src={featuredPost.image}
-                    alt={featuredPost.title}
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#1877F2] text-white text-xs font-bold shadow-md">
-                      <Tag className="w-3.5 h-3.5" />
-                      <span>{featuredPost.category}</span>
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content (5 cols) */}
-                <div className="lg:col-span-5 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
-                  <div>
-                    {/* Location & Read Time */}
-                    <div className="flex items-center gap-4 text-xs font-semibold text-gray-600 mb-3">
-                      <div className="flex items-center gap-1.5 text-gray-900">
-                        <MapPin className="w-3.5 h-3.5 text-[#1877F2]" />
-                        <span>{featuredPost.location}</span>
-                      </div>
-                      <span>•</span>
-                      <div className="flex items-center gap-1 text-gray-500">
-                        <Clock className="w-3.5 h-3.5" />
-                        <span>{featuredPost.readTime}</span>
-                      </div>
-                    </div>
-
-                    {/* Title */}
-                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-gray-950 group-hover:text-[#1877F2] transition-colors leading-snug">
-                      <Link href={`/blogs/${featuredPost.slug}`}>
-                        {featuredPost.title}
-                      </Link>
-                    </h2>
-
-                    {/* Excerpt */}
-                    <p className="text-sm text-gray-600 mt-3.5 leading-relaxed line-clamp-3">
-                      {featuredPost.excerpt}
-                    </p>
-                  </div>
-
-                  {/* Author & CTA */}
-                  <div className="mt-8 pt-5 border-t border-gray-150 flex items-center justify-between gap-4">
-                    <div className="flex items-center gap-3">
-                      <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border border-gray-200">
-                        <Image
-                          src={featuredPost.author.avatar}
-                          alt={featuredPost.author.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-gray-900">
-                          {featuredPost.author.name}
-                        </p>
-                        <p className="text-[11px] text-gray-500 font-medium">
-                          {featuredPost.date}
-                        </p>
-                      </div>
-                    </div>
-
-                    <Link
-                      href={`/blogs/${featuredPost.slug}`}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white text-xs font-bold transition-all shadow-xs shrink-0"
-                    >
-                      <span>Read Story</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ─── Regular Articles Grid (Matching Reference Side-by-Side Cards) ─── */}
-          {regularPosts.length > 0 ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
-              {regularPosts.map((post) => (
+          {/* ─── 3-Column Blog Cards Grid (Matching Reference Screenshot) ─── */}
+          {filteredPosts.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+              {filteredPosts.map((post) => (
                 <article
                   key={post.slug}
-                  className="bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col sm:flex-row group"
+                  className="bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col group h-full"
                 >
-                  {/* Left: Image */}
-                  <div className="relative sm:w-5/12 h-52 sm:h-auto min-h-[200px] overflow-hidden bg-gray-100 shrink-0">
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                    />
+                  {/* Top: Card Image with Pill Category Badge */}
+                  <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100">
+                    <Link href={`/blogs/${post.slug}`} className="block w-full h-full relative">
+                      <Image
+                        src={post.image}
+                        alt={post.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      />
+                    </Link>
+
+                    {/* Category / Badge on Top-Left */}
+                    <div className="absolute top-3.5 left-3.5 z-10 pointer-events-none">
+                      <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-gray-900 text-[11px] font-bold tracking-wider uppercase shadow-xs">
+                        {post.badge || post.category || "TRAVEL GUIDE"}
+                      </span>
+                    </div>
                   </div>
 
-                  {/* Right: Details */}
-                  <div className="p-5 sm:p-6 flex flex-col justify-between flex-1">
+                  {/* Body Content */}
+                  <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
                     <div>
-                      {/* Location Badge */}
-                      <div className="flex items-center gap-1.5 text-xs font-semibold text-gray-800 mb-2">
-                        <MapPin className="w-3.5 h-3.5 text-gray-600 shrink-0" />
-                        <span className="truncate">{post.location}</span>
+                      {/* Meta Line: Date | Clock Read Time */}
+                      <div className="flex items-center gap-2 text-xs text-gray-500 font-normal mb-2.5">
+                        <span>{post.date}</span>
+                        <span className="text-gray-300 font-light">|</span>
+                        <div className="flex items-center gap-1 text-gray-500 font-normal">
+                          <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                          <span>{post.readTime}</span>
+                        </div>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-base sm:text-[17px] font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors leading-snug line-clamp-2">
+                      <h3 className="text-[17px] sm:text-[18px] font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors leading-snug line-clamp-2 mb-2.5">
                         <Link href={`/blogs/${post.slug}`}>
                           {post.title}
                         </Link>
                       </h3>
 
-                      {/* Date & Read Time */}
-                      <div className="flex items-center gap-3 text-xs text-gray-500 font-medium mt-2">
-                        <div className="flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                          <span>{post.date}</span>
-                        </div>
-                        <span>•</span>
-                        <span>{post.readTime}</span>
-                      </div>
-
-                      {/* Divider */}
-                      <div className="border-t border-gray-150 my-3.5" />
-
                       {/* Excerpt */}
-                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2">
+                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-4">
                         {post.excerpt}
                       </p>
+
+                      {/* Tags Row */}
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-5">
+                        {(post.tags || [post.category, post.location.split(",")[0].trim()]).map((tag, tIdx) => (
+                          <span
+                            key={tIdx}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] font-medium"
+                          >
+                            <Tag className="w-2.5 h-2.5 text-amber-600 shrink-0" />
+                            <span>{tag}</span>
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
-                    {/* Read More Link */}
-                    <div className="mt-4 pt-2">
+                    {/* Footer: Read Article → */}
+                    <div className="pt-3.5 border-t border-gray-100 flex items-center justify-between">
                       <Link
                         href={`/blogs/${post.slug}`}
-                        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#1877F2] hover:text-blue-700 transition-colors"
+                        className="text-[13px] sm:text-sm font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors"
                       >
-                        <span>Read More</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                        Read Article
+                      </Link>
+                      <Link
+                        href={`/blogs/${post.slug}`}
+                        aria-label={`Read article: ${post.title}`}
+                        className="text-gray-950 group-hover:text-[#1877F2] group-hover:translate-x-1 transition-all"
+                      >
+                        <ArrowRight className="w-4 h-4 stroke-[2]" />
                       </Link>
                     </div>
                   </div>
@@ -238,26 +169,25 @@ export default function BlogListPage() {
               ))}
             </div>
           ) : (
-            !featuredPost && (
-              <div className="bg-white rounded-xl p-12 text-center border border-gray-200">
-                <p className="text-base font-bold text-gray-900">
-                  No articles found
-                </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Try clearing your search query or choosing another category.
-                </p>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory("All");
-                    setSearchQuery("");
-                  }}
-                  className="mt-4 px-5 py-2 rounded-full bg-[#1877F2] text-white text-xs font-bold"
-                >
-                  Reset Filters
-                </button>
-              </div>
-            )
+            /* Empty State */
+            <div className="bg-white rounded-xl p-12 text-center border border-gray-200">
+              <p className="text-base font-bold text-gray-900">
+                No articles found
+              </p>
+              <p className="text-xs text-gray-500 mt-1">
+                Try clearing your search query or choosing another category.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedCategory("All");
+                  setSearchQuery("");
+                }}
+                className="mt-4 px-5 py-2 rounded-full bg-[#1877F2] text-white text-xs font-bold"
+              >
+                Reset Filters
+              </button>
+            </div>
           )}
         </div>
       </main>
