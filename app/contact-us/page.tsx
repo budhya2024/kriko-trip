@@ -1,5 +1,10 @@
 import React from "react";
-import { Header, Footer, PageHeader } from "@/components/shared";
+import {
+  Header,
+  Footer,
+  PageHeader,
+  GeneralQuestionsFAQ,
+} from "@/components/shared";
 import { ContactFormSection } from "@/components/contact-us";
 
 export const metadata = {
@@ -25,6 +30,9 @@ export default function ContactUsPage() {
 
         {/* Form & Google Map Section */}
         <ContactFormSection />
+
+        {/* General Questions FAQ (Matching Reference Design) */}
+        <GeneralQuestionsFAQ />
       </main>
 
       {/* Global Footer */}
