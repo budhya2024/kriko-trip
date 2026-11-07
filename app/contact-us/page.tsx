@@ -1,10 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { Header, Footer } from "@/components/shared";
-import {
-  ContactInfoCards,
-  ContactFormSection,
-} from "@/components/contact-us";
+import { ContactFormSection } from "@/components/contact-us";
 
 export const metadata = {
   title: "Contact Us | KrikoTrip Travel Agency",
@@ -40,10 +37,7 @@ export default function ContactUsPage() {
           </div>
         </section>
 
-        {/* 1. Contact Info Cards */}
-        <ContactInfoCards />
-
-        {/* 2. Form & Google Map Section */}
+        {/* Form & Google Map Section */}
         <ContactFormSection />
       </main>
 
