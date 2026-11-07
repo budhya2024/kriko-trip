@@ -121,11 +121,15 @@ const navItems = [
 ];
 
 // ─── Header Component ───────────────────────────────────────────────────────
+import AuthModal from "./AuthModal";
+
 export default function Header() {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const [isSupportDropdownOpen, setIsSupportDropdownOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
 
   // Mobile Accordion state
   const [openMobileSection, setOpenMobileSection] = useState<string | null>("Destinations");
@@ -198,7 +202,7 @@ export default function Header() {
               <input
                 type="text"
                 placeholder="Find Your Perfect Tour Package"
-                className="w-full bg-[#f4f5f7] hover:bg-[#eceef2] focus:bg-white text-gray-800 text-sm placeholder:text-gray-400 font-normal pl-11 pr-5 py-2.5 rounded-full outline-none transition-all duration-200 border border-transparent focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
+                className="w-full bg-[#f4f5f7] hover:bg-[#eceef2] focus:bg-white text-gray-800 text-sm placeholder:text-gray-400 font-normal pl-11 pr-5 py-2.5 rounded-lg outline-none transition-all duration-200 border border-transparent focus:border-blue-400 focus:ring-1 focus:ring-blue-100"
               />
             </div>
           </div>
@@ -207,7 +211,7 @@ export default function Header() {
           <div className="hidden lg:flex items-center gap-5 shrink-0">
             {/* Need Help? link */}
             <Link
-              href="#help"
+              href="/contact-us"
               className="text-sm font-semibold text-[#0284c7] hover:text-[#0369a1] transition-colors"
             >
               Need Help?
@@ -219,7 +223,11 @@ export default function Header() {
             {/* Login Button */}
             <button
               type="button"
-              className="flex items-center gap-2 bg-[#121820] hover:bg-black text-white px-5 py-2.5 rounded-xl font-medium text-sm shadow-sm transition-all duration-200 active:scale-95"
+              onClick={() => {
+                setAuthModalMode("login");
+                setIsAuthModalOpen(true);
+              }}
+              className="flex items-center gap-2 bg-[#121820] hover:bg-black text-white px-5 py-2.5 rounded-lg font-medium text-sm shadow-xs transition-all duration-200 active:scale-95 cursor-pointer"
             >
               <User className="w-4 h-4" />
               <span>Login</span>
@@ -231,7 +239,11 @@ export default function Header() {
             {/* Mobile Login Icon Button */}
             <button
               type="button"
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none"
+              onClick={() => {
+                setAuthModalMode("login");
+                setIsAuthModalOpen(true);
+              }}
+              className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
               aria-label="Login"
             >
               <User className="w-4 h-4 stroke-[2]" />
@@ -241,7 +253,7 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none"
+              className="w-10 h-10 rounded-lg border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
               aria-label="Search"
             >
               <Search className="w-4 h-4 stroke-[2]" />
@@ -270,7 +282,7 @@ export default function Header() {
                 type="text"
                 autoFocus
                 placeholder="Find Your Perfect Tour Package"
-                className="w-full bg-[#f4f5f7] text-gray-800 text-sm pl-10 pr-4 py-2.5 rounded-full outline-none border border-transparent focus:border-blue-400 focus:bg-white"
+                className="w-full bg-[#f4f5f7] text-gray-800 text-sm pl-10 pr-4 py-2.5 rounded-lg outline-none border border-transparent focus:border-blue-400 focus:bg-white"
               />
             </div>
           </div>
@@ -790,13 +802,25 @@ export default function Header() {
           {/* Login Button */}
           <button
             type="button"
-            className="w-full bg-[#111827] hover:bg-black text-white py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2 mt-3.5 shadow-sm transition-colors active:scale-98"
+            onClick={() => {
+              setIsMobileDrawerOpen(false);
+              setAuthModalMode("login");
+              setIsAuthModalOpen(true);
+            }}
+            className="w-full bg-[#111827] hover:bg-black text-white py-3.5 rounded-lg font-bold text-sm flex items-center justify-center gap-2 mt-3.5 shadow-xs transition-colors active:scale-98 cursor-pointer"
           >
             <User className="w-4 h-4" />
-            <span>Login</span>
+            <span>Login / Register</span>
           </button>
         </div>
       </aside>
+
+      {/* Global Login / Register Popup Modal */}
+      <AuthModal
+        isOpen={isAuthModalOpen}
+        onClose={() => setIsAuthModalOpen(false)}
+        defaultMode={authModalMode}
+      />
     </header>
   );
 }

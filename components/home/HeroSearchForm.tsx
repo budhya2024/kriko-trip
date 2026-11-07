@@ -45,10 +45,11 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("tours")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "tours"
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+            activeTab === "tours"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
+          }`}
         >
           <FaSuitcaseRolling className="w-4 h-4" />
           <span>Tours</span>
@@ -58,10 +59,11 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("hotels")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "hotels"
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+            activeTab === "hotels"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
+          }`}
         >
           <FaBed className="w-4 h-4 text-[#C5943A]" />
           <span>Hotels</span>
@@ -71,10 +73,11 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("visa")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "visa"
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+            activeTab === "visa"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
+          }`}
         >
           <FaPassport className="w-4 h-4 text-[#1877F2]" />
           <span>Visa</span>
@@ -84,10 +87,11 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("experience")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "experience"
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
+            activeTab === "experience"
               ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
+          }`}
         >
           {/* Yellow Badge with Wave/Activity */}
           <span className="w-5 h-5 rounded-md bg-[#EAB308] flex items-center justify-center text-white shrink-0">
@@ -108,7 +112,7 @@ export default function HeroSearchForm() {
       </div>
 
       {/* Main White Search Box Container */}
-      <div className="bg-white rounded-[26px] sm:rounded-3xl shadow-[0_15px_40px_rgba(0,0,0,0.12)] pt-7 pb-6 px-5 sm:px-7 border border-gray-100 relative z-20">
+      <div className="bg-white rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.12)] pt-6 pb-5 px-5 sm:px-7 border border-gray-100 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-3.5 items-center">
 
           {/* Field 1: Destination */}
@@ -120,7 +124,7 @@ export default function HeroSearchForm() {
                 setIsDateOpen(false);
                 setIsTourTypeOpen(false);
               }}
-              className="w-full h-[72px] flex items-center gap-3.5 px-4 rounded-xl border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
+              className="w-full h-[72px] flex items-center gap-3.5 px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
             >
               {/* Target / Crosshair Icon */}
               <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors">
@@ -184,7 +188,7 @@ export default function HeroSearchForm() {
                 setIsDestinationOpen(false);
                 setIsTourTypeOpen(false);
               }}
-              className="w-full h-[72px] flex items-center gap-3.5 px-4 rounded-xl border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
+              className="w-full h-[72px] flex items-center gap-3.5 px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
             >
               {/* Calendar with "8" inside icon */}
               <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors">
@@ -266,7 +270,7 @@ export default function HeroSearchForm() {
                 setIsDestinationOpen(false);
                 setIsDateOpen(false);
               }}
-              className="w-full h-[72px] flex items-center gap-3.5 px-4 rounded-xl border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
+              className="w-full h-[72px] flex items-center gap-3.5 px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
             >
               {/* List with 3 bullets & lines icon */}
               <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors">
@@ -300,7 +304,7 @@ export default function HeroSearchForm() {
 
             {/* Tour Types Dropdown Menu */}
             {isTourTypeOpen && (
-              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
+              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
                 {tourTypes.map((type) => (
                   <button
                     key={type}
@@ -325,7 +329,7 @@ export default function HeroSearchForm() {
           <div className="md:col-span-2">
             <button
               type="button"
-              className="w-full h-[72px] bg-[#1877F2] hover:bg-[#1466d3] text-white font-bold rounded-xl flex items-center justify-center gap-2 text-[16px] tracking-wide shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
+              className="w-full h-[72px] bg-[#1877F2] hover:bg-[#1466d3] text-white font-bold rounded-lg flex items-center justify-center gap-2 text-[16px] tracking-wide shadow-xs hover:shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
             >
               <Search className="w-5 h-5 stroke-[2.4]" />
               <span>SEARCH</span>
