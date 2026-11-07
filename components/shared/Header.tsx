@@ -180,12 +180,12 @@ export default function Header() {
         <div className="flex items-center justify-between h-20 gap-3">
 
           {/* Logo (Desktop & Mobile) */}
-          <Link href="/" className="flex items-center shrink-0 group">
+          <Link href="/" className="flex items-center shrink-0">
             <Image
               src={brandLogo}
               alt="KrikoTrip Logo"
               priority
-              className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+              className="h-10 sm:h-11 w-auto object-contain"
             />
           </Link>
 

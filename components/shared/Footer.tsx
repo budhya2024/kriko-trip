@@ -62,13 +62,13 @@ export default function Footer() {
           {/* ─── Column 1: Brand Logo, Address, Socials & App ─── */}
           <div className="lg:col-span-4 flex flex-col items-start pr-0 lg:pr-6">
             {/* Brand Logo */}
-            <Link href="/" className="flex items-center gap-3 mb-6 group">
+            <Link href="/" className="flex items-center gap-3 mb-6">
               <Image
                 src="/assets/images/brand-logo.png"
                 height={100}
                 width={200}
                 alt="KrikoTrip Logo"
-                className="h-10 sm:h-11 w-auto object-contain brightness-0 invert transition-transform duration-200 group-hover:scale-105"
+                className="h-10 sm:h-11 w-auto object-contain brightness-0 invert"
               />
             </Link>
 
