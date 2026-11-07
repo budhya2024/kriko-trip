@@ -100,7 +100,7 @@ export default function TourPackagesContent() {
           <button
             type="button"
             onClick={() => setIsMobileFilterOpen(true)}
-            className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-gray-200 bg-white text-gray-800 text-xs sm:text-sm font-semibold shadow-xs hover:bg-gray-50 transition-colors cursor-pointer"
+            className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-800 text-xs sm:text-sm font-semibold shadow-xs hover:bg-gray-50 transition-colors cursor-pointer"
           >
             <SlidersHorizontal className="w-4 h-4 text-[#1877F2]" />
             <span>Filters</span>
@@ -123,7 +123,7 @@ export default function TourPackagesContent() {
               <button
                 type="button"
                 onClick={() => setSelectedDestination(null)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
               >
                 <span>Dest: {selectedDestination}</span>
                 <span className="text-sm font-bold">×</span>
@@ -134,7 +134,7 @@ export default function TourPackagesContent() {
               <button
                 type="button"
                 onClick={() => setSelectedTravelType(null)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
               >
                 <span>Type: {selectedTravelType}</span>
                 <span className="text-sm font-bold">×</span>
@@ -145,7 +145,7 @@ export default function TourPackagesContent() {
               <button
                 type="button"
                 onClick={() => setSelectedBudget(null)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
               >
                 <span>Budget: {budgetLabelMap[selectedBudget] || selectedBudget}</span>
                 <span className="text-sm font-bold">×</span>
@@ -189,7 +189,7 @@ export default function TourPackagesContent() {
               </div>
             ) : (
               /* Empty State */
-              <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm max-w-md mx-auto my-12">
+              <div className="bg-white rounded-xl p-12 text-center border border-gray-100 shadow-xs max-w-md mx-auto my-12">
                 <div className="w-16 h-16 rounded-full bg-blue-50 text-[#1877F2] flex items-center justify-center mx-auto mb-4">
                   <Search className="w-8 h-8 stroke-[1.8]" />
                 </div>
@@ -203,7 +203,7 @@ export default function TourPackagesContent() {
                 <button
                   type="button"
                   onClick={handleClearAll}
-                  className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm cursor-pointer"
+                  className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold transition-all shadow-xs cursor-pointer"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   <span>Reset All Filters</span>

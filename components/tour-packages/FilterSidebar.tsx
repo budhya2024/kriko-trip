@@ -54,6 +54,7 @@ const destinationsList = [
   { id: "Dubai", label: "Dubai" },
   { id: "Thailand", label: "Thailand" },
   { id: "Costa Rica", label: "Costa Rica" },
+  { id: "Kashmir", label: "Kashmir" },
 ];
 
 export default function FilterSidebar({
@@ -82,9 +83,9 @@ export default function FilterSidebar({
   };
 
   const content = (
-    <div className="bg-white rounded-3xl border border-gray-200/90 shadow-xs p-6 flex flex-col gap-6">
+    <div className="bg-white rounded-2xl border border-gray-200/90 shadow-xs p-5 sm:p-6 flex flex-col gap-6">
       {/* ─── Top Header: Filters & Clear All ─── */}
-      <div className="flex items-center justify-between pb-4 border-b border-gray-100">
+      <div className="flex items-center justify-between pb-4 border-b border-gray-150">
         <div className="flex items-center gap-2.5">
           {/* Custom 3-line filter icon matching screenshot */}
           <svg
@@ -92,7 +93,7 @@ export default function FilterSidebar({
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2.3"
+            strokeWidth="2.4"
             strokeLinecap="round"
           >
             <line x1="4" y1="7" x2="20" y2="7" />
@@ -107,16 +108,16 @@ export default function FilterSidebar({
         <button
           type="button"
           onClick={onClearAll}
-          className="text-[15px] font-medium text-[#8E9BB0] hover:text-[#1877F2] transition-colors cursor-pointer"
+          className="text-[14px] font-medium text-[#8E9BB0] hover:text-[#1877F2] transition-colors cursor-pointer"
         >
           Clear All
         </button>
       </div>
 
-      {/* ─── Sort By (Segmented Pill Input matching screenshot) ─── */}
+      {/* ─── Sort By Box with vertical divider ─── */}
       <div className="relative">
-        <div className="flex items-center rounded-2xl border border-gray-200 overflow-hidden bg-white text-[15px]">
-          <div className="px-4 py-3 font-semibold text-gray-950 border-r border-gray-200 select-none shrink-0">
+        <div className="flex items-center rounded-xl sm:rounded-2xl border border-gray-200 overflow-hidden bg-white text-[14.5px]">
+          <div className="px-5 py-3 font-bold text-gray-900 border-r border-gray-200 select-none shrink-0 text-[14px]">
             Sort By
           </div>
           <button
@@ -124,7 +125,9 @@ export default function FilterSidebar({
             onClick={() => setIsSortOpen(!isSortOpen)}
             className="flex-1 px-4 py-3 flex items-center justify-between text-gray-700 hover:bg-gray-50/50 transition-colors cursor-pointer focus:outline-none"
           >
-            <span className="truncate">{sortLabels[sortBy]}</span>
+            <span className="truncate font-medium text-[14px]">
+              {sortLabels[sortBy]}
+            </span>
             <ChevronDown
               className={`w-4 h-4 text-gray-500 transition-transform ${
                 isSortOpen ? "rotate-180" : ""
@@ -135,7 +138,7 @@ export default function FilterSidebar({
 
         {/* Dropdown Menu */}
         {isSortOpen && (
-          <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-2xl shadow-xl z-20 py-2 animate-in fade-in duration-150">
+          <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-20 py-1.5 animate-in fade-in duration-150">
             {(
               ["popular", "price-low", "price-high", "duration"] as SortOption[]
             ).map((option) => (
@@ -146,7 +149,7 @@ export default function FilterSidebar({
                   onChangeSortBy(option);
                   setIsSortOpen(false);
                 }}
-                className={`w-full text-left px-4 py-2.5 text-[14px] transition-colors cursor-pointer ${
+                className={`w-full text-left px-4 py-2.5 text-[13.5px] transition-colors cursor-pointer ${
                   sortBy === option
                     ? "bg-blue-50 text-[#1877F2] font-semibold"
                     : "text-gray-700 hover:bg-gray-50"
@@ -159,18 +162,18 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Accordion 1: Travel Type (2-column pill buttons) ─── */}
+      {/* ─── Accordion 1: Travel Type ─── */}
       <div>
         <button
           type="button"
           onClick={() => setIsTravelTypeOpen(!isTravelTypeOpen)}
-          className="w-full flex items-center justify-between text-left text-[16px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
+          className="w-full flex items-center justify-between text-left text-[15.5px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
         >
           <span>Travel Type</span>
           {isTravelTypeOpen ? (
-            <ChevronUp className="w-5 h-5 text-gray-700" />
+            <ChevronUp className="w-4 h-4 text-gray-700" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-700" />
+            <ChevronDown className="w-4 h-4 text-gray-700" />
           )}
         </button>
 
@@ -186,9 +189,9 @@ export default function FilterSidebar({
                   onClick={() =>
                     onSelectTravelType(isSelected ? null : type.id)
                   }
-                  className={`flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border text-[14.5px] transition-all duration-150 cursor-pointer ${
+                  className={`flex items-center justify-center gap-2 py-3 px-3 rounded-xl border text-[13.5px] transition-all duration-150 cursor-pointer ${
                     isSelected
-                      ? "border-[#1877F2] bg-blue-50/50 text-[#1877F2] font-semibold shadow-xs"
+                      ? "border-[#1877F2] bg-blue-50/60 text-[#1877F2] font-semibold shadow-xs"
                       : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
                   }`}
                 >
@@ -206,18 +209,18 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Accordion 2: Budget (Per Person) (2-column pill buttons) ─── */}
-      <div className="pt-2">
+      {/* ─── Divider & Accordion 2: Budget (Per Person) ─── */}
+      <div className="border-t border-gray-150 pt-5">
         <button
           type="button"
           onClick={() => setIsBudgetOpen(!isBudgetOpen)}
-          className="w-full flex items-center justify-between text-left text-[16px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
+          className="w-full flex items-center justify-between text-left text-[15.5px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
         >
           <span>Budget (Per Person)</span>
           {isBudgetOpen ? (
-            <ChevronUp className="w-5 h-5 text-gray-700" />
+            <ChevronUp className="w-4 h-4 text-gray-700" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-700" />
+            <ChevronDown className="w-4 h-4 text-gray-700" />
           )}
         </button>
 
@@ -230,9 +233,9 @@ export default function FilterSidebar({
                   key={b.id}
                   type="button"
                   onClick={() => onSelectBudget(isSelected ? null : b.id)}
-                  className={`py-3 px-3 rounded-2xl border text-[14.5px] transition-all duration-150 cursor-pointer text-center ${
+                  className={`py-3 px-3 rounded-xl border text-[13.5px] transition-all duration-150 cursor-pointer text-center ${
                     isSelected
-                      ? "border-[#1877F2] bg-blue-50/50 text-[#1877F2] font-semibold shadow-xs"
+                      ? "border-[#1877F2] bg-blue-50/60 text-[#1877F2] font-semibold shadow-xs"
                       : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
                   }`}
                 >
@@ -244,18 +247,18 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Accordion 3: Destination Filter (2-column pill buttons) ─── */}
-      <div className="pt-2">
+      {/* ─── Divider & Accordion 3: Destination Filter ─── */}
+      <div className="border-t border-gray-150 pt-5">
         <button
           type="button"
           onClick={() => setIsDestinationOpen(!isDestinationOpen)}
-          className="w-full flex items-center justify-between text-left text-[16px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
+          className="w-full flex items-center justify-between text-left text-[15.5px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
         >
           <span>Destination</span>
           {isDestinationOpen ? (
-            <ChevronUp className="w-5 h-5 text-gray-700" />
+            <ChevronUp className="w-4 h-4 text-gray-700" />
           ) : (
-            <ChevronDown className="w-5 h-5 text-gray-700" />
+            <ChevronDown className="w-4 h-4 text-gray-700" />
           )}
         </button>
 
@@ -270,9 +273,9 @@ export default function FilterSidebar({
                   onClick={() =>
                     onSelectDestination(isSelected ? null : dest.id)
                   }
-                  className={`flex items-center justify-center gap-1.5 py-3 px-3 rounded-2xl border text-[14px] transition-all duration-150 cursor-pointer ${
+                  className={`flex items-center justify-center gap-1.5 py-3 px-2.5 rounded-xl border text-[13px] transition-all duration-150 cursor-pointer ${
                     isSelected
-                      ? "border-[#1877F2] bg-blue-50/50 text-[#1877F2] font-semibold shadow-xs"
+                      ? "border-[#1877F2] bg-blue-50/60 text-[#1877F2] font-semibold shadow-xs"
                       : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
                   }`}
                 >

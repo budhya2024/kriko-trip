@@ -13,6 +13,7 @@ export interface TourPackage {
   reviewsCount: number;
   description: string;
   image: string;
+  images: string[];
   featured?: boolean;
 }
 
