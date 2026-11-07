@@ -43,20 +43,23 @@ export default function GeneralQuestionsFAQ() {
   };
 
   return (
-    <section className="w-full py-14 sm:py-18 bg-white border-t border-gray-100">
+    <section className="w-full py-14 sm:py-20 bg-white">
       <div className="container max-w-4xl mx-auto px-4 sm:px-6">
-        {/* Section Heading */}
+        {/* Section Title & Details */}
         <div className="text-center mb-10 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#111827] tracking-tight">
+          <span className="text-[#1877F2] text-xs sm:text-sm font-bold uppercase tracking-wider">
+            Frequently Asked Questions
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#111827] mt-1.5 tracking-tight">
             General Questions
           </h2>
-          <p className="text-xs sm:text-sm text-[#4B5563] mt-2.5 max-w-md mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-[#4B5563] mt-2 max-w-md mx-auto leading-relaxed">
             We&apos;re committed to offering more than just products—we provide
             exceptional experiences.
           </p>
         </div>
 
-        {/* Accordion List */}
+        {/* Smooth Accordion List (Borderless) */}
         <div className="space-y-3.5 sm:space-y-4">
           {faqData.map((item, idx) => {
             const isOpen = openIndex === idx;
@@ -64,10 +67,10 @@ export default function GeneralQuestionsFAQ() {
             return (
               <div
                 key={idx}
-                className={`rounded-xl transition-all duration-200 overflow-hidden ${
+                className={`rounded-xl transition-all duration-300 overflow-hidden ${
                   isOpen
-                    ? "bg-white border-2 border-[#3B82F6] shadow-xs p-5 sm:p-6"
-                    : "bg-[#F3F4F6] hover:bg-[#EBEEF2] border-2 border-transparent p-5 sm:p-6"
+                    ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-5 sm:p-6"
+                    : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-5 sm:p-6"
                 }`}
               >
                 {/* Accordion Header */}
@@ -76,38 +79,44 @@ export default function GeneralQuestionsFAQ() {
                   onClick={() => toggle(idx)}
                   className="w-full flex items-center justify-between gap-4 text-left cursor-pointer focus:outline-none select-none"
                 >
-                  <span className="text-[15px] sm:text-[16px] font-bold text-gray-950 leading-snug">
+                  <span
+                    className={`text-[15px] sm:text-[16px] font-bold leading-snug transition-colors duration-200 ${
+                      isOpen ? "text-[#1877F2]" : "text-gray-950"
+                    }`}
+                  >
                     {item.question}
                   </span>
 
-                  {/* Solid Triangle Dropdown Arrow matching reference image */}
+                  {/* Smooth Rotating Triangle Arrow */}
                   <div className="shrink-0 ml-2">
-                    {isOpen ? (
-                      <svg
-                        viewBox="0 0 10 6"
-                        fill="currentColor"
-                        className="w-2.5 h-2.5 text-[#3B82F6]"
-                      >
-                        <path d="M0 6L5 0L10 6H0Z" />
-                      </svg>
-                    ) : (
-                      <svg
-                        viewBox="0 0 10 6"
-                        fill="currentColor"
-                        className="w-2.5 h-2.5 text-[#4B5563]"
-                      >
-                        <path d="M0 0L5 6L10 0H0Z" />
-                      </svg>
-                    )}
+                    <svg
+                      viewBox="0 0 10 6"
+                      fill="currentColor"
+                      className={`w-2.5 h-2.5 transition-transform duration-300 ease-in-out ${
+                        isOpen
+                          ? "text-[#1877F2] rotate-180"
+                          : "text-[#4B5563] rotate-0"
+                      }`}
+                    >
+                      <path d="M0 0L5 6L10 0H0Z" />
+                    </svg>
                   </div>
                 </button>
 
-                {/* Accordion Content */}
-                {isOpen && (
-                  <div className="pt-3 text-xs sm:text-sm text-[#4B5563] leading-relaxed font-normal animate-in fade-in duration-150">
-                    {item.answer}
+                {/* Smooth Animated Opening & Closing Content */}
+                <div
+                  className={`grid transition-all duration-300 ease-in-out ${
+                    isOpen
+                      ? "grid-rows-[1fr] opacity-100 mt-3 pt-1"
+                      : "grid-rows-[0fr] opacity-0 mt-0 pt-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed font-normal">
+                      {item.answer}
+                    </p>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}
@@ -116,4 +125,3 @@ export default function GeneralQuestionsFAQ() {
     </section>
   );
 }
-
