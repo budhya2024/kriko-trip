@@ -136,7 +136,7 @@ export default function StatsBar() {
   ];
 
   return (
-    <section className="w-full bg-[#f4f5f8] py-8 sm:py-10 border-y border-gray-200/60">
+    <section className="w-full bg-[#f4f5f8] pt-24 sm:pt-28 lg:pt-32 pb-10 sm:pb-12 border-b border-gray-200/60">
       <div className="container">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-0 items-center">
           {stats.map((item, idx) => (

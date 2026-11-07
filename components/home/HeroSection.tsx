@@ -5,7 +5,7 @@ import HeroSearchForm from "./HeroSearchForm";
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full min-h-[640px] lg:min-h-[700px] flex flex-col justify-between overflow-visible bg-[#092c42]">
+    <section className="relative w-full min-h-[580px] sm:min-h-[620px] lg:min-h-[680px] flex flex-col justify-between overflow-visible bg-[#092c42]">
       {/* Background Video: home2-banner-video-3-2.mp4 */}
       <div className="absolute inset-0 overflow-hidden">
         <video
@@ -18,11 +18,11 @@ export default function HeroSection() {
           <source src="/assets/video/home2-banner-video-3-2.mp4" type="video/mp4" />
         </video>
         {/* Soft natural tint overlay to maintain text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/30 to-black/55" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/40 to-black/65" />
       </div>
 
-      {/* Main Hero Header Text */}
-      <div className="relative z-10 container pt-24 pb-16 text-left">
+      {/* Main Hero Header Text (Vertically Centered in Middle on Left Side) */}
+      <div className="relative z-10 container my-auto pt-24 pb-14 sm:pt-28 sm:pb-16 text-left">
         <h1 className="text-4xl sm:text-5xl lg:text-[62px] font-extrabold text-white tracking-tight leading-[1.15] drop-shadow-md">
           All-in-one Travel Booking
         </h1>
@@ -31,13 +31,10 @@ export default function HeroSection() {
         </p>
       </div>
 
-      {/* Booking Search Card Component at the Bottom */}
-      <div className="relative z-20 container mt-auto">
+      {/* Booking Search Card Component (Half in and half out of Hero Section) */}
+      <div className="relative z-30 container translate-y-1/2">
         <HeroSearchForm />
       </div>
-
-      {/* Bottom spacer to let the card breathe */}
-      <div className="h-10 sm:h-14" />
     </section>
   );
 }
