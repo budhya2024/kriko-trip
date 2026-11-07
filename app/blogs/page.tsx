@@ -81,9 +81,9 @@ export default function BlogListPage() {
             </div>
           </div>
 
-          {/* ─── 3-Column Blog Cards Grid (Matching Reference Screenshot) ─── */}
+          {/* ─── 2-Column Blog Cards Grid (Matching Reference Screenshot) ─── */}
           {filteredPosts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8">
               {filteredPosts.map((post) => (
                 <article
                   key={post.slug}
@@ -96,24 +96,24 @@ export default function BlogListPage() {
                         src={post.image}
                         alt={post.title}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                       />
                     </Link>
 
                     {/* Category / Badge on Top-Left */}
                     <div className="absolute top-3.5 left-3.5 z-10 pointer-events-none">
-                      <span className="px-3 py-1 rounded-md bg-white text-gray-800 text-[10.5px] font-bold tracking-wider uppercase shadow-xs">
+                      <span className="px-3 py-1 rounded-md bg-white text-gray-800 text-[11px] font-bold tracking-wider uppercase shadow-xs">
                         {post.badge || post.category || "TRAVEL GUIDE"}
                       </span>
                     </div>
                   </div>
 
                   {/* Body Content */}
-                  <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
+                  <div className="p-6 sm:p-7 flex flex-col flex-1 justify-between text-left">
                     <div>
                       {/* Meta Line: Date | Clock Read Time */}
-                      <div className="flex items-center gap-2 text-xs text-gray-400 font-normal mb-2.5">
+                      <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-400 font-normal mb-2.5">
                         <span>{post.date}</span>
                         <span className="text-gray-300 font-light">|</span>
                         <div className="flex items-center gap-1 text-gray-500 font-normal">
@@ -123,14 +123,14 @@ export default function BlogListPage() {
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-[17px] sm:text-[18px] font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors leading-[1.3] line-clamp-2 mb-2">
+                      <h3 className="text-[18px] sm:text-[19px] lg:text-[20px] font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors leading-[1.3] line-clamp-2 mb-2.5">
                         <Link href={`/blogs/${post.slug}`}>
                           {post.title}
                         </Link>
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5">
+                      <p className="text-xs sm:text-[13.5px] text-gray-500 leading-relaxed line-clamp-2 mb-4">
                         {post.excerpt}
                       </p>
 
@@ -139,7 +139,7 @@ export default function BlogListPage() {
                         {(post.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
                           <span
                             key={tIdx}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FFFDF0] border border-amber-200/50 text-gray-700 text-[11px] font-medium"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FFFDF0] border border-amber-200/50 text-gray-700 text-[11.5px] font-medium"
                           >
                             <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
                             <span>{tag}</span>
@@ -149,10 +149,10 @@ export default function BlogListPage() {
                     </div>
 
                     {/* Footer: Read Article → */}
-                    <div className="pt-3.5 mt-auto border-t border-gray-150/70 flex items-center justify-between">
+                    <div className="pt-4 mt-auto border-t border-gray-150/70 flex items-center justify-between">
                       <Link
                         href={`/blogs/${post.slug}`}
-                        className="text-[13px] sm:text-[13.5px] font-semibold text-gray-950 group-hover:text-[#1877F2] transition-colors"
+                        className="text-[13.5px] sm:text-[14px] font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors"
                       >
                         Read Article
                       </Link>
