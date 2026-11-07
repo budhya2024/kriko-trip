@@ -32,7 +32,7 @@ export default function HeroSection() {
       </div>
 
       {/* Booking Search Card Component (Half in and half out of Hero Section) */}
-      <div className="relative z-30 container translate-y-1/2">
+      <div className="relative z-30 container translate-y-6 sm:translate-y-10 md:translate-y-1/2">
         <HeroSearchForm />
       </div>
     </section>
