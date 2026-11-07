@@ -28,10 +28,10 @@ export default function TravelInspirations() {
       <div className="container relative">
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-10 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#111827] tracking-tight">
+          <h2 className="section-title">
             Travel Inspirations
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500 mt-2.5 leading-relaxed">
+          <p className="section-details max-w-xl mx-auto">
             A curated list of inspiration the most tour &amp; travel based on different destinations.
           </p>
         </div>
@@ -137,3 +137,4 @@ export default function TravelInspirations() {
     </section>
   );
 }
+

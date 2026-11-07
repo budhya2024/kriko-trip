@@ -110,7 +110,7 @@ export default function FeaturedDestinations() {
           <h2 className="section-title">
             Featured Destinations
           </h2>
-          <p className="mt-3 text-gray-600 text-sm sm:text-base leading-relaxed">
+          <p className="section-details max-w-xl mx-auto">
             A curated list of the most popular travel packages based on different
             destinations.
           </p>

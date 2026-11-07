@@ -23,7 +23,7 @@ export default function GallerySection() {
             <h2 className="section-title">
               KrikoTrip Gallery
             </h2>
-            <p className="section-description max-w-sm mt-3.5">
+            <p className="section-details max-w-sm">
               We go beyond just booking trips—we create unforgettable travel
               experiences that match your dreams!
             </p>

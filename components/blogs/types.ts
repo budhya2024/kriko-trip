@@ -24,3 +24,4 @@ export interface BlogPost {
     conclusion: string;
   };
 }
+

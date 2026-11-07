@@ -145,10 +145,10 @@ export default function WhyTravelWithUs() {
       <div className="container">
         {/* Header with decorative floating blue dot */}
         <div className="text-center max-w-2xl mx-auto relative">
-          <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold text-gray-950 tracking-tight">
+          <h2 className="section-title">
             Why Travel with Us?
           </h2>
-          <p className="mt-3 text-gray-500 text-sm sm:text-base leading-relaxed">
+          <p className="section-details max-w-xl mx-auto">
             We specialize in crafting personalized journeys that suit every
             traveler&apos;s dream.
           </p>

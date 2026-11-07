@@ -13,7 +13,7 @@ export default function BestServiceBanner() {
           
           {/* Header with decorative floating blue dot */}
           <div className="relative inline-flex items-start justify-center">
-            <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-gray-950 tracking-tight leading-tight">
+            <h2 className="section-title">
               We&apos;re Providing Best Service Ever!
             </h2>
             <span className="w-3.5 h-3.5 rounded-full bg-[#1877F2]/60 ml-2.5 -mt-1 shrink-0" />

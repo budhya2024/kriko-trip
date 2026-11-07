@@ -108,7 +108,7 @@ export default function PopularPackages() {
           <h2 className="section-title">
             Popular Package
           </h2>
-          <p className="section-description mt-3.5">
+          <p className="section-details max-w-xl mx-auto">
             A curated list of the most popular travel packages based on different
             destinations.
           </p>

@@ -184,7 +184,7 @@ export default function TestimonialsSection() {
             <h2 className="section-title">
               Hear It from Travelers
             </h2>
-            <p className="section-description max-w-md mt-3.5">
+            <p className="section-details max-w-md">
               We go beyond just booking trips—we create unforgettable travel
               experiences that match your dreams!
             </p>

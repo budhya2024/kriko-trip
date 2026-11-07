@@ -88,7 +88,8 @@ select {
   }
 }
 
-.section-description {
+.section-description,
+.section-details {
   color: var(--text-color);
   font-family: var(--font-poppins), sans-serif;
   font-size: 16px;
@@ -99,7 +100,8 @@ select {
 }
 
 @media (max-width: 640px) {
-  .section-description {
+  .section-description,
+  .section-details {
     font-size: 14px;
     margin-top: 8px;
   }

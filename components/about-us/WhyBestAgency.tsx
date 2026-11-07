@@ -11,7 +11,7 @@ export default function WhyBestAgency() {
 
           {/* ─── Left Column: Content & Founder Bio ─── */}
           <div className="lg:col-span-6 flex flex-col items-start text-left">
-            <h2 className="text-3xl sm:text-4xl lg:text-[44px] font-bold text-gray-950 tracking-tight leading-[1.15]">
+            <h2 className="section-title">
               Why We&apos;re Best Agency
             </h2>
 

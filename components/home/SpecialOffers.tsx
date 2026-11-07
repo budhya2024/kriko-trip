@@ -64,7 +64,7 @@ export default function SpecialOffers() {
           <h2 className="section-title">
             Discounts &amp; Offers
           </h2>
-          <p className="section-description">
+          <p className="section-details max-w-xl mx-auto">
             A curated list of the most popular travel packages based on different
             destinations.
           </p>

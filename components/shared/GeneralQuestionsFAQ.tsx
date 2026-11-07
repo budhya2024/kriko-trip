@@ -47,13 +47,10 @@ export default function GeneralQuestionsFAQ() {
       <div className="container max-w-4xl mx-auto px-4 sm:px-6">
         {/* Section Title & Details */}
         <div className="text-center mb-10 sm:mb-12">
-          <span className="text-[#1877F2] text-xs sm:text-sm font-bold uppercase tracking-wider">
-            Frequently Asked Questions
-          </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#111827] mt-1.5 tracking-tight">
+          <h2 className="section-title">
             General Questions
           </h2>
-          <p className="text-xs sm:text-sm text-[#4B5563] mt-2 max-w-md mx-auto leading-relaxed">
+          <p className="section-details max-w-xl mx-auto">
             We&apos;re committed to offering more than just products—we provide
             exceptional experiences.
           </p>
@@ -67,11 +64,10 @@ export default function GeneralQuestionsFAQ() {
             return (
               <div
                 key={idx}
-                className={`rounded-xl transition-all duration-300 overflow-hidden ${
-                  isOpen
-                    ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-5 sm:p-6"
-                    : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-5 sm:p-6"
-                }`}
+                className={`rounded-xl transition-all duration-300 overflow-hidden ${isOpen
+                  ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-5 sm:p-6"
+                  : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-5 sm:p-6"
+                  }`}
               >
                 {/* Accordion Header */}
                 <button
@@ -80,9 +76,8 @@ export default function GeneralQuestionsFAQ() {
                   className="w-full flex items-center justify-between gap-4 text-left cursor-pointer focus:outline-none select-none"
                 >
                   <span
-                    className={`text-[15px] sm:text-[16px] font-bold leading-snug transition-colors duration-200 ${
-                      isOpen ? "text-[#1877F2]" : "text-gray-950"
-                    }`}
+                    className={`text-[15px] sm:text-[16px] font-bold leading-snug transition-colors duration-200 ${isOpen ? "text-[#1877F2]" : "text-gray-950"
+                      }`}
                   >
                     {item.question}
                   </span>
@@ -92,11 +87,10 @@ export default function GeneralQuestionsFAQ() {
                     <svg
                       viewBox="0 0 10 6"
                       fill="currentColor"
-                      className={`w-2.5 h-2.5 transition-transform duration-300 ease-in-out ${
-                        isOpen
-                          ? "text-[#1877F2] rotate-180"
-                          : "text-[#4B5563] rotate-0"
-                      }`}
+                      className={`w-2.5 h-2.5 transition-transform duration-300 ease-in-out ${isOpen
+                        ? "text-[#1877F2] rotate-180"
+                        : "text-[#4B5563] rotate-0"
+                        }`}
                     >
                       <path d="M0 0L5 6L10 0H0Z" />
                     </svg>
@@ -105,11 +99,10 @@ export default function GeneralQuestionsFAQ() {
 
                 {/* Smooth Animated Opening & Closing Content */}
                 <div
-                  className={`grid transition-all duration-300 ease-in-out ${
-                    isOpen
-                      ? "grid-rows-[1fr] opacity-100 mt-3 pt-1"
-                      : "grid-rows-[0fr] opacity-0 mt-0 pt-0"
-                  }`}
+                  className={`grid transition-all duration-300 ease-in-out ${isOpen
+                    ? "grid-rows-[1fr] opacity-100 mt-3 pt-1"
+                    : "grid-rows-[0fr] opacity-0 mt-0 pt-0"
+                    }`}
                 >
                   <div className="overflow-hidden">
                     <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed font-normal">
