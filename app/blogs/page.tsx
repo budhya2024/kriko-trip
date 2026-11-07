@@ -121,7 +121,7 @@ export default function BlogListPage() {
               {currentPosts.map((post) => (
                 <article
                   key={post.slug}
-                  className="bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-xl hover:border-blue-200/90 hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col group h-full cursor-pointer"
+                  className="bg-white rounded-2xl border border-gray-200 hover:border-blue-300 transition-colors duration-200 overflow-hidden flex flex-col group h-full cursor-pointer"
                 >
                   {/* Top: Card Image with Pill Category Badge */}
                   <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100 cursor-pointer">
