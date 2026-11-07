@@ -13,6 +13,14 @@ export default function TravelInspirations() {
   const cardsPerPage = 2;
   const maxIndex = Math.max(0, blogPosts.length - cardsPerPage);
 
+  // Filter posts matching the reference home section
+  const homePosts = blogPosts.filter(
+    (p) =>
+      p.slug === "tropical-escapes-beach-getaways" ||
+      p.slug === "crystal-clear-waters-white-sands"
+  );
+  const displayPosts = homePosts.length >= 2 ? homePosts : blogPosts;
+
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev === 0 ? maxIndex : prev - 1));
   };
@@ -21,7 +29,7 @@ export default function TravelInspirations() {
     setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
-  const visiblePosts = blogPosts.slice(currentIndex, currentIndex + cardsPerPage);
+  const visiblePosts = displayPosts.slice(currentIndex, currentIndex + cardsPerPage);
 
   return (
     <section className="w-full py-8 md:py-16 bg-white">

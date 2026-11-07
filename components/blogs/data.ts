@@ -2,6 +2,113 @@ import { BlogPost } from "./types";
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "sundarban-winter-luxury-tour-package",
+    title: "Sundarban Winter Luxury Tour Package with Hotel Sonar Bangla - Premium Safari",
+    location: "Sundarban, West Bengal",
+    date: "Nov 4, 2026",
+    author: {
+      name: "Wildlife Safari Guide",
+      role: "Lead Naturalist",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+    },
+    category: "Adventure",
+    badge: "TRAVEL GUIDE",
+    tags: ["Sundarban", "Wildlife", "Tiger Trail"],
+    readTime: "4 Min Read",
+    image: "https://images.unsplash.com/photo-1484406566174-9da000fda645?auto=format&fit=crop&w=1000&q=80",
+    excerpt: "Sundarban Winter Luxury Tour Package with Hotel Sonar Bangla, winter safari Sonar Bangla Sundarban, luxury safari cruise & wilderness exploration.",
+    content: {
+      intro:
+        "Experience the mystical mangrove wilderness of the Sundarban Tiger Reserve in royal luxury with Hotel Sonar Bangla. Our premier winter safari brings you closer to the Bengal Tiger, spotted deer, and saltwater crocodiles.",
+      sections: [
+        {
+          heading: "Winter Luxury Safari Cruise & Mangrove Trails",
+          paragraphs: [
+            "Winter is the peak season to explore the world's largest mangrove forest. With mist dancing over tidal waterways and migratory birds arriving in thousands, every boat safari unveils nature's untamed spectacle.",
+            "Sail on private motor launches equipped with safety gear, naturalist guides, and warm local cuisine freshly prepared onboard.",
+          ],
+        },
+      ],
+      tips: [
+        "Pack warm layers for early morning boat safaris.",
+        "Carry high-magnification binoculars for bird watching.",
+        "Keep government photo ID handy for forest entry permits.",
+      ],
+      conclusion:
+        "A winter journey into the Sundarbans with Hotel Sonar Bangla redefines adventure with unparalleled comfort.",
+    },
+  },
+  {
+    slug: "sundarban-luxury-eco-resort-booking",
+    title: "Sundarban Luxury Eco Resort Booking at Hotel Sonar Bangla - Five Star Comfort",
+    location: "Gosaba, Sundarban",
+    date: "Nov 4, 2026",
+    author: {
+      name: "Heritage Hospitality Lead",
+      role: "Resort Director",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
+    },
+    category: "Culture & Luxury",
+    badge: "TRAVEL GUIDE",
+    tags: ["Sundarban", "Wildlife", "Tiger Trail"],
+    readTime: "4 Min Read",
+    image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80",
+    excerpt: "Book your Sundarban Luxury Eco Resort Booking at Hotel Sonar Bangla via sundarbanluxurypackage (+91 70014...) for five-star comfort.",
+    content: {
+      intro:
+        "Nestled right at the boundary of the river and mangrove forests, Hotel Sonar Bangla provides world-class eco-conscious hospitality with an infinity swimming pool, manicured gardens, and gourmet Bengali dining.",
+      sections: [
+        {
+          heading: "Five-Star Comfort Amidst Pure Nature",
+          paragraphs: [
+            "Indulge in spacious river-view suites, handcrafted wood furniture, modern amenities, and rejuvenating spa facilities after a day in the mangrove forests.",
+            "Evenings come alive with authentic Baul folk music, barbecue by the pool, and cultural performances by local artists.",
+          ],
+        },
+      ],
+      tips: [
+        "Book at least 3 weeks ahead for winter weekend stays.",
+        "Enjoy evening tea overlooking the river sunset from the resort lawn.",
+      ],
+      conclusion:
+        "Relax, recharge, and connect with nature without sacrificing an ounce of five-star luxury.",
+    },
+  },
+  {
+    slug: "hotel-sonar-bangla-corporate-group-tour",
+    title: "Hotel Sonar Bangla Sundarban Corporate & Group Tour Package - Premium Outings",
+    location: "Sundarban Delta",
+    date: "Oct 19, 2026",
+    author: {
+      name: "Corporate Events Team",
+      role: "Outing Coordinator",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
+    },
+    category: "Culture & Luxury",
+    badge: "RESORT & STAYS",
+    tags: ["Sundarban", "Wildlife", "Tiger Trail"],
+    readTime: "3 Min Read",
+    image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1000&q=80",
+    excerpt: "Hotel Sonar Bangla Sundarban Corporate & Group Tour Package - Premium Outings with team building activities and five-star hospitality.",
+    content: {
+      intro:
+        "Empower your corporate teams with an inspiring offsite into the Sundarbans. State-of-the-art conference facilities, luxury accommodations, and curated wilderness activities make it the ideal corporate retreat.",
+      sections: [
+        {
+          heading: "Team Building in the Heart of the Mangroves",
+          paragraphs: [
+            "Combine business strategizing with thrilling wildlife safaris, team boat races, and campfire brainstorming sessions under star-studded delta skies.",
+          ],
+        },
+      ],
+      tips: [
+        "Customized conference AV equipment and catering menus available upon request.",
+      ],
+      conclusion:
+        "Transform your team dynamics with an offsite experience they will talk about for years.",
+    },
+  },
+  {
     slug: "tropical-escapes-beach-getaways",
     title: "Tropical Escapes & Beach Getaways.",
     location: "Rome , Italy",

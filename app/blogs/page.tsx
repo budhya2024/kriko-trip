@@ -103,7 +103,7 @@ export default function BlogListPage() {
 
                     {/* Category / Badge on Top-Left */}
                     <div className="absolute top-3.5 left-3.5 z-10 pointer-events-none">
-                      <span className="px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-gray-900 text-[11px] font-bold tracking-wider uppercase shadow-xs">
+                      <span className="px-3 py-1 rounded-md bg-white text-gray-800 text-[10.5px] font-bold tracking-wider uppercase shadow-xs">
                         {post.badge || post.category || "TRAVEL GUIDE"}
                       </span>
                     </div>
@@ -113,35 +113,35 @@ export default function BlogListPage() {
                   <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
                     <div>
                       {/* Meta Line: Date | Clock Read Time */}
-                      <div className="flex items-center gap-2 text-xs text-gray-500 font-normal mb-2.5">
+                      <div className="flex items-center gap-2 text-xs text-gray-400 font-normal mb-2.5">
                         <span>{post.date}</span>
                         <span className="text-gray-300 font-light">|</span>
                         <div className="flex items-center gap-1 text-gray-500 font-normal">
-                          <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                          <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" strokeWidth={2} />
                           <span>{post.readTime}</span>
                         </div>
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-[17px] sm:text-[18px] font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors leading-snug line-clamp-2 mb-2.5">
+                      <h3 className="text-[17px] sm:text-[18px] font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors leading-[1.3] line-clamp-2 mb-2">
                         <Link href={`/blogs/${post.slug}`}>
                           {post.title}
                         </Link>
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-4">
+                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5">
                         {post.excerpt}
                       </p>
 
                       {/* Tags Row */}
-                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-5">
-                        {(post.tags || [post.category, post.location.split(",")[0].trim()]).map((tag, tIdx) => (
+                      <div className="flex flex-wrap items-center gap-2 mb-4">
+                        {(post.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
                           <span
                             key={tIdx}
-                            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-50/70 border border-amber-200/60 text-amber-900 text-[11px] font-medium"
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FFFDF0] border border-amber-200/50 text-gray-700 text-[11px] font-medium"
                           >
-                            <Tag className="w-2.5 h-2.5 text-amber-600 shrink-0" />
+                            <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
                             <span>{tag}</span>
                           </span>
                         ))}
@@ -149,17 +149,17 @@ export default function BlogListPage() {
                     </div>
 
                     {/* Footer: Read Article → */}
-                    <div className="pt-3.5 border-t border-gray-100 flex items-center justify-between">
+                    <div className="pt-3.5 mt-auto border-t border-gray-150/70 flex items-center justify-between">
                       <Link
                         href={`/blogs/${post.slug}`}
-                        className="text-[13px] sm:text-sm font-bold text-gray-950 group-hover:text-[#1877F2] transition-colors"
+                        className="text-[13px] sm:text-[13.5px] font-semibold text-gray-950 group-hover:text-[#1877F2] transition-colors"
                       >
                         Read Article
                       </Link>
                       <Link
                         href={`/blogs/${post.slug}`}
                         aria-label={`Read article: ${post.title}`}
-                        className="text-gray-950 group-hover:text-[#1877F2] group-hover:translate-x-1 transition-all"
+                        className="text-gray-900 group-hover:text-[#1877F2] group-hover:translate-x-1 transition-all"
                       >
                         <ArrowRight className="w-4 h-4 stroke-[2]" />
                       </Link>
