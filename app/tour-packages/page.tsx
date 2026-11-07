@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Header, Footer, ScrollToTop } from "@/components/shared";
+import { Header, Footer } from "@/components/shared";
 import { TourPackagesContent } from "@/components/tour-packages";
 
 export const metadata = {
@@ -47,10 +47,6 @@ export default function TourPackagesPage() {
 
       {/* Global Footer */}
       <Footer />
-
-      {/* Scroll to Top Floating Button */}
-      <ScrollToTop />
     </div>
   );
 }
-

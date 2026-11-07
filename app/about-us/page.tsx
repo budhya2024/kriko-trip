@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { Header, Footer, ScrollToTop } from "@/components/shared";
+import { Header, Footer } from "@/components/shared";
 import {
   WhyBestAgency,
   WhyTravelWithUs,
@@ -25,7 +25,7 @@ export default function AboutUsPage() {
         <section className="w-full bg-[#08182B] text-white py-14 sm:py-16 text-center relative overflow-hidden">
           <div className="absolute -top-24 -right-24 w-72 h-72 rounded-full border border-white/10 pointer-events-none" />
           <div className="absolute -bottom-24 -left-24 w-60 h-60 rounded-full border border-white/5 pointer-events-none" />
-          
+
           <div className="container relative z-10">
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight">
               About Us
@@ -52,10 +52,6 @@ export default function AboutUsPage() {
 
       {/* Global Footer */}
       <Footer />
-
-      {/* Scroll to Top Floating Button */}
-      <ScrollToTop />
     </div>
   );
 }
-

@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { Header, Footer, ScrollToTop } from "@/components/shared";
+import { Header, Footer } from "@/components/shared";
 import {
   HeroSection,
   StatsBar,
@@ -46,9 +46,6 @@ export default function Home() {
 
       {/* Global Footer */}
       <Footer />
-
-      {/* Scroll to Top Button */}
-      <ScrollToTop />
     </div>
   );
 }

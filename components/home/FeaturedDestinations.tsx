@@ -125,18 +125,18 @@ export default function FeaturedDestinations() {
               className="group flex flex-col items-center text-center cursor-pointer"
             >
               {/* Circular Destination Image Container */}
-              <div className="w-full max-w-[190px] aspect-square rounded-full overflow-hidden relative shadow-sm border-2 border-transparent group-hover:border-[#1877F2]/30 transition-all duration-300 group-hover:shadow-lg group-hover:scale-105">
+              <div className="w-full max-w-[190px] aspect-square rounded-full overflow-hidden relative shadow-sm  transition-all duration-300">
                 <Image
                   src={item.image}
                   alt={item.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                  className="object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="object-cover transition-transform duration-500 "
                 />
               </div>
 
               {/* Destination Title (top 12px margin) */}
-              <h3 className="text-base sm:text-[18px] font-bold text-gray-950 mt-3 leading-tight transition-colors duration-200 group-hover:text-[#1877F2] tracking-tight">
+              <h3 className="text-base lg:text-xl font-bold text-gray-950 mt-3  transition-colors duration-200 group-hover:text-[#1877F2] tracking-tight">
                 {item.name}
               </h3>
               <p className="text-xs sm:text-[13px] font-medium text-gray-500 mt-1">
