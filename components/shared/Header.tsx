@@ -109,6 +109,11 @@ const navItems = [
     subItems: travelPackageSubItems,
   },
   {
+    name: "Blogs",
+    href: "/blogs",
+    hasDropdown: false,
+  },
+  {
     name: "About",
     href: "/about-us",
     hasDropdown: false,
@@ -763,14 +768,36 @@ export default function Header() {
             )}
           </div>
 
-          {/* Contact */}
+          {/* Blogs */}
           <div className="py-2.5 border-b border-gray-50">
             <Link
-              href="#"
+              href="/blogs"
               onClick={() => setIsMobileDrawerOpen(false)}
               className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
             >
-              Contact
+              Blogs &amp; Stories
+            </Link>
+          </div>
+
+          {/* About Us */}
+          <div className="py-2.5 border-b border-gray-50">
+            <Link
+              href="/about-us"
+              onClick={() => setIsMobileDrawerOpen(false)}
+              className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
+            >
+              About Us
+            </Link>
+          </div>
+
+          {/* Contact */}
+          <div className="py-2.5 border-b border-gray-50">
+            <Link
+              href="/contact-us"
+              onClick={() => setIsMobileDrawerOpen(false)}
+              className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
+            >
+              Contact Us
             </Link>
           </div>
         </div>

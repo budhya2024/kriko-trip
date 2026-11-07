@@ -6,6 +6,7 @@ export { default as SpecialOffers } from "./SpecialOffers";
 export { default as GallerySection } from "./GallerySection";
 export { default as PopularPackages } from "./PopularPackages";
 export { default as TestimonialsSection } from "./TestimonialsSection";
+export { default as TravelInspirations } from "./TravelInspirations";
 
 
 

@@ -148,16 +148,23 @@ export default function Footer() {
               Resources
             </h3>
             <ul className="space-y-3">
-              {resources.map((item) => (
-                <li key={item}>
-                  <Link
-                    href={`#${item.toLowerCase().replace(/[\s&]+/g, "-")}`}
-                    className="text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block "
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
+              {resources.map((item) => {
+                const getHref = () => {
+                  if (item === "Travel Inspirations") return "/blogs";
+                  if (item === "About KrikoTrip") return "/about-us";
+                  return `#${item.toLowerCase().replace(/[\s&]+/g, "-")}`;
+                };
+                return (
+                  <li key={item}>
+                    <Link
+                      href={getHref()}
+                      className="text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block "
+                    >
+                      {item}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

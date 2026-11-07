@@ -7,6 +7,7 @@ import {
   SpecialOffers,
   PopularPackages,
   GallerySection,
+  TravelInspirations,
   TestimonialsSection,
 } from "@/components/home";
 
@@ -39,6 +40,9 @@ export default function Home() {
 
         {/* GoFly Gallery Section */}
         <GallerySection />
+
+        {/* Travel Inspirations (Blog Stories Section) */}
+        <TravelInspirations />
 
         {/* Client Testimonials Section with 2-Row Opposite Infinite Marquee */}
         <TestimonialsSection />
