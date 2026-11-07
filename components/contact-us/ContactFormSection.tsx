@@ -51,18 +51,11 @@ export default function ContactFormSection() {
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           {/* ─── Left Column: Contact Form ─── */}
-          <div className="lg:col-span-7 bg-white rounded-xl border border-gray-200/90 shadow-xs p-6 sm:p-8 lg:p-9">
-            <div className="mb-7">
-              <span className="text-[#1877F2] text-xs sm:text-sm font-bold uppercase tracking-wider">
-                Send a Message
-              </span>
-              <h3 className="text-2xl sm:text-3xl font-extrabold text-gray-950 mt-1.5 tracking-tight">
-                Plan Your Next Journey With Us
+          <div className="lg:col-span-7 bg-white rounded-xl border border-gray-200/90 shadow-xs p-6 sm:p-8">
+            <div className="mb-6">
+              <h3 className="text-xl sm:text-2xl font-bold text-gray-950 tracking-tight">
+                Send Us a Message
               </h3>
-              <p className="text-sm text-gray-600 mt-2 leading-relaxed">
-                Fill in your details below and one of our dedicated holiday
-                specialists will tailor the perfect itinerary for you.
-              </p>
             </div>
 
             {isSubmitted ? (
@@ -201,14 +194,11 @@ export default function ContactFormSection() {
                 </div>
 
                 {/* Submit Button */}
-                <div className="pt-2 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                  <p className="text-xs text-gray-500">
-                    🔒 We protect your data. Zero unsolicited spam.
-                  </p>
+                <div className="pt-2 flex justify-end">
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-sm cursor-pointer disabled:opacity-70"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer disabled:opacity-70"
                   >
                     {isSubmitting ? (
                       <>
@@ -236,7 +226,7 @@ export default function ContactFormSection() {
                 <div className="flex items-center gap-2">
                   <MapPin className="w-4 h-4 text-[#1877F2]" />
                   <span className="text-sm font-bold text-gray-950">
-                    KrikoTrip Headquarters
+                    KrikoTrip Office Location
                   </span>
                 </div>
                 <a
@@ -277,41 +267,32 @@ export default function ContactFormSection() {
             </div>
 
             {/* Quick Connect Assistance Card */}
-            <div className="bg-[#08182B] text-white rounded-xl p-6 sm:p-7 relative overflow-hidden shadow-xs">
-              <div className="relative z-10">
-                <div className="flex items-center gap-2 mb-2">
-                  <Headphones className="w-4 h-4 text-[#1877F2]" />
-                  <span className="text-xs font-bold text-[#1877F2] uppercase tracking-wider">
-                    Instant Connect
-                  </span>
-                </div>
-                <h4 className="text-lg font-bold text-white mb-2">
-                  Prefer To Speak Right Now?
-                </h4>
-                <p className="text-xs text-gray-300 leading-relaxed mb-5">
-                  Connect with our holiday coordinators on WhatsApp or dial directly
-                  for immediate tour reservations and quotes.
-                </p>
+            <div className="bg-[#08182B] text-white rounded-xl p-5 sm:p-6 shadow-xs">
+              <h4 className="text-base font-bold text-white mb-1.5">
+                Need Immediate Assistance?
+              </h4>
+              <p className="text-xs text-gray-300 leading-relaxed mb-4">
+                Chat with our travel coordinators on WhatsApp or call our support line directly.
+              </p>
 
-                <div className="flex flex-col sm:flex-row items-center gap-3">
-                  <a
-                    href="https://wa.me/18004567890"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>WhatsApp Chat</span>
-                  </a>
+              <div className="flex flex-col sm:flex-row items-center gap-3">
+                <a
+                  href="https://wa.me/18004567890"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#25D366] hover:bg-[#20ba59] text-white text-xs font-bold transition-all shadow-xs"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>WhatsApp Chat</span>
+                </a>
 
-                  <a
-                    href="tel:+18004567890"
-                    className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/15"
-                  >
-                    <Phone className="w-4 h-4 text-[#1877F2]" />
-                    <span>+1 (800) 456-7890</span>
-                  </a>
-                </div>
+                <a
+                  href="tel:+18004567890"
+                  className="w-full sm:w-auto flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all border border-white/15"
+                >
+                  <Phone className="w-4 h-4 text-[#1877F2]" />
+                  <span>+1 (800) 456-7890</span>
+                </a>
               </div>
             </div>
           </div>

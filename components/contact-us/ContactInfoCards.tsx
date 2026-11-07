@@ -48,19 +48,8 @@ const contactDetails = [
 
 export default function ContactInfoCards() {
   return (
-    <section className="w-full py-12 lg:py-16 bg-[#F8FAFC]">
+    <section className="w-full py-10 lg:py-12 bg-[#F8FAFC]">
       <div className="container">
-        {/* Section Heading */}
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-950 tracking-tight">
-            We Are Here To Help You Plan
-          </h2>
-          <p className="text-sm sm:text-base text-gray-600 mt-2.5 leading-relaxed">
-            Have questions about a destination, package, or custom booking?
-            Connect with our certified travel specialists today.
-          </p>
-        </div>
-
         {/* 4 Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {contactDetails.map((item, idx) => {
