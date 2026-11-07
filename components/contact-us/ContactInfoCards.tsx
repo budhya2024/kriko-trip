@@ -57,12 +57,12 @@ export default function ContactInfoCards() {
             return (
               <div
                 key={idx}
-                className="bg-white rounded-xl border border-gray-200/90 p-6 flex flex-col justify-between hover:shadow-lg hover:border-blue-200 transition-all duration-300 group"
+                className="bg-white rounded-lg border border-gray-200/90 p-5 sm:p-6 flex flex-col justify-between hover:shadow-md hover:border-blue-200 transition-all duration-300 group"
               >
                 <div>
                   {/* Top: Icon + Badge */}
-                  <div className="flex items-center justify-between gap-2 mb-5">
-                    <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1877F2] flex items-center justify-center group-hover:bg-[#1877F2] group-hover:text-white transition-colors duration-300 shadow-xs">
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <div className="w-11 h-11 rounded-lg bg-blue-50 text-[#1877F2] flex items-center justify-center group-hover:bg-[#1877F2] group-hover:text-white transition-colors duration-300 shadow-xs">
                       <Icon className="w-5 h-5 stroke-[2.2]" />
                     </div>
                     <span className="text-[11px] font-semibold text-gray-500 bg-gray-50 px-2.5 py-1 rounded-md border border-gray-150">
