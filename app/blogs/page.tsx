@@ -115,9 +115,9 @@ export default function BlogListPage() {
             </div>
           </div>
 
-          {/* ─── 2-Column Blog Cards Grid (Matching Reference Screenshot) ─── */}
+          {/* ─── Responsive Blog Cards Grid (Mobile: 1 col, Tab: 2 col, Desktop: 3 col) ─── */}
           {currentPosts.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-7 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
               {currentPosts.map((post) => (
                 <article
                   key={post.slug}
@@ -130,7 +130,7 @@ export default function BlogListPage() {
                         src={post.image}
                         alt={post.title}
                         fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                       />
                     </Link>
@@ -144,10 +144,10 @@ export default function BlogListPage() {
                   </div>
 
                   {/* Body Content */}
-                  <div className="p-6 sm:p-7 flex flex-col flex-1 justify-between text-left">
+                  <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
                     <div>
                       {/* Meta Line: Date | Clock Read Time */}
-                      <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-400 font-medium mb-2.5">
+                      <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-400 font-normal mb-2.5">
                         <span>{post.date}</span>
                         <span className="text-gray-300 font-light">|</span>
                         <div className="flex items-center gap-1.5 text-gray-500 font-normal">
@@ -157,14 +157,14 @@ export default function BlogListPage() {
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-lg sm:text-[19.5px] font-bold text-[#0B132A] group-hover:text-[#1877F2] transition-colors leading-[1.3] line-clamp-2 mb-2.5">
+                      <h3 className="text-[17px] sm:text-[18px] font-bold text-[#0B132A] group-hover:text-[#1877F2] transition-colors leading-[1.3] line-clamp-2 mb-2.5">
                         <Link href={`/blogs/${post.slug}`} className="cursor-pointer">
                           {post.title}
                         </Link>
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-xs sm:text-[13.5px] text-gray-500 leading-relaxed line-clamp-2 mb-4">
+                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5">
                         {post.excerpt}
                       </p>
 
