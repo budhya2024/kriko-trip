@@ -5,11 +5,12 @@ import { SlidersHorizontal, Search, RefreshCw } from "lucide-react";
 import FilterSidebar from "./FilterSidebar";
 import PackageCard from "./PackageCard";
 import { initialTourPackages } from "./data";
-import { SortOption, TourPackage } from "./types";
+import { SortOption } from "./types";
 
 export default function TourPackagesContent() {
   const [selectedTravelType, setSelectedTravelType] = useState<string | null>(null);
   const [selectedBudget, setSelectedBudget] = useState<string | null>(null);
+  const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("popular");
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
@@ -25,6 +26,7 @@ export default function TourPackagesContent() {
         (p) =>
           p.title.toLowerCase().includes(q) ||
           p.location.toLowerCase().includes(q) ||
+          p.destination.toLowerCase().includes(q) ||
           p.description.toLowerCase().includes(q)
       );
     }
@@ -34,14 +36,27 @@ export default function TourPackagesContent() {
       result = result.filter((p) => p.travelType === selectedTravelType);
     }
 
-    // Budget Filter
+    // Destination Filter
+    if (selectedDestination) {
+      result = result.filter(
+        (p) =>
+          p.destination.toLowerCase() === selectedDestination.toLowerCase() ||
+          p.location.toLowerCase().includes(selectedDestination.toLowerCase())
+      );
+    }
+
+    // Budget Filter (INR matching reference screenshot)
     if (selectedBudget) {
-      if (selectedBudget === "under-500") {
-        result = result.filter((p) => p.price < 500);
-      } else if (selectedBudget === "500-800") {
-        result = result.filter((p) => p.price >= 500 && p.price <= 800);
-      } else if (selectedBudget === "800-plus") {
-        result = result.filter((p) => p.price > 800);
+      if (selectedBudget === "0-20k") {
+        result = result.filter((p) => p.price <= 20000);
+      } else if (selectedBudget === "20-40k") {
+        result = result.filter((p) => p.price > 20000 && p.price <= 40000);
+      } else if (selectedBudget === "40-60k") {
+        result = result.filter((p) => p.price > 40000 && p.price <= 60000);
+      } else if (selectedBudget === "60-80k") {
+        result = result.filter((p) => p.price > 60000 && p.price <= 80000);
+      } else if (selectedBudget === "above-80k") {
+        result = result.filter((p) => p.price > 80000);
       }
     }
 
@@ -58,17 +73,29 @@ export default function TourPackagesContent() {
     }
 
     return result;
-  }, [searchQuery, selectedTravelType, selectedBudget, sortBy]);
+  }, [searchQuery, selectedTravelType, selectedBudget, selectedDestination, sortBy]);
 
   const handleClearAll = () => {
     setSelectedTravelType(null);
     setSelectedBudget(null);
+    setSelectedDestination(null);
     setSortBy("popular");
     setSearchQuery("");
   };
 
   const activeFiltersCount =
-    (selectedTravelType ? 1 : 0) + (selectedBudget ? 1 : 0) + (searchQuery ? 1 : 0);
+    (selectedTravelType ? 1 : 0) +
+    (selectedBudget ? 1 : 0) +
+    (selectedDestination ? 1 : 0) +
+    (searchQuery ? 1 : 0);
+
+  const budgetLabelMap: Record<string, string> = {
+    "0-20k": "₹0 - ₹20k",
+    "20-40k": "₹20 - ₹40k",
+    "40-60k": "₹40 - ₹60k",
+    "60-80k": "₹60 - ₹80k",
+    "above-80k": "Above ₹80k",
+  };
 
   return (
     <section className="w-full bg-[#f8f9fb] py-10 sm:py-14 lg:py-16">
@@ -83,13 +110,13 @@ export default function TourPackagesContent() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search destination, package or keywords..."
-              className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-blue-100 transition-all shadow-xs"
+              className="w-full bg-white border border-gray-200 rounded-2xl pl-10 pr-4 py-3 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#1877F2] focus:ring-2 focus:ring-blue-100 transition-all shadow-xs"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400 hover:text-gray-600"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400 hover:text-gray-600"
               >
                 Clear
               </button>
@@ -110,7 +137,7 @@ export default function TourPackagesContent() {
             <button
               type="button"
               onClick={() => setIsMobileFilterOpen(true)}
-              className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-gray-200 bg-white text-gray-800 text-xs sm:text-sm font-semibold shadow-xs hover:bg-gray-50 transition-colors"
+              className="lg:hidden inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl border border-gray-200 bg-white text-gray-800 text-xs sm:text-sm font-semibold shadow-xs hover:bg-gray-50 transition-colors cursor-pointer"
             >
               <SlidersHorizontal className="w-4 h-4 text-[#1877F2]" />
               <span>Filters</span>
@@ -130,11 +157,22 @@ export default function TourPackagesContent() {
               Active Filters:
             </span>
 
+            {selectedDestination && (
+              <button
+                type="button"
+                onClick={() => setSelectedDestination(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+              >
+                <span>Dest: {selectedDestination}</span>
+                <span className="text-sm font-bold">×</span>
+              </button>
+            )}
+
             {selectedTravelType && (
               <button
                 type="button"
                 onClick={() => setSelectedTravelType(null)}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
               >
                 <span>Type: {selectedTravelType}</span>
                 <span className="text-sm font-bold">×</span>
@@ -145,9 +183,9 @@ export default function TourPackagesContent() {
               <button
                 type="button"
                 onClick={() => setSelectedBudget(null)}
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
               >
-                <span>Budget: {selectedBudget}</span>
+                <span>Budget: {budgetLabelMap[selectedBudget] || selectedBudget}</span>
                 <span className="text-sm font-bold">×</span>
               </button>
             )}
@@ -170,6 +208,8 @@ export default function TourPackagesContent() {
             onSelectTravelType={setSelectedTravelType}
             selectedBudget={selectedBudget}
             onSelectBudget={setSelectedBudget}
+            selectedDestination={selectedDestination}
+            onSelectDestination={setSelectedDestination}
             sortBy={sortBy}
             onChangeSortBy={setSortBy}
             onClearAll={handleClearAll}
@@ -187,7 +227,7 @@ export default function TourPackagesContent() {
               </div>
             ) : (
               /* Empty State */
-              <div className="bg-white rounded-2xl p-12 text-center border border-gray-100 shadow-sm max-w-md mx-auto my-12">
+              <div className="bg-white rounded-3xl p-12 text-center border border-gray-100 shadow-sm max-w-md mx-auto my-12">
                 <div className="w-16 h-16 rounded-full bg-blue-50 text-[#1877F2] flex items-center justify-center mx-auto mb-4">
                   <Search className="w-8 h-8 stroke-[1.8]" />
                 </div>
@@ -201,7 +241,7 @@ export default function TourPackagesContent() {
                 <button
                   type="button"
                   onClick={handleClearAll}
-                  className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm"
+                  className="mt-5 inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white text-xs sm:text-sm font-semibold transition-all shadow-sm cursor-pointer"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   <span>Reset All Filters</span>
@@ -214,4 +254,3 @@ export default function TourPackagesContent() {
     </section>
   );
 }
-

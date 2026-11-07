@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import {
-  SlidersHorizontal,
   ChevronDown,
   ChevronUp,
   User,
@@ -11,6 +10,7 @@ import {
   Palmtree,
   Mountain,
   Users2,
+  MapPin,
   X,
 } from "lucide-react";
 import { SortOption } from "./types";
@@ -20,6 +20,8 @@ interface FilterSidebarProps {
   onSelectTravelType: (type: string | null) => void;
   selectedBudget: string | null;
   onSelectBudget: (budget: string | null) => void;
+  selectedDestination: string | null;
+  onSelectDestination: (dest: string | null) => void;
   sortBy: SortOption;
   onChangeSortBy: (sort: SortOption) => void;
   onClearAll: () => void;
@@ -36,11 +38,22 @@ const travelTypes = [
   { id: "Group", label: "Group", icon: Users2 },
 ];
 
-const budgetOptions = [
-  { id: "all", label: "All Budgets" },
-  { id: "under-500", label: "Under $500" },
-  { id: "500-800", label: "$500 - $800" },
-  { id: "800-plus", label: "$800+" },
+const budgetRanges = [
+  { id: "0-20k", label: "₹0 - ₹20k" },
+  { id: "20-40k", label: "₹20 - ₹40k" },
+  { id: "40-60k", label: "₹40 - ₹60k" },
+  { id: "60-80k", label: "₹60 - ₹80k" },
+  { id: "above-80k", label: "Above ₹80k" },
+];
+
+const destinationsList = [
+  { id: "Andaman", label: "Andaman" },
+  { id: "Bali", label: "Bali" },
+  { id: "Maldives", label: "Maldives" },
+  { id: "Switzerland", label: "Switzerland" },
+  { id: "Dubai", label: "Dubai" },
+  { id: "Thailand", label: "Thailand" },
+  { id: "Costa Rica", label: "Costa Rica" },
 ];
 
 export default function FilterSidebar({
@@ -48,6 +61,8 @@ export default function FilterSidebar({
   onSelectTravelType,
   selectedBudget,
   onSelectBudget,
+  selectedDestination,
+  onSelectDestination,
   sortBy,
   onChangeSortBy,
   onClearAll,
@@ -56,6 +71,7 @@ export default function FilterSidebar({
 }: FilterSidebarProps) {
   const [isTravelTypeOpen, setIsTravelTypeOpen] = useState(true);
   const [isBudgetOpen, setIsBudgetOpen] = useState(true);
+  const [isDestinationOpen, setIsDestinationOpen] = useState(true);
   const [isSortOpen, setIsSortOpen] = useState(false);
 
   const sortLabels: Record<SortOption, string> = {
@@ -66,12 +82,24 @@ export default function FilterSidebar({
   };
 
   const content = (
-    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 sm:p-6 flex flex-col gap-6">
+    <div className="bg-white rounded-3xl border border-gray-200/90 shadow-xs p-6 flex flex-col gap-6">
       {/* ─── Top Header: Filters & Clear All ─── */}
       <div className="flex items-center justify-between pb-4 border-b border-gray-100">
         <div className="flex items-center gap-2.5">
-          <SlidersHorizontal className="w-4 h-4 text-gray-900 stroke-[2.2]" />
-          <h3 className="text-base sm:text-[17px] font-bold text-gray-950 tracking-tight">
+          {/* Custom 3-line filter icon matching screenshot */}
+          <svg
+            className="w-5 h-5 text-gray-800"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.3"
+            strokeLinecap="round"
+          >
+            <line x1="4" y1="7" x2="20" y2="7" />
+            <line x1="7" y1="12" x2="17" y2="12" />
+            <line x1="10" y1="17" x2="14" y2="17" />
+          </svg>
+          <h3 className="text-[17px] font-bold text-gray-950 tracking-tight">
             Filters
           </h3>
         </div>
@@ -79,31 +107,38 @@ export default function FilterSidebar({
         <button
           type="button"
           onClick={onClearAll}
-          className="text-xs sm:text-[13px] font-semibold text-gray-400 hover:text-[#1877F2] transition-colors cursor-pointer"
+          className="text-[15px] font-medium text-[#8E9BB0] hover:text-[#1877F2] transition-colors cursor-pointer"
         >
           Clear All
         </button>
       </div>
 
-      {/* ─── Sort By Dropdown ─── */}
+      {/* ─── Sort By (Segmented Pill Input matching screenshot) ─── */}
       <div className="relative">
-        <div className="flex items-center justify-between border border-gray-200 rounded-xl px-3.5 py-2.5 bg-gray-50/50 hover:bg-gray-50 transition-colors">
-          <span className="text-[13px] font-bold text-gray-900">Sort By</span>
-
+        <div className="flex items-center rounded-2xl border border-gray-200 overflow-hidden bg-white text-[15px]">
+          <div className="px-4 py-3 font-semibold text-gray-950 border-r border-gray-200 select-none shrink-0">
+            Sort By
+          </div>
           <button
             type="button"
             onClick={() => setIsSortOpen(!isSortOpen)}
-            className="flex items-center gap-1.5 text-xs sm:text-[13px] font-medium text-gray-700 hover:text-[#1877F2] transition-colors cursor-pointer focus:outline-none"
+            className="flex-1 px-4 py-3 flex items-center justify-between text-gray-700 hover:bg-gray-50/50 transition-colors cursor-pointer focus:outline-none"
           >
-            <span>{sortLabels[sortBy]}</span>
-            <ChevronDown className={`w-3.5 h-3.5 text-gray-500 transition-transform ${isSortOpen ? "rotate-180" : ""}`} />
+            <span className="truncate">{sortLabels[sortBy]}</span>
+            <ChevronDown
+              className={`w-4 h-4 text-gray-500 transition-transform ${
+                isSortOpen ? "rotate-180" : ""
+              }`}
+            />
           </button>
         </div>
 
         {/* Dropdown Menu */}
         {isSortOpen && (
-          <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-lg z-20 py-1.5 animate-in fade-in duration-150">
-            {(["popular", "price-low", "price-high", "duration"] as SortOption[]).map((option) => (
+          <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-2xl shadow-xl z-20 py-2 animate-in fade-in duration-150">
+            {(
+              ["popular", "price-low", "price-high", "duration"] as SortOption[]
+            ).map((option) => (
               <button
                 key={option}
                 type="button"
@@ -111,7 +146,7 @@ export default function FilterSidebar({
                   onChangeSortBy(option);
                   setIsSortOpen(false);
                 }}
-                className={`w-full text-left px-3.5 py-2 text-xs sm:text-[13px] transition-colors cursor-pointer ${
+                className={`w-full text-left px-4 py-2.5 text-[14px] transition-colors cursor-pointer ${
                   sortBy === option
                     ? "bg-blue-50 text-[#1877F2] font-semibold"
                     : "text-gray-700 hover:bg-gray-50"
@@ -124,18 +159,18 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Accordion: Travel Type ─── */}
-      <div className="pb-4 border-b border-gray-100">
+      {/* ─── Accordion 1: Travel Type (2-column pill buttons) ─── */}
+      <div>
         <button
           type="button"
           onClick={() => setIsTravelTypeOpen(!isTravelTypeOpen)}
-          className="w-full flex items-center justify-between text-left text-sm font-bold text-gray-950 mb-4 cursor-pointer focus:outline-none"
+          className="w-full flex items-center justify-between text-left text-[16px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
         >
           <span>Travel Type</span>
           {isTravelTypeOpen ? (
-            <ChevronUp className="w-4 h-4 text-gray-500" />
+            <ChevronUp className="w-5 h-5 text-gray-700" />
           ) : (
-            <ChevronDown className="w-4 h-4 text-gray-500" />
+            <ChevronDown className="w-5 h-5 text-gray-700" />
           )}
         </button>
 
@@ -151,13 +186,18 @@ export default function FilterSidebar({
                   onClick={() =>
                     onSelectTravelType(isSelected ? null : type.id)
                   }
-                  className={`flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl border text-xs sm:text-[13px] transition-all duration-200 cursor-pointer ${
+                  className={`flex items-center justify-center gap-2 py-3 px-3 rounded-2xl border text-[14.5px] transition-all duration-150 cursor-pointer ${
                     isSelected
-                      ? "border-[#1877F2] bg-blue-50 text-[#1877F2] font-semibold shadow-xs"
-                      : "border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50 font-medium"
+                      ? "border-[#1877F2] bg-blue-50/50 text-[#1877F2] font-semibold shadow-xs"
+                      : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
                   }`}
                 >
-                  <Icon className="w-3.5 h-3.5 shrink-0" strokeWidth={2} />
+                  <Icon
+                    className={`w-4 h-4 shrink-0 ${
+                      isSelected ? "text-[#1877F2]" : "text-gray-700"
+                    }`}
+                    strokeWidth={1.8}
+                  />
                   <span>{type.label}</span>
                 </button>
               );
@@ -166,44 +206,82 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Accordion: Budget (Per Person) ─── */}
-      <div>
+      {/* ─── Accordion 2: Budget (Per Person) (2-column pill buttons) ─── */}
+      <div className="pt-2">
         <button
           type="button"
           onClick={() => setIsBudgetOpen(!isBudgetOpen)}
-          className="w-full flex items-center justify-between text-left text-sm font-bold text-gray-950 mb-4 cursor-pointer focus:outline-none"
+          className="w-full flex items-center justify-between text-left text-[16px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
         >
           <span>Budget (Per Person)</span>
           {isBudgetOpen ? (
-            <ChevronUp className="w-4 h-4 text-gray-500" />
+            <ChevronUp className="w-5 h-5 text-gray-700" />
           ) : (
-            <ChevronDown className="w-4 h-4 text-gray-500" />
+            <ChevronDown className="w-5 h-5 text-gray-700" />
           )}
         </button>
 
         {isBudgetOpen && (
-          <div className="flex flex-col gap-2">
-            {budgetOptions.map((b) => {
-              const isSelected =
-                (!selectedBudget && b.id === "all") ||
-                selectedBudget === b.id;
+          <div className="grid grid-cols-2 gap-2.5">
+            {budgetRanges.map((b) => {
+              const isSelected = selectedBudget === b.id;
               return (
                 <button
                   key={b.id}
                   type="button"
-                  onClick={() =>
-                    onSelectBudget(b.id === "all" ? null : b.id)
-                  }
-                  className={`w-full text-left px-3.5 py-2 rounded-lg text-xs sm:text-[13px] transition-all cursor-pointer flex items-center justify-between ${
+                  onClick={() => onSelectBudget(isSelected ? null : b.id)}
+                  className={`py-3 px-3 rounded-2xl border text-[14.5px] transition-all duration-150 cursor-pointer text-center ${
                     isSelected
-                      ? "bg-blue-50 text-[#1877F2] font-semibold"
-                      : "text-gray-600 hover:bg-gray-50 font-medium"
+                      ? "border-[#1877F2] bg-blue-50/50 text-[#1877F2] font-semibold shadow-xs"
+                      : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
                   }`}
                 >
                   <span>{b.label}</span>
-                  {isSelected && (
-                    <span className="w-2 h-2 rounded-full bg-[#1877F2]" />
-                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* ─── Accordion 3: Destination Filter (2-column pill buttons) ─── */}
+      <div className="pt-2">
+        <button
+          type="button"
+          onClick={() => setIsDestinationOpen(!isDestinationOpen)}
+          className="w-full flex items-center justify-between text-left text-[16px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
+        >
+          <span>Destination</span>
+          {isDestinationOpen ? (
+            <ChevronUp className="w-5 h-5 text-gray-700" />
+          ) : (
+            <ChevronDown className="w-5 h-5 text-gray-700" />
+          )}
+        </button>
+
+        {isDestinationOpen && (
+          <div className="grid grid-cols-2 gap-2.5">
+            {destinationsList.map((dest) => {
+              const isSelected = selectedDestination === dest.id;
+              return (
+                <button
+                  key={dest.id}
+                  type="button"
+                  onClick={() =>
+                    onSelectDestination(isSelected ? null : dest.id)
+                  }
+                  className={`flex items-center justify-center gap-1.5 py-3 px-3 rounded-2xl border text-[14px] transition-all duration-150 cursor-pointer ${
+                    isSelected
+                      ? "border-[#1877F2] bg-blue-50/50 text-[#1877F2] font-semibold shadow-xs"
+                      : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
+                  }`}
+                >
+                  <MapPin
+                    className={`w-3.5 h-3.5 shrink-0 ${
+                      isSelected ? "text-[#1877F2]" : "text-gray-500"
+                    }`}
+                  />
+                  <span className="truncate">{dest.label}</span>
                 </button>
               );
             })}
@@ -248,4 +326,3 @@ export default function FilterSidebar({
     </>
   );
 }
-

@@ -2,6 +2,7 @@ export interface TourPackage {
   id: string;
   title: string;
   location: string;
+  destination: string;
   duration: string;
   days: number;
   nights: number;
@@ -16,4 +17,3 @@ export interface TourPackage {
 }
 
 export type SortOption = "popular" | "price-low" | "price-high" | "duration";
-

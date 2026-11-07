@@ -64,7 +64,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
             </span>
             <div className="flex items-baseline gap-1">
               <span className="text-lg sm:text-xl font-extrabold text-[#1877F2]">
-                ${pkg.price}
+                ₹{pkg.price.toLocaleString("en-IN")}
               </span>
               <span className="text-xs text-gray-400 font-medium">/ person</span>
             </div>
