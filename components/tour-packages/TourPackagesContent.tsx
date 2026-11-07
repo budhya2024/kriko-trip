@@ -182,7 +182,7 @@ export default function TourPackagesContent() {
           {/* Right Main Package Grid (3 Columns on Desktop) */}
           <div className="flex-1 w-full">
             {filteredPackages.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-7">
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                 {filteredPackages.map((pkg) => (
                   <PackageCard key={pkg.id} pkg={pkg} />
                 ))}

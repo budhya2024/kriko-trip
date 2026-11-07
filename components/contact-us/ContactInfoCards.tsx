@@ -52,10 +52,7 @@ export default function ContactInfoCards() {
       <div className="container">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-          <span className="inline-block text-[#1877F2] text-xs sm:text-sm font-bold uppercase tracking-wider bg-blue-50 px-3.5 py-1.5 rounded-lg border border-blue-100">
-            Reach Out To Us
-          </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-950 mt-3 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-gray-950 tracking-tight">
             We Are Here To Help You Plan
           </h2>
           <p className="text-sm sm:text-base text-gray-600 mt-2.5 leading-relaxed">
@@ -129,3 +126,4 @@ export default function ContactInfoCards() {
     </section>
   );
 }
+
