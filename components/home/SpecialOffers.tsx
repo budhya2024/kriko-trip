@@ -38,7 +38,7 @@ const offers: OfferCard[] = [
   {
     id: 3,
     image: offerImg3,
-    title: "Bali, Indonesia - Total Price $299.00",
+    title: "Bali, Indonesia - Total Price ₹24,999",
     href: "#",
   },
   {

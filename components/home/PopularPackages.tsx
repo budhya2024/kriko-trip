@@ -16,7 +16,8 @@ interface PackageCard {
   title: string;
   destination: string;
   duration: string;
-  price: string;
+  price: number;
+  originalPrice: number;
   image: string;
   href: string;
 }
@@ -27,66 +28,72 @@ const packages: PackageCard[] = [
     badge: "Solo Tour",
     title: "Culture & Cuisine Discovery",
     destination: "Saudi Arabia",
-    duration: "02/Hours",
-    price: "$65.00",
+    duration: "5 Days/4 Nights",
+    price: 18999,
+    originalPrice: 24999,
     image:
       "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80",
-    href: "#",
+    href: "/tour-packages",
   },
   {
     id: 2,
     badge: "Family Tour",
     title: "Vatican & Christian Heritage",
-    destination: "Qatar",
-    duration: "5 Days/6 Nights",
-    price: "$380.00",
+    destination: "Rome, Italy",
+    duration: "6 Days/5 Nights",
+    price: 32500,
+    originalPrice: 42000,
     image:
       "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
-    href: "#",
+    href: "/tour-packages",
   },
   {
     id: 3,
     badge: "Group Tour",
-    title: "Norway Northern Lights",
-    destination: "United Kingdom",
-    duration: "5 Days/6 Nights",
-    price: "$599.00",
+    title: "Norway Northern Lights & Fjords",
+    destination: "Norway",
+    duration: "6 Days/5 Nights",
+    price: 48999,
+    originalPrice: 64000,
     image:
       "https://images.unsplash.com/photo-1528164344705-475426879c0d?auto=format&fit=crop&w=800&q=80",
-    href: "#",
+    href: "/tour-packages",
   },
   {
     id: 4,
     badge: "Adventure Tour",
     title: "Egypt Pyramids & Nile Cruise",
-    destination: "Morocco",
-    duration: "4 Days/5 Nights",
-    price: "$490.00",
+    destination: "Cairo, Egypt",
+    duration: "5 Days/4 Nights",
+    price: 39500,
+    originalPrice: 52000,
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    href: "#",
+    href: "/tour-packages",
   },
   {
     id: 5,
     badge: "Couple Tour",
     title: "Bali Tropical Island Getaway",
-    destination: "Indonesia",
-    duration: "6 Days/7 Nights",
-    price: "$420.00",
+    destination: "Bali, Indonesia",
+    duration: "7 Days/6 Nights",
+    price: 28999,
+    originalPrice: 38000,
     image:
       "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
-    href: "#",
+    href: "/tour-packages",
   },
   {
     id: 6,
     badge: "Luxury Tour",
     title: "Swiss Alps Mountain Panorama",
     destination: "Switzerland",
-    duration: "5 Days/6 Nights",
-    price: "$750.00",
+    duration: "6 Days/5 Nights",
+    price: 84999,
+    originalPrice: 109999,
     image:
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
-    href: "#",
+    href: "/tour-packages",
   },
 ];
 
@@ -159,10 +166,15 @@ export default function PopularPackages() {
                         className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                       />
 
-                      {/* Top Right Yellow Tour Badge */}
-                      <span className="absolute top-3.5 right-3.5 bg-[#FFDE14] text-gray-950 text-xs font-bold px-3 py-1 rounded-full shadow-sm z-10">
-                        {pkg.badge}
-                      </span>
+                      {/* Top Badges: Tour Type on Left + Percent OFF on Right */}
+                      <div className="absolute top-3 inset-x-3 flex items-center justify-between z-10 pointer-events-none">
+                        <span className="bg-[#FFDE14] text-gray-950 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                          {pkg.badge}
+                        </span>
+                        <span className="bg-[#EF4444] text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-sm tracking-wide">
+                          {Math.round(((pkg.originalPrice - pkg.price) / pkg.originalPrice) * 100)}% OFF
+                        </span>
+                      </div>
 
                       {/* Mini Thumbnail Dots (as seen in Card 1) */}
                       <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
@@ -196,24 +208,35 @@ export default function PopularPackages() {
                       </div>
 
                       {/* Bottom Footer Row: Book Now & Price */}
-                      <div className="flex items-center justify-between pt-5 mt-4 border-t border-gray-100/90">
+                      <div className="flex items-center justify-between pt-4 mt-3 border-t border-gray-100/90 gap-2">
                         {/* Book Now Button */}
                         <Link
                           href={pkg.href}
-                          className="inline-flex items-center gap-1.5 bg-[#1877F2] hover:bg-[#1466d3] text-white text-[13.5px] font-semibold px-4 sm:px-5 py-2.5 rounded-full shadow-xs hover:shadow-md transition-all duration-200 active:scale-95 cursor-pointer"
+                          className="inline-flex items-center gap-1.5 bg-[#1877F2] hover:bg-[#1466d3] text-white text-[13px] font-semibold px-4 sm:px-4.5 py-2.5 rounded-full shadow-xs hover:shadow-md transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
                         >
                           <span>Book Now</span>
                           <ArrowUpRight className="w-4 h-4" />
                         </Link>
 
-                        {/* Price Display */}
+                        {/* Price & Savings Display */}
                         <div className="flex flex-col text-right">
-                          <span className="text-[11px] font-medium text-gray-400 leading-none">
-                            per person
-                          </span>
-                          <span className="text-xl sm:text-[22px] font-extrabold text-gray-950 leading-tight mt-0.5">
-                            {pkg.price}
-                          </span>
+                          {/* Normal Strikethrough Price + Save Money */}
+                          <div className="flex items-center justify-end gap-1.5 leading-none">
+                            <span className="text-xs text-gray-400 line-through font-medium">
+                              ₹{pkg.originalPrice.toLocaleString("en-IN")}
+                            </span>
+                            <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200/50">
+                              Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
+                            </span>
+                          </div>
+
+                          {/* Offer Price & Per Person */}
+                          <div className="flex items-baseline justify-end gap-1 mt-1">
+                            <span className="text-lg sm:text-[21px] font-extrabold text-[#1877F2] leading-tight">
+                              ₹{pkg.price.toLocaleString("en-IN")}
+                            </span>
+                            <span className="text-[11px] text-gray-400 font-medium">/ person</span>
+                          </div>
                         </div>
                       </div>
                     </div>

@@ -39,25 +39,7 @@ export default function TravelInspirations() {
 
         {/* Carousel Wrapper with Side Arrows */}
         <div className="relative">
-          {/* Previous Arrow Button */}
-          <button
-            type="button"
-            onClick={handlePrev}
-            aria-label="Previous article"
-            className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200/90 shadow-sm text-gray-800 hover:text-[#1877F2] hover:border-blue-300 flex items-center justify-center transition-all z-20 cursor-pointer active:scale-95"
-          >
-            <ChevronLeft className="w-4 h-4 stroke-[1.75]" />
-          </button>
 
-          {/* Next Arrow Button */}
-          <button
-            type="button"
-            onClick={handleNext}
-            aria-label="Next article"
-            className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white border border-gray-200/90 shadow-sm text-gray-800 hover:text-[#1877F2] hover:border-blue-300 flex items-center justify-center transition-all z-20 cursor-pointer active:scale-95"
-          >
-            <ChevronRight className="w-4 h-4 stroke-[1.75]" />
-          </button>
 
           {/* Cards Grid (2 Horizontal Cards matching reference screenshot) */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-7">
@@ -67,7 +49,7 @@ export default function TravelInspirations() {
                 className="bg-white rounded-2xl border border-gray-200/90 shadow-xs hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col sm:flex-row group"
               >
                 {/* Left: Card Image */}
-                <div className="relative sm:w-[45%] h-56 sm:h-auto min-h-[220px] sm:min-h-[270px] overflow-hidden bg-gray-100 shrink-0">
+                <div className="relative sm:w-[45%]  h-80 overflow-hidden bg-gray-100 shrink-0">
                   <Link href={`/blogs/${post.slug}`} className="block w-full h-full relative">
                     <Image
                       src={post.image}
@@ -81,14 +63,10 @@ export default function TravelInspirations() {
 
                 {/* Right: Card Details */}
                 <div className="p-6 sm:p-7 flex flex-col justify-center flex-1 text-left">
-                  {/* Location Badge */}
-                  <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-gray-900 mb-2">
-                    <MapPin className="w-3.5 h-3.5 text-gray-800 shrink-0" />
-                    <span>{post.location}</span>
-                  </div>
+
 
                   {/* Title */}
-                  <h3 className="text-xl sm:text-[22px] font-bold text-gray-950 leading-snug tracking-tight mb-2.5">
+                  <h3 className="text-xl  md:text-2xl font-semibold text-gray-950 leading-snug tracking-tight mb-2.5">
                     <Link
                       href={`/blogs/${post.slug}`}
                       className="hover:text-[#1877F2] transition-colors"
@@ -107,7 +85,7 @@ export default function TravelInspirations() {
                   <div className="border-t border-gray-150 my-3.5" />
 
                   {/* Excerpt */}
-                  <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed font-normal">
+                  <p className="text-sm md:text-base text-gray-500 leading-relaxed font-normal">
                     {post.excerpt}
                   </p>
                 </div>

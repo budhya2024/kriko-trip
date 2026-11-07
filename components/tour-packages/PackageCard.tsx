@@ -26,10 +26,27 @@ export default function PackageCard({ pkg }: PackageCardProps) {
     setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
+  const originalPrice =
+    pkg.originalPrice && pkg.originalPrice > pkg.price
+      ? pkg.originalPrice
+      : Math.round(pkg.price * 1.25);
+  const savings = originalPrice - pkg.price;
+  const discountPercent = Math.round((savings / originalPrice) * 100);
+
   return (
     <div className="bg-white rounded-xl overflow-hidden border border-gray-200/90 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col group h-full">
       {/* ─── Card Image Slider with Multiple Images & Indicator Dots ─── */}
       <div className="relative w-full h-52 sm:h-56 overflow-hidden bg-gray-100 select-none">
+        {/* Top Badges: Travel Type & Discount Percent OFF */}
+        <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20 pointer-events-none">
+          <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-semibold drop-shadow-sm">
+            {pkg.travelType}
+          </span>
+          <span className="px-2.5 py-1 rounded-full bg-[#EF4444] text-white text-[11px] font-extrabold shadow-sm tracking-wide">
+            {discountPercent}% OFF
+          </span>
+        </div>
+
         {/* Sliding Images Container */}
         <div
           className="flex h-full w-full transition-transform duration-500 ease-out"
@@ -127,14 +144,22 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           </p>
         </div>
 
-        {/* ─── Card Footer: Price & View Details Button (standard radius) ─── */}
-        <div className="mt-5 pt-3.5 border-t border-gray-100 flex items-center justify-between gap-3">
+        {/* ─── Card Footer: Price & View Details Button ─── */}
+        <div className="mt-4 pt-3.5 border-t border-gray-100 flex items-center justify-between gap-3">
           <div className="flex flex-col text-left">
-            <span className="text-[11px] font-medium text-gray-400 uppercase tracking-wider">
-              Starting from
-            </span>
+            {/* Normal Strikethrough Price & Save Money */}
+            <div className="flex items-center gap-1.5 mb-1 leading-none">
+              <span className="text-xs text-gray-400 line-through font-medium">
+                ₹{originalPrice.toLocaleString("en-IN")}
+              </span>
+              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200/50">
+                Save ₹{savings.toLocaleString("en-IN")}
+              </span>
+            </div>
+
+            {/* Offer / Selling Price */}
             <div className="flex items-baseline gap-1">
-              <span className="text-lg sm:text-xl font-extrabold text-[#1877F2]">
+              <span className="text-lg sm:text-[21px] font-extrabold text-[#1877F2]">
                 ₹{pkg.price.toLocaleString("en-IN")}
               </span>
               <span className="text-xs text-gray-400 font-medium">/ person</span>
