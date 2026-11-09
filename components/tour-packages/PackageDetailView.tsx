@@ -167,7 +167,7 @@ export default function PackageDetailView({
   return (
     <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
       {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
-      <section className="relative w-full overflow-hidden bg-[#00285C] py-12 sm:py-14 lg:py-16">
+      <section className="relative w-full overflow-hidden bg-[#00285C] h-[240px] sm:h-[280px] lg:h-[350px] flex items-center">
         {/* Background Image with Ambient Dark Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -180,6 +180,10 @@ export default function PackageDetailView({
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#001433]/95 via-[#00285C]/85 to-[#00285C]/75" />
         </div>
+
+        {/* Decorative Subtle Concentric Rings */}
+        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full border border-white/10 pointer-events-none z-10" />
+        <div className="absolute -bottom-24 -right-12 w-64 h-64 rounded-full border border-white/5 pointer-events-none z-10" />
 
         {/* Content Container with Generous Left Spacing for Main Heading */}
         <div className="container relative z-10 text-left px-6 sm:px-10 lg:px-12">
