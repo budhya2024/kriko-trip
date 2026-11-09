@@ -30,6 +30,7 @@ import {
   Phone,
   Mail,
   MessageSquare,
+  Activity,
 } from "lucide-react";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
@@ -86,11 +87,11 @@ export default function PackageDetailView({
   const galleryImages = [
     pkg.image,
     pkg.images?.[1] ||
-      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
     pkg.images?.[2] ||
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
     pkg.images?.[3] ||
-      "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80",
   ];
 
   const toggleDay = (dayNum: number) => {
@@ -267,7 +268,7 @@ export default function PackageDetailView({
               </div>
 
               {/* ─── 2. ABOUT TOUR PACKAGE ─── */}
-              <div>
+              <div className="mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-3 tracking-tight">
                   About Tour Package
                 </h2>
@@ -399,7 +400,7 @@ export default function PackageDetailView({
               </div>
 
               {/* ─── 3. TOUR ITINERARY ─── */}
-              <div>
+              <div className="mt-10">
                 {/* Header with Title & Expand / Collapse */}
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 tracking-tight">
@@ -438,7 +439,7 @@ export default function PackageDetailView({
                 </div>
 
                 {/* Itinerary Card with Dividers, Pin Icons & Spacing Matching Screenshot */}
-                <div className="rounded-2xl sm:rounded-3xl border border-gray-200/90 bg-white px-6 sm:px-8 py-2 shadow-2xs divide-y divide-gray-150">
+                <div className="rounded-md border border-gray-200/90 bg-white px-6 sm:px-8 py-2">
                   {pkg.itinerary.map((dayItem) => {
                     const isOpen = openDays.includes(dayItem.day);
                     const dayPadded =
@@ -467,9 +468,8 @@ export default function PackageDetailView({
                           {/* Caret Down Icon matching screenshot */}
                           <div className="shrink-0 text-gray-600 pl-2">
                             <svg
-                              className={`w-3.5 h-3.5 fill-gray-600 transition-transform duration-200 ${
-                                isOpen ? "rotate-180" : ""
-                              }`}
+                              className={`w-3.5 h-3.5 fill-gray-600 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                                }`}
                               viewBox="0 0 24 24"
                             >
                               <path d="M7 10l5 5 5-5z" />
@@ -477,27 +477,73 @@ export default function PackageDetailView({
                           </div>
                         </button>
 
-                        {/* Expandable Day Details */}
+                        {/* Expandable Day Details (Matching Reference Screenshot Structure) */}
                         {isOpen && (
-                          <div className="mt-4 pt-3 text-xs sm:text-sm text-gray-600 space-y-3 pl-8 sm:pl-10 animate-in fade-in">
-                            <p className="leading-relaxed font-normal">
+                          <div className="mt-4 pt-2 text-sm sm:text-[15px] text-gray-700 space-y-4 pl-0 sm:pl-2 animate-in fade-in">
+                            {/* Description Paragraph */}
+                            <p className="leading-relaxed font-normal text-gray-600">
                               {dayItem.description}
                             </p>
 
-                            {/* Day Details Badges */}
-                            <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-gray-100">
-                              {dayItem.meals && (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200 text-xs font-normal">
-                                  <Utensils className="w-3 h-3 text-amber-600" />
-                                  <span>{dayItem.meals}</span>
+                            {/* 4 Details Rows with Blue Icons and Colon Alignment */}
+                            <div className="space-y-3 pt-1">
+                              {/* Transport */}
+                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
+                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                                  <Compass className="w-3.5 h-3.5 text-[#1877F2]" />
+                                </div>
+                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                  Transport
                                 </span>
-                              )}
-                              {dayItem.stay && (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-[#1877F2] border border-blue-200 text-xs font-normal">
-                                  <Building className="w-3 h-3 text-[#1877F2]" />
-                                  <span>Stay: {dayItem.stay}</span>
+                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-700 font-normal ml-1">
+                                  Car, Flight, Boat
                                 </span>
-                              )}
+                              </div>
+
+                              {/* Activities */}
+                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
+                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                                  <Activity className="w-3.5 h-3.5 text-[#1877F2]" />
+                                </div>
+                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                  Activities
+                                </span>
+                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-700 font-normal ml-1">
+                                  {dayItem.activities && dayItem.activities.length > 0
+                                    ? dayItem.activities.join(", ")
+                                    : "Sightseeing, Guided Tour, Sunset & night view, Bike tour."}
+                                </span>
+                              </div>
+
+                              {/* Meals */}
+                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
+                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                                  <Utensils className="w-3.5 h-3.5 text-[#1877F2]" />
+                                </div>
+                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                  Meals
+                                </span>
+                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-700 font-normal ml-1">
+                                  {dayItem.meals || "Breakfast, Lunch, Snacks"}
+                                </span>
+                              </div>
+
+                              {/* Accomodation */}
+                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
+                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
+                                  <Building className="w-3.5 h-3.5 text-[#1877F2]" />
+                                </div>
+                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                  Accomodation
+                                </span>
+                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-700 font-normal ml-1">
+                                  {dayItem.stay || pkg.hotelName || "5-Star Luxury Resort"}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         )}
@@ -508,7 +554,7 @@ export default function PackageDetailView({
               </div>
 
               {/* ─── 4. PACKAGE FEATURES LIST ─── */}
-              <div>
+              <div className="mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-6 tracking-tight">
                   Package Features List
                 </h2>
@@ -556,7 +602,7 @@ export default function PackageDetailView({
               </div>
 
               {/* ─── 5. ADDITIONAL INFO ─── */}
-              <div>
+              <div className="mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-4 tracking-tight">
                   Additional Info
                 </h2>
@@ -590,7 +636,7 @@ export default function PackageDetailView({
               </div>
 
               {/* ─── 6. FREQUENTLY ASKED & QUESTION ─── */}
-              <div>
+              <div className="mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-4 tracking-tight">
                   Frequently Asked & Question
                 </h2>
@@ -605,19 +651,17 @@ export default function PackageDetailView({
                         <button
                           type="button"
                           onClick={() => setOpenFaq(isOpen ? null : idx)}
-                          className={`w-full p-4 sm:p-4.5 flex items-center justify-between text-left cursor-pointer transition-colors ${
-                            isOpen
-                              ? "bg-[#EAECEF]"
-                              : "bg-[#F3F4F6] hover:bg-[#EAECEF]"
-                          }`}
+                          className={`w-full p-4 sm:p-4.5 flex items-center justify-between text-left cursor-pointer transition-colors ${isOpen
+                            ? "bg-[#EAECEF]"
+                            : "bg-[#F3F4F6] hover:bg-[#EAECEF]"
+                            }`}
                         >
                           <span className="text-sm sm:text-[15px] font-medium text-gray-800 pr-4">
                             {faq.q}
                           </span>
                           <ChevronDown
-                            className={`w-4 h-4 text-gray-500 transition-transform duration-200 shrink-0 ${
-                              isOpen ? "rotate-180 text-[#1877F2]" : ""
-                            }`}
+                            className={`w-4 h-4 text-gray-500 transition-transform duration-200 shrink-0 ${isOpen ? "rotate-180 text-[#1877F2]" : ""
+                              }`}
                           />
                         </button>
                         {isOpen && (
@@ -857,7 +901,7 @@ export default function PackageDetailView({
 
       {/* ─── BOTTOM SECTION: RELEVANT PACKAGE (Inside .container) ─── */}
       {relatedPackages && relatedPackages.length > 0 && (
-        <section className="bg-white py-14 sm:py-20 border-t border-gray-200">
+        <section className="bg-white py-8 sm:py-16">
           <div className="container">
             {/* Centered Header */}
             <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
