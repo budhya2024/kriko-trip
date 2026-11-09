@@ -145,75 +145,95 @@ export default function PackageDetailView({
 
   return (
     <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
-      {/* ─── TOP BREADCRUMB & TITLE META BAR (Using .container) ─── */}
-      <section className="bg-white border-b border-gray-150 py-5 sm:py-6">
-        <div className="container">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
+      <section className="relative w-full overflow-hidden bg-[#00285C] py-10 sm:py-12 lg:py-14">
+        {/* Background Image with Ambient Dark Gradient Overlay */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src={pkg.image}
+            alt={pkg.title}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center opacity-30 scale-105"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#001433]/95 via-[#00285C]/85 to-[#00285C]/75" />
+        </div>
+
+        {/* Content Container */}
+        <div className="container relative z-10 text-left">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             <div>
-              {/* Breadcrumb Navigation */}
-              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-gray-500 mb-2 font-normal">
-                <Link href="/" className="hover:text-[#1877F2] transition-colors">
+              {/* Breadcrumb Navigation on Top with Background */}
+              <nav
+                aria-label="Breadcrumb"
+                className="flex items-center gap-2 text-xs sm:text-[13px] text-white/80 mb-2.5 font-normal"
+              >
+                <Link
+                  href="/"
+                  className="hover:text-white transition-colors"
+                >
                   Home
                 </Link>
-                <span>/</span>
+                <span className="text-white/40">/</span>
                 <Link
                   href="/tour-packages"
-                  className="hover:text-[#1877F2] transition-colors"
+                  className="hover:text-white transition-colors"
                 >
                   Tour Packages
                 </Link>
-                <span>/</span>
-                <span className="text-gray-800 font-medium truncate max-w-xs sm:max-w-md">
+                <span className="text-white/40">/</span>
+                <span className="text-sky-300 font-medium truncate max-w-xs sm:max-w-md">
                   {pkg.title}
                 </span>
               </nav>
 
               {/* Package Heading */}
-              <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold text-[#00285C] tracking-tight leading-snug">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
                 {pkg.title}
               </h1>
 
               {/* Meta details below title */}
-              <div className="flex flex-wrap items-center gap-3 mt-2.5 text-xs text-gray-600">
-                <span className="inline-flex items-center gap-1 font-medium text-gray-700">
-                  <MapPin className="w-3.5 h-3.5 text-[#1877F2]" />
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 text-xs sm:text-sm text-white/85">
+                <span className="inline-flex items-center gap-1.5 font-medium text-white">
+                  <MapPin className="w-4 h-4 text-[#03ADFF]" />
                   {pkg.location}, {pkg.destination}
                 </span>
-                <span className="text-gray-300">•</span>
-                <span className="inline-flex items-center gap-1 font-medium text-gray-700">
-                  <Clock className="w-3.5 h-3.5 text-[#1877F2]" />
+                <span className="text-white/30">•</span>
+                <span className="inline-flex items-center gap-1.5 font-medium text-white">
+                  <Clock className="w-4 h-4 text-[#03ADFF]" />
                   {pkg.duration}
                 </span>
-                <span className="text-gray-300">•</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#1877F2] border border-blue-150 font-medium text-[11px]">
+                <span className="text-white/30">•</span>
+                <span className="px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs text-white border border-white/20 font-medium text-xs">
                   {pkg.travelType} Tour
                 </span>
               </div>
             </div>
 
-            {/* Quick rating & actions */}
+            {/* Quick rating & action buttons on Right */}
             <div className="flex items-center gap-3 text-xs sm:text-sm shrink-0 self-start md:self-center">
-              <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200/60">
+              <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-xs px-3.5 py-2 rounded-xl border border-white/20 text-white">
                 <Star className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
-                <span className="font-semibold text-gray-900">{pkg.rating}</span>
-                <span className="text-gray-500 font-normal">({pkg.reviewsCount} reviews)</span>
+                <span className="font-semibold text-white">{pkg.rating}</span>
+                <span className="text-white/70 font-normal">({pkg.reviewsCount} reviews)</span>
               </div>
               <button
                 type="button"
                 onClick={handleShare}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-white text-gray-700 font-medium transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-white/25 hover:border-white/50 bg-white/10 backdrop-blur-xs text-white font-medium transition-colors cursor-pointer"
               >
-                <Share2 className="w-3.5 h-3.5 text-gray-500" />
+                <Share2 className="w-4 h-4 text-white/80" />
                 <span>{copiedShare ? "Copied!" : "Share"}</span>
               </button>
               <button
                 type="button"
                 onClick={() => setIsSaved(!isSaved)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-gray-200 hover:border-gray-300 bg-white text-gray-700 hover:text-rose-500 font-medium transition-colors cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-white/25 hover:border-white/50 bg-white/10 backdrop-blur-xs text-white hover:text-rose-400 font-medium transition-colors cursor-pointer"
               >
                 <Heart
-                  className={`w-3.5 h-3.5 ${
-                    isSaved ? "fill-rose-500 text-rose-500" : "text-gray-500"
+                  className={`w-4 h-4 ${
+                    isSaved ? "fill-rose-500 text-rose-500" : "text-white/80"
                   }`}
                 />
                 <span>{isSaved ? "Saved" : "Save"}</span>
