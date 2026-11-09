@@ -10,6 +10,7 @@ import {
   FaGooglePlay,
 } from "react-icons/fa6";
 import Image from "next/image";
+import footerBg from "@/public/assets/images/footer-bg-1-2-2.webp";
 
 const topDestinations = [
   "Maldives Tour",
@@ -53,9 +54,17 @@ const resources = [
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-[#08182B] text-white relative overflow-hidden pt-8 md:pt-16  pb-6 md:pb-12">
-
-
+    <footer className="w-full bg-[#08182B] text-white relative overflow-hidden pt-8 md:pt-16 pb-6 md:pb-12">
+      {/* Decorative Background Pattern */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <Image
+          src={footerBg}
+          alt="Footer Background Pattern"
+          fill
+          sizes="100vw"
+          className="object-cover object-bottom"
+        />
+      </div>
 
       <div className="container relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
