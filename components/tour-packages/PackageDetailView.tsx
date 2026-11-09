@@ -146,12 +146,12 @@ export default function PackageDetailView({
   return (
     <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
       {/* ─── TOP BREADCRUMB & TITLE META BAR (Using .container) ─── */}
-      <section className="bg-white border-b border-gray-150 py-5">
+      <section className="bg-white border-b border-gray-150 py-5 sm:py-6">
         <div className="container">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
               {/* Breadcrumb Navigation */}
-              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-gray-500 mb-2 font-medium">
+              <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs text-gray-500 mb-2 font-normal">
                 <Link href="/" className="hover:text-[#1877F2] transition-colors">
                   Home
                 </Link>
@@ -163,40 +163,40 @@ export default function PackageDetailView({
                   Tour Packages
                 </Link>
                 <span>/</span>
-                <span className="text-gray-900 font-semibold truncate max-w-xs sm:max-w-md">
+                <span className="text-gray-800 font-medium truncate max-w-xs sm:max-w-md">
                   {pkg.title}
                 </span>
               </nav>
 
               {/* Package Heading */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#00285C] tracking-tight leading-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-bold text-[#00285C] tracking-tight leading-snug">
                 {pkg.title}
               </h1>
 
               {/* Meta details below title */}
               <div className="flex flex-wrap items-center gap-3 mt-2.5 text-xs text-gray-600">
-                <span className="inline-flex items-center gap-1 font-semibold text-gray-700">
+                <span className="inline-flex items-center gap-1 font-medium text-gray-700">
                   <MapPin className="w-3.5 h-3.5 text-[#1877F2]" />
                   {pkg.location}, {pkg.destination}
                 </span>
                 <span className="text-gray-300">•</span>
-                <span className="inline-flex items-center gap-1 font-semibold text-gray-700">
+                <span className="inline-flex items-center gap-1 font-medium text-gray-700">
                   <Clock className="w-3.5 h-3.5 text-[#1877F2]" />
                   {pkg.duration}
                 </span>
                 <span className="text-gray-300">•</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#1877F2] border border-blue-150 font-semibold text-[11px]">
+                <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#1877F2] border border-blue-150 font-medium text-[11px]">
                   {pkg.travelType} Tour
                 </span>
               </div>
             </div>
 
             {/* Quick rating & actions */}
-            <div className="flex items-center gap-3.5 text-xs sm:text-sm shrink-0 self-start md:self-center">
+            <div className="flex items-center gap-3 text-xs sm:text-sm shrink-0 self-start md:self-center">
               <div className="flex items-center gap-1.5 bg-amber-50 px-3 py-1.5 rounded-xl border border-amber-200/60">
                 <Star className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
-                <span className="font-bold text-gray-950">{pkg.rating}</span>
-                <span className="text-gray-500 font-medium">({pkg.reviewsCount} reviews)</span>
+                <span className="font-semibold text-gray-900">{pkg.rating}</span>
+                <span className="text-gray-500 font-normal">({pkg.reviewsCount} reviews)</span>
               </div>
               <button
                 type="button"
@@ -224,7 +224,7 @@ export default function PackageDetailView({
       </section>
 
       {/* ─── 1. PHOTO GALLERY COLLAGE (Inside .container) ─── */}
-      <section className="pt-6 sm:pt-8">
+      <section className="pt-6 sm:pt-8 pb-2">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
             {/* Left Column: 1 Tall Vertical Photo */}
@@ -279,31 +279,31 @@ export default function PackageDetailView({
       </section>
 
       {/* ─── MAIN 2-COLUMN SECTION (Inside .container) ─── */}
-      <section className="py-8 sm:py-12">
+      <section className="py-10 sm:py-14">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
             {/* ════ LEFT COLUMN: MAIN DETAILS (lg:col-span-8) ════ */}
-            <div className="lg:col-span-8 space-y-10 sm:space-y-12">
+            <div className="lg:col-span-8 space-y-12 sm:space-y-14">
               {/* ─── 2. ABOUT TOUR PACKAGE ─── */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#00285C] mb-3 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-3 tracking-tight">
                   About Tour Package
                 </h2>
-                <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed font-normal mb-6">
+                <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed font-normal mb-7">
                   {pkg.overview || pkg.description}
                 </p>
 
                 {/* 9-Item Specs Box in Clean Rounded Border Card */}
-                <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="rounded-2xl border border-gray-200/90 bg-white p-6 sm:p-8 shadow-xs">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-7 gap-x-8">
                     {/* Accomodation */}
                     <div className="flex items-center gap-3.5">
-                      <Building className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Building className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Accomodation
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           {pkg.hotelStars || 5} Star Hotel
                         </span>
                       </div>
@@ -311,12 +311,12 @@ export default function PackageDetailView({
 
                     {/* Meals */}
                     <div className="flex items-center gap-3.5">
-                      <Utensils className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Utensils className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Meals
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           Breakfast & Dinner
                         </span>
                       </div>
@@ -324,12 +324,12 @@ export default function PackageDetailView({
 
                     {/* Transportation */}
                     <div className="flex items-center gap-3.5">
-                      <Car className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Car className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Transportation
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           Taxi,Car
                         </span>
                       </div>
@@ -337,12 +337,12 @@ export default function PackageDetailView({
 
                     {/* Group Size */}
                     <div className="flex items-center gap-3.5">
-                      <Users className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Users className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Group Size
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           10-20
                         </span>
                       </div>
@@ -350,12 +350,12 @@ export default function PackageDetailView({
 
                     {/* Language */}
                     <div className="flex items-center gap-3.5">
-                      <Languages className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Languages className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Language
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           English, Spanish
                         </span>
                       </div>
@@ -363,12 +363,12 @@ export default function PackageDetailView({
 
                     {/* Animal */}
                     <div className="flex items-center gap-3.5">
-                      <PawPrint className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <PawPrint className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Animal
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           Cat, Pet only
                         </span>
                       </div>
@@ -376,12 +376,12 @@ export default function PackageDetailView({
 
                     {/* Age Range */}
                     <div className="flex items-center gap-3.5">
-                      <Calendar className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Calendar className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Age Range
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           18-45 (Year)
                         </span>
                       </div>
@@ -389,12 +389,12 @@ export default function PackageDetailView({
 
                     {/* Season */}
                     <div className="flex items-center gap-3.5">
-                      <Leaf className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Leaf className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Season
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           Winter Season
                         </span>
                       </div>
@@ -402,12 +402,12 @@ export default function PackageDetailView({
 
                     {/* Category */}
                     <div className="flex items-center gap-3.5">
-                      <Tag className="w-6 h-6 text-gray-500 shrink-0 stroke-[1.8]" />
+                      <Tag className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-medium">
+                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
                           Category
                         </span>
-                        <span className="text-sm sm:text-[15px] font-bold text-gray-900">
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
                           Adventure
                         </span>
                       </div>
@@ -420,14 +420,14 @@ export default function PackageDetailView({
               <div>
                 {/* Header with Title & Expand / Collapse */}
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-[#00285C] tracking-tight">
+                  <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 tracking-tight">
                     Tour Itinerary
                   </h2>
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
                       onClick={expandAllDays}
-                      className="text-sm font-semibold text-[#1877F2] hover:underline cursor-pointer"
+                      className="text-xs sm:text-sm font-medium text-[#1877F2] hover:underline cursor-pointer"
                     >
                       Expand All +
                     </button>
@@ -435,7 +435,7 @@ export default function PackageDetailView({
                     <button
                       type="button"
                       onClick={collapseAllDays}
-                      className="text-sm font-semibold text-gray-500 hover:text-gray-700 cursor-pointer"
+                      className="text-xs sm:text-sm font-normal text-gray-500 hover:text-gray-700 cursor-pointer"
                     >
                       Collapse All
                     </button>
@@ -444,42 +444,42 @@ export default function PackageDetailView({
 
                 {/* Sub-header with Blue Navigation Icon & Departure Time */}
                 <div className="flex items-center gap-2.5 mb-5">
-                  <div className="w-7 h-7 rounded-full bg-[#1877F2] text-white flex items-center justify-center shrink-0 shadow-xs">
-                    <Navigation className="w-3.5 h-3.5 fill-white text-white" />
+                  <div className="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center shrink-0 shadow-xs">
+                    <Navigation className="w-3 h-3 fill-white text-white" />
                   </div>
-                  <div className="text-sm sm:text-base font-bold text-gray-900">
+                  <div className="text-sm sm:text-base font-semibold text-gray-900">
                     <span>{pkg.location} </span>
-                    <span className="font-normal text-gray-500">
-                      ( Deaprture: 8:00 am - 8:30am )
+                    <span className="font-normal text-gray-500 text-xs sm:text-sm">
+                      ( Departure: 8:00 am - 8:30am )
                     </span>
                   </div>
                 </div>
 
                 {/* Itinerary Card with Dividers & Pin Icons */}
-                <div className="rounded-2xl border border-gray-200 bg-white p-5 sm:p-7 shadow-xs divide-y divide-gray-150">
+                <div className="rounded-2xl border border-gray-200/90 bg-white p-5 sm:p-7 shadow-xs divide-y divide-gray-150">
                   {pkg.itinerary.map((dayItem) => {
                     const isOpen = openDays.includes(dayItem.day);
                     const dayPadded =
                       dayItem.day < 10 ? `0${dayItem.day}` : dayItem.day;
 
                     return (
-                      <div key={dayItem.day} className="py-4 first:pt-1 last:pb-1">
+                      <div key={dayItem.day} className="py-4.5 first:pt-1 last:pb-1">
                         <button
                           type="button"
                           onClick={() => toggleDay(dayItem.day)}
                           className="w-full flex items-center justify-between text-left cursor-pointer group"
                         >
                           <div className="flex items-center gap-3 pr-4">
-                            <MapPin className="w-4 h-4 text-gray-900 shrink-0" strokeWidth={2.5} />
-                            <span className="font-bold text-gray-950 text-sm sm:text-base shrink-0">
+                            <MapPin className="w-4 h-4 text-gray-800 shrink-0" strokeWidth={2} />
+                            <span className="font-semibold text-gray-900 text-sm sm:text-[15px] shrink-0">
                               Day-{dayPadded}
                             </span>
-                            <span className="text-sm sm:text-base font-medium text-gray-800 group-hover:text-[#1877F2] transition-colors line-clamp-1">
+                            <span className="text-sm sm:text-[15px] font-normal text-gray-700 group-hover:text-[#1877F2] transition-colors line-clamp-1">
                               {dayItem.title}
                             </span>
                           </div>
                           <ChevronDown
-                            className={`w-4 h-4 text-gray-600 transition-transform duration-200 shrink-0 ${
+                            className={`w-4 h-4 text-gray-500 transition-transform duration-200 shrink-0 ${
                               isOpen ? "rotate-180 text-[#1877F2]" : ""
                             }`}
                           />
@@ -495,13 +495,13 @@ export default function PackageDetailView({
                             {/* Day Details Badges */}
                             <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-gray-100">
                               {dayItem.meals && (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200 text-xs font-medium">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200 text-xs font-normal">
                                   <Utensils className="w-3 h-3 text-amber-600" />
                                   <span>{dayItem.meals}</span>
                                 </span>
                               )}
                               {dayItem.stay && (
-                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-[#1877F2] border border-blue-200 text-xs font-medium">
+                                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-[#1877F2] border border-blue-200 text-xs font-normal">
                                   <Building className="w-3 h-3 text-[#1877F2]" />
                                   <span>Stay: {dayItem.stay}</span>
                                 </span>
@@ -517,23 +517,23 @@ export default function PackageDetailView({
 
               {/* ─── 4. PACKAGE FEATURES LIST ─── */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#00285C] mb-6 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-6 tracking-tight">
                   Package Features List
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {/* Include Features Column */}
                   <div>
-                    <h3 className="text-lg font-bold text-gray-950 mb-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
                       Include Features
                     </h3>
                     <ul className="space-y-3.5">
                       {pkg.inclusions.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2.5">
                           <CheckCircle2
-                            className="w-5 h-5 text-[#1877F2] shrink-0 mt-0.5"
-                            strokeWidth={2}
+                            className="w-4.5 h-4.5 text-[#1877F2] shrink-0 mt-0.5"
+                            strokeWidth={1.8}
                           />
-                          <span className="text-xs sm:text-sm text-gray-700 leading-normal">
+                          <span className="text-xs sm:text-sm text-gray-600 font-normal leading-normal">
                             {item}
                           </span>
                         </li>
@@ -543,17 +543,17 @@ export default function PackageDetailView({
 
                   {/* Exclude Features Column */}
                   <div>
-                    <h3 className="text-lg font-bold text-gray-950 mb-4">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
                       Exclude Features
                     </h3>
                     <ul className="space-y-3.5">
                       {pkg.exclusions.map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2.5">
                           <XCircle
-                            className="w-5 h-5 text-[#EF4444] shrink-0 mt-0.5"
-                            strokeWidth={2}
+                            className="w-4.5 h-4.5 text-[#EF4444] shrink-0 mt-0.5"
+                            strokeWidth={1.8}
                           />
-                          <span className="text-xs sm:text-sm text-gray-700 leading-normal">
+                          <span className="text-xs sm:text-sm text-gray-600 font-normal leading-normal">
                             {item}
                           </span>
                         </li>
@@ -565,17 +565,17 @@ export default function PackageDetailView({
 
               {/* ─── 5. ADDITIONAL INFO ─── */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#00285C] mb-4 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-4 tracking-tight">
                   Additional Info
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   <div className="flex items-start gap-2.5">
                     <CheckCircle2
-                      className="w-5 h-5 text-[#1877F2] shrink-0 mt-0.5"
-                      strokeWidth={2}
+                      className="w-4.5 h-4.5 text-[#1877F2] shrink-0 mt-0.5"
+                      strokeWidth={1.8}
                     />
-                    <span className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                      <strong className="text-gray-900 font-bold">
+                    <span className="text-xs sm:text-sm text-gray-600 font-normal leading-relaxed">
+                      <strong className="text-gray-800 font-medium">
                         Free Cancellation
                       </strong>{" "}
                       – Some tours offer free cancellation up to a certain period (e.g.,
@@ -584,11 +584,11 @@ export default function PackageDetailView({
                   </div>
                   <div className="flex items-start gap-2.5">
                     <CheckCircle2
-                      className="w-5 h-5 text-[#1877F2] shrink-0 mt-0.5"
-                      strokeWidth={2}
+                      className="w-4.5 h-4.5 text-[#1877F2] shrink-0 mt-0.5"
+                      strokeWidth={1.8}
                     />
-                    <span className="text-xs sm:text-sm text-gray-700 leading-relaxed">
-                      <strong className="text-gray-900 font-bold">
+                    <span className="text-xs sm:text-sm text-gray-600 font-normal leading-relaxed">
+                      <strong className="text-gray-800 font-medium">
                         Health & Safety Guidelines
                       </strong>{" "}
                       – COVID-19 regulations, vaccinations, or travel restrictions.
@@ -599,7 +599,7 @@ export default function PackageDetailView({
 
               {/* ─── 6. FREQUENTLY ASKED & QUESTION ─── */}
               <div>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-[#00285C] mb-4 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-4 tracking-tight">
                   Frequently Asked & Question
                 </h2>
                 <div className="space-y-3">
@@ -619,17 +619,17 @@ export default function PackageDetailView({
                               : "bg-[#F3F4F6] hover:bg-[#EAECEF]"
                           }`}
                         >
-                          <span className="text-sm sm:text-[15px] font-bold text-gray-900 pr-4">
+                          <span className="text-sm sm:text-[15px] font-medium text-gray-800 pr-4">
                             {faq.q}
                           </span>
                           <ChevronDown
-                            className={`w-4 h-4 text-gray-600 transition-transform duration-200 shrink-0 ${
+                            className={`w-4 h-4 text-gray-500 transition-transform duration-200 shrink-0 ${
                               isOpen ? "rotate-180 text-[#1877F2]" : ""
                             }`}
                           />
                         </button>
                         {isOpen && (
-                          <div className="p-4 bg-white border border-gray-150 border-t-0 rounded-b-xl text-xs sm:text-sm text-gray-600 leading-relaxed animate-in fade-in">
+                          <div className="p-4 sm:p-5 bg-white border border-gray-150 border-t-0 rounded-b-xl text-xs sm:text-sm text-gray-600 font-normal leading-relaxed animate-in fade-in">
                             {faq.a}
                           </div>
                         )}
@@ -642,13 +642,13 @@ export default function PackageDetailView({
 
             {/* ════ RIGHT COLUMN: SIDEBAR FORM (Inside lg:col-span-4) ════ */}
             <div className="lg:col-span-4 lg:sticky lg:top-24">
-              <div className="bg-white rounded-3xl border border-gray-200/90 shadow-md p-5 sm:p-6 relative">
+              <div className="bg-white rounded-2xl border border-gray-200/90 shadow-sm p-5 sm:p-6 relative">
                 {/* Top Row: Download Brochure & Share */}
                 <div className="flex items-center gap-3 mb-5">
                   <button
                     type="button"
                     onClick={handleDownloadBrochure}
-                    className="flex-1 py-3 px-4 rounded-xl border border-gray-200 hover:border-[#1877F2] bg-white hover:bg-blue-50/40 text-[#00285C] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs transition-colors cursor-pointer"
+                    className="flex-1 py-3 px-4 rounded-xl border border-gray-200 hover:border-[#1877F2] bg-white hover:bg-blue-50/40 text-[#00285C] font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs transition-colors cursor-pointer"
                   >
                     <Download className="w-4 h-4 text-[#1877F2]" />
                     <span>Download Brochure</span>
@@ -657,23 +657,23 @@ export default function PackageDetailView({
                     type="button"
                     onClick={handleShare}
                     aria-label="Share package"
-                    className="w-11 h-11 rounded-xl border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 shadow-2xs transition-colors cursor-pointer shrink-0"
+                    className="w-11 h-11 rounded-xl border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-600 shadow-2xs transition-colors cursor-pointer shrink-0"
                   >
                     <Share2 className="w-4 h-4" />
                   </button>
                 </div>
 
                 {/* Deal & Price Box */}
-                <div className="rounded-2xl bg-[#F0F5FF] p-4.5 mb-5 flex items-center justify-between border border-blue-100/70">
+                <div className="rounded-xl bg-[#F0F5FF] p-4.5 mb-5 flex items-center justify-between border border-blue-100/70">
                   {/* Left Side */}
                   <div className="flex flex-col items-start">
-                    <span className="inline-block px-2 py-0.5 rounded-md bg-[#00285C] text-white text-[10px] font-extrabold uppercase tracking-wider mb-1">
+                    <span className="inline-block px-2 py-0.5 rounded-md bg-[#00285C] text-white text-[10px] font-semibold uppercase tracking-wider mb-1">
                       DEAL {pkg.id.slice(0, 8).toUpperCase()}
                     </span>
-                    <span className="block text-xs font-bold text-[#1877F2] uppercase tracking-wider mb-1">
+                    <span className="block text-xs font-semibold text-[#1877F2] uppercase tracking-wider mb-1">
                       BEST VALUE DEAL
                     </span>
-                    <span className="flex items-center gap-1.5 text-xs font-bold text-[#00285C]">
+                    <span className="flex items-center gap-1.5 text-xs font-medium text-[#00285C]">
                       <Clock className="w-3.5 h-3.5 text-[#1877F2]" />
                       <span>{pkg.duration}</span>
                     </span>
@@ -681,20 +681,20 @@ export default function PackageDetailView({
 
                   {/* Right Side */}
                   <div className="flex flex-col text-right">
-                    <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                    <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wider">
                       STARTING FROM
                     </span>
-                    <span className="text-2xl sm:text-3xl font-extrabold text-[#00285C] leading-tight">
+                    <span className="text-2xl sm:text-3xl font-bold text-[#00285C] leading-tight">
                       ₹{pkg.price.toLocaleString("en-IN")}
                     </span>
-                    <span className="text-xs text-gray-500 font-medium">
+                    <span className="text-xs text-gray-500 font-normal">
                       per person
                     </span>
                   </div>
                 </div>
 
                 {/* Form Subtitle */}
-                <p className="text-sm font-semibold text-gray-800 mb-4">
+                <p className="text-sm font-normal text-gray-700 mb-4">
                   Share your details and we&apos;ll contact you shortly.
                 </p>
 
@@ -704,7 +704,7 @@ export default function PackageDetailView({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {/* Name */}
                     <div className="relative">
-                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-medium text-gray-500 z-10 leading-none">
                         Name
                       </label>
                       <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
@@ -717,14 +717,14 @@ export default function PackageDetailView({
                           onChange={(e) =>
                             setSidebarForm({ ...sidebarForm, name: e.target.value })
                           }
-                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium"
+                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-normal"
                         />
                       </div>
                     </div>
 
                     {/* Phone */}
                     <div className="relative">
-                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-medium text-gray-500 z-10 leading-none">
                         Phone
                       </label>
                       <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
@@ -737,7 +737,7 @@ export default function PackageDetailView({
                           onChange={(e) =>
                             setSidebarForm({ ...sidebarForm, phone: e.target.value })
                           }
-                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium"
+                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-normal"
                         />
                       </div>
                     </div>
@@ -745,7 +745,7 @@ export default function PackageDetailView({
 
                   {/* Row 2: Email */}
                   <div className="relative">
-                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-medium text-gray-500 z-10 leading-none">
                       Email
                     </label>
                     <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
@@ -758,7 +758,7 @@ export default function PackageDetailView({
                         onChange={(e) =>
                           setSidebarForm({ ...sidebarForm, email: e.target.value })
                         }
-                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium"
+                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-normal"
                       />
                     </div>
                   </div>
@@ -767,7 +767,7 @@ export default function PackageDetailView({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {/* Travel Date */}
                     <div className="relative">
-                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-medium text-gray-500 z-10 leading-none">
                         Travel Date
                       </label>
                       <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
@@ -778,14 +778,14 @@ export default function PackageDetailView({
                           onChange={(e) =>
                             setSidebarForm({ ...sidebarForm, travelDate: e.target.value })
                           }
-                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-medium"
+                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-normal"
                         />
                       </div>
                     </div>
 
                     {/* No. of Travellers */}
                     <div className="relative">
-                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-medium text-gray-500 z-10 leading-none">
                         No. of Travellers
                       </label>
                       <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
@@ -798,7 +798,7 @@ export default function PackageDetailView({
                           onChange={(e) =>
                             setSidebarForm({ ...sidebarForm, travellers: e.target.value })
                           }
-                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-medium"
+                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-normal"
                         />
                       </div>
                     </div>
@@ -806,7 +806,7 @@ export default function PackageDetailView({
 
                   {/* Row 4: Message (Optional) */}
                   <div className="relative">
-                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-medium text-gray-500 z-10 leading-none">
                       Message (Optional)
                     </label>
                     <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
@@ -818,7 +818,7 @@ export default function PackageDetailView({
                         onChange={(e) =>
                           setSidebarForm({ ...sidebarForm, message: e.target.value })
                         }
-                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium resize-none"
+                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-normal resize-none"
                       />
                     </div>
                   </div>
@@ -827,7 +827,7 @@ export default function PackageDetailView({
                   <button
                     type="submit"
                     disabled={isQuoteSubmitted}
-                    className="w-full py-3.5 sm:py-4 rounded-xl text-white font-bold text-sm sm:text-base shadow-md hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                    className="w-full py-3.5 sm:py-4 rounded-xl text-white font-medium text-sm sm:text-base shadow-md hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
                     style={{
                       background:
                         "linear-gradient(90deg, #18367C 0%, #1D449C 50%, #2546A5 100%)",
@@ -851,10 +851,10 @@ export default function PackageDetailView({
           <div className="container">
             {/* Centered Header */}
             <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#00285C] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
                 Relevant Package
               </h2>
-              <p className="text-xs sm:text-sm text-gray-500 mt-2">
+              <p className="text-xs sm:text-sm text-gray-500 mt-2 font-normal">
                 A curated list of inspiration the most tour & travel based on different destinations.
               </p>
             </div>
@@ -884,10 +884,10 @@ export default function PackageDetailView({
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       {/* Yellow Discount Tag */}
-                      <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-md bg-[#FACC15] text-gray-950 text-[11px] font-bold shadow-xs">
+                      <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-md bg-[#FACC15] text-gray-950 text-[11px] font-semibold shadow-xs">
                         -{rDiscount}% OFF
                       </div>
-                      <div className="absolute bottom-3 left-3 z-10 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-medium">
+                      <div className="absolute bottom-3 left-3 z-10 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-normal">
                         {rPkg.travelType}
                       </div>
                     </div>
@@ -897,16 +897,16 @@ export default function PackageDetailView({
                       <div>
                         <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1.5">
                           <MapPin className="w-3.5 h-3.5 text-[#1877F2]" />
-                          <span>
+                          <span className="font-normal">
                             {rPkg.location}, {rPkg.destination}
                           </span>
                         </div>
-                        <h3 className="text-base font-bold text-gray-900 group-hover:text-[#1877F2] transition-colors line-clamp-2 leading-snug">
+                        <h3 className="text-base font-semibold text-gray-900 group-hover:text-[#1877F2] transition-colors line-clamp-2 leading-snug">
                           <Link href={`/tour-packages/${rPkg.id}`}>
                             {rPkg.title}
                           </Link>
                         </h3>
-                        <p className="text-xs text-gray-500 mt-1">
+                        <p className="text-xs text-gray-500 mt-1 font-normal">
                           Duration: {rPkg.duration}
                         </p>
                       </div>
@@ -916,23 +916,23 @@ export default function PackageDetailView({
                         {/* Book Now Button: Fully Rounded with White Text */}
                         <Link
                           href={`/tour-packages/${rPkg.id}`}
-                          className="inline-flex items-center gap-1.5 px-4.5 sm:px-5 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-[13px] font-bold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 cursor-pointer shrink-0"
+                          className="inline-flex items-center gap-1.5 px-4.5 sm:px-5 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 cursor-pointer shrink-0"
                           style={{ backgroundColor: "#1877F2", color: "#ffffff" }}
                         >
                           <span>Book Now</span>
-                          <ArrowUpRight className="w-4 h-4 stroke-[2.5] text-white" />
+                          <ArrowUpRight className="w-4 h-4 stroke-[2.2] text-white" />
                         </Link>
 
                         {/* Starting From & Prices Matching Screenshot format */}
                         <div className="flex flex-col text-right items-end">
-                          <span className="text-[11px] sm:text-xs text-gray-500 font-medium leading-none mb-1">
+                          <span className="text-[11px] sm:text-xs text-gray-500 font-normal leading-none mb-1">
                             Starting From
                           </span>
                           <div className="flex items-center justify-end gap-2 leading-none">
-                            <span className="text-sm sm:text-base text-gray-400 line-through font-semibold">
+                            <span className="text-sm sm:text-base text-gray-400 line-through font-normal">
                               ₹{rOriginalPrice.toLocaleString("en-IN")}
                             </span>
-                            <span className="text-xl sm:text-2xl font-extrabold text-[#110F0F] leading-tight">
+                            <span className="text-xl sm:text-2xl font-bold text-[#110F0F] leading-tight">
                               ₹{rPkg.price.toLocaleString("en-IN")}
                             </span>
                           </div>
