@@ -70,11 +70,22 @@ export default function BlogListPage() {
                 {/* Body Content */}
                 <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
                   <div>
-                    {/* Meta Line: Author | Date | Clock Read Time */}
+                    {/* Meta Line: Author Avatar (Circle) & Name | Date | Clock Read Time */}
                     <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 font-normal mb-2.5">
-                      <span className="font-semibold text-gray-800">
-                        By {post.author.name}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <div className="relative w-5 h-5 sm:w-5.5 sm:h-5.5 rounded-full overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
+                          <Image
+                            src={post.author.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"}
+                            alt={post.author.name}
+                            fill
+                            sizes="24px"
+                            className="object-cover rounded-full"
+                          />
+                        </div>
+                        <span className="font-semibold text-gray-800">
+                          {post.author.name}
+                        </span>
+                      </div>
                       <span className="text-gray-300 font-light">|</span>
                       <span>{post.date}</span>
                       <span className="text-gray-300 font-light">|</span>
