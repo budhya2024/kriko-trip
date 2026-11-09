@@ -25,6 +25,7 @@ import {
   ShieldCheck,
   Send,
   ArrowRight,
+  ArrowUpRight,
   Info,
   Check,
   FileText,
@@ -1061,23 +1062,25 @@ export default function PackageDetailView({
                         </p>
                       </div>
 
-                      <div className="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between">
-                        <div>
-                          <span className="text-[11px] text-gray-400 block leading-none">
-                            Starting from
+                      <div className="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+                        {/* Book Now Button (Dark Green #285340 with Cream #F6F3BC text & ArrowUpRight) */}
+                        <Link
+                          href={`/tour-packages/${rPkg.id}`}
+                          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-[#285340] hover:bg-[#1E3F32] text-[#F6F3BC] text-xs sm:text-[13px] font-bold transition-all shadow-xs hover:shadow-md active:scale-95 cursor-pointer shrink-0"
+                        >
+                          <span>Book Now</span>
+                          <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+                        </Link>
+
+                        {/* Price Details on Right */}
+                        <div className="flex flex-col text-right items-end">
+                          <span className="text-xs text-gray-500 font-medium leading-none mb-1">
+                            Starting From
                           </span>
-                          <span className="text-base sm:text-lg font-extrabold text-[#111827]">
+                          <span className="text-xl sm:text-2xl font-extrabold text-[#110F0F] leading-tight">
                             ₹{rPkg.price.toLocaleString("en-IN")}
                           </span>
                         </div>
-                        {/* Bright Blue Button: View Details */}
-                        <Link
-                          href={`/tour-packages/${rPkg.id}`}
-                          className="px-4 py-2 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-xs font-bold transition-all inline-flex items-center gap-1 cursor-pointer"
-                        >
-                          <span>View Details</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </Link>
                       </div>
                     </div>
                   </div>

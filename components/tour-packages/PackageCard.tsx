@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Clock, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Clock, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { TourPackage } from "./types";
 
 interface PackageCardProps {
@@ -153,36 +153,26 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           </p>
         </div>
 
-        {/* ─── Card Footer: Price & View Details Button ─── */}
+        {/* ─── Card Footer: Book Now Button (Left) & Starting From Price (Right) ─── */}
         <div className="mt-4 pt-3.5 border-t border-gray-100 flex items-center justify-between gap-3">
-          <div className="flex flex-col text-left">
-            {/* Normal Strikethrough Price & Save Money */}
-            <div className="flex items-center gap-1.5 mb-1 leading-none">
-              <span className="text-xs text-gray-400 line-through font-medium">
-                ₹{originalPrice.toLocaleString("en-IN")}
-              </span>
-              <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200/50">
-                Save ₹{savings.toLocaleString("en-IN")}
-              </span>
-            </div>
-
-            {/* Offer / Selling Price */}
-            <div className="flex items-baseline gap-1">
-              <span className="text-lg sm:text-[21px] font-extrabold text-[#1877F2]">
-                ₹{pkg.price.toLocaleString("en-IN")}
-              </span>
-              <span className="text-xs text-gray-400 font-medium">/ person</span>
-            </div>
-          </div>
-
-          {/* Action Button with rounded-full pill format */}
+          {/* Book Now Button Matching Reference Screenshot */}
           <Link
             href={`/tour-packages/${pkg.id}`}
-            className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4.5 sm:px-5 py-2.5 rounded-xl bg-[#285340] hover:bg-[#1E3F32] text-[#F6F3BC] text-xs sm:text-[13px] font-bold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 shrink-0 cursor-pointer"
           >
-            <span>View Details</span>
-            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+            <span>Book Now</span>
+            <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
           </Link>
+
+          {/* Starting From & Price on Right */}
+          <div className="flex flex-col text-right items-end">
+            <span className="text-[11px] sm:text-xs text-gray-500 font-medium leading-none mb-1">
+              Starting From
+            </span>
+            <span className="text-lg sm:text-xl font-extrabold text-[#110F0F] leading-tight">
+              ₹{pkg.price.toLocaleString("en-IN")}
+            </span>
+          </div>
         </div>
       </div>
     </div>
