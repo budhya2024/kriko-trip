@@ -71,20 +71,8 @@ export default function TravelInspirations() {
 
                 {/* Right: Card Details */}
                 <div className="p-6 sm:p-7 flex flex-col justify-center flex-1 text-left">
-
-
-                  {/* Title */}
-                  <h3 className="text-xl  md:text-2xl font-semibold text-gray-950 leading-snug tracking-tight mb-2.5">
-                    <Link
-                      href={`/blogs/${post.slug}`}
-                      className="hover:text-[#1877F2] transition-colors"
-                    >
-                      {post.title}
-                    </Link>
-                  </h3>
-
-                  {/* Author Avatar (Circle) & Date */}
-                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-500 font-normal mb-3">
+                  {/* Author Avatar (Circle), Name & Date (Above Title) */}
+                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-500 font-normal mb-2.5">
                     <div className="flex items-center gap-1.5">
                       <div className="relative w-5 h-5 rounded-full overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
                         <Image
@@ -106,8 +94,15 @@ export default function TravelInspirations() {
                     </div>
                   </div>
 
-                  {/* Thin Divider */}
-                  <div className="border-t border-gray-150 my-3.5" />
+                  {/* Title */}
+                  <h3 className="text-xl md:text-2xl font-semibold text-gray-950 leading-snug tracking-tight mb-2.5">
+                    <Link
+                      href={`/blogs/${post.slug}`}
+                      className="hover:text-[#1877F2] transition-colors"
+                    >
+                      {post.title}
+                    </Link>
+                  </h3>
 
                   {/* Excerpt */}
                   <p className="text-sm md:text-base text-gray-500 leading-relaxed font-normal">
