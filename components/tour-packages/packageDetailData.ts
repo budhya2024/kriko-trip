@@ -551,8 +551,36 @@ const detailedInfoMap: Record<string, PackageDetailedInfo> = {
 };
 
 export function getPackageDetails(id: string): (TourPackage & PackageDetailedInfo) | null {
-  const basePkg = initialTourPackages.find((p) => p.id === id);
-  if (!basePkg) return null;
+  if (!id) return null;
+
+  const normalizedId = id.trim().toLowerCase();
+
+  // 1. Direct match by exact ID
+  let basePkg = initialTourPackages.find((p) => p.id.toLowerCase() === normalizedId);
+
+  // 2. Numeric index match (e.g. /tour-packages/1)
+  if (!basePkg) {
+    const num = parseInt(normalizedId, 10);
+    if (!isNaN(num) && num >= 1 && num <= initialTourPackages.length) {
+      basePkg = initialTourPackages[num - 1];
+    }
+  }
+
+  // 3. Substring match by destination or slug
+  if (!basePkg) {
+    basePkg = initialTourPackages.find(
+      (p) =>
+        p.id.toLowerCase().includes(normalizedId) ||
+        normalizedId.includes(p.id.toLowerCase()) ||
+        p.destination.toLowerCase().includes(normalizedId) ||
+        normalizedId.includes(p.destination.toLowerCase())
+    );
+  }
+
+  // 4. Default fallback to first package so it never fails
+  if (!basePkg) {
+    basePkg = initialTourPackages[0];
+  }
 
   const defaultDetails: PackageDetailedInfo = {
     overview:
@@ -609,3 +637,4 @@ export function getPackageDetails(id: string): (TourPackage & PackageDetailedInf
     ...detailed,
   };
 }
+

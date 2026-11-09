@@ -47,6 +47,13 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           </span>
         </div>
 
+        {/* Clickable Overlay to Package Details Page */}
+        <Link
+          href={`/tour-packages/${pkg.id}`}
+          className="absolute inset-0 z-10 cursor-pointer"
+          aria-label={`View details of ${pkg.title}`}
+        />
+
         {/* Sliding Images Container */}
         <div
           className="flex h-full w-full transition-transform duration-500 ease-out"

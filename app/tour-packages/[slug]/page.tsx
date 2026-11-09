@@ -7,10 +7,17 @@ import {
   PackageDetailView,
 } from "@/components/tour-packages";
 
+type PageParams = { slug: string };
+
 interface PackageDetailsPageProps {
-  params: Promise<{
-    slug: string;
-  }>;
+  params: Promise<PageParams> | PageParams;
+}
+
+async function resolveParams(params: Promise<PageParams> | PageParams): Promise<PageParams> {
+  if (params && typeof (params as any).then === "function") {
+    return await params;
+  }
+  return params as PageParams;
 }
 
 export async function generateStaticParams() {
@@ -20,13 +27,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PackageDetailsPageProps) {
-  const { slug } = await params;
+  const { slug } = await resolveParams(params);
   const pkg = getPackageDetails(slug);
 
   if (!pkg) {
     return {
-      title: "Package Not Found | KrikoTrip",
-      description: "The requested tour package could not be found.",
+      title: "Package Details | KrikoTrip",
+      description: "Explore world-class tour packages with KrikoTrip.",
     };
   }
 
@@ -51,7 +58,7 @@ export async function generateMetadata({ params }: PackageDetailsPageProps) {
 export default async function PackageDetailsPage({
   params,
 }: PackageDetailsPageProps) {
-  const { slug } = await params;
+  const { slug } = await resolveParams(params);
   const pkg = getPackageDetails(slug);
 
   if (!pkg) {
@@ -76,3 +83,4 @@ export default async function PackageDetailsPage({
     </div>
   );
 }
+

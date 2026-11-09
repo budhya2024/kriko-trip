@@ -157,7 +157,10 @@ export default function PopularPackages() {
                 <SwiperSlide key={pkg.id}>
                   <div className="bg-white rounded-2xl p-3.5 sm:p-4 shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_35px_rgba(0,0,0,0.12)] transition-all duration-300 border border-gray-100 flex flex-col h-full group">
                     {/* Image Container with Badge, Mini Dots & Diagonal Shine Hover Layer */}
-                    <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 image-shine">
+                    <Link
+                      href={pkg.href}
+                      className="block relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 image-shine cursor-pointer"
+                    >
                       <Image
                         src={pkg.image}
                         alt={pkg.title}
@@ -182,7 +185,7 @@ export default function PopularPackages() {
                         <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
                         <span className="w-4 h-1.5 rounded-full bg-[#1877F2]" />
                       </div>
-                    </div>
+                    </Link>
 
                     {/* Card Content Area */}
                     <div className="pt-4 pb-2 px-1 flex-1 flex flex-col justify-between">
