@@ -28,6 +28,11 @@ import {
   ArrowRight,
   ArrowUpRight,
   Lock,
+  Download,
+  User,
+  Phone,
+  Mail,
+  MessageSquare,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { TourPackage } from "./types";
@@ -46,6 +51,42 @@ export default function PackageDetailView({
   const [openDays, setOpenDays] = useState<number[]>([1]);
   const [isSaved, setIsSaved] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
+
+  // Sidebar Lead Form State (Matching Reference Screenshot media_1794201310034_07a0dcf4.png)
+  const [sidebarForm, setSidebarForm] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    travelDate: "",
+    travellers: "1",
+    message: "",
+  });
+  const [isQuoteSubmitted, setIsQuoteSubmitted] = useState(false);
+
+  const handleDownloadBrochure = () => {
+    if (typeof window !== "undefined") {
+      window.print();
+    }
+  };
+
+  const handleQuoteSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsQuoteSubmitted(true);
+    setTimeout(() => {
+      setIsQuoteSubmitted(false);
+      alert(
+        `Thank you ${sidebarForm.name || ""}! Your inquiry for "${pkg.title}" has been received. Our holiday specialist will call you on ${sidebarForm.phone || ""} shortly.`
+      );
+      setSidebarForm({
+        name: "",
+        phone: "",
+        email: "",
+        travelDate: "",
+        travellers: "1",
+        message: "",
+      });
+    }, 1000);
+  };
 
   // FAQ accordion state (FAQ 0 expanded by default)
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -594,199 +635,205 @@ export default function PackageDetailView({
             </div>
           </div>
 
-          {/* ════ RIGHT COLUMN: SIDEBAR CARDS (lg:col-span-4) ════ */}
-          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-            {/* ─── SIDEBAR CARD 1: Booking & Price Card ─── */}
-            <div className="rounded-2xl p-6 sm:p-7 bg-[#F0F4FE] border border-[#DBE5FC] shadow-2xs">
-              <span className="text-xs font-medium text-gray-500 block mb-1">
-                Starting from
-              </span>
-
-              {/* Price Row */}
-              <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-3xl sm:text-4xl font-extrabold text-[#111827]">
-                  ₹{pkg.price.toLocaleString("en-IN")}
-                </span>
-                <span className="text-xs text-gray-500 font-medium">
-                  / per person
-                </span>
-              </div>
-
-              {/* Original Strikethrough Price */}
-              <div className="flex items-center gap-2 mb-5">
-                <span className="text-xs text-gray-400 line-through">
-                  ₹{originalPrice.toLocaleString("en-IN")}
-                </span>
-                <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                  Save ₹{savings.toLocaleString("en-IN")}
-                </span>
-              </div>
-
-              {/* Input Form Fields */}
-              <div className="space-y-4">
-                {/* Select Date */}
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-1">
-                    Select Date
-                  </label>
-                  <input
-                    type="date"
-                    value={travelDate}
-                    onChange={(e) => setTravelDate(e.target.value)}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-blue-200 bg-white text-xs sm:text-sm text-gray-800 outline-none focus:border-[#1877F2]"
-                  />
-                </div>
-
-                {/* Adults counter */}
-                <div className="flex items-center justify-between py-2 border-b border-blue-200/50">
-                  <div>
-                    <span className="block text-xs sm:text-sm font-bold text-gray-900">
-                      Adults (12+ yrs)
-                    </span>
-                    <span className="text-[11px] text-gray-500">
-                      ₹{pkg.price.toLocaleString("en-IN")} each
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setAdults((prev) => Math.max(1, prev - 1))}
-                      className="w-8 h-8 rounded-full border border-gray-200 bg-white text-gray-700 font-bold hover:bg-gray-100 flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      -
-                    </button>
-                    <span className="w-5 text-center text-sm font-bold text-gray-900">
-                      {adults}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setAdults((prev) => prev + 1)}
-                      className="w-8 h-8 rounded-full border border-gray-200 bg-white text-gray-700 font-bold hover:bg-gray-100 flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                {/* Children counter */}
-                <div className="flex items-center justify-between py-2 border-b border-blue-200/50">
-                  <div>
-                    <span className="block text-xs sm:text-sm font-bold text-gray-900">
-                      Children (3-11 yrs)
-                    </span>
-                    <span className="text-[11px] text-gray-500">40% Discount</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setChildren((prev) => Math.max(0, prev - 1))}
-                      className="w-8 h-8 rounded-full border border-gray-200 bg-white text-gray-700 font-bold hover:bg-gray-100 flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      -
-                    </button>
-                    <span className="w-5 text-center text-sm font-bold text-gray-900">
-                      {children}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setChildren((prev) => prev + 1)}
-                      className="w-8 h-8 rounded-full border border-gray-200 bg-white text-gray-700 font-bold hover:bg-gray-100 flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                {/* Total */}
-                <div className="flex items-center justify-between pt-1">
-                  <span className="text-xs font-bold text-gray-600 uppercase">
-                    Total:
-                  </span>
-                  <span className="text-xl sm:text-2xl font-extrabold text-[#111827]">
-                    ₹{estimatedTotal.toLocaleString("en-IN")}
-                  </span>
-                </div>
-
-                {/* Vibrant Blue CTA Button: Book This Tour */}
+          {/* ════ RIGHT COLUMN: SIDEBAR FORM (Exact Match: media_1794201310034_07a0dcf4.png) ════ */}
+          <div className="lg:col-span-4 lg:sticky lg:top-24">
+            <div className="bg-white rounded-3xl border border-gray-200/90 shadow-md p-5 sm:p-6 relative">
+              {/* Top Row: Download Brochure & Share */}
+              <div className="flex items-center gap-3 mb-5">
                 <button
                   type="button"
-                  onClick={() => setIsBookModalOpen(true)}
-                  className="w-full py-3.5 rounded-xl bg-[#1877F2] hover:bg-[#00285C] text-white text-sm font-bold shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
-                  style={{ backgroundColor: "#1877F2" }}
+                  onClick={handleDownloadBrochure}
+                  className="flex-1 py-3 px-4 rounded-xl border border-gray-200 hover:border-[#1877F2] bg-white hover:bg-blue-50/40 text-[#00285C] font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-2xs transition-colors cursor-pointer"
                 >
-                  <span>Book This Tour</span>
+                  <Download className="w-4 h-4 text-[#1877F2]" />
+                  <span>Download Brochure</span>
                 </button>
+                <button
+                  type="button"
+                  onClick={handleShare}
+                  aria-label="Share package"
+                  className="w-11 h-11 rounded-xl border border-gray-200 hover:border-gray-300 bg-white hover:bg-gray-50 flex items-center justify-center text-gray-700 shadow-2xs transition-colors cursor-pointer shrink-0"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+              </div>
 
-                {/* Secondary Ask a Question link */}
-                <div className="text-center pt-1">
-                  <a
-                    href={`https://wa.me/919876543210?text=${whatsappMessage}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-semibold text-[#1877F2] hover:underline inline-flex items-center gap-1.5"
-                  >
-                    <FaWhatsapp className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>Ask a Question / Custom Quote</span>
-                  </a>
+              {/* Deal & Price Box */}
+              <div className="rounded-2xl bg-[#F0F5FF] p-4.5 mb-5 flex items-center justify-between border border-blue-100/70">
+                {/* Left Side */}
+                <div className="flex flex-col items-start">
+                  <span className="inline-block px-2 py-0.5 rounded-md bg-[#00285C] text-white text-[10px] font-extrabold uppercase tracking-wider mb-1">
+                    DEAL {pkg.id.slice(0, 8).toUpperCase()}
+                  </span>
+                  <span className="block text-xs font-bold text-[#1877F2] uppercase tracking-wider mb-1">
+                    BEST VALUE DEAL
+                  </span>
+                  <span className="flex items-center gap-1.5 text-xs font-bold text-[#00285C]">
+                    <Clock className="w-3.5 h-3.5 text-[#1877F2]" />
+                    <span>{pkg.duration}</span>
+                  </span>
                 </div>
 
-                {/* Footer Guarantee */}
-                <div className="pt-3 border-t border-blue-200/50 flex items-center justify-center gap-1.5 text-[11px] text-gray-500">
-                  <Lock className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Best price guaranteed & free cancellation</span>
+                {/* Right Side */}
+                <div className="flex flex-col text-right">
+                  <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                    STARTING FROM
+                  </span>
+                  <span className="text-2xl sm:text-3xl font-extrabold text-[#00285C] leading-tight">
+                    ₹{pkg.price.toLocaleString("en-IN")}
+                  </span>
+                  <span className="text-xs text-gray-500 font-medium">
+                    per person
+                  </span>
                 </div>
               </div>
-            </div>
 
-            {/* ─── SIDEBAR CARD 2: Customize Travel Package ─── */}
-            <div className="rounded-2xl p-6 sm:p-7 bg-[#E0F5E8] border border-[#C5EDD2] shadow-2xs">
-              <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1.5">
-                Customize Travel Package
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-600 leading-relaxed mb-4">
-                Need custom dates, private cab, luxury villas or honeymoon add-ons?
+              {/* Form Subtitle */}
+              <p className="text-sm font-semibold text-gray-800 mb-4">
+                Share your details and we&apos;ll contact you shortly.
               </p>
 
-              {/* Customer Avatars & Counter */}
-              <div className="flex items-center gap-3 mb-5">
-                <div className="flex -space-x-2">
-                  <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200 relative">
-                    <Image
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80"
-                      alt="Traveler"
-                      fill
-                      className="object-cover"
-                    />
+              {/* Form with Floating Outlined Labels */}
+              <form onSubmit={handleQuoteSubmit} className="space-y-4">
+                {/* Row 1: Name & Phone */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {/* Name */}
+                  <div className="relative">
+                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      Name
+                    </label>
+                    <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
+                      <User className="w-4 h-4 text-gray-400 shrink-0" />
+                      <input
+                        type="text"
+                        required
+                        placeholder="Enter your name"
+                        value={sidebarForm.name}
+                        onChange={(e) =>
+                          setSidebarForm({ ...sidebarForm, name: e.target.value })
+                        }
+                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium"
+                      />
+                    </div>
                   </div>
-                  <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200 relative">
-                    <Image
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"
-                      alt="Traveler"
-                      fill
-                      className="object-cover"
-                    />
+
+                  {/* Phone */}
+                  <div className="relative">
+                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      Phone
+                    </label>
+                    <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
+                      <Phone className="w-4 h-4 text-gray-400 shrink-0" />
+                      <input
+                        type="tel"
+                        required
+                        placeholder="Enter your number"
+                        value={sidebarForm.phone}
+                        onChange={(e) =>
+                          setSidebarForm({ ...sidebarForm, phone: e.target.value })
+                        }
+                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium"
+                      />
+                    </div>
                   </div>
-                  <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200 relative">
-                    <Image
-                      src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=100&q=80"
-                      alt="Traveler"
-                      fill
-                      className="object-cover"
+                </div>
+
+                {/* Row 2: Email */}
+                <div className="relative">
+                  <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                    Email
+                  </label>
+                  <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
+                    <Mail className="w-4 h-4 text-gray-400 shrink-0" />
+                    <input
+                      type="email"
+                      required
+                      placeholder="Enter your email"
+                      value={sidebarForm.email}
+                      onChange={(e) =>
+                        setSidebarForm({ ...sidebarForm, email: e.target.value })
+                      }
+                      className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium"
                     />
                   </div>
                 </div>
-                <span className="text-xs font-semibold text-gray-700">
-                  500+ happy clients this month
-                </span>
-              </div>
 
-              {/* Dark Pill Button: Book Consultation */}
-              <Link
-                href="/contact-us"
-                className="w-full py-2.5 rounded-full bg-[#111827] hover:bg-black text-white text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center justify-center cursor-pointer"
-              >
-                Book Consultation
-              </Link>
+                {/* Row 3: Travel Date & No. of Travellers */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  {/* Travel Date */}
+                  <div className="relative">
+                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      Travel Date
+                    </label>
+                    <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
+                      <Calendar className="w-4 h-4 text-gray-400 shrink-0" />
+                      <input
+                        type="date"
+                        value={sidebarForm.travelDate}
+                        onChange={(e) =>
+                          setSidebarForm({ ...sidebarForm, travelDate: e.target.value })
+                        }
+                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-medium"
+                      />
+                    </div>
+                  </div>
+
+                  {/* No. of Travellers */}
+                  <div className="relative">
+                    <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                      No. of Travellers
+                    </label>
+                    <div className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
+                      <Users className="w-4 h-4 text-gray-400 shrink-0" />
+                      <input
+                        type="number"
+                        min="1"
+                        max="50"
+                        value={sidebarForm.travellers}
+                        onChange={(e) =>
+                          setSidebarForm({ ...sidebarForm, travellers: e.target.value })
+                        }
+                        className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-medium"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Row 4: Message (Optional) */}
+                <div className="relative">
+                  <label className="absolute -top-2 left-3 px-1.5 bg-white text-[11px] font-semibold text-gray-500 z-10 leading-none">
+                    Message (Optional)
+                  </label>
+                  <div className="flex items-start gap-2.5 px-3.5 py-2.5 rounded-xl border border-gray-250 focus-within:border-[#1877F2] bg-white transition-colors">
+                    <MessageSquare className="w-4 h-4 text-gray-400 shrink-0 mt-1" />
+                    <textarea
+                      rows={2}
+                      placeholder="Tell us about any special requirements"
+                      value={sidebarForm.message}
+                      onChange={(e) =>
+                        setSidebarForm({ ...sidebarForm, message: e.target.value })
+                      }
+                      className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-medium resize-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Submit Button (Matches Gradient & Icon from Screenshot) */}
+                <button
+                  type="submit"
+                  disabled={isQuoteSubmitted}
+                  className="w-full py-3.5 sm:py-4 rounded-xl text-white font-bold text-sm sm:text-base shadow-md hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2.5 cursor-pointer"
+                  style={{
+                    background:
+                      "linear-gradient(90deg, #18367C 0%, #1D449C 50%, #2546A5 100%)",
+                  }}
+                >
+                  <Send className="w-4 h-4 text-white" />
+                  <span>
+                    {isQuoteSubmitted ? "Submitting Request..." : "Get Best Quote"}
+                  </span>
+                </button>
+              </form>
             </div>
           </div>
         </div>
