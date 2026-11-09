@@ -210,25 +210,40 @@ export default function PopularPackages() {
                         </div>
                       </div>
 
-                      {/* Bottom Footer Row: Book Now Button (Left) & Starting From Price (Right) */}
+                      {/* Bottom Footer Row: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
                       <div className="flex items-center justify-between pt-4 mt-3 border-t border-gray-100/90 gap-2">
-                        {/* Book Now Button Matching Reference Screenshot */}
+                        {/* Book Now Button with Dark Green Background & Cream Text */}
                         <Link
                           href={pkg.href}
-                          className="inline-flex items-center gap-1.5 bg-[#285340] hover:bg-[#1E3F32] text-[#F6F3BC] text-[13px] font-bold px-4.5 sm:px-5 py-2.5 rounded-xl shadow-xs hover:shadow-md transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+                          className="inline-flex items-center gap-1.5 px-4.5 sm:px-5 py-2.5 rounded-xl text-[13px] font-bold shadow-xs hover:shadow-md hover:brightness-110 transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+                          style={{ backgroundColor: "#285340", color: "#F6F3BC" }}
                         >
                           <span>Book Now</span>
                           <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
                         </Link>
 
-                        {/* Starting From & Price Display */}
+                        {/* Starting From, Original Price & Sales Price */}
                         <div className="flex flex-col text-right items-end">
-                          <span className="text-[11px] sm:text-xs text-gray-500 font-medium leading-none mb-1">
+                          <span className="text-[11px] text-gray-500 font-medium leading-none mb-0.5">
                             Starting From
                           </span>
-                          <span className="text-lg sm:text-[21px] font-extrabold text-[#110F0F] leading-tight">
-                            ₹{pkg.price.toLocaleString("en-IN")}
-                          </span>
+                          {/* Original Strikethrough Price + Save Money */}
+                          <div className="flex items-center justify-end gap-1.5 leading-none mb-1">
+                            <span className="text-xs text-gray-400 line-through font-medium">
+                              ₹{pkg.originalPrice.toLocaleString("en-IN")}
+                            </span>
+                            <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200/50">
+                              Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
+                            </span>
+                          </div>
+
+                          {/* Sales Price */}
+                          <div className="flex items-baseline justify-end gap-1">
+                            <span className="text-lg sm:text-[21px] font-extrabold text-[#110F0F] leading-tight">
+                              ₹{pkg.price.toLocaleString("en-IN")}
+                            </span>
+                            <span className="text-[11px] text-gray-400 font-medium">/ person</span>
+                          </div>
                         </div>
                       </div>
                     </div>
