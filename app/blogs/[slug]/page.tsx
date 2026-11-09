@@ -76,9 +76,9 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
 
       {/* Main Content */}
       <main className="flex-1">
-        {/* ─── TOP BREADCRUMB & TITLE HERO BANNER (With Background Image, Color Shade & 350px Desktop Height) ─── */}
-        <section className="relative w-full overflow-hidden bg-[#00285C] h-[240px] sm:h-[280px] lg:h-[350px] flex items-center">
-          {/* Background Image with Ambient Color Shade Overlay */}
+        {/* ─── TOP BREADCRUMB & TITLE HERO BANNER (With Background Image, Black Layer & 350px Desktop Height) ─── */}
+        <section className="relative w-full overflow-hidden bg-black h-[240px] sm:h-[280px] lg:h-[350px] flex items-center">
+          {/* Background Image with Black Layer Above */}
           <div className="absolute inset-0 z-0">
             <Image
               src={post.image || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=2000&q=80"}
@@ -86,10 +86,10 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
               fill
               priority
               sizes="100vw"
-              className="object-cover object-center opacity-40 scale-105"
+              className="object-cover object-center scale-105"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#001D47]/92 via-[#00285C]/85 to-[#083D7C]/78" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(24,119,242,0.22),transparent_60%)] pointer-events-none" />
+            {/* Black Layer Above Image */}
+            <div className="absolute inset-0 bg-black/60" />
           </div>
 
           {/* Decorative Subtle Concentric Rings */}

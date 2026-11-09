@@ -141,7 +141,7 @@ const features: FeatureCard[] = [
 
 export default function WhyTravelWithUs() {
   return (
-    <section className="w-full bg-white py-14 sm:py-18 lg:py-20 overflow-hidden">
+    <section className="w-full bg-white py-8  md:py-16">
       <div className="container">
         {/* Header with decorative floating blue dot */}
         <div className="text-center max-w-2xl mx-auto relative">

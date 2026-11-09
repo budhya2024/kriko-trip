@@ -6,17 +6,17 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function BestServiceBanner() {
   return (
-    <section className="w-full bg-white py-14 sm:py-18 lg:py-20 overflow-hidden">
+    <section className="w-full bg-white py-8  md:py-16">
       <div className="container">
         {/* Soft Lavender / Periwinkle Card Container */}
         <div className="relative w-full bg-[#EEF2FC] rounded-[28px] sm:rounded-[36px] p-8 sm:p-12 lg:p-14 text-center overflow-hidden shadow-xs">
-          
+
           {/* Header with decorative floating blue dot */}
           <div className="relative inline-flex items-start justify-center">
             <h2 className="section-title">
               We&apos;re Providing Best Service Ever!
             </h2>
-            <span className="w-3.5 h-3.5 rounded-full bg-[#1877F2]/60 ml-2.5 -mt-1 shrink-0" />
+
           </div>
 
           {/* Subtle Horizontal Divider with Center Accent */}

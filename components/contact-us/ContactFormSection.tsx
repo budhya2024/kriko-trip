@@ -87,7 +87,7 @@ export default function ContactFormSection() {
                   <button
                     type="button"
                     onClick={() => setIsSubmitted(false)}
-                    className="mt-4 inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] text-white text-xs font-semibold transition-colors cursor-pointer"
+                    className="mt-4 inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#00285C] hover:bg-[#1877F2] text-white text-xs font-semibold transition-colors cursor-pointer"
                   >
                     Send Another Message
                   </button>
@@ -112,7 +112,7 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, name: e.target.value })
                           }
                           placeholder="e.g. John Doe"
-                          className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
                         />
                       </div>
                     </div>
@@ -134,7 +134,7 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, email: e.target.value })
                           }
                           placeholder="e.g. john@example.com"
-                          className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
                         />
                       </div>
                     </div>
@@ -151,7 +151,7 @@ export default function ContactFormSection() {
                         <select
                           value={countryCode}
                           onChange={(e) => setCountryCode(e.target.value)}
-                          className="h-full py-2.5 pl-2.5 pr-1 bg-transparent text-xs sm:text-sm font-semibold text-gray-800 border-r border-gray-200 outline-none focus:outline-none cursor-pointer shrink-0"
+                          className="h-full py-3 pl-2.5 pr-1 bg-transparent text-xs sm:text-sm font-semibold text-gray-800 border-r border-gray-200 outline-none focus:outline-none cursor-pointer shrink-0"
                         >
                           {countryOptions.map((c) => (
                             <option key={c.code} value={c.code}>
@@ -169,7 +169,7 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, phone: e.target.value })
                           }
                           placeholder="98765 43210"
-                          className="w-full px-3 py-2.5 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none font-medium border-0"
+                          className="w-full px-3 py-3 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none font-medium border-0"
                         />
                       </div>
                     </div>
@@ -191,7 +191,7 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, subject: e.target.value })
                           }
                           placeholder="e.g. Tour Package Inquiry"
-                          className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
                         />
                       </div>
                     </div>
@@ -214,7 +214,7 @@ export default function ContactFormSection() {
                           setFormData({ ...formData, message: e.target.value })
                         }
                         placeholder="Tell us about your desired destinations, travel dates, budget, or specific inquiries..."
-                        className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium resize-none"
+                        className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium resize-none"
                       />
                     </div>
                   </div>
@@ -242,7 +242,7 @@ export default function ContactFormSection() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] active:scale-98 text-white text-sm font-semibold transition-all shadow-xs cursor-pointer disabled:opacity-70"
+                      className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-3 rounded-full bg-[#00285C] hover:bg-[#1877F2] active:scale-98 text-white text-sm font-semibold transition-all shadow-xs cursor-pointer disabled:opacity-70"
                     >
                       {isSubmitting ? (
                         <span className="flex items-center gap-2">

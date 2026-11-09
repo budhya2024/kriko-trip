@@ -167,8 +167,8 @@ export default function PackageDetailView({
   return (
     <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
       {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
-      <section className="relative w-full overflow-hidden bg-[#00285C] h-[240px] sm:h-[280px] lg:h-[350px] flex items-center">
-        {/* Background Image with Ambient Color Shade Overlay */}
+      <section className="relative w-full overflow-hidden bg-black h-[240px] sm:h-[280px] lg:h-[350px] flex items-center">
+        {/* Background Image with Black Layer Above */}
         <div className="absolute inset-0 z-0">
           <Image
             src={pkg.image}
@@ -176,10 +176,10 @@ export default function PackageDetailView({
             fill
             priority
             sizes="100vw"
-            className="object-cover object-center opacity-40 scale-105"
+            className="object-cover object-center scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#001D47]/92 via-[#00285C]/85 to-[#083D7C]/78" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(24,119,242,0.22),transparent_60%)] pointer-events-none" />
+          {/* Black Layer Above Image */}
+          <div className="absolute inset-0 bg-black/60" />
         </div>
 
         {/* Decorative Subtle Concentric Rings */}

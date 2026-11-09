@@ -19,22 +19,19 @@ export default function PageHeader({
   const currentBreadcrumb = breadcrumb || title;
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#00285C] h-[240px] sm:h-[280px] lg:h-[350px] flex items-center">
-      {/* Background Image with Controlled Opacity so the Color Shade Shines Through */}
+    <section className="relative w-full overflow-hidden bg-black h-[240px] sm:h-[280px] lg:h-[350px] flex items-center">
+      {/* Background Image */}
       <Image
         src={bgImage}
         alt={title}
         fill
         priority
         sizes="100vw"
-        className="object-cover object-center opacity-40 scale-105"
+        className="object-cover object-center scale-105"
       />
 
-      {/* Rich Brand Navy Color Shade Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#001D47]/92 via-[#00285C]/85 to-[#083D7C]/78 z-10" />
-
-      {/* Ambient Blue Color Shade Glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(24,119,242,0.22),transparent_60%)] z-10 pointer-events-none" />
+      {/* Black Layer Above Image */}
+      <div className="absolute inset-0 bg-black/60 z-10" />
 
       {/* Decorative Subtle Concentric Rings */}
       <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full border border-white/10 pointer-events-none z-10" />

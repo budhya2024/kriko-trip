@@ -230,12 +230,12 @@ export default function GalleryPage() {
         {/* ─── Gallery Section ─── */}
         <section className="container py-10 sm:py-14 lg:py-16">
           {/* Responsive Gallery Grid (1 col mobile, 2 col tab, 3 col desktop) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {galleryData.map((photo, index) => (
               <div
                 key={photo.id}
                 onClick={() => setActivePhotoIndex(index)}
-                className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-all duration-300 cursor-pointer flex flex-col"
+                className="group relative bg-white  overflow-hidden border border-gray-200/90 shadow-2xs hover:border-gray-300 transition-all duration-300 cursor-pointer flex flex-col"
               >
                 {/* Photo Image Container with Linear Diagonal Shine Effect */}
                 <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 image-shine">
