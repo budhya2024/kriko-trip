@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Header, Footer, PageHeader } from "@/components/shared";
 import { blogPosts } from "@/components/blogs/data";
-import { Clock, ArrowRight, Tag, ChevronLeft, ChevronRight } from "lucide-react";
+import { Clock, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 
 const POSTS_PER_PAGE = 8;
 
@@ -70,8 +70,12 @@ export default function BlogListPage() {
                 {/* Body Content */}
                 <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
                   <div>
-                    {/* Meta Line: Date | Clock Read Time */}
-                    <div className="flex items-center gap-2 text-xs text-gray-400 font-normal mb-2.5">
+                    {/* Meta Line: Author | Date | Clock Read Time */}
+                    <div className="flex flex-wrap items-center gap-2 text-xs text-gray-500 font-normal mb-2.5">
+                      <span className="font-semibold text-gray-800">
+                        By {post.author.name}
+                      </span>
+                      <span className="text-gray-300 font-light">|</span>
                       <span>{post.date}</span>
                       <span className="text-gray-300 font-light">|</span>
                       <div className="flex items-center gap-1.5 text-gray-500 font-normal">
@@ -88,22 +92,9 @@ export default function BlogListPage() {
                     </h3>
 
                     {/* Excerpt */}
-                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5 font-normal">
+                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 font-normal">
                       {post.excerpt}
                     </p>
-
-                    {/* Tags Row - Amber/Golden Styled Tags from Screenshot */}
-                    <div className="flex flex-wrap items-center gap-2 mb-4">
-                      {(post.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
-                        <span
-                          key={tIdx}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-normal cursor-pointer hover:bg-amber-100/70 transition-colors"
-                        >
-                          <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
-                          <span>{tag}</span>
-                        </span>
-                      ))}
-                    </div>
                   </div>
 
                   {/* Footer: Read Article → (Medium weight) */}

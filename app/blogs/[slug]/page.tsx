@@ -134,30 +134,27 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 {post.title}
               </h1>
 
-              {/* Author byline */}
-              <p className="text-xs sm:text-[13px] text-gray-500 mb-3 font-normal">
-                By {post.author.name}
-              </p>
-
-              {/* Meta Row: Date, Read Time with Clock, Tags */}
-              <div className="flex flex-wrap items-center gap-3 text-xs sm:text-[13px] text-gray-500 pb-5 mb-6 border-b border-gray-150">
+              {/* Meta Row: Author Name with Avatar, Date, Read Time with Clock */}
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-[13px] text-gray-500 pb-5 mb-6 border-b border-gray-150">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
+                    <Image
+                      src={post.author.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"}
+                      alt={post.author.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <span className="font-semibold text-gray-900">
+                    By {post.author.name}
+                  </span>
+                </div>
+                <span className="text-gray-300">|</span>
                 <span>{post.date}</span>
                 <span className="text-gray-300">|</span>
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" strokeWidth={2} />
                   <span>{post.readTime}</span>
-                </div>
-                <span className="text-gray-300">|</span>
-                <div className="flex flex-wrap items-center gap-1.5">
-                  {(post.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-medium cursor-pointer"
-                    >
-                      <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
-                      <span>{tag}</span>
-                    </span>
-                  ))}
                 </div>
               </div>
 
@@ -247,22 +244,22 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </p>
               </div>
 
-              {/* Tags & Social Share Row */}
+              {/* Author Info & Social Share Row (Tags Removed) */}
               <div className="py-5 border-y border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                {/* Tags */}
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-xs font-semibold text-gray-500 mr-1">
-                    Tags:
-                  </span>
-                  {(post.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-medium cursor-pointer hover:bg-amber-100/70 transition-colors"
-                    >
-                      <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
-                      <span>{tag}</span>
-                    </span>
-                  ))}
+                {/* Author Info */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
+                    <Image
+                      src={post.author.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"}
+                      alt={post.author.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 leading-none">Written by</p>
+                    <p className="text-sm font-bold text-[#00285C] mt-1">{post.author.name}</p>
+                  </div>
                 </div>
 
                 {/* Social Share Icons */}
@@ -490,8 +487,12 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                   {/* Body Content */}
                   <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
                     <div>
-                      {/* Meta Line: Date | Clock Read Time */}
-                      <div className="flex items-center gap-2 text-xs text-gray-400 font-normal mb-2.5">
+                      {/* Meta Line: Author | Date | Clock Read Time */}
+                      <div className="flex flex-wrap items-center gap-2 text-xs text-gray-400 font-normal mb-2.5">
+                        <span className="font-semibold text-gray-800">
+                          By {rPost.author?.name || "KrikoTrip"}
+                        </span>
+                        <span className="text-gray-300 font-light">|</span>
                         <span>{rPost.date}</span>
                         <span className="text-gray-300 font-light">|</span>
                         <div className="flex items-center gap-1.5 text-gray-500 font-normal">
@@ -508,22 +509,9 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5 font-normal">
+                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 font-normal">
                         {rPost.excerpt}
                       </p>
-
-                      {/* Amber Styled Tags */}
-                      <div className="flex flex-wrap items-center gap-1.5 mb-4">
-                        {(rPost.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
-                          <span
-                            key={tIdx}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-semibold cursor-pointer hover:bg-amber-100/70 transition-colors"
-                          >
-                            <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
-                            <span>{tag}</span>
-                          </span>
-                        ))}
-                      </div>
                     </div>
 
                     {/* Footer: Read Article → */}
