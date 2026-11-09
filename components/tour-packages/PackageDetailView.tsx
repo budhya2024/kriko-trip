@@ -907,14 +907,14 @@ export default function PackageDetailView({
 
                       {/* Card Footer: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
                       <div className="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between gap-3">
-                        {/* Book Now Button with Dark Green Background & Cream Text (#285340 & #F6F3BC) */}
+                        {/* Book Now Button: Fully Rounded with White Text */}
                         <Link
                           href={`/tour-packages/${rPkg.id}`}
-                          className="inline-flex items-center gap-1.5 px-4.5 sm:px-5 py-2.5 rounded-xl text-xs sm:text-[13px] font-bold transition-all duration-200 shadow-xs hover:shadow-md hover:brightness-110 active:scale-95 cursor-pointer shrink-0"
-                          style={{ backgroundColor: "#285340", color: "#F6F3BC" }}
+                          className="inline-flex items-center gap-1.5 px-4.5 sm:px-5 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-[13px] font-bold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 cursor-pointer shrink-0"
+                          style={{ backgroundColor: "#1877F2", color: "#ffffff" }}
                         >
                           <span>Book Now</span>
-                          <ArrowUpRight className="w-4 h-4 stroke-[2.5]" />
+                          <ArrowUpRight className="w-4 h-4 stroke-[2.5] text-white" />
                         </Link>
 
                         {/* Starting From, Original Strikethrough Price & Sales Price */}
