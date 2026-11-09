@@ -83,15 +83,19 @@ export default function PackageDetailView({
   const savings = originalPrice - pkg.price;
   const discountPercent = Math.round((savings / originalPrice) * 100);
 
+  const fallbackImages = [
+    "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+    "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80",
+  ];
+
   // 4 high-res gallery photos for the collage matching Screenshot 1
   const galleryImages = [
-    pkg.image,
-    pkg.images?.[1] ||
-    "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80",
-    pkg.images?.[2] ||
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-    pkg.images?.[3] ||
-    "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80",
+    pkg.images?.[0] || pkg.image || fallbackImages[0],
+    pkg.images?.[1] || fallbackImages[1],
+    pkg.images?.[2] || fallbackImages[2],
+    pkg.images?.[3] || fallbackImages[3],
   ];
 
   const toggleDay = (dayNum: number) => {
@@ -217,9 +221,9 @@ export default function PackageDetailView({
             {/* ════ LEFT COLUMN: ALL TOUR DETAILS (lg:col-span-8) ════ */}
             <div className="lg:col-span-8 space-y-10 sm:space-y-12">
               {/* ─── 1. PHOTO GALLERY COLLAGE (Inside Left Column) ─── */}
-              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
                 {/* Left Tall Vertical Photo */}
-                <div className="sm:col-span-6 relative aspect-[4/3] sm:aspect-auto sm:h-[400px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                <div className="relative w-full h-[280px] sm:h-[400px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
                   <Image
                     src={galleryImages[0]}
                     alt={`${pkg.title} - Main Feature`}
@@ -230,10 +234,10 @@ export default function PackageDetailView({
                   />
                 </div>
 
-                {/* Right 3 Photos: 1 Wide Top, 2 Half-width Bottom */}
-                <div className="sm:col-span-6 flex flex-col gap-3 sm:gap-3.5 sm:h-[400px]">
-                  {/* Top Wide Photo */}
-                  <div className="relative w-full h-[180px] sm:h-[192px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                {/* Right 3 Photos (1 Wide Top, 2 Half-width Bottom in a 2x2 grid) */}
+                <div className="grid grid-cols-2 grid-rows-2 gap-3 sm:gap-3.5 h-[280px] sm:h-[400px]">
+                  {/* Top Wide Photo (Spans 2 columns across Row 1) */}
+                  <div className="col-span-2 relative w-full h-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
                     <Image
                       src={galleryImages[1]}
                       alt={`${pkg.title} - Landmark`}
@@ -243,26 +247,26 @@ export default function PackageDetailView({
                     />
                   </div>
 
-                  {/* Bottom 2 Photos Side-by-Side */}
-                  <div className="grid grid-cols-2 gap-3 sm:gap-3.5 flex-1">
-                    <div className="relative w-full h-full min-h-[120px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
-                      <Image
-                        src={galleryImages[2]}
-                        alt={`${pkg.title} - Experience 1`}
-                        fill
-                        sizes="(max-width: 1024px) 25vw, 230px"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
-                    <div className="relative w-full h-full min-h-[120px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
-                      <Image
-                        src={galleryImages[3]}
-                        alt={`${pkg.title} - Experience 2`}
-                        fill
-                        sizes="(max-width: 1024px) 25vw, 230px"
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
+                  {/* Bottom Left Photo (Row 2 Col 1) */}
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                    <Image
+                      src={galleryImages[2]}
+                      alt={`${pkg.title} - Experience 1`}
+                      fill
+                      sizes="(max-width: 1024px) 25vw, 230px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Bottom Right Photo (Row 2 Col 2) */}
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                    <Image
+                      src={galleryImages[3]}
+                      alt={`${pkg.title} - Experience 2`}
+                      fill
+                      sizes="(max-width: 1024px) 25vw, 230px"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
                   </div>
                 </div>
               </div>
@@ -446,7 +450,7 @@ export default function PackageDetailView({
                       dayItem.day < 10 ? `0${dayItem.day}` : dayItem.day;
 
                     return (
-                      <div key={dayItem.day} className="py-5 sm:py-6 first:pt-4 last:pb-4">
+                      <div key={dayItem.day} className="py-5 sm:py-6 first:pt-4 last:pb-4 border-b border-gray-200 last:border-0">
                         <button
                           type="button"
                           onClick={() => toggleDay(dayItem.day)}
@@ -665,7 +669,7 @@ export default function PackageDetailView({
                           />
                         </button>
                         {isOpen && (
-                          <div className="p-4 sm:p-5 bg-white border border-gray-150 border-t-0 rounded-b-xl text-xs sm:text-sm text-gray-600 font-normal leading-relaxed animate-in fade-in">
+                          <div className="p-4 sm:p-5 bg-white border  text-xs sm:text-sm text-gray-600 font-normal leading-relaxed animate-in fade-in">
                             {faq.a}
                           </div>
                         )}
