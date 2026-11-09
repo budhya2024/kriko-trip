@@ -124,45 +124,10 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                   </span>
                 </nav>
 
-                {/* Article Heading */}
+                {/* Hero Title */}
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
                   {post.title}
                 </h1>
-
-                {/* Meta details below title */}
-                <div className="flex flex-wrap items-center gap-3 mt-3 text-xs sm:text-sm text-gray-200">
-                  {/* Author Avatar & Name */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full overflow-hidden relative bg-white/20 border border-white/30 shrink-0">
-                      <Image
-                        src={
-                          post.author.avatar ||
-                          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-                        }
-                        alt={post.author.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <span className="font-medium text-white">
-                      By {post.author.name}
-                    </span>
-                  </div>
-                  <span className="text-white/40">•</span>
-                  <span className="inline-flex items-center gap-1 font-normal text-gray-200">
-                    <Calendar className="w-3.5 h-3.5 text-sky-300" />
-                    {post.date}
-                  </span>
-                  <span className="text-white/40">•</span>
-                  <span className="inline-flex items-center gap-1 font-normal text-sky-300">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" />
-                    {post.readTime}
-                  </span>
-                  <span className="text-white/40">•</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-white/10 text-sky-200 border border-white/20 font-medium text-[11px]">
-                    {post.category || "Travel Guide"}
-                  </span>
-                </div>
               </div>
 
               {/* Quick Actions on Right */}
@@ -184,8 +149,49 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* ─── Left Column: Main Article Content (8 cols) ─── */}
             <article className="lg:col-span-8 text-left">
+              <div className="mb-6">
+                {/* Article Heading */}
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-snug mb-3">
+                  {post.title}
+                </h1>
+
+                {/* Meta details below title */}
+                <div className="flex flex-wrap items-center gap-3.5 text-xs sm:text-sm text-gray-600">
+                  {/* Author Avatar & Name */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
+                      <Image
+                        src={
+                          post.author.avatar ||
+                          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+                        }
+                        alt={post.author.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <span className="font-semibold text-gray-900">
+                      By {post.author.name}
+                    </span>
+                  </div>
+                  <span className="text-gray-300">•</span>
+                  <span className="inline-flex items-center gap-1 font-normal text-gray-600">
+                    <Calendar className="w-3.5 h-3.5 text-[#1877F2]" />
+                    {post.date}
+                  </span>
+                  <span className="text-gray-300">•</span>
+                  <span className="inline-flex items-center gap-1 font-normal text-gray-600">
+                    <Clock className="w-3.5 h-3.5 text-amber-500" />
+                    {post.readTime}
+                  </span>
+                  <span className="text-gray-300">•</span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#1877F2] border border-blue-150 font-semibold text-[11px]">
+                    {post.category || "Travel Guide"}
+                  </span>
+                </div>
+              </div>
               {/* Main Featured Image with Diagonal Shine Hover Effect */}
-              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-6 bg-gray-100 border border-gray-150 shadow-xs image-shine cursor-pointer">
+              <div className="relative w-full aspect-[16/10]  overflow-hidden mb-6   image-shine cursor-pointer">
                 <Image
                   src={post.image}
                   alt={post.title}
@@ -270,8 +276,23 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </p>
               </div>
 
-              {/* Author Info & Social Share Row (Tags Removed) */}
+              {/* Author Info & Social Share Row */}
               <div className="py-5 border-y border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                {/* Author Info */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
+                    <Image
+                      src={post.author.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"}
+                      alt={post.author.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-gray-500 leading-none">Written by</p>
+                    <p className="text-sm font-bold text-[#00285C] mt-1">{post.author.name}</p>
+                  </div>
+                </div>
 
 
                 {/* Social Share Icons */}
@@ -419,7 +440,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
 
               {/* 6. Subscribe to Our Newsletter (Brand Navy Blue Card) */}
               <div className="bg-[#00285C] text-white rounded-xl p-5 shadow-sm text-left">
-                <h4 className="text-sm sm:text-base font-bold text-white mb-1.5">
+                <h4 className="text-sm sm:text-base font-semibold text-white mb-1.5">
                   Subscribe to Our Newsletter
                 </h4>
                 <p className="text-xs text-blue-100/90 font-normal leading-relaxed mb-3.5">
@@ -429,11 +450,11 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="w-full px-3 py-2 rounded-md bg-[#083570] border border-white/20 text-white placeholder:text-blue-100 text-xs focus:outline-none focus:bg-[#0a4187] transition-colors font-normal"
+                    className="w-full px-3 py-3 rounded-md bg-[#083570] border border-white/20 text-white placeholder:text-blue-100 text-xs focus:outline-none focus:bg-[#0a4187] transition-colors font-normal"
                   />
                   <button
                     type="button"
-                    className="w-full py-2 rounded-md bg-[#03ADFF] hover:bg-[#0092db] text-[#00285C] text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
+                    className="w-full py-3 rounded-md bg-[#03ADFF] hover:bg-[#0092db] text-white text-xs font-semibold uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
                   >
                     SUBSCRIBE
                   </button>
