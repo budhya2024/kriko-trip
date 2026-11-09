@@ -14,7 +14,7 @@ import gallery6 from "@/public/assets/images/gallery-img6-3-2.webp";
 
 export default function GallerySection() {
   return (
-    <section className="w-full bg-white py-16 sm:py-20 lg:py-24 relative overflow-hidden">
+    <section className="w-full bg-white py-8 md:py-16 relative overflow-hidden">
       <div className="container relative">
         <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-8 xl:gap-12">
 

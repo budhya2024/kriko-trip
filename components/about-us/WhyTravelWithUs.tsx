@@ -153,8 +153,7 @@ export default function WhyTravelWithUs() {
             traveler&apos;s dream.
           </p>
 
-          {/* Floating light blue dot matching reference */}
-          <div className="hidden md:block absolute -top-1 -right-20 lg:-right-32 w-3.5 h-3.5 rounded-full bg-[#1877F2]/60" />
+
         </div>
 
         {/* 4 Feature Cards Grid */}

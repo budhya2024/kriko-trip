@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function WhyBestAgency() {
   return (
-    <section className="w-full bg-white py-16 sm:py-20 lg:py-24 overflow-hidden">
+    <section className="w-full bg-white py-8 md:py-16 overflow-hidden">
       <div className="container">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
 
@@ -57,8 +57,6 @@ export default function WhyBestAgency() {
               </div>
             </div>
 
-            {/* Decorative Blue Dot matching reference */}
-            <div className="w-3.5 h-3.5 rounded-full bg-[#1877F2]/60 mt-8 sm:mt-10" />
           </div>
 
           {/* ─── Right Column: Visual Photo Collage ─── */}

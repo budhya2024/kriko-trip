@@ -59,25 +59,25 @@ export default function ContactFormSection() {
   };
 
   return (
-    <section className="w-full py-10 lg:py-14 bg-white">
+    <section className="w-full pt-8 lg:pt-16 bg-white">
       <div className="container">
         {/* Equal Height Grid for Form and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* ─── Left Column: Contact Form ─── */}
-          <div className="lg:col-span-7 bg-white rounded-lg border border-gray-200/90 shadow-xs p-6 sm:p-7 flex flex-col justify-between h-full">
+          <div className="lg:col-span-7 bg-white rounded-md border border-gray-200/90 shadow-xs p-6 sm:p-7 flex flex-col justify-between h-full">
             <div>
               <div className="mb-6">
-                <h3 className="text-xl sm:text-2xl font-bold text-[#00285C] tracking-tight">
+                <h3 className="text-xl sm:text-2xl font-semibold text-[#00285C] tracking-tight">
                   Send Us a Message
                 </h3>
               </div>
 
               {isSubmitted ? (
-                <div className="p-8 rounded-lg bg-blue-50/70 border border-blue-200 text-center animate-in fade-in">
+                <div className="p-8 rounded-md bg-blue-50/70 border border-blue-200 text-center animate-in fade-in">
                   <div className="w-12 h-12 rounded-full bg-[#00285C] text-white flex items-center justify-center mx-auto mb-3.5">
                     <CheckCircle2 className="w-6 h-6 text-[#03ADFF]" />
                   </div>
-                  <h4 className="text-base font-bold text-[#00285C]">
+                  <h4 className="text-base font-semibold text-[#00285C]">
                     Message Sent Successfully!
                   </h4>
                   <p className="text-xs sm:text-sm text-gray-600 mt-1.5 max-w-md mx-auto">
@@ -97,7 +97,7 @@ export default function ContactFormSection() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Full Name */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1.5">
+                      <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Full Name <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -112,14 +112,14 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, name: e.target.value })
                           }
                           placeholder="e.g. John Doe"
-                          className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
                         />
                       </div>
                     </div>
 
                     {/* Email Address */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1.5">
+                      <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Email Address <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -134,7 +134,7 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, email: e.target.value })
                           }
                           placeholder="e.g. john@example.com"
-                          className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
                         />
                       </div>
                     </div>
@@ -143,10 +143,10 @@ export default function ContactFormSection() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {/* Phone Number with Country Code Dropdown */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1.5">
+                      <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Phone Number <span className="text-red-500">*</span>
                       </label>
-                      <div className="flex items-center rounded-lg border border-gray-200 bg-gray-50/50 focus-within:border-[#03ADFF] focus-within:bg-white transition-colors overflow-hidden">
+                      <div className="flex items-center rounded-md border border-gray-200 bg-gray-50/50 focus-within:border-[#03ADFF] focus-within:bg-white transition-colors overflow-hidden">
                         {/* Country Dropdown */}
                         <select
                           value={countryCode}
@@ -176,7 +176,7 @@ export default function ContactFormSection() {
 
                     {/* Subject Input Field */}
                     <div>
-                      <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1.5">
+                      <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Subject <span className="text-red-500">*</span>
                       </label>
                       <div className="relative">
@@ -191,7 +191,7 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, subject: e.target.value })
                           }
                           placeholder="e.g. Tour Package Inquiry"
-                          className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
                         />
                       </div>
                     </div>
@@ -199,7 +199,7 @@ export default function ContactFormSection() {
 
                   {/* Message Textarea */}
                   <div>
-                    <label className="block text-xs font-bold text-gray-800 uppercase tracking-wider mb-1.5">
+                    <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                       Your Requirements / Message <span className="text-red-500">*</span>
                     </label>
                     <div className="relative">
@@ -214,7 +214,7 @@ export default function ContactFormSection() {
                           setFormData({ ...formData, message: e.target.value })
                         }
                         placeholder="Tell us about your desired destinations, travel dates, budget, or specific inquiries..."
-                        className="w-full pl-10 pr-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium resize-none"
+                        className="w-full pl-10 pr-3.5 py-2.5 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium resize-none"
                       />
                     </div>
                   </div>
@@ -242,7 +242,7 @@ export default function ContactFormSection() {
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] active:scale-98 text-white text-sm font-bold transition-all shadow-xs cursor-pointer disabled:opacity-70"
+                      className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] active:scale-98 text-white text-sm font-semibold transition-all shadow-xs cursor-pointer disabled:opacity-70"
                     >
                       {isSubmitting ? (
                         <span className="flex items-center gap-2">
@@ -260,12 +260,12 @@ export default function ContactFormSection() {
           </div>
 
           {/* ─── Right Column: Interactive Google Map (Same Height as Form) ─── */}
-          <div className="lg:col-span-5 bg-white rounded-lg border border-gray-200/90 shadow-xs overflow-hidden flex flex-col h-full">
+          <div className="lg:col-span-5 bg-white rounded-md border border-gray-200/90 shadow-xs overflow-hidden flex flex-col h-full">
             {/* Map Header */}
             <div className="px-4 py-3 border-b border-gray-150 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#03ADFF]" />
-                <span className="text-sm font-bold text-[#00285C]">
+                <span className="text-sm font-semibold text-[#00285C]">
                   KrikoTrip Office Location
                 </span>
               </div>
