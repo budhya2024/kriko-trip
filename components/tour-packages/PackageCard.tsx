@@ -165,26 +165,18 @@ export default function PackageCard({ pkg }: PackageCardProps) {
             <ArrowUpRight className="w-4 h-4 stroke-[2.5] text-white" />
           </Link>
 
-          {/* Starting From, Original Strikethrough Price & Sales Price */}
+          {/* Starting From & Prices Matching Screenshot format */}
           <div className="flex flex-col text-right items-end">
-            <span className="text-[11px] text-gray-500 font-medium leading-none mb-0.5">
+            <span className="text-[11px] sm:text-xs text-gray-500 font-medium leading-none mb-1">
               Starting From
             </span>
-            {/* Original Strikethrough Price + Savings */}
-            <div className="flex items-center justify-end gap-1.5 leading-none mb-1">
-              <span className="text-xs text-gray-400 line-through font-medium">
+            <div className="flex items-center justify-end gap-2 leading-none">
+              <span className="text-sm sm:text-base text-gray-400 line-through font-semibold">
                 ₹{originalPrice.toLocaleString("en-IN")}
               </span>
-              <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded-full border border-emerald-200/60">
-                Save ₹{savings.toLocaleString("en-IN")}
-              </span>
-            </div>
-            {/* Sales Price */}
-            <div className="flex items-baseline justify-end gap-1">
-              <span className="text-lg sm:text-[21px] font-extrabold text-[#110F0F] leading-tight">
+              <span className="text-xl sm:text-2xl font-extrabold text-[#110F0F] leading-tight">
                 ₹{pkg.price.toLocaleString("en-IN")}
               </span>
-              <span className="text-[11px] text-gray-400 font-medium">/ person</span>
             </div>
           </div>
         </div>

@@ -228,10 +228,10 @@ export default function PopularPackages() {
                             Starting From
                           </span>
                           <div className="flex items-center justify-end gap-2 leading-none">
-                            <span className="text-xs text-gray-400 line-through font-medium">
+                            <span className="text-sm sm:text-base text-gray-400 line-through font-semibold">
                               ₹{pkg.originalPrice.toLocaleString("en-IN")}
                             </span>
-                            <span className="text-lg sm:text-xl font-extrabold text-[#110F0F] leading-tight">
+                            <span className="text-xl sm:text-2xl font-extrabold text-[#110F0F] leading-tight">
                               ₹{pkg.price.toLocaleString("en-IN")}
                             </span>
                           </div>
