@@ -76,90 +76,97 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
 
       {/* Main Content */}
       <main className="flex-1">
-        {/* ─── Hero Banner with Kingfisher Birds / Nature ─── */}
-        <div className="relative w-full h-48 sm:h-56 lg:h-64 bg-[#0B132A] flex items-center justify-center overflow-hidden">
-          <Image
-            src="https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=2000&q=80"
-            alt="Sundarban Nature Wilderness"
-            fill
-            priority
-            className="object-cover opacity-35"
-          />
-          <div className="container relative z-10 text-center px-4">
-            <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#EAB308] tracking-wide mb-2 drop-shadow-md">
-              Sundarban Winter Luxury Tour Package with Hotel Sonar Bangla
-            </h2>
-            <nav className="inline-flex items-center gap-2 text-xs sm:text-sm text-gray-300">
-              <Link href="/" className="hover:text-white transition-colors">
-                Home
-              </Link>
-              <span>&gt;</span>
-              <Link href="/blogs" className="hover:text-white transition-colors">
-                Blog
-              </Link>
-              <span>&gt;</span>
-              <span className="text-white truncate max-w-[220px] sm:max-w-md">
-                {post.title}
-              </span>
-            </nav>
-          </div>
-        </div>
-
-        {/* ─── Main Container (Article on Left 68%, Sidebar on Right 32%) ─── */}
-        <div className="container py-8 sm:py-10 lg:py-12">
-          {/* Breadcrumb Back Link */}
-          <div className="mb-5">
-            <Link
-              href="/blogs"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm text-gray-500 hover:text-[#1877F2] transition-colors cursor-pointer"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Back to Blogs</span>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-            {/* ─── Left Column: Main Article Content (8 cols) ─── */}
-            <article className="lg:col-span-8 text-left">
-              {/* Category Link in Blue */}
-              <Link
-                href="/blogs"
-                className="text-xs sm:text-sm font-semibold text-[#1877F2] hover:underline uppercase tracking-wider block mb-2 cursor-pointer"
-              >
-                {post.category || "Adventure & Wildlife"}
-              </Link>
-
-              {/* Main Article Title */}
-              <h1 className="text-2xl sm:text-3xl lg:text-[32px] font-bold text-[#0B132A] leading-tight mb-2.5">
-                {post.title}
-              </h1>
-
-              {/* Meta Row: Author Name with Avatar, Date, Read Time with Clock */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-[13px] text-gray-500 pb-5 mb-6 border-b border-gray-150">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
-                    <Image
-                      src={post.author.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"}
-                      alt={post.author.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <span className="font-semibold text-gray-900">
-                    By {post.author.name}
+        {/* ─── TOP BREADCRUMB & TITLE META BAR (Same format as Tour Details Page) ─── */}
+        <section className="bg-white border-b border-gray-150 py-5">
+          <div className="container">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                {/* Breadcrumb Navigation */}
+                <nav
+                  aria-label="Breadcrumb"
+                  className="flex items-center gap-2 text-xs text-gray-500 mb-2 font-medium"
+                >
+                  <Link
+                    href="/"
+                    className="hover:text-[#1877F2] transition-colors"
+                  >
+                    Home
+                  </Link>
+                  <span>/</span>
+                  <Link
+                    href="/blogs"
+                    className="hover:text-[#1877F2] transition-colors"
+                  >
+                    Blogs
+                  </Link>
+                  <span>/</span>
+                  <span className="text-gray-900 font-semibold truncate max-w-xs sm:max-w-md">
+                    {post.title}
                   </span>
-                </div>
-                <span className="text-gray-300">|</span>
-                <span>{post.date}</span>
-                <span className="text-gray-300">|</span>
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" strokeWidth={2} />
-                  <span>{post.readTime}</span>
+                </nav>
+
+                {/* Article Heading */}
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#00285C] tracking-tight leading-tight">
+                  {post.title}
+                </h1>
+
+                {/* Meta details below title */}
+                <div className="flex flex-wrap items-center gap-3 mt-2.5 text-xs text-gray-600">
+                  {/* Author Avatar & Name */}
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
+                      <Image
+                        src={
+                          post.author.avatar ||
+                          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+                        }
+                        alt={post.author.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                    <span className="font-semibold text-gray-800">
+                      By {post.author.name}
+                    </span>
+                  </div>
+                  <span className="text-gray-300">•</span>
+                  <span className="inline-flex items-center gap-1 font-medium text-gray-600">
+                    <Calendar className="w-3.5 h-3.5 text-[#1877F2]" />
+                    {post.date}
+                  </span>
+                  <span className="text-gray-300">•</span>
+                  <span className="inline-flex items-center gap-1 font-medium text-gray-600">
+                    <Clock className="w-3.5 h-3.5 text-amber-500" />
+                    {post.readTime}
+                  </span>
+                  <span className="text-gray-300">•</span>
+                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#1877F2] border border-blue-150 font-semibold text-[11px]">
+                    {post.category || "Travel Guide"}
+                  </span>
                 </div>
               </div>
 
+              {/* Quick Actions on Right */}
+              <div className="flex items-center gap-3 text-xs sm:text-sm shrink-0 self-start md:self-center">
+                <Link
+                  href="/blogs"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-gray-200 hover:border-gray-300 bg-white text-gray-700 font-medium transition-colors cursor-pointer shadow-2xs"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 text-gray-500" />
+                  <span>Back to Blogs</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── Main Container (Article on Left 68%, Sidebar on Right 32%) ─── */}
+        <div className="container py-8 sm:py-10 lg:py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            {/* ─── Left Column: Main Article Content (8 cols) ─── */}
+            <article className="lg:col-span-8 text-left">
               {/* Main Featured Image with Diagonal Shine Hover Effect */}
-              <div className="relative w-full aspect-[16/10] rounded-xl overflow-hidden mb-6 bg-gray-100 shadow-xs image-shine cursor-pointer">
+              <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-6 bg-gray-100 border border-gray-150 shadow-xs image-shine cursor-pointer">
                 <Image
                   src={post.image}
                   alt={post.title}

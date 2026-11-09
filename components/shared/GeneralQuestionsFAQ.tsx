@@ -76,7 +76,7 @@ export default function GeneralQuestionsFAQ() {
                   className="w-full flex items-center justify-between gap-4 text-left cursor-pointer focus:outline-none select-none"
                 >
                   <span
-                    className={`text-[15px] sm:text-[16px] font-bold leading-snug transition-colors duration-200 ${isOpen ? "text-[#1877F2]" : "text-gray-950"
+                    className={`text-base md:text-lg font-bold leading-snug transition-colors duration-200 ${isOpen ? "text-[#1877F2]" : "text-gray-950"
                       }`}
                   >
                     {item.question}

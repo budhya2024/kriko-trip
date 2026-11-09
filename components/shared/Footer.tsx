@@ -62,7 +62,7 @@ export default function Footer() {
           alt="Footer Background Pattern"
           fill
           sizes="100vw"
-          className="object-cover object-bottom invert opacity-20"
+          className="object-cover object-bottom"
         />
       </div>
 

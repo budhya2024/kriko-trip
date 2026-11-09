@@ -111,11 +111,10 @@ export default function PackageCard({ pkg }: PackageCardProps) {
                   setCurrentImageIndex(idx);
                 }}
                 aria-label={`Go to slide ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  currentImageIndex === idx
-                    ? "w-4 bg-white shadow-sm"
-                    : "w-1.5 bg-white/60 hover:bg-white/90"
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${currentImageIndex === idx
+                  ? "w-4 bg-white shadow-sm"
+                  : "w-1.5 bg-white/60 hover:bg-white/90"
+                  }`}
               />
             ))}
           </div>
@@ -171,10 +170,10 @@ export default function PackageCard({ pkg }: PackageCardProps) {
               Starting From
             </span>
             <div className="flex items-center justify-end gap-2 leading-none">
-              <span className="text-sm sm:text-base text-gray-400 line-through font-semibold">
+              <span className="text-xs sm:text-sm text-gray-400 line-through font-semibold">
                 ₹{originalPrice.toLocaleString("en-IN")}
               </span>
-              <span className="text-xl sm:text-2xl font-extrabold text-[#110F0F] leading-tight">
+              <span className="text-xl sm:text-2xl font-bold text-[#110F0F] leading-tight">
                 ₹{pkg.price.toLocaleString("en-IN")}
               </span>
             </div>
