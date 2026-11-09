@@ -33,7 +33,7 @@ const packages: PackageCard[] = [
     originalPrice: 24999,
     image:
       "https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80",
-    href: "/tour-packages",
+    href: "/tour-packages/andaman-short-stay",
   },
   {
     id: 2,
@@ -45,7 +45,7 @@ const packages: PackageCard[] = [
     originalPrice: 42000,
     image:
       "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
-    href: "/tour-packages",
+    href: "/tour-packages/andaman-wonders",
   },
   {
     id: 3,
@@ -57,7 +57,7 @@ const packages: PackageCard[] = [
     originalPrice: 64000,
     image:
       "https://images.unsplash.com/photo-1528164344705-475426879c0d?auto=format&fit=crop&w=800&q=80",
-    href: "/tour-packages",
+    href: "/tour-packages/dubai-luxury-desert",
   },
   {
     id: 4,
@@ -69,7 +69,7 @@ const packages: PackageCard[] = [
     originalPrice: 52000,
     image:
       "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    href: "/tour-packages",
+    href: "/tour-packages/best-of-andaman",
   },
   {
     id: 5,
@@ -81,7 +81,7 @@ const packages: PackageCard[] = [
     originalPrice: 38000,
     image:
       "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80",
-    href: "/tour-packages",
+    href: "/tour-packages/bali-island-escape",
   },
   {
     id: 6,
@@ -93,7 +93,7 @@ const packages: PackageCard[] = [
     originalPrice: 109999,
     image:
       "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
-    href: "/tour-packages",
+    href: "/tour-packages/swiss-alps-express",
   },
 ];
 

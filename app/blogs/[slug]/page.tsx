@@ -246,21 +246,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
 
               {/* Author Info & Social Share Row (Tags Removed) */}
               <div className="py-5 border-y border-gray-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                {/* Author Info */}
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
-                    <Image
-                      src={post.author.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"}
-                      alt={post.author.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                  <div>
-                    <p className="text-xs text-gray-500 leading-none">Written by</p>
-                    <p className="text-sm font-bold text-[#00285C] mt-1">{post.author.name}</p>
-                  </div>
-                </div>
+
 
                 {/* Social Share Icons */}
                 <div className="flex items-center gap-2">
@@ -298,23 +284,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </div>
               </div>
 
-              {/* Brand Logo Palette Call-to-Action Card */}
-              <div className="mt-8 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-blue-50/90 via-sky-50/70 to-indigo-50/50 border border-blue-200/80 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left shadow-2xs">
-                <div>
-                  <h3 className="text-base sm:text-lg font-bold text-[#00285C] mb-1">
-                    Looking for a Custom Sundarban Tour Package?
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-600 font-normal max-w-md">
-                    Get in touch with our certified naturalists and resort booking specialists to plan your private safari.
-                  </p>
-                </div>
-                <Link
-                  href="/contact-us"
-                  className="px-6 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] text-white text-xs sm:text-sm font-semibold shadow-sm transition-all whitespace-nowrap cursor-pointer shrink-0"
-                >
-                  Contact Us
-                </Link>
-              </div>
+
             </article>
 
             {/* ─── Right Column: Sidebar (4 cols) ─── */}

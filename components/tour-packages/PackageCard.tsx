@@ -135,7 +135,9 @@ export default function PackageCard({ pkg }: PackageCardProps) {
         <div>
           {/* Package Title */}
           <h3 className="text-[16px] sm:text-[17px] font-bold text-gray-950 leading-snug line-clamp-2 group-hover:text-[#1877F2] transition-colors">
-            {pkg.title}
+            <Link href={`/tour-packages/${pkg.id}`}>
+              {pkg.title}
+            </Link>
           </h3>
 
           {/* Short Excerpt */}
@@ -168,8 +170,8 @@ export default function PackageCard({ pkg }: PackageCardProps) {
 
           {/* Action Button with rounded-full pill format */}
           <Link
-            href={`#package-${pkg.id}`}
-            className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-full bg-[#102A6B] hover:bg-[#1877F2] text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 shrink-0"
+            href={`/tour-packages/${pkg.id}`}
+            className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 shrink-0 cursor-pointer"
           >
             <span>View Details</span>
             <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
