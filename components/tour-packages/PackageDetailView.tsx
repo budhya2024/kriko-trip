@@ -162,84 +162,34 @@ export default function PackageDetailView({
 
         {/* Content Container */}
         <div className="container relative z-10 text-left">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <div>
-              {/* Breadcrumb Navigation on Top with Background */}
-              <nav
-                aria-label="Breadcrumb"
-                className="flex items-center gap-2 text-xs sm:text-[13px] text-white/80 mb-2.5 font-normal"
-              >
-                <Link
-                  href="/"
-                  className="hover:text-white transition-colors"
-                >
-                  Home
-                </Link>
-                <span className="text-white/40">/</span>
-                <Link
-                  href="/tour-packages"
-                  className="hover:text-white transition-colors"
-                >
-                  Tour Packages
-                </Link>
-                <span className="text-white/40">/</span>
-                <span className="text-sky-300 font-medium truncate max-w-xs sm:max-w-md">
-                  {pkg.title}
-                </span>
-              </nav>
+          {/* Breadcrumb Navigation on Top with Background */}
+          <nav
+            aria-label="Breadcrumb"
+            className="flex items-center gap-2 text-xs sm:text-[13px] text-white/80 mb-2.5 font-normal"
+          >
+            <Link
+              href="/"
+              className="hover:text-white transition-colors"
+            >
+              Home
+            </Link>
+            <span className="text-white/40">/</span>
+            <Link
+              href="/tour-packages"
+              className="hover:text-white transition-colors"
+            >
+              Tour Packages
+            </Link>
+            <span className="text-white/40">/</span>
+            <span className="text-sky-300 font-medium truncate max-w-xs sm:max-w-md">
+              {pkg.title}
+            </span>
+          </nav>
 
-              {/* Package Heading */}
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
-                {pkg.title}
-              </h1>
-
-              {/* Meta details below title */}
-              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 text-xs sm:text-sm text-white/85">
-                <span className="inline-flex items-center gap-1.5 font-medium text-white">
-                  <MapPin className="w-4 h-4 text-[#03ADFF]" />
-                  {pkg.location}, {pkg.destination}
-                </span>
-                <span className="text-white/30">•</span>
-                <span className="inline-flex items-center gap-1.5 font-medium text-white">
-                  <Clock className="w-4 h-4 text-[#03ADFF]" />
-                  {pkg.duration}
-                </span>
-                <span className="text-white/30">•</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs text-white border border-white/20 font-medium text-xs">
-                  {pkg.travelType} Tour
-                </span>
-              </div>
-            </div>
-
-            {/* Quick rating & action buttons on Right */}
-            <div className="flex items-center gap-3 text-xs sm:text-sm shrink-0 self-start md:self-center">
-              <div className="flex items-center gap-1.5 bg-white/10 backdrop-blur-xs px-3.5 py-2 rounded-xl border border-white/20 text-white">
-                <Star className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
-                <span className="font-semibold text-white">{pkg.rating}</span>
-                <span className="text-white/70 font-normal">({pkg.reviewsCount} reviews)</span>
-              </div>
-              <button
-                type="button"
-                onClick={handleShare}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-white/25 hover:border-white/50 bg-white/10 backdrop-blur-xs text-white font-medium transition-colors cursor-pointer"
-              >
-                <Share2 className="w-4 h-4 text-white/80" />
-                <span>{copiedShare ? "Copied!" : "Share"}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsSaved(!isSaved)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-white/25 hover:border-white/50 bg-white/10 backdrop-blur-xs text-white hover:text-rose-400 font-medium transition-colors cursor-pointer"
-              >
-                <Heart
-                  className={`w-4 h-4 ${
-                    isSaved ? "fill-rose-500 text-rose-500" : "text-white/80"
-                  }`}
-                />
-                <span>{isSaved ? "Saved" : "Save"}</span>
-              </button>
-            </div>
-          </div>
+          {/* Package Heading */}
+          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
+            {pkg.title}
+          </h1>
         </div>
       </section>
 
