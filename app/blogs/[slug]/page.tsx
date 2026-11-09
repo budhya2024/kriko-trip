@@ -497,20 +497,17 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
         </div>
 
         {/* ─── Bottom Section: 2 Related Blog Posts matching screenshot ─── */}
-        <section className="bg-[#F8FAFC] py-8 sm:py-16 border-t border-gray-200">
+        <section className="bg-[#F8FAFC] py-8 sm:py-16">
           <div className="container">
             {/* Header: Subtitle & Title */}
             <div className="mb-8 text-left">
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#1877F2] bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">
-                RECENT ARTICLES
-              </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-[#00285C] mt-2 tracking-tight">
                 Related Blog Posts
               </h2>
             </div>
 
             {/* 2-Column Responsive Grid matching screenshot */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7 max-w-5xl">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ">
               {relatedPosts.map((rPost) => (
                 <article
                   key={rPost.slug}
