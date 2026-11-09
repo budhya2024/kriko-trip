@@ -1,7 +1,5 @@
 import React from "react";
 import Link from "next/link";
-import Image from "next/image";
-import { ChevronRight } from "lucide-react";
 
 interface PageHeaderProps {
   title: string;
@@ -14,58 +12,45 @@ export default function PageHeader({
   title,
   subtitle,
   breadcrumb,
-  bgImage = "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=2000&q=80",
 }: PageHeaderProps) {
   const currentBreadcrumb = breadcrumb || title;
 
   return (
-    <section className="relative w-full overflow-hidden bg-[#08182B] py-16 sm:py-20 lg:py-24">
-      {/* Background Image */}
-      <Image
-        src={bgImage}
-        alt={title}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center scale-105"
-      />
+    <section className="bg-white border-b border-gray-150 py-6 sm:py-8 transition-colors">
+      <div className="container">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            {/* Breadcrumb Navigation on Top */}
+            <nav
+              aria-label="Breadcrumb"
+              className="flex items-center gap-2 text-xs text-gray-500 mb-2 font-normal"
+            >
+              <Link
+                href="/"
+                className="hover:text-[#1877F2] transition-colors"
+              >
+                Home
+              </Link>
+              <span className="text-gray-300">/</span>
+              <span className="text-gray-800 font-medium truncate max-w-xs sm:max-w-md">
+                {currentBreadcrumb}
+              </span>
+            </nav>
 
-      {/* Dark Ambient Gradient Overlay for Contrast */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#08182B]/95 via-[#08182B]/80 to-[#08182B]/60 z-10" />
+            {/* Page Title in Brand Navy */}
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-[#00285C] tracking-tight leading-snug">
+              {title}
+            </h1>
 
-      {/* Decorative Subtle Concentric Rings */}
-      <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full border border-white/10 pointer-events-none z-10" />
-      <div className="absolute -bottom-24 -right-12 w-64 h-64 rounded-full border border-white/5 pointer-events-none z-10" />
-
-      {/* Content Container (Left-Aligned) */}
-      <div className="container relative z-20 text-left">
-        {/* Page Title */}
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
-          {title}
-        </h1>
-
-        {/* Optional Subtitle */}
-        {subtitle && (
-          <p className="text-sm sm:text-base text-gray-200 mt-2.5 max-w-2xl font-normal leading-relaxed">
-            {subtitle}
-          </p>
-        )}
-
-        {/* Left-Aligned Breadcrumbs */}
-        <nav aria-label="Breadcrumb" className="mt-4 flex items-center gap-2 text-xs sm:text-sm font-medium">
-          <Link
-            href="/"
-            className="text-white/80 hover:text-white transition-colors"
-          >
-            Home
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-white/50 shrink-0" />
-          <span className="text-[#3B82F6] font-semibold">
-            {currentBreadcrumb}
-          </span>
-        </nav>
+            {/* Optional Subtitle */}
+            {subtitle && (
+              <p className="text-sm sm:text-[15px] text-gray-600 mt-2 max-w-2xl font-normal leading-relaxed">
+                {subtitle}
+              </p>
+            )}
+          </div>
+        </div>
       </div>
     </section>
   );
 }
-

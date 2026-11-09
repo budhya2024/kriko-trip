@@ -223,67 +223,63 @@ export default function PackageDetailView({
         </div>
       </section>
 
-      {/* ─── 1. PHOTO GALLERY COLLAGE (Inside .container) ─── */}
-      <section className="pt-6 sm:pt-8 pb-2">
+      {/* ─── MAIN 2-COLUMN SECTION: LEFT HAS ALL CONTENT, RIGHT ONLY HAS THE FORM ─── */}
+      <section className="py-8 sm:py-10 lg:py-12">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4">
-            {/* Left Column: 1 Tall Vertical Photo */}
-            <div className="lg:col-span-6 relative aspect-[4/3] sm:aspect-[16/11] lg:h-[480px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
-              <Image
-                src={galleryImages[0]}
-                alt={`${pkg.title} - Main Feature`}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 680px"
-                className="object-cover group-hover:scale-102 transition-transform duration-500"
-              />
-            </div>
-
-            {/* Right Column: 3 Photos (1 Wide Top, 2 Half-width Bottom) */}
-            <div className="lg:col-span-6 flex flex-col gap-3 sm:gap-4 lg:h-[480px]">
-              {/* Top Wide Photo */}
-              <div className="relative w-full h-[200px] sm:h-[228px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
-                <Image
-                  src={galleryImages[1]}
-                  alt={`${pkg.title} - Landmark`}
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 680px"
-                  className="object-cover group-hover:scale-102 transition-transform duration-500"
-                />
-              </div>
-
-              {/* Bottom 2 Photos Side-by-Side */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 flex-1">
-                <div className="relative w-full h-full min-h-[140px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            {/* ════ LEFT COLUMN: ALL TOUR DETAILS (lg:col-span-8) ════ */}
+            <div className="lg:col-span-8 space-y-10 sm:space-y-12">
+              {/* ─── 1. PHOTO GALLERY COLLAGE (Inside Left Column) ─── */}
+              <div className="grid grid-cols-1 sm:grid-cols-12 gap-3 sm:gap-3.5">
+                {/* Left Tall Vertical Photo */}
+                <div className="sm:col-span-6 relative aspect-[4/3] sm:aspect-auto sm:h-[400px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
                   <Image
-                    src={galleryImages[2]}
-                    alt={`${pkg.title} - Experience 1`}
+                    src={galleryImages[0]}
+                    alt={`${pkg.title} - Main Feature`}
                     fill
-                    sizes="(max-width: 1024px) 50vw, 340px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    priority
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 460px"
+                    className="object-cover group-hover:scale-102 transition-transform duration-500"
                   />
                 </div>
-                <div className="relative w-full h-full min-h-[140px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
-                  <Image
-                    src={galleryImages[3]}
-                    alt={`${pkg.title} - Experience 2`}
-                    fill
-                    sizes="(max-width: 1024px) 50vw, 340px"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+
+                {/* Right 3 Photos: 1 Wide Top, 2 Half-width Bottom */}
+                <div className="sm:col-span-6 flex flex-col gap-3 sm:gap-3.5 sm:h-[400px]">
+                  {/* Top Wide Photo */}
+                  <div className="relative w-full h-[180px] sm:h-[192px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                    <Image
+                      src={galleryImages[1]}
+                      alt={`${pkg.title} - Landmark`}
+                      fill
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 460px"
+                      className="object-cover group-hover:scale-102 transition-transform duration-500"
+                    />
+                  </div>
+
+                  {/* Bottom 2 Photos Side-by-Side */}
+                  <div className="grid grid-cols-2 gap-3 sm:gap-3.5 flex-1">
+                    <div className="relative w-full h-full min-h-[120px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                      <Image
+                        src={galleryImages[2]}
+                        alt={`${pkg.title} - Experience 1`}
+                        fill
+                        sizes="(max-width: 1024px) 25vw, 230px"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                    <div className="relative w-full h-full min-h-[120px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                      <Image
+                        src={galleryImages[3]}
+                        alt={`${pkg.title} - Experience 2`}
+                        fill
+                        sizes="(max-width: 1024px) 25vw, 230px"
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* ─── MAIN 2-COLUMN SECTION (Inside .container) ─── */}
-      <section className="py-10 sm:py-14">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-            {/* ════ LEFT COLUMN: MAIN DETAILS (lg:col-span-8) ════ */}
-            <div className="lg:col-span-8 space-y-12 sm:space-y-14">
               {/* ─── 2. ABOUT TOUR PACKAGE ─── */}
               <div>
                 <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-3 tracking-tight">
