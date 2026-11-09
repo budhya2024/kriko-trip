@@ -61,7 +61,7 @@ export default function BlogListPage() {
 
                   {/* Category / Badge on Top-Left */}
                   <div className="absolute top-3.5 left-3.5 z-10 pointer-events-none">
-                    <span className="px-3 py-1 rounded-md bg-white text-[#0B132A] text-[11px] font-bold tracking-wider uppercase shadow-xs border border-gray-100">
+                    <span className="px-2.5 py-0.5 rounded-md bg-white/95 text-gray-800 text-[11px] font-medium tracking-wide uppercase shadow-xs border border-gray-100">
                       {post.badge || post.category || "TRAVEL GUIDE"}
                     </span>
                   </div>
@@ -71,24 +71,24 @@ export default function BlogListPage() {
                 <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between text-left">
                   <div>
                     {/* Meta Line: Date | Clock Read Time */}
-                    <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-400 font-normal mb-2.5">
+                    <div className="flex items-center gap-2 text-xs text-gray-400 font-normal mb-2.5">
                       <span>{post.date}</span>
                       <span className="text-gray-300 font-light">|</span>
                       <div className="flex items-center gap-1.5 text-gray-500 font-normal">
-                        <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" strokeWidth={2} />
+                        <Clock className="w-3.5 h-3.5 text-amber-500 shrink-0" strokeWidth={1.8} />
                         <span>{post.readTime}</span>
                       </div>
                     </div>
 
-                    {/* Title */}
-                    <h3 className="text-[17px] sm:text-[18px] font-bold text-[#0B132A] group-hover:text-[#1877F2] transition-colors leading-[1.35] line-clamp-2 mb-2.5">
+                    {/* Title (Normal/Medium weight - not heavy bold) */}
+                    <h3 className="text-[16px] sm:text-[17px] font-medium text-gray-900 group-hover:text-[#1877F2] transition-colors leading-snug line-clamp-2 mb-2.5">
                       <Link href={`/blogs/${post.slug}`} className="cursor-pointer">
                         {post.title}
                       </Link>
                     </h3>
 
                     {/* Excerpt */}
-                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5">
+                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5 font-normal">
                       {post.excerpt}
                     </p>
 
@@ -97,7 +97,7 @@ export default function BlogListPage() {
                       {(post.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
                         <span
                           key={tIdx}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-semibold cursor-pointer hover:bg-amber-100/70 transition-colors"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-normal cursor-pointer hover:bg-amber-100/70 transition-colors"
                         >
                           <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
                           <span>{tag}</span>
@@ -106,20 +106,20 @@ export default function BlogListPage() {
                     </div>
                   </div>
 
-                  {/* Footer: Read Article → */}
+                  {/* Footer: Read Article → (Medium weight) */}
                   <div className="pt-4 mt-auto border-t border-gray-100 flex items-center justify-between">
                     <Link
                       href={`/blogs/${post.slug}`}
-                      className="text-[13.5px] sm:text-[14px] font-bold text-[#0B132A] group-hover:text-[#1877F2] transition-colors cursor-pointer"
+                      className="text-[13px] sm:text-[13.5px] font-medium text-gray-700 group-hover:text-[#1877F2] transition-colors cursor-pointer"
                     >
                       Read Article
                     </Link>
                     <Link
                       href={`/blogs/${post.slug}`}
                       aria-label={`Read article: ${post.title}`}
-                      className="text-gray-900 group-hover:text-[#1877F2] transition-transform duration-200 group-hover:translate-x-1 cursor-pointer flex items-center justify-center p-1"
+                      className="text-gray-600 group-hover:text-[#1877F2] transition-transform duration-200 group-hover:translate-x-1 cursor-pointer flex items-center justify-center p-1"
                     >
-                      <ArrowRight className="w-4 h-4 stroke-[2.2]" />
+                      <ArrowRight className="w-4 h-4 stroke-[1.8]" />
                     </Link>
                   </div>
                 </div>
@@ -129,18 +129,18 @@ export default function BlogListPage() {
 
           {/* ─── Exact Screenshot Matched Pagination Bar ─── */}
           <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 select-none">
-            {/* Left: Article Count Info (Showing 1 to 8 of 8 articles) */}
+            {/* Left: Article Count Info (Clean normal font weight) */}
             <div className="text-xs sm:text-sm text-gray-500 font-normal">
               Showing{" "}
-              <span className="font-bold text-gray-900">
+              <span className="text-gray-800 font-medium">
                 {blogPosts.length > 0 ? startIndex + 1 : 0}
               </span>{" "}
               to{" "}
-              <span className="font-bold text-gray-900">
+              <span className="text-gray-800 font-medium">
                 {Math.min(startIndex + POSTS_PER_PAGE, blogPosts.length)}
               </span>{" "}
               of{" "}
-              <span className="font-bold text-gray-900">{blogPosts.length}</span>{" "}
+              <span className="text-gray-800 font-medium">{blogPosts.length}</span>{" "}
               articles
             </div>
 
@@ -151,7 +151,7 @@ export default function BlogListPage() {
                 type="button"
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-[3px] border border-gray-200/90 text-xs sm:text-sm font-medium transition-colors shadow-2xs disabled:bg-[#FAFAFA] disabled:text-gray-300 disabled:border-gray-200 disabled:cursor-not-allowed enabled:bg-white enabled:text-gray-700 enabled:hover:bg-gray-50 enabled:hover:text-gray-900 enabled:cursor-pointer"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-[3px] border border-gray-200/90 text-xs sm:text-sm font-normal transition-colors shadow-2xs disabled:bg-[#FAFAFA] disabled:text-gray-300 disabled:border-gray-200 disabled:cursor-not-allowed enabled:bg-white enabled:text-gray-700 enabled:hover:bg-gray-50 enabled:hover:text-gray-900 enabled:cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4 stroke-[1.8]" />
                 <span>Previous</span>
@@ -164,7 +164,7 @@ export default function BlogListPage() {
                     key={page}
                     type="button"
                     onClick={() => goToPage(page)}
-                    className={`w-9 h-9 rounded-[3px] text-xs sm:text-sm font-bold transition-all flex items-center justify-center ${
+                    className={`w-9 h-9 rounded-[3px] text-xs sm:text-sm font-medium transition-all flex items-center justify-center ${
                       currentPage === page
                         ? "bg-[#064E3B] text-white shadow-xs cursor-default"
                         : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 shadow-2xs cursor-pointer"
