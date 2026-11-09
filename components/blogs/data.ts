@@ -162,29 +162,29 @@ export const blogPosts: BlogPost[] = [
   },
   {
     slug: "tropical-escapes-beach-getaways",
-    title: "Tropical Escapes & Beach Getaways.",
-    location: "Rome , Italy",
+    title: "Tropical Escapes & Pristine Andaman Beach Getaways",
+    location: "Havelock Island, Andaman",
     date: "12 Sep, 2025",
     author: {
-      name: "Elena Rostova",
+      name: "Pooja Sharma",
       role: "Senior Travel Editor",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
     },
     category: "Beach & Islands",
     badge: "TRAVEL GUIDE",
-    tags: ["Sundarban", "Wildlife", "Tiger Trail"],
+    tags: ["Andaman", "Radhanagar", "Beaches"],
     readTime: "4 Min Read",
     image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1200&q=80",
-    excerpt: "Escape to the World's Most Breathtaking Islands and immerse yourself in paradise.",
+    excerpt: "Escape to the most breathtaking tropical islands of India and immerse yourself in paradise.",
     content: {
       intro:
-        "There is something inherently healing about leaving behind the bustle of city life and letting the rhythmic sound of turquoise waves dictate your schedule. From secluded lagoons in Southeast Asia to dramatic cliffside coastlines, tropical beach vacations offer the ultimate reset.",
+        "There is something inherently healing about leaving behind the bustle of city life and letting the rhythmic sound of turquoise waves dictate your schedule. From secluded lagoons in Andaman to golden sands in Goa, tropical beach vacations in India offer the ultimate reset.",
       sections: [
         {
           heading: "1. The Magic of Hidden Coastal Coves",
           paragraphs: [
-            "While popular tourist hotspots offer vibrant nightlife and luxurious beachfront resorts, the true soul of tropical travel lies in venturing beyond the marked trail. Tucked between jagged limestone formations and lush jungle canopies are secluded coves with powdery white sand.",
-            "Waking up at sunrise to catch local fishermen casting traditional wooden skiffs and paddling on clear waters where you can observe colorful coral gardens without donning snorkeling gear is an experience you won't forget.",
+            "While popular tourist hotspots offer vibrant nightlife and luxurious beachfront resorts, the true soul of tropical travel lies in venturing beyond the marked trail. Tucked between ancient mahua trees and turquoise waters are secluded coves with powdery white sand.",
+            "Waking up at sunrise to catch local fishermen and paddling on crystal-clear waters where you can observe colorful coral gardens without donning snorkeling gear is an experience you won't forget.",
           ],
           highlight:
             "Travel tip: Always hire local island guides when exploring marine sanctuaries. They provide insider access to quiet sandbars away from tour groups.",
@@ -192,7 +192,7 @@ export const blogPosts: BlogPost[] = [
         {
           heading: "2. Cultural Harmony & Coastal Gastronomy",
           paragraphs: [
-            "A beach getaway is as much about tasting the ocean as it is about gazing at it. Coastal markets offer day-fresh seafood seasoned with fragrant lemongrass, roasted chili sambal, and freshly cracked coconuts.",
+            "A beach getaway is as much about tasting the ocean as it is about gazing at it. Coastal markets offer day-fresh seafood seasoned with fragrant coconut, curry leaves, and freshly cracked spices.",
             "Dining with your toes immersed in warm sand beneath bamboo lanterns transforms an ordinary evening into an unforgettable memory.",
           ],
           image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=80",
@@ -204,127 +204,127 @@ export const blogPosts: BlogPost[] = [
         "Book private sunset cruises in advance for the best viewing spots.",
       ],
       conclusion:
-        "Whether you are planning a romantic honeymoon or a serene solo retreat, a tropical escape rekindles your appreciation for the natural wonders of our planet. Let the tides guide your next great journey.",
+        "Whether you are planning a romantic honeymoon or a serene solo retreat, an Indian tropical escape rekindles your appreciation for the natural wonders of our nation. Let the tides guide your next great journey.",
     },
   },
   {
     slug: "crystal-clear-waters-white-sands",
-    title: "Crystal-Clear Waters & White Sands.",
-    location: "Rome , Italy",
+    title: "Crystal-Clear Waters & Golden Sands of Goa",
+    location: "Goa & Konkan Coast, India",
     date: "12 Sep, 2025",
     author: {
-      name: "Marcus Vance",
+      name: "Rohan Kulkarni",
       role: "Adventure Photographer",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
     },
     category: "Beach & Islands",
     badge: "TRAVEL GUIDE",
-    tags: ["Sundarban", "Wildlife", "Tiger Trail"],
+    tags: ["Goa", "Beaches", "Coastal"],
     readTime: "4 Min Read",
-    image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1200&q=80",
-    excerpt: "Escape to the World's Most Breathtaking Islands and immerse yourself in paradise.",
+    image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=1200&q=80",
+    excerpt: "Explore the golden palm-fringed coastlines, heritage Portuguese churches, and serene sunset waters of Goa.",
     content: {
       intro:
-        "The Andaman Sea coastline of southern Thailand has enchanted travelers for decades. Towering limestone karsts rising dramatically from emerald waters create an otherworldly seascape that feels lifted straight from a fantasy novel.",
+        "The sun-drenched coastline of Goa and the Konkan coast has enchanted travelers for generations. Sweeping golden sand beaches, warm Arabian Sea waters, and vibrant beach shacks make this India's premier beach paradise.",
       sections: [
         {
-          heading: "Exploring the Phi Phi Islands by Longtail",
+          heading: "Exploring South Goa's Secluded Crescent Bays",
           paragraphs: [
-            "Hiring a traditional wooden longtail boat adorned with bright ceremonial ribbons is the quintessential Thai island experience. Sailing through the towering cliffs of Maya Bay and snorkeling in the shallow, crystalline waters of Pileh Lagoon reveals why this corner of the globe is universally celebrated.",
-            "Visiting early in the morning before commercial tour speedboats arrive allows you to witness the silence of the limestone amphitheater in all its grandeur.",
+            "While North Goa is renowned for energetic water sports and beach markets, South Goa offers tranquil bays like Palolem, Agonda, and Cola Beach bordered by freshwater lagoons.",
+            "Renting a kayak at dawn to paddle with wild dolphins in the calm morning sea is one of the most magical experiences on the coast.",
           ],
           highlight:
-            "Charter a private sunrise longtail boat from Krabi or Phuket to have the lagoons entirely to yourself.",
+            "Visit between October and March for pleasant tropical breezes and calm swimming waters.",
         },
         {
-          heading: "Sea Kayaking and Hidden Sea Caves",
+          heading: "Heritage Trails & Coastal Flavors",
           paragraphs: [
-            "In Phang Nga Bay, ancient marine caves known as 'hongs' can only be entered by kayak during low tide. Drifting through darkened stone tunnels to emerge into hidden, sunlit lagoons surrounded by sheer vertical rock walls is truly magical.",
+            "Beyond the beaches lie centuries of history in the Latin Quarter of Fontainhas in Panaji, with vibrant yellow and blue villas, and centuries-old spice plantations in Ponda.",
           ],
-          image: "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1000&q=80",
+          image: "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=1000&q=80",
         },
       ],
       tips: [
-        "Visit between November and April for the calmest sea conditions and crystal clarity.",
-        "Bring reusable water bottles to minimize single-use plastic on the islands.",
-        "Carry light dry-fit clothing suitable for boat hops and sea caves.",
+        "Rent a scooter to easily explore hidden beaches and inland spice farms.",
+        "Savor authentic Goan fish curry thali at family-run beach shacks.",
+        "Respect local coastal conservation guidelines during turtle nesting seasons.",
       ],
       conclusion:
-        "Thailand's southern waters combine raw tropical grandeur with warm hospitality. It remains one of the world's premier destinations for beach lovers and ocean adventurers alike.",
+        "Goa's unique blend of relaxation, Portuguese heritage, and coastal warmth remains unmatched across India.",
     },
   },
   {
     slug: "alpine-adventures-swiss-peaks",
-    title: "Alpine Adventures & High-Altitude Trails",
-    location: "Lucerne, Switzerland",
+    title: "Alpine Adventures & Snow Trails of Gulmarg",
+    location: "Gulmarg & Kashmir Valley, India",
     date: "25 Sep, 2025",
     author: {
-      name: "David Miller",
+      name: "Vikram Rathore",
       role: "Mountain Expedition Lead",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
     },
     category: "Adventure",
     badge: "ADVENTURE",
-    tags: ["Swiss Alps", "Mountain", "Trek"],
+    tags: ["Kashmir", "Gulmarg", "Snow Trek"],
     readTime: "4 Min Read",
     image: "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1200&q=80",
-    excerpt: "Hike through wildflower valleys, ride glacier cableways, and embrace alpine serenity.",
+    excerpt: "Hike through wildflower alpine meadows, ride the world's highest gondola, and embrace Himalayan serenity.",
     content: {
       intro:
-        "Fresh mountain air, ringing cowbells in emerald pastures, and jagged glacier-clad peaks touching the clouds—the Swiss Alps offer an awe-inspiring playground for outdoor enthusiasts.",
+        "Crisp mountain air, towering deodar and pine forests, and dramatic snow-capped peaks of the Pir Panjal range—Gulmarg in Kashmir is India's ultimate alpine wonder.",
       sections: [
         {
-          heading: "The Legendary Peaks of the Bernese Oberland",
+          heading: "The World-Famous Gulmarg Gondola Experience",
           paragraphs: [
-            "The triumvirate of Eiger, Mönch, and Jungfrau defines the skyline of central Switzerland. Taking the historic cogwheel train up to the Jungfraujoch—the 'Top of Europe' at 3,454 meters—delivers panoramic vistas across the Aletsch Glacier, the longest ice stream in the Alps.",
-            "Scenic hiking trails meander down from Kleine Scheidegg to Grindelwald, flanked by dramatic vertical cliffs and rushing glacial waterfalls.",
+            "Ascending from Gulmarg resort through pine canopies up to Kongdoori and onward to Apharwat Peak at 4,390 meters is an unforgettable mountain journey.",
+            "From the summit, enjoy panoramic vistas of Mount Nanga Parbat and endless powder snow slopes ideal for skiing and snowboarding.",
           ],
           highlight:
-            "Get a Swiss Travel Pass for seamless, unlimited journeys across national panoramic trains, lake steamers, and postal mountain buses.",
+            "Book your Gulmarg Gondola Phase 1 & 2 tickets well in advance during the peak winter snow season.",
         },
       ],
       tips: [
-        "Layer clothing effectively: mountain weather can shift from warm sunshine to brisk alpine breezes within minutes.",
-        "Wear sturdy, ankle-support hiking boots for rocky limestone paths.",
+        "Layer thermal clothing effectively as high-altitude winds can drop temperatures rapidly.",
+        "Wear waterproof snow boots with good tread for walking on Apharwat snow fields.",
       ],
       conclusion:
-        "Switzerland's alpine landscapes inspire deep tranquility and a lasting connection to the mountains. It is a journey every mountain lover should experience at least once.",
+        "Kashmir's alpine landscapes inspire deep tranquility and a lasting connection to the Himalayas. It is a journey every mountain lover must take.",
     },
   },
   {
-    slug: "desert-safaris-dune-bashing-dubai",
-    title: "Desert Safaris & Stargazing Across the Dunes",
-    location: "Dubai, UAE",
+    slug: "thar-desert-safaris-jaisalmer-rajasthan",
+    title: "Thar Desert Safaris & Stargazing Across the Dunes",
+    location: "Jaisalmer Thar Desert, Rajasthan",
     date: "02 Oct, 2025",
     author: {
-      name: "Sarah Jenkins",
+      name: "Meera Shekhawat",
       role: "Luxury Travel Curator",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80",
     },
     category: "Culture & Luxury",
     badge: "SAFARI & DUNES",
-    tags: ["Dubai", "Desert", "Luxury"],
+    tags: ["Rajasthan", "Thar Desert", "Jaisalmer"],
     readTime: "5 Min Read",
-    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
-    excerpt: "Experience golden sunsets over endless dunes, Bedouin feasts, and futuristic skyline wonders.",
+    image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=1200&q=80",
+    excerpt: "Experience golden sunsets over endless Thar sand dunes, Rajasthani royal feasts, and heritage living.",
     content: {
       intro:
-        "Just beyond the glittering glass towers of Dubai lies the Arabian Desert—a vast expanse of undulating red dunes that holds centuries of Bedouin heritage and wilderness beauty.",
+        "Beyond the golden sandstone walls of Jaisalmer Fort lies the Great Indian Thar Desert—a mesmerizing expanse of undulating dunes steeped in Rajput history, folk music, and warm hospitality.",
       sections: [
         {
-          heading: "Adrenaline on the Dunes to Twilight Silence",
+          heading: "Camel Treks to Starlit Campfires",
           paragraphs: [
-            "A desert safari starts with a thrilling 4x4 dune bashing session where skilled drivers conquer crests and slips. But the most memorable transition occurs as the sun dips beneath the horizon, turning the sands from burning amber to deep velvet violet.",
-            "Arriving at a secluded desert camp welcomed with Arabic coffee and cardamom dates opens the doorway into authentic Arabian hospitality.",
+            "A desert safari through the Sam and Khuri sand dunes begins with a gentle camel ride as the setting sun paints the golden sands in hues of amber and crimson.",
+            "Arriving at a luxury desert camp welcomed by Manganiyar musicians, Kalbeliya folk dancers, and royal Dal Baati Churma cooked over wood fires is truly unforgettable.",
           ],
         },
       ],
       tips: [
-        "Wear loose, breathable cotton or linen clothing for daytime warmth and evening breezes.",
-        "Opt for a conservation-focused desert reserve to spot native Arabian oryx and gazelles.",
+        "Pack warm woolens for desert nights as temperatures drop significantly after sunset.",
+        "Carry sunglasses, sun hat, and cotton scarves for daytime sand breezes.",
       ],
       conclusion:
-        "The stark contrast between ultra-modern architecture and timeless desert sands makes Dubai a truly captivating destination.",
+        "The timeless romance of Rajasthan's Thar Desert leaves an indelible mark on every traveler who ventures beneath its starry skies.",
     },
   },
   {
@@ -364,38 +364,39 @@ export const blogPosts: BlogPost[] = [
     },
   },
   {
-    slug: "romantic-getaways-maldives-villas",
-    title: "Romantic Overwater Villa Living in the Maldives",
-    location: "Malé Atoll, Maldives",
+    slug: "romantic-getaways-lakshadweep-islands",
+    title: "Romantic Beach Sanctuaries & Coral Lagoons in Lakshadweep",
+    location: "Bangaram & Agatti, Lakshadweep, India",
     date: "18 Oct, 2025",
     author: {
-      name: "Chloe Dupuis",
-      role: "Honeymoon & Luxury Specialist",
+      name: "Dr. Ananya Roy",
+      role: "Island & Marine Travel Specialist",
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
     },
     category: "Honeymoon",
-    badge: "RESORT & STAYS",
-    tags: ["Maldives", "Overwater", "Villas"],
+    badge: "CORAL & ATOLLS",
+    tags: ["Lakshadweep", "Coral Reef", "Bangaram", "Honeymoon"],
     readTime: "4 Min Read",
-    image: "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1200&q=80",
-    excerpt: "Step directly into turquoise lagoons from your private sun deck and watch the sunset unfold.",
+    image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+    excerpt: "Step into crystal-clear turquoise lagoons, secluded coral sandbanks, and pristine tropical serenity.",
     content: {
       intro:
-        "The Maldives represents the pinnacle of barefoot luxury. With private atolls, floating villas above crystalline waters, and vibrant marine life right beneath your glass floor, it remains the ultimate romantic escape.",
+        "The Lakshadweep archipelago represents India's ultimate untouched tropical paradise. With turquoise atolls, pristine sandbanks, and thriving coral reefs teeming with marine life, it offers an exclusive romantic escape like nowhere else on Earth.",
       sections: [
         {
-          heading: "Private Decks and Coral Gardens",
+          heading: "Secluded Sandbanks and Vibrant Coral Gardens",
           paragraphs: [
-            "Waking up to uninterrupted ocean views, enjoying floating breakfast in your private infinity pool, and snorkeling with manta rays within meters of your villa are everyday realities in the Maldives.",
+            "Waking up to uninterrupted vistas of turquoise waters, stepping barefoot onto powder-soft white sand, and snorkeling alongside sea turtles within meters of your beach cottage define the magic of Bangaram and Agatti.",
+            "Evenings unfold under canopies of coconut palms with fresh coastal catches and private candlelit dinners on secluded sandbanks bathed in moonlight.",
           ],
         },
       ],
       tips: [
-        "Choose an all-inclusive meal plan to enjoy diverse gourmet restaurants without surprise costs.",
-        "Take a seaplane transfer at least once for bird's-eye views of the atolls.",
+        "Ensure your Lakshadweep entry permit is applied for at least 15 days in advance through registered operators.",
+        "Take a scenic boat excursion to Thinnakara and Parali islands for untouched coral sandbanks.",
       ],
       conclusion:
-        "An overwater villa in the Maldives is an unforgettable benchmark of romance and luxury.",
+        "A secluded beach getaway in Lakshadweep is an unforgettable celebration of love, tranquility, and natural beauty in India.",
     },
   },
 ];

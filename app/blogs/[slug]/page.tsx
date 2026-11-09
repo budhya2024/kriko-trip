@@ -131,16 +131,6 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </h1>
               </div>
 
-              {/* Quick Actions on Right */}
-              <div className="flex items-center gap-3 text-xs sm:text-sm shrink-0 self-start md:self-center">
-                <Link
-                  href="/blogs"
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-white/20 hover:border-white/40 bg-white/10 hover:bg-white/20 text-white font-medium transition-colors cursor-pointer backdrop-blur-xs"
-                >
-                  <ArrowLeft className="w-3.5 h-3.5 text-white/70" />
-                  <span>Back to Blogs</span>
-                </Link>
-              </div>
             </div>
           </div>
         </section>
@@ -150,6 +140,17 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* ─── Left Column: Main Article Content (8 cols) ─── */}
             <article className="lg:col-span-8 text-left">
+
+              {/* Quick Actions on Right */}
+              <div className="flex items-center gap-3 text-xs sm:text-sm shrink-0 self-start md:self-center pb-2">
+                <Link
+                  href="/blogs"
+                  className="inline-flex items-center gap-1.5 font-medium transition-colors cursor-pointer text-gray-500 hover:text-[#00285C]"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 " />
+                  <span>Back to Blogs</span>
+                </Link>
+              </div>
               {/* Blog Title & Meta Details Matching Reference Format */}
               <div className="mb-6">
                 {/* Article Heading (Small, Clean Font Size) */}
@@ -162,7 +163,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                   {/* Left: Author & Date/Reading Time in 2 Stacked Lines */}
                   <div>
                     {/* Line 1: Author */}
-                    <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#004D40]">
+                    <div className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#004D40]">
                       <User className="w-3.5 h-3.5 text-teal-800 shrink-0 stroke-[2.2]" />
                       <span>{post.author.name}</span>
                     </div>
@@ -186,7 +187,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     ).map((tag, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF9E6] text-[#B45309] text-[11px] sm:text-xs font-medium border border-[#FDE68A]/60 shadow-2xs"
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF9E6] text-[#B45309] text-xs font-medium border border-[#FDE68A]/60 shadow-2xs"
                       >
                         <Tag className="w-3 h-3 text-[#D97706] fill-[#D97706]" />
                         <span>{tag}</span>

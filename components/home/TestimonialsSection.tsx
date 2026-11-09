@@ -72,7 +72,7 @@ const testimonialsRow2: Testimonial[] = [
     rating: 5,
     title: "Unforgettable Journey",
     comment:
-      "Booking with KrikoTrip was the best decision for our family! The guide in Bali was exceptionally knowledgeable and friendly.",
+      "Booking with KrikoTrip was the best decision for our family! The guide in Andaman was exceptionally knowledgeable and friendly.",
     name: "Lucas Walker",
     role: "KrikoTrip Traveler",
     avatar:

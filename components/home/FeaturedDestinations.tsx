@@ -13,88 +13,88 @@ interface DestinationItem {
 
 const destinations: DestinationItem[] = [
   {
-    id: "jamaica",
-    name: "Jamaica",
-    activities: "02 Activities",
+    id: "andaman",
+    name: "Andaman Islands",
+    activities: "08 Activities",
     image:
       "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "united-states",
-    name: "United States",
-    activities: "01 Activities",
-    image:
-      "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: "jordan",
-    name: "Jordan",
-    activities: "01 Activities",
-    image:
-      "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: "qatar",
-    name: "Qatar",
-    activities: "02 Activities",
-    image:
-      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: "switzerland",
-    name: "Switzerland",
-    activities: "04 Activities",
+    id: "kashmir",
+    name: "Kashmir Valley",
+    activities: "06 Activities",
     image:
       "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "thailand",
-    name: "Thailand",
-    activities: "03 Activities",
+    id: "kerala",
+    name: "Kerala Backwaters",
+    activities: "07 Activities",
     image:
-      "https://images.unsplash.com/photo-1506665531195-3566af2b4dfa?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "france",
-    name: "France",
+    id: "goa",
+    name: "Goa Beaches",
+    activities: "09 Activities",
+    image:
+      "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: "rajasthan",
+    name: "Royal Rajasthan",
+    activities: "08 Activities",
+    image:
+      "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: "himachal",
+    name: "Himachal (Manali)",
     activities: "05 Activities",
     image:
-      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "japan",
-    name: "Japan",
+    id: "sundarban",
+    name: "Sundarban Mangroves",
+    activities: "04 Activities",
+    image:
+      "https://images.unsplash.com/photo-1484406566174-9da000fda645?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: "ladakh",
+    name: "Leh Ladakh",
     activities: "06 Activities",
     image:
-      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "italy",
-    name: "Italy",
+    id: "varanasi",
+    name: "Varanasi Heritage",
+    activities: "05 Activities",
+    image:
+      "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=600&q=80",
+  },
+  {
+    id: "darjeeling",
+    name: "Darjeeling Hills",
     activities: "04 Activities",
     image:
-      "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "maldives",
-    name: "Maldives",
-    activities: "03 Activities",
+    id: "ooty",
+    name: "Ooty & Nilgiris",
+    activities: "05 Activities",
     image:
-      "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?auto=format&fit=crop&w=600&q=80",
   },
   {
-    id: "greece",
-    name: "Greece",
-    activities: "04 Activities",
+    id: "rishikesh",
+    name: "Rishikesh Yoga",
+    activities: "06 Activities",
     image:
-      "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=600&q=80",
-  },
-  {
-    id: "australia",
-    name: "Australia",
-    activities: "03 Activities",
-    image:
-      "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=600&q=80",
   },
 ];
 

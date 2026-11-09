@@ -13,31 +13,31 @@ import Image from "next/image";
 import footerBg from "@/public/assets/images/footer-bg-1-2-2.webp";
 
 const topDestinations = [
-  "Maldives Tour",
-  "Bali, Indonesia Tour",
-  "Thailand Tour",
-  "Philippines Tour",
-  "Hawaii, USA Tour",
-  "Switzerland Tour",
-  "New Zealand Tour",
-  "Costa Rica Tour",
-  "Peru (Machu Picchu)",
-  "Paris, France Tour",
-  "Rome, Italy Tour",
+  "Andaman & Nicobar Tour",
+  "Kashmir & Gulmarg Tour",
+  "Kerala Backwaters Tour",
+  "Goa Beach Holiday Tour",
+  "Royal Rajasthan Tour",
+  "Himachal & Manali Tour",
+  "Leh Ladakh Adventure Tour",
+  "Sundarban Mangrove Tour",
+  "Varanasi Heritage Tour",
+  "Darjeeling & Sikkim Tour",
+  "Ooty & Nilgiris Tour",
 ];
 
 const popularSearches = [
-  "Adventure",
-  "Hiking & Stiking",
+  "Adventure Trekking",
+  "Himalayan Hiking",
   "Holiday Packages",
   "Flights And Hotels",
   "Honeymoon Trip",
-  "Bali Vacation Package",
-  "Desert Safari",
+  "Andaman Vacation Package",
+  "Thar Desert Safari",
   "Last-Minute Deals",
   "Summer Vacation",
-  "Wildlife Safari",
-  "Dubai Luxury Tours",
+  "Sundarban Wildlife Safari",
+  "Kashmir Luxury Tours",
 ];
 
 const resources = [

@@ -48,13 +48,13 @@ const budgetRanges = [
 
 const destinationsList = [
   { id: "Andaman", label: "Andaman" },
-  { id: "Bali", label: "Bali" },
-  { id: "Maldives", label: "Maldives" },
-  { id: "Switzerland", label: "Switzerland" },
-  { id: "Dubai", label: "Dubai" },
-  { id: "Thailand", label: "Thailand" },
-  { id: "Costa Rica", label: "Costa Rica" },
   { id: "Kashmir", label: "Kashmir" },
+  { id: "Kerala", label: "Kerala" },
+  { id: "Rajasthan", label: "Rajasthan" },
+  { id: "Goa", label: "Goa" },
+  { id: "Himachal", label: "Himachal" },
+  { id: "Ladakh", label: "Ladakh" },
+  { id: "Sundarban", label: "Sundarban" },
 ];
 
 export default function FilterSidebar({

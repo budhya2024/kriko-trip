@@ -451,14 +451,14 @@ export default function PackageDetailView({
                 </div>
 
                 {/* Itinerary Card with Dividers, Pin Icons & Spacing Matching Screenshot */}
-                <div className="rounded-md border border-gray-200/90 bg-white px-6 sm:px-8 py-2">
+                <div className="rounded-2xl border border-gray-200 bg-white px-6 sm:px-8 py-2 shadow-xs">
                   {pkg.itinerary.map((dayItem) => {
                     const isOpen = openDays.includes(dayItem.day);
                     const dayPadded =
                       dayItem.day < 10 ? `0${dayItem.day}` : dayItem.day;
 
                     return (
-                      <div key={dayItem.day} className="py-5 sm:py-6 first:pt-4 last:pb-4 border-b border-gray-200 last:border-0">
+                      <div key={dayItem.day} className="py-5 sm:py-6 first:pt-4 last:pb-4 border-b border-gray-100 last:border-0">
                         <button
                           type="button"
                           onClick={() => toggleDay(dayItem.day)}
@@ -466,21 +466,21 @@ export default function PackageDetailView({
                         >
                           <div className="flex items-center pr-4 flex-1">
                             {/* Pin Icon */}
-                            <MapPin className="w-4 h-4 text-gray-900 shrink-0 stroke-[2.2]" />
+                            <MapPin className="w-4 h-4 text-black shrink-0 stroke-[2.2]" />
                             {/* Day Number */}
                             <span className="font-semibold text-gray-950 text-sm sm:text-base shrink-0 mx-2.5">
                               Day-{dayPadded}
                             </span>
                             {/* Main Heading with Left Side Space */}
-                            <span className="text-sm sm:text-base font-normal text-gray-800 group-hover:text-[#1877F2] transition-colors ml-6 sm:ml-8 line-clamp-1">
+                            <span className="text-sm sm:text-base font-normal text-gray-800 group-hover:text-[#1877F2] transition-colors ml-6 sm:ml-10 line-clamp-1">
                               {dayItem.title}
                             </span>
                           </div>
 
                           {/* Caret Down Icon matching screenshot */}
-                          <div className="shrink-0 text-gray-600 pl-2">
+                          <div className="shrink-0 text-gray-500 pl-2">
                             <svg
-                              className={`w-3.5 h-3.5 fill-gray-600 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
+                              className={`w-3.5 h-3.5 fill-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
                                 }`}
                               viewBox="0 0 24 24"
                             >
@@ -491,69 +491,71 @@ export default function PackageDetailView({
 
                         {/* Expandable Day Details (Matching Reference Screenshot Structure) */}
                         {isOpen && (
-                          <div className="mt-4 pt-2 text-sm sm:text-[15px] text-gray-700 space-y-4 pl-0 sm:pl-2 animate-in fade-in">
+                          <div className="mt-4 pt-1 text-sm sm:text-[15px] text-gray-700 space-y-4 pl-0 sm:pl-2 animate-in fade-in">
                             {/* Description Paragraph */}
                             <p className="leading-relaxed font-normal text-gray-600">
                               {dayItem.description}
                             </p>
 
-                            {/* 4 Details Rows with Blue Icons and Colon Alignment */}
-                            <div className="space-y-3 pt-1">
+                            {/* 4 Details Rows with Blue Icons and Exact Colon Alignment */}
+                            <div className="space-y-3 pt-2">
                               {/* Transport */}
-                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
-                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-                                  <Compass className="w-3.5 h-3.5 text-[#1877F2]" />
-                                </div>
+                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                <svg className="w-4 h-4 text-[#1877F2] fill-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24">
+                                  <path d="M12 2L2 12l10 10 10-10L12 2zm0 5.5l4.5 4.5-4.5 4.5-4.5-4.5 4.5-4.5z" />
+                                </svg>
                                 <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
                                   Transport
                                 </span>
-                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-900 font-semibold shrink-0">:</span>
                                 <span className="text-gray-700 font-normal ml-1">
-                                  Car, Flight, Boat
+                                  {dayItem.transport || "Car, Flight, Boat"}
                                 </span>
                               </div>
 
                               {/* Activities */}
-                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
-                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-                                  <Activity className="w-3.5 h-3.5 text-[#1877F2]" />
-                                </div>
+                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none">
+                                  <circle cx="12" cy="12" r="9" fill="#1877F2" />
+                                  <path d="M7 12h2.5l1.5-3 2 6 1.5-3H17" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
                                 <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
                                   Activities
                                 </span>
-                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-900 font-semibold shrink-0">:</span>
                                 <span className="text-gray-700 font-normal ml-1">
                                   {dayItem.activities && dayItem.activities.length > 0
                                     ? dayItem.activities.join(", ")
-                                    : "Sightseeing, Guided Tour, Sunset & night view, Bike tour."}
+                                    : "Sightseeing, Guided Heritage Walk, Sunset Viewpoint, Cultural Show."}
                                 </span>
                               </div>
 
                               {/* Meals */}
-                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
-                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-                                  <Utensils className="w-3.5 h-3.5 text-[#1877F2]" />
-                                </div>
+                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
+                                  <circle cx="12" cy="12" r="9" />
+                                  <circle cx="12" cy="12" r="3.5" fill="#1877F2" stroke="none" />
+                                </svg>
                                 <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
                                   Meals
                                 </span>
-                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-900 font-semibold shrink-0">:</span>
                                 <span className="text-gray-700 font-normal ml-1">
                                   {dayItem.meals || "Breakfast, Lunch, Snacks"}
                                 </span>
                               </div>
 
                               {/* Accomodation */}
-                              <div className="flex items-start sm:items-center gap-2 text-xs sm:text-sm">
-                                <div className="w-5 h-5 rounded-md bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-                                  <Building className="w-3.5 h-3.5 text-[#1877F2]" />
-                                </div>
+                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
+                                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
                                 <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
                                   Accomodation
                                 </span>
-                                <span className="text-gray-400 shrink-0">:</span>
+                                <span className="text-gray-900 font-semibold shrink-0">:</span>
                                 <span className="text-gray-700 font-normal ml-1">
-                                  {dayItem.stay || pkg.hotelName || "5-Star Luxury Resort"}
+                                  {dayItem.stay || pkg.hotelName || "Luxury Heritage Resort"}
                                 </span>
                               </div>
                             </div>

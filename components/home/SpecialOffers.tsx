@@ -38,14 +38,14 @@ const offers: OfferCard[] = [
   {
     id: 3,
     image: offerImg3,
-    title: "Bali, Indonesia - Total Price ₹24,999",
-    href: "#",
+    title: "Andaman Islands - Total Price ₹18,500",
+    href: "/tour-packages/andaman-short-stay",
   },
   {
     id: 4,
     image: offerImg4,
-    title: "Travel Around The World - 30% OFF",
-    href: "#",
+    title: "Travel Across Incredible India - 30% OFF",
+    href: "/tour-packages",
   },
 ];
 

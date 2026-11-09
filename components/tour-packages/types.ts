@@ -2,6 +2,7 @@ export interface ItineraryDay {
   day: number;
   title: string;
   description: string;
+  transport?: string;
   meals?: string;
   stay?: string;
   activities?: string[];

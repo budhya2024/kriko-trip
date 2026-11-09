@@ -72,7 +72,7 @@ export default function GallerySection() {
                 <div className="w-full  overflow-hidden shadow-xs group">
                   <Image
                     src={gallery2}
-                    alt="Thailand longtail boats on turquoise ocean"
+                    alt="Andaman coastal boats on turquoise ocean"
                     className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
                     priority
                   />
@@ -133,11 +133,11 @@ export default function GallerySection() {
                   />
                 </div>
 
-                {/* Bottom: gallery6 Bali Temple Gate */}
+                {/* Bottom: gallery6 Indian Heritage Monument */}
                 <div className="w-full  overflow-hidden shadow-xs group flex-1">
                   <Image
                     src={gallery6}
-                    alt="Bali Gate of Heaven"
+                    alt="Indian Heritage Monument"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     priority
                   />

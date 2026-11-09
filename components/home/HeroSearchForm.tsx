@@ -19,13 +19,13 @@ export default function HeroSearchForm() {
   const [isTourTypeOpen, setIsTourTypeOpen] = useState(false);
 
   const destinations = [
-    "Bali, Indonesia",
-    "Paris, France",
-    "Tokyo, Japan",
-    "Rome, Italy",
-    "Dubai, UAE",
-    "Maldives",
-    "Cape Town, South Africa",
+    "Andaman & Nicobar Islands",
+    "Kashmir & Ladakh",
+    "Goa Coastal Beaches",
+    "Kerala Backwaters (Alleppey)",
+    "Rajasthan (Jaipur & Udaipur)",
+    "Himachal Pradesh (Manali & Shimla)",
+    "Sundarban Tiger Reserve",
   ];
 
   const tourTypes = [
