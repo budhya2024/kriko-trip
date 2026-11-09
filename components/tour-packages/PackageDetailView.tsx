@@ -9,13 +9,12 @@ import {
   Star,
   Users,
   Compass,
-  Headphones,
-  Globe2,
+  UserCheck,
+  Languages,
   Ticket,
   CheckCircle2,
   XCircle,
   ChevronDown,
-  Sparkles,
   Share2,
   Heart,
   Download,
@@ -29,6 +28,7 @@ import {
   Info,
   Check,
   FileText,
+  Lock,
 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa6";
 import { TourPackage } from "./types";
@@ -76,15 +76,18 @@ export default function PackageDetailView({
   const discountPercent = Math.round((savings / originalPrice) * 100);
   const estimatedTotal = adults * pkg.price + children * Math.round(pkg.price * 0.6);
 
-  const images = pkg.images && pkg.images.length >= 3 ? pkg.images : [
-    pkg.image,
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-    "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=800&q=80",
-  ];
+  const images =
+    pkg.images && pkg.images.length >= 3
+      ? pkg.images
+      : [
+          pkg.image,
+          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
+          "https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?auto=format&fit=crop&w=800&q=80",
+        ];
 
   const galleryCaptions = [
     `${pkg.location} Heritage & Culture`,
-    "Scenic Coastal & Nature Views",
+    "Scenic Beach & Ocean Views",
     "Historic Landmarks & Sightseeing",
   ];
 
@@ -122,7 +125,9 @@ export default function PackageDetailView({
     setTimeout(() => {
       setIsSubmitted(false);
       setIsBookModalOpen(false);
-      alert(`Thank you! Your booking inquiry for "${pkg.title}" has been received. Our travel specialist will reach out shortly.`);
+      alert(
+        `Thank you! Your booking inquiry for "${pkg.title}" has been received. Our travel specialist will contact you shortly.`
+      );
     }, 1200);
   };
 
@@ -159,13 +164,17 @@ export default function PackageDetailView({
       q: "Can you customize or extend the itinerary?",
       a: "Yes! All KrikoTrip packages can be fully customized. You can add extra days, upgrade to ocean-view luxury suites, book private car charters, or add romantic beach candlelight dinners.",
     },
+    {
+      q: "Are airport pickup and drop-off included?",
+      a: "Yes, dedicated private airport transfers are included on Day 1 upon arrival and on the final departure day.",
+    },
   ];
 
   return (
-    <div className="w-full bg-[#FAFAFA] font-sans antialiased text-gray-800">
-      {/* ─── 1. HERO HEADER BANNER (Matches Screenshot Top Full-Bleed Banner) ─── */}
+    <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
+      {/* ─── 1. HERO HEADER BANNER (Exact Match: Full-Width Photo with Centered Title & Badges) ─── */}
       <section className="relative w-full h-[360px] sm:h-[420px] lg:h-[480px] overflow-hidden flex items-center justify-center text-center">
-        {/* Background Image */}
+        {/* Background Photo */}
         <Image
           src={pkg.image}
           alt={pkg.title}
@@ -174,13 +183,13 @@ export default function PackageDetailView({
           sizes="100vw"
           className="object-cover object-center"
         />
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/45 to-black/75" />
+        {/* Dark translucent overlay matching screenshot */}
+        <div className="absolute inset-0 bg-black/50 sm:bg-black/45" />
 
-        {/* Hero Content */}
+        {/* Hero Centered Content */}
         <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6">
-          {/* Top Pill Offer Badge */}
-          <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-white/25">
+          {/* Top Pill Offer Tag */}
+          <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs sm:text-sm font-semibold mb-3 sm:mb-4 border border-white/25 shadow-xs">
             <span>Enjoy up to {discountPercent}% Off per person</span>
           </div>
 
@@ -190,8 +199,8 @@ export default function PackageDetailView({
           </h1>
 
           {/* Location Line */}
-          <div className="inline-flex items-center gap-1.5 text-white/90 text-sm sm:text-base font-medium">
-            <MapPin className="w-4 h-4 text-[#03ADFF] shrink-0" />
+          <div className="inline-flex items-center gap-1.5 text-white/95 text-sm sm:text-base font-medium drop-shadow-sm">
+            <MapPin className="w-4 h-4 text-white shrink-0" />
             <span>
               {pkg.location}, {pkg.destination}
             </span>
@@ -199,20 +208,20 @@ export default function PackageDetailView({
         </div>
       </section>
 
-      {/* ─── 2. SUB-NAV / META BAR (Directly below Hero) ─── */}
+      {/* ─── 2. SUB-NAV / META BAR (Directly Below Hero with Soft Green Pill & Action Icons) ─── */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 sm:py-4 flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
-          {/* Left: Star rating & Category */}
+          {/* Left: Star rating & Soft Mint Category Pill */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5">
-              <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <Star className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
               <span className="font-bold text-gray-950">{pkg.rating}</span>
               <span className="text-gray-500 font-medium">
                 ({pkg.reviewsCount} reviews)
               </span>
             </div>
             <span className="text-gray-300">|</span>
-            <span className="font-semibold text-gray-700">
+            <span className="inline-block px-3 py-1 rounded-md bg-[#E6F4EA] text-[#137333] font-semibold text-xs">
               {pkg.travelType} & Theme Tours
             </span>
           </div>
@@ -224,7 +233,7 @@ export default function PackageDetailView({
               onClick={handleShare}
               className="inline-flex items-center gap-1.5 text-gray-600 hover:text-[#1877F2] font-medium transition-colors cursor-pointer"
             >
-              <Share2 className="w-4 h-4" />
+              <Share2 className="w-4 h-4 text-gray-500" />
               <span>{copiedShare ? "Link Copied!" : "Share"}</span>
             </button>
             <button
@@ -234,7 +243,7 @@ export default function PackageDetailView({
             >
               <Heart
                 className={`w-4 h-4 ${
-                  isSaved ? "fill-rose-500 text-rose-500" : ""
+                  isSaved ? "fill-rose-500 text-rose-500" : "text-gray-500"
                 }`}
               />
               <span>{isSaved ? "Saved" : "Save to Wishlist"}</span>
@@ -250,22 +259,20 @@ export default function PackageDetailView({
           <div className="lg:col-span-8 space-y-10">
             {/* Section A: About This Tour */}
             <div>
-              <h2 className="text-xl sm:text-2xl font-bold text-[#00285C] mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-3">
                 About This Tour
               </h2>
-              <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed">
+              <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed font-normal">
                 {pkg.overview || pkg.description}
               </p>
 
-              {/* 6-Item Icon Specs Grid (Matches screenshot 3x2 grid) */}
+              {/* 6-Item Icon Specs Grid (Clean outline style matching screenshot) */}
               <div className="mt-6 grid grid-cols-2 sm:grid-cols-3 gap-3.5 sm:gap-4">
                 {/* 1. Duration */}
                 <div className="p-4 rounded-xl border border-gray-200 bg-white flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-                    <Clock className="w-5 h-5" />
-                  </div>
+                  <Clock className="w-5 h-5 text-gray-500 shrink-0" />
                   <div>
-                    <span className="block text-[11px] text-gray-500 uppercase font-semibold">
+                    <span className="block text-[11px] text-gray-400 font-semibold uppercase tracking-wider">
                       Duration
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-gray-900">
@@ -276,11 +283,9 @@ export default function PackageDetailView({
 
                 {/* 2. Tour Type */}
                 <div className="p-4 rounded-xl border border-gray-200 bg-white flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-                    <Compass className="w-5 h-5" />
-                  </div>
+                  <Compass className="w-5 h-5 text-gray-500 shrink-0" />
                   <div>
-                    <span className="block text-[11px] text-gray-500 uppercase font-semibold">
+                    <span className="block text-[11px] text-gray-400 font-semibold uppercase tracking-wider">
                       Tour Type
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-gray-900">
@@ -291,57 +296,49 @@ export default function PackageDetailView({
 
                 {/* 3. Group Size */}
                 <div className="p-4 rounded-xl border border-gray-200 bg-white flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-                    <Users className="w-5 h-5" />
-                  </div>
+                  <Users className="w-5 h-5 text-gray-500 shrink-0" />
                   <div>
-                    <span className="block text-[11px] text-gray-500 uppercase font-semibold">
+                    <span className="block text-[11px] text-gray-400 font-semibold uppercase tracking-wider">
                       Group Size
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-gray-900">
-                      Max 12 People
+                      Max 10 People
                     </span>
                   </div>
                 </div>
 
                 {/* 4. Live Guide */}
                 <div className="p-4 rounded-xl border border-gray-200 bg-white flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-                    <Headphones className="w-5 h-5" />
-                  </div>
+                  <UserCheck className="w-5 h-5 text-gray-500 shrink-0" />
                   <div>
-                    <span className="block text-[11px] text-gray-500 uppercase font-semibold">
+                    <span className="block text-[11px] text-gray-400 font-semibold uppercase tracking-wider">
                       Live Guide
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-gray-900">
-                      English & Local
+                      Live Guide
                     </span>
                   </div>
                 </div>
 
                 {/* 5. Language */}
                 <div className="p-4 rounded-xl border border-gray-200 bg-white flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-                    <Globe2 className="w-5 h-5" />
-                  </div>
+                  <Languages className="w-5 h-5 text-gray-500 shrink-0" />
                   <div>
-                    <span className="block text-[11px] text-gray-500 uppercase font-semibold">
-                      Languages
+                    <span className="block text-[11px] text-gray-400 font-semibold uppercase tracking-wider">
+                      Language
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-gray-900">
-                      English, Hindi
+                      English, Spanish
                     </span>
                   </div>
                 </div>
 
-                {/* 6. Transfers & Entry */}
+                {/* 6. Entry Fees */}
                 <div className="p-4 rounded-xl border border-gray-200 bg-white flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-                    <Ticket className="w-5 h-5" />
-                  </div>
+                  <Ticket className="w-5 h-5 text-gray-500 shrink-0" />
                   <div>
-                    <span className="block text-[11px] text-gray-500 uppercase font-semibold">
-                      Entry & Permits
+                    <span className="block text-[11px] text-gray-400 font-semibold uppercase tracking-wider">
+                      Entry Fees
                     </span>
                     <span className="text-xs sm:text-sm font-bold text-gray-900">
                       Included
@@ -351,18 +348,23 @@ export default function PackageDetailView({
               </div>
             </div>
 
-            {/* Section B: 3 Side-by-Side Gallery Thumbnails with Captions (Matches Screenshot) */}
+            {/* Section B: 3 Side-by-Side Gallery Photos with Captions (Matches Screenshot) */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {images.slice(0, 3).map((img, idx) => (
                 <div key={idx} className="group">
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden bg-gray-100 border border-gray-200 shadow-2xs">
                     <Image
                       src={img}
-                      alt={galleryCaptions[idx] || `${pkg.title} photo ${idx + 1}`}
+                      alt={galleryCaptions[idx]}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 33vw, 260px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+                    {idx === 0 && (
+                      <div className="absolute top-2.5 left-2.5 z-10 px-2 py-0.5 rounded-md bg-white/90 backdrop-blur-xs text-[10px] font-bold text-gray-800 shadow-xs">
+                        Featured
+                      </div>
+                    )}
                   </div>
                   <p className="mt-2 text-xs sm:text-sm font-bold text-gray-800 text-center">
                     {galleryCaptions[idx]}
@@ -373,13 +375,13 @@ export default function PackageDetailView({
 
             {/* Section C: Highlights of Tour (Matches Screenshot) */}
             <div className="pt-2">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#00285C] mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4">
                 Highlights of Tour
               </h2>
               <ul className="space-y-3">
                 {pkg.highlights.map((highlight, idx) => (
                   <li key={idx} className="flex items-start gap-3">
-                    <div className="w-5 h-5 rounded-full bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5">
+                    <div className="w-4 h-4 rounded-full bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0 mt-0.5">
                       <Check className="w-3 h-3 stroke-[2.5]" />
                     </div>
                     <span className="text-sm text-gray-700 leading-normal">
@@ -390,10 +392,10 @@ export default function PackageDetailView({
               </ul>
             </div>
 
-            {/* Section D: Tour Itinerary (Matches Screenshot Accordion with Numbered Badges) */}
+            {/* Section D: Tour Itinerary (Matches Screenshot with Blue Number Circles & Timeline) */}
             <div className="pt-2">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl sm:text-2xl font-bold text-[#00285C]">
+                <h2 className="text-xl sm:text-2xl font-bold text-[#111827]">
                   Tour Itinerary
                 </h2>
                 <div className="flex items-center gap-2 text-xs">
@@ -415,7 +417,7 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* Itinerary Accordion List */}
+              {/* Timeline with Blue Badges */}
               <div className="space-y-3">
                 {pkg.itinerary.map((dayItem) => {
                   const isOpen = openDays.includes(dayItem.day);
@@ -429,14 +431,15 @@ export default function PackageDetailView({
                         type="button"
                         onClick={() => toggleDay(dayItem.day)}
                         className={`w-full p-4 flex items-center justify-between text-left cursor-pointer transition-colors ${
-                          isOpen ? "bg-[#F0F5FF]/70" : "hover:bg-gray-50"
+                          isOpen ? "bg-[#F5F8FF]" : "hover:bg-gray-50"
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="w-7 h-7 rounded-full bg-[#1877F2] text-white text-xs font-bold flex items-center justify-center shrink-0">
+                          {/* Circular Bright Blue Step Badge (Matches Screenshot) */}
+                          <span className="w-7 h-7 rounded-full bg-[#1877F2] text-white text-xs font-bold flex items-center justify-center shrink-0 shadow-xs">
                             {dayItem.day}
                           </span>
-                          <span className="text-sm sm:text-base font-bold text-[#00285C]">
+                          <span className="text-sm sm:text-base font-bold text-[#111827]">
                             Day {dayItem.day}: {dayItem.title}
                           </span>
                         </div>
@@ -454,7 +457,25 @@ export default function PackageDetailView({
                             {dayItem.description}
                           </p>
 
-                          {/* Day Details / Badges */}
+                          {/* Activity Bullets */}
+                          <div className="space-y-1.5 pt-1 text-xs text-gray-700">
+                            <div className="flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2]" />
+                              <span className="font-semibold text-gray-900">
+                                Morning (09:00 AM - 12:00 PM):
+                              </span>
+                              <span>Guided sightseeing and landmark tour</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="w-1.5 h-1.5 rounded-full bg-[#1877F2]" />
+                              <span className="font-semibold text-gray-900">
+                                Afternoon (02:00 PM - 05:00 PM):
+                              </span>
+                              <span>Scenic cultural experience and beach/market walk</span>
+                            </div>
+                          </div>
+
+                          {/* Day Details Tags */}
                           <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-gray-100">
                             {dayItem.meals && (
                               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-50 text-amber-800 border border-amber-200 text-xs font-medium">
@@ -463,8 +484,8 @@ export default function PackageDetailView({
                               </span>
                             )}
                             {dayItem.stay && (
-                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-[#00285C] border border-blue-200 text-xs font-medium">
-                                <Bed className="w-3.5 h-3.5 text-[#03ADFF]" />
+                              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 text-[#1877F2] border border-blue-200 text-xs font-medium">
+                                <Bed className="w-3.5 h-3.5 text-[#1877F2]" />
                                 <span>Stay: {dayItem.stay}</span>
                               </span>
                             )}
@@ -479,7 +500,7 @@ export default function PackageDetailView({
 
             {/* Section E: Package Included on Map (Matches Screenshot) */}
             <div className="pt-2">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#00285C] mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-3">
                 Package Included on Map
               </h2>
               <div className="w-full h-[320px] sm:h-[380px] rounded-xl overflow-hidden border border-gray-200 bg-gray-100 shadow-2xs relative">
@@ -497,7 +518,7 @@ export default function PackageDetailView({
 
             {/* Section F: Include and Exclude (Matches Screenshot 2 Columns) */}
             <div className="pt-2">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#00285C] mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4">
                 Include and Exclude
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 bg-white p-6 rounded-xl border border-gray-200">
@@ -543,34 +564,36 @@ export default function PackageDetailView({
               </div>
             </div>
 
-            {/* Section G: Download Tour Brochure Banner (Matches Screenshot) */}
-            <div className="relative rounded-xl overflow-hidden bg-gradient-to-r from-[#00285C] to-[#0A3D7E] text-white p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
+            {/* Section G: Download Tour Brochure Banner (Matches Screenshot with Blue Button) */}
+            <div className="relative rounded-2xl overflow-hidden bg-[#0D1527] text-white p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-md">
               <div className="flex items-center gap-4 text-center sm:text-left">
-                <div className="w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center shrink-0 border border-white/20">
-                  <FileText className="w-6 h-6 text-[#03ADFF]" />
+                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0 border border-white/15">
+                  <FileText className="w-6 h-6 text-[#1877F2]" />
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-bold">
                     Download Tour Brochure
                   </h3>
-                  <p className="text-xs sm:text-sm text-white/80">
-                    Get detailed day-by-day itinerary, hotel details, and travel guidelines in PDF.
+                  <p className="text-xs sm:text-sm text-gray-300">
+                    Get full day-by-day itinerary, hotel details & trip guidelines in PDF.
                   </p>
                 </div>
               </div>
+
+              {/* Blue CTA Button Matching Screenshot */}
               <button
                 type="button"
                 onClick={handleDownloadBrochure}
-                className="px-5 py-2.5 rounded-full bg-white hover:bg-gray-100 text-[#00285C] font-bold text-xs sm:text-sm transition-all shadow-sm cursor-pointer whitespace-nowrap inline-flex items-center gap-2 shrink-0"
+                className="px-6 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white font-bold text-xs sm:text-sm transition-all shadow-sm cursor-pointer whitespace-nowrap inline-flex items-center gap-2 shrink-0"
               >
-                <Download className="w-4 h-4 text-[#1877F2]" />
+                <Download className="w-4 h-4" />
                 <span>Download Brochure</span>
               </button>
             </div>
 
             {/* Section H: Tour Specifics / Important Information (Matches Screenshot) */}
             <div className="pt-2">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#00285C] mb-3">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-3">
                 Tour Specifics
               </h2>
               <div className="bg-white p-5 sm:p-6 rounded-xl border border-gray-200 space-y-2.5 text-xs sm:text-sm text-gray-600">
@@ -597,7 +620,7 @@ export default function PackageDetailView({
 
             {/* Section I: Frequently Asked Questions (Matches Screenshot) */}
             <div className="pt-2">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#00285C] mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4">
                 Frequently Asked Questions
               </h2>
               <div className="space-y-3">
@@ -606,12 +629,12 @@ export default function PackageDetailView({
                   return (
                     <div
                       key={idx}
-                      className="rounded-xl border border-gray-200 bg-white overflow-hidden transition-all duration-200"
+                      className="rounded-xl border border-gray-200 bg-[#F9FAFB] overflow-hidden transition-all duration-200"
                     >
                       <button
                         type="button"
                         onClick={() => setOpenFaq(isOpen ? null : idx)}
-                        className="w-full p-4 flex items-center justify-between text-left cursor-pointer hover:bg-gray-50 transition-colors"
+                        className="w-full p-4 flex items-center justify-between text-left cursor-pointer hover:bg-gray-100 transition-colors"
                       >
                         <span className="text-sm font-bold text-gray-900 pr-3">
                           {faq.q}
@@ -623,7 +646,7 @@ export default function PackageDetailView({
                         />
                       </button>
                       {isOpen && (
-                        <div className="p-4 bg-gray-50/60 border-t border-gray-150 text-xs sm:text-sm text-gray-600 leading-relaxed animate-in fade-in">
+                        <div className="p-4 bg-white border-t border-gray-150 text-xs sm:text-sm text-gray-600 leading-relaxed animate-in fade-in">
                           {faq.a}
                         </div>
                       )}
@@ -635,7 +658,7 @@ export default function PackageDetailView({
 
             {/* Section J: Reviews & Rating / Leave a Review (Matches Screenshot) */}
             <div className="pt-2">
-              <h2 className="text-xl sm:text-2xl font-bold text-[#00285C] mb-4">
+              <h2 className="text-xl sm:text-2xl font-bold text-[#111827] mb-4">
                 Reviews & Rating
               </h2>
 
@@ -643,7 +666,7 @@ export default function PackageDetailView({
               <div className="bg-white p-6 rounded-xl border border-gray-200 mb-6 flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="text-center sm:text-left">
                   <div className="flex items-baseline gap-2 justify-center sm:justify-start">
-                    <span className="text-4xl font-extrabold text-[#00285C]">
+                    <span className="text-4xl font-extrabold text-[#111827]">
                       {pkg.rating}
                     </span>
                     <span className="text-sm text-gray-500 font-medium">/ 5.0</span>
@@ -652,7 +675,7 @@ export default function PackageDetailView({
                     {Array.from({ length: 5 }).map((_, i) => (
                       <Star
                         key={i}
-                        className="w-4 h-4 fill-amber-400 text-amber-400"
+                        className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]"
                       />
                     ))}
                   </div>
@@ -665,21 +688,21 @@ export default function PackageDetailView({
                   <div className="flex items-center gap-2">
                     <span className="w-12 text-right">5 Stars</span>
                     <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
-                      <div className="h-full bg-amber-400 rounded-full w-[88%]" />
+                      <div className="h-full bg-[#F59E0B] rounded-full w-[88%]" />
                     </div>
                     <span className="w-8">88%</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-12 text-right">4 Stars</span>
                     <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
-                      <div className="h-full bg-amber-400 rounded-full w-[10%]" />
+                      <div className="h-full bg-[#F59E0B] rounded-full w-[10%]" />
                     </div>
                     <span className="w-8">10%</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="w-12 text-right">3 Stars</span>
                     <div className="flex-1 h-2 rounded-full bg-gray-100 overflow-hidden">
-                      <div className="h-full bg-amber-400 rounded-full w-[2%]" />
+                      <div className="h-full bg-[#F59E0B] rounded-full w-[2%]" />
                     </div>
                     <span className="w-8">2%</span>
                   </div>
@@ -711,7 +734,7 @@ export default function PackageDetailView({
                           <Star
                             className={`w-5 h-5 ${
                               star <= reviewRating
-                                ? "fill-amber-400 text-amber-400"
+                                ? "fill-[#F59E0B] text-[#F59E0B]"
                                 : "text-gray-300"
                             }`}
                           />
@@ -763,10 +786,11 @@ export default function PackageDetailView({
                     />
                   </div>
 
+                  {/* Submit Button (Bright Blue Pill Matching Screenshot) */}
                   <button
                     type="submit"
                     disabled={reviewSubmitted}
-                    className="px-6 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer"
+                    className="px-6 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-sm font-semibold transition-all cursor-pointer shadow-xs"
                   >
                     {reviewSubmitted ? "Submitting..." : "Submit Review"}
                   </button>
@@ -777,23 +801,23 @@ export default function PackageDetailView({
 
           {/* ════ RIGHT COLUMN: SIDEBAR CARDS (lg:col-span-4) ════ */}
           <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
-            {/* ─── SIDEBAR CARD 1: Booking & Price Card (Matches Screenshot Soft Blue Card) ─── */}
-            <div className="rounded-2xl p-6 sm:p-7 bg-[#F0F5FF] border border-blue-100/80 shadow-xs">
+            {/* ─── SIDEBAR CARD 1: Booking & Price Card (Exact Color Match: Soft Light Blue `#F0F4FE`) ─── */}
+            <div className="rounded-2xl p-6 sm:p-7 bg-[#F0F4FE] border border-[#DBE5FC] shadow-2xs">
               <span className="text-xs font-medium text-gray-500 block mb-1">
                 Starting from
               </span>
 
               {/* Price Row */}
               <div className="flex items-baseline gap-2 mb-1">
-                <span className="text-3xl sm:text-4xl font-extrabold text-[#00285C]">
+                <span className="text-3xl sm:text-4xl font-extrabold text-[#111827]">
                   ₹{pkg.price.toLocaleString("en-IN")}
                 </span>
-                <span className="text-xs text-gray-600 font-medium">
+                <span className="text-xs text-gray-500 font-medium">
                   / per person
                 </span>
               </div>
 
-              {/* Original strikethrough price */}
+              {/* Original Strikethrough Price */}
               <div className="flex items-center gap-2 mb-5">
                 <span className="text-xs text-gray-400 line-through">
                   ₹{originalPrice.toLocaleString("en-IN")}
@@ -819,7 +843,7 @@ export default function PackageDetailView({
                 </div>
 
                 {/* Adults counter */}
-                <div className="flex items-center justify-between py-2 border-b border-blue-200/60">
+                <div className="flex items-center justify-between py-2 border-b border-blue-200/50">
                   <div>
                     <span className="block text-xs sm:text-sm font-bold text-gray-900">
                       Adults (12+ yrs)
@@ -850,7 +874,7 @@ export default function PackageDetailView({
                 </div>
 
                 {/* Children counter */}
-                <div className="flex items-center justify-between py-2 border-b border-blue-200/60">
+                <div className="flex items-center justify-between py-2 border-b border-blue-200/50">
                   <div>
                     <span className="block text-xs sm:text-sm font-bold text-gray-900">
                       Children (3-11 yrs)
@@ -883,16 +907,16 @@ export default function PackageDetailView({
                   <span className="text-xs font-bold text-gray-600 uppercase">
                     Total:
                   </span>
-                  <span className="text-xl sm:text-2xl font-extrabold text-[#00285C]">
+                  <span className="text-xl sm:text-2xl font-extrabold text-[#111827]">
                     ₹{estimatedTotal.toLocaleString("en-IN")}
                   </span>
                 </div>
 
-                {/* Blue CTA Button: Book This Tour (Matches Screenshot) */}
+                {/* Vibrant Blue CTA Button: Book This Tour (Exact Color Match #1877F2) */}
                 <button
                   type="button"
                   onClick={() => setIsBookModalOpen(true)}
-                  className="w-full py-3 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-sm font-bold shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
+                  className="w-full py-3.5 rounded-xl bg-[#1877F2] hover:bg-[#00285C] text-white text-sm font-bold shadow-md transition-all cursor-pointer flex items-center justify-center gap-2"
                 >
                   <span>Book This Tour</span>
                 </button>
@@ -910,16 +934,16 @@ export default function PackageDetailView({
                   </a>
                 </div>
 
-                {/* Footer guarantee */}
+                {/* Footer Guarantee */}
                 <div className="pt-3 border-t border-blue-200/50 flex items-center justify-center gap-1.5 text-[11px] text-gray-500">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                  <Lock className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Best price guaranteed & free cancellation</span>
                 </div>
               </div>
             </div>
 
-            {/* ─── SIDEBAR CARD 2: Customize Travel Package (Matches Screenshot Mint Card) ─── */}
-            <div className="rounded-2xl p-6 sm:p-7 bg-[#EBF7EE] border border-emerald-100 shadow-xs">
+            {/* ─── SIDEBAR CARD 2: Customize Travel Package (Exact Color Match: Soft Mint Green `#E0F5E8`) ─── */}
+            <div className="rounded-2xl p-6 sm:p-7 bg-[#E0F5E8] border border-[#C5EDD2] shadow-2xs">
               <h3 className="text-base sm:text-lg font-bold text-gray-900 mb-1.5">
                 Customize Travel Package
               </h3>
@@ -927,7 +951,7 @@ export default function PackageDetailView({
                 Need custom dates, private cab, luxury villas or honeymoon add-ons?
               </p>
 
-              {/* Customer avatars & counter */}
+              {/* Customer Avatars & Counter (Exact Match) */}
               <div className="flex items-center gap-3 mb-5">
                 <div className="flex -space-x-2">
                   <div className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-gray-200 relative">
@@ -960,10 +984,10 @@ export default function PackageDetailView({
                 </span>
               </div>
 
-              {/* Dark Pill Button: Book Consultation */}
+              {/* Dark Pill Button: Book Consultation (Exact Color Match: Black `#111827`) */}
               <Link
                 href="/contact-us"
-                className="w-full py-2.5 rounded-full bg-gray-900 hover:bg-[#00285C] text-white text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center justify-center cursor-pointer"
+                className="w-full py-2.5 rounded-full bg-[#111827] hover:bg-black text-white text-xs sm:text-sm font-bold transition-all shadow-sm flex items-center justify-center cursor-pointer"
               >
                 Book Consultation
               </Link>
@@ -972,13 +996,13 @@ export default function PackageDetailView({
         </div>
       </section>
 
-      {/* ─── 4. BOTTOM SECTION: RELEVANT PACKAGE (Matches Screenshot Bottom Grid) ─── */}
+      {/* ─── 4. BOTTOM SECTION: RELEVANT PACKAGE (Exact Color & Layout Match) ─── */}
       {relatedPackages && relatedPackages.length > 0 && (
         <section className="bg-white py-14 sm:py-20 border-t border-gray-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Header */}
+            {/* Centered Header */}
             <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#00285C] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#111827] tracking-tight">
                 Relevant Package
               </h2>
               <p className="text-xs sm:text-sm text-gray-500 mt-2">
@@ -998,9 +1022,9 @@ export default function PackageDetailView({
                 return (
                   <div
                     key={rPkg.id}
-                    className="group bg-white rounded-2xl overflow-hidden border border-gray-200/90 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                    className="group bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
                   >
-                    {/* Photo with discount tag */}
+                    {/* Photo with Yellow Discount Tag on Top Right */}
                     <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100">
                       <Image
                         src={rPkg.image}
@@ -1009,8 +1033,8 @@ export default function PackageDetailView({
                         sizes="(max-width: 768px) 100vw, 380px"
                         className="object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      {/* Discount Tag (Top Right) */}
-                      <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-md bg-amber-400 text-gray-950 text-[11px] font-bold shadow-xs">
+                      {/* Yellow Discount Tag (Exact Color Match #FACC15) */}
+                      <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-md bg-[#FACC15] text-gray-950 text-[11px] font-bold shadow-xs">
                         -{rDiscount}% OFF
                       </div>
                       <div className="absolute bottom-3 left-3 z-10 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-medium">
@@ -1018,11 +1042,11 @@ export default function PackageDetailView({
                       </div>
                     </div>
 
-                    {/* Card Content */}
+                    {/* Card Body */}
                     <div className="p-5 flex flex-col flex-1 justify-between text-left">
                       <div>
                         <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-[#03ADFF]" />
+                          <MapPin className="w-3.5 h-3.5 text-[#1877F2]" />
                           <span>
                             {rPkg.location}, {rPkg.destination}
                           </span>
@@ -1042,10 +1066,11 @@ export default function PackageDetailView({
                           <span className="text-[11px] text-gray-400 block leading-none">
                             Starting from
                           </span>
-                          <span className="text-base sm:text-lg font-extrabold text-[#00285C]">
+                          <span className="text-base sm:text-lg font-extrabold text-[#111827]">
                             ₹{rPkg.price.toLocaleString("en-IN")}
                           </span>
                         </div>
+                        {/* Bright Blue Button: View Details */}
                         <Link
                           href={`/tour-packages/${rPkg.id}`}
                           className="px-4 py-2 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-xs font-bold transition-all inline-flex items-center gap-1 cursor-pointer"
@@ -1059,11 +1084,18 @@ export default function PackageDetailView({
                 );
               })}
             </div>
+
+            {/* Pagination Dots Matching Screenshot (Active Blue Dot + Inactive Gray Dots) */}
+            <div className="flex items-center justify-center gap-2 mt-8">
+              <span className="w-6 h-2 rounded-full bg-[#1877F2]" />
+              <span className="w-2 h-2 rounded-full bg-gray-300" />
+              <span className="w-2 h-2 rounded-full bg-gray-300" />
+            </div>
           </div>
         </section>
       )}
 
-      {/* ─── BOOKING MODAL POPUP ─── */}
+      {/* ─── BOOKING INQUIRY MODAL ─── */}
       {isBookModalOpen && (
         <div
           role="dialog"
@@ -1083,7 +1115,7 @@ export default function PackageDetailView({
               &times;
             </button>
 
-            <h3 className="text-xl font-bold text-[#00285C] mb-1">
+            <h3 className="text-xl font-bold text-[#111827] mb-1">
               Book This Tour
             </h3>
             <p className="text-xs text-gray-500 mb-5">
