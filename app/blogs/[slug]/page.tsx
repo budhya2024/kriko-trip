@@ -8,6 +8,7 @@ import {
   Calendar,
   Clock,
   Tag,
+  User,
   Share2,
   CheckCircle2,
   ArrowLeft,
@@ -149,45 +150,49 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* ─── Left Column: Main Article Content (8 cols) ─── */}
             <article className="lg:col-span-8 text-left">
+              {/* Blog Title & Meta Details Matching Reference Format */}
               <div className="mb-6">
-                {/* Article Heading */}
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-snug mb-3">
+                {/* Article Heading (Small, Clean Font Size) */}
+                <h1 className="text-xl sm:text-2xl lg:text-[25px] font-bold text-[#00285C] tracking-tight leading-snug mb-3.5">
                   {post.title}
                 </h1>
 
-                {/* Meta details below title */}
-                <div className="flex flex-wrap items-center gap-3.5 text-xs sm:text-sm text-gray-600">
-                  {/* Author Avatar & Name */}
-                  <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full overflow-hidden relative bg-gray-100 border border-gray-200 shrink-0">
-                      <Image
-                        src={
-                          post.author.avatar ||
-                          "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
-                        }
-                        alt={post.author.name}
-                        fill
-                        className="object-cover"
-                      />
+                {/* Meta Row: Author & Date on Left, Tags on Right */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-gray-200/80">
+                  {/* Left: Author & Date/Reading Time in 2 Stacked Lines */}
+                  <div>
+                    {/* Line 1: Author */}
+                    <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#004D40]">
+                      <User className="w-3.5 h-3.5 text-teal-800 shrink-0 stroke-[2.2]" />
+                      <span>{post.author.name}</span>
                     </div>
-                    <span className="font-semibold text-gray-900">
-                      By {post.author.name}
-                    </span>
+
+                    {/* Line 2: Date & Read Time */}
+                    <div className="flex items-center gap-2 text-[11px] sm:text-xs text-gray-400 mt-1 font-normal">
+                      <span>{post.date}</span>
+                      <span className="text-gray-300">|</span>
+                      <div className="flex items-center gap-1 text-gray-500">
+                        <Clock className="w-3 h-3 text-amber-500 shrink-0" strokeWidth={2} />
+                        <span>{post.readTime}</span>
+                      </div>
+                    </div>
                   </div>
-                  <span className="text-gray-300">•</span>
-                  <span className="inline-flex items-center gap-1 font-normal text-gray-600">
-                    <Calendar className="w-3.5 h-3.5 text-[#1877F2]" />
-                    {post.date}
-                  </span>
-                  <span className="text-gray-300">•</span>
-                  <span className="inline-flex items-center gap-1 font-normal text-gray-600">
-                    <Clock className="w-3.5 h-3.5 text-amber-500" />
-                    {post.readTime}
-                  </span>
-                  <span className="text-gray-300">•</span>
-                  <span className="px-2.5 py-0.5 rounded-full bg-blue-50 text-[#1877F2] border border-blue-150 font-semibold text-[11px]">
-                    {post.category || "Travel Guide"}
-                  </span>
+
+                  {/* Right: Tag Pills Matching Screenshot */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    {(post.tags && post.tags.length > 0
+                      ? post.tags
+                      : [post.category || "Sundarban", "Wildlife", "Tiger Trail"]
+                    ).map((tag, idx) => (
+                      <span
+                        key={idx}
+                        className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFF9E6] text-[#B45309] text-[11px] sm:text-xs font-medium border border-[#FDE68A]/60 shadow-2xs"
+                      >
+                        <Tag className="w-3 h-3 text-[#D97706] fill-[#D97706]" />
+                        <span>{tag}</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
               {/* Main Featured Image with Diagonal Shine Hover Effect */}
@@ -530,14 +535,14 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                       </div>
 
                       {/* Title */}
-                      <h3 className="text-[17px] sm:text-[18px] font-bold text-[#0B132A] group-hover:text-[#1877F2] transition-colors leading-snug line-clamp-2 mb-2.5">
+                      <h3 className="text-[17px] sm:text-[18px] font-semibold text-[#0B132A] group-hover:text-[#1877F2] transition-colors leading-snug line-clamp-2 mb-2.5">
                         <Link href={`/blogs/${rPost.slug}`} className="cursor-pointer">
                           {rPost.title}
                         </Link>
                       </h3>
 
                       {/* Excerpt */}
-                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 font-normal">
+                      <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 font-normal mb-4">
                         {rPost.excerpt}
                       </p>
                     </div>

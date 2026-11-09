@@ -103,7 +103,7 @@ export default function BlogListPage() {
                     </h3>
 
                     {/* Excerpt */}
-                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 font-normal">
+                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 font-normal mb-4">
                       {post.excerpt}
                     </p>
                   </div>
@@ -166,11 +166,10 @@ export default function BlogListPage() {
                     key={page}
                     type="button"
                     onClick={() => goToPage(page)}
-                    className={`w-9 h-9 rounded-[3px] text-xs sm:text-sm font-medium transition-all flex items-center justify-center ${
-                      currentPage === page
-                        ? "bg-[#00285C] text-white shadow-xs cursor-default"
-                        : "bg-white text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] hover:border-blue-200 border border-gray-200 shadow-2xs cursor-pointer"
-                    }`}
+                    className={`w-9 h-9 rounded-[3px] text-xs sm:text-sm font-medium transition-all flex items-center justify-center ${currentPage === page
+                      ? "bg-[#00285C] text-white shadow-xs cursor-default"
+                      : "bg-white text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] hover:border-blue-200 border border-gray-200 shadow-2xs cursor-pointer"
+                      }`}
                   >
                     {page}
                   </button>
