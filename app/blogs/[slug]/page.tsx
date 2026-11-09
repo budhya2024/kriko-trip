@@ -173,11 +173,11 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 />
               </div>
 
-              {/* Green Callout Quote Box */}
-              <div className="bg-[#F0FDF4] border-l-4 border-[#064E3B] p-5 sm:p-6 rounded-r-xl my-6 text-[#064E3B]">
+              {/* Brand Logo Palette Callout Quote Box */}
+              <div className="bg-blue-50/80 border-l-4 border-[#03ADFF] p-5 sm:p-6 rounded-r-xl my-6 text-[#00285C]">
                 <div className="flex items-start gap-3">
-                  <Quote className="w-5 h-5 text-[#064E3B] shrink-0 mt-0.5 opacity-80" />
-                  <p className="text-xs sm:text-sm font-medium leading-relaxed italic">
+                  <Quote className="w-5 h-5 text-[#03ADFF] shrink-0 mt-0.5 opacity-90" />
+                  <p className="text-xs sm:text-sm font-medium leading-relaxed italic text-[#00285C]">
                     {post.content.sections[0]?.highlight ||
                       `Experience the mystical mangrove wilderness of the Sundarban Tiger Reserve in royal luxury with Hotel Sonar Bangla. Our premier winter safari brings you closer to the Bengal Tiger, spotted deer, and saltwater crocodiles.`}
                   </p>
@@ -226,13 +226,13 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
               {post.content.tips && post.content.tips.length > 0 && (
                 <div className="my-8 p-5 sm:p-6 rounded-xl bg-gray-50 border border-gray-200">
                   <h3 className="text-base sm:text-lg font-bold text-[#0B132A] mb-3 flex items-center gap-2">
-                    <Tag className="w-4 h-4 text-[#064E3B]" />
+                    <Tag className="w-4 h-4 text-[#03ADFF]" />
                     <span>Essential Travel Tips for this Journey</span>
                   </h3>
                   <ul className="space-y-2.5">
                     {post.content.tips.map((tip, idx) => (
                       <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-700 leading-normal">
-                        <CheckCircle2 className="w-4 h-4 text-[#064E3B] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-4 h-4 text-[#03ADFF] shrink-0 mt-0.5" />
                         <span>{tip}</span>
                       </li>
                     ))}
@@ -301,10 +301,10 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </div>
               </div>
 
-              {/* Mint Green Call-to-Action Card */}
-              <div className="mt-8 p-6 sm:p-7 rounded-2xl bg-[#ECFDF5] border border-[#A7F3D0] flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left">
+              {/* Brand Logo Palette Call-to-Action Card */}
+              <div className="mt-8 p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-blue-50/90 via-sky-50/70 to-indigo-50/50 border border-blue-200/80 flex flex-col sm:flex-row items-center justify-between gap-5 text-center sm:text-left shadow-2xs">
                 <div>
-                  <h3 className="text-base sm:text-lg font-bold text-[#064E3B] mb-1">
+                  <h3 className="text-base sm:text-lg font-bold text-[#00285C] mb-1">
                     Looking for a Custom Sundarban Tour Package?
                   </h3>
                   <p className="text-xs sm:text-sm text-gray-600 font-normal max-w-md">
@@ -313,7 +313,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </div>
                 <Link
                   href="/contact-us"
-                  className="px-6 py-2.5 rounded-full bg-[#064E3B] hover:bg-[#053B2D] text-white text-xs sm:text-sm font-semibold shadow-sm transition-all whitespace-nowrap cursor-pointer shrink-0"
+                  className="px-6 py-2.5 rounded-full bg-[#00285C] hover:bg-[#1877F2] text-white text-xs sm:text-sm font-semibold shadow-sm transition-all whitespace-nowrap cursor-pointer shrink-0"
                 >
                   Contact Us
                 </Link>
@@ -346,14 +346,14 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                   <h4 className="text-sm sm:text-base font-bold text-[#0B132A]">
                     Recent Posts
                   </h4>
-                  <div className="h-0.5 w-10 bg-[#064E3B] mt-1.5 mb-4" />
+                  <div className="h-0.5 w-10 bg-[#03ADFF] mt-1.5 mb-4" />
                 </div>
                 <div className="space-y-3.5">
                   {recentPosts.map((rPost) => (
                     <Link
                       key={rPost.slug}
                       href={`/blogs/${rPost.slug}`}
-                      className="flex items-center gap-3 group cursor-pointer bg-[#F8FAFC] hover:bg-emerald-50/50 p-2 rounded-lg border border-gray-100 transition-colors"
+                      className="flex items-center gap-3 group cursor-pointer bg-[#F8FAFC] hover:bg-blue-50/50 p-2 rounded-lg border border-gray-100 transition-colors"
                     >
                       <div className="relative w-14 h-14 rounded-md overflow-hidden shrink-0 bg-gray-100 image-shine">
                         <Image
@@ -384,7 +384,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                   <h4 className="text-sm sm:text-base font-bold text-[#0B132A]">
                     Categories
                   </h4>
-                  <div className="h-0.5 w-10 bg-[#064E3B] mt-1.5 mb-3" />
+                  <div className="h-0.5 w-10 bg-[#03ADFF] mt-1.5 mb-3" />
                 </div>
                 <div className="divide-y divide-gray-100">
                   {categories.map((cat, idx) => (
@@ -406,24 +406,24 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                   <h4 className="text-sm sm:text-base font-bold text-[#0B132A]">
                     Contact Info
                   </h4>
-                  <div className="h-0.5 w-10 bg-[#064E3B] mt-1.5 mb-3.5" />
+                  <div className="h-0.5 w-10 bg-[#03ADFF] mt-1.5 mb-3.5" />
                 </div>
                 <div className="space-y-3 text-xs sm:text-sm text-gray-600">
                   <div className="flex items-start gap-2.5">
-                    <Phone className="w-4 h-4 text-[#064E3B] shrink-0 mt-0.5" />
+                    <Phone className="w-4 h-4 text-[#03ADFF] shrink-0 mt-0.5" />
                     <div>
                       <p className="font-semibold text-gray-900">+91 70014 56789</p>
                       <p className="text-[11px] text-gray-400">Toll Free: 1800 456 7890</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2.5">
-                    <Mail className="w-4 h-4 text-[#064E3B] shrink-0 mt-0.5" />
+                    <Mail className="w-4 h-4 text-[#03ADFF] shrink-0 mt-0.5" />
                     <div>
                       <p className="font-medium text-gray-900">booking@krikotrip.com</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-2.5">
-                    <MapPin className="w-4 h-4 text-[#064E3B] shrink-0 mt-0.5" />
+                    <MapPin className="w-4 h-4 text-[#03ADFF] shrink-0 mt-0.5" />
                     <div>
                       <p className="font-normal text-gray-600">Kolkata, West Bengal, India</p>
                     </div>
@@ -431,13 +431,13 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </div>
               </div>
 
-              {/* 5. Follow Us Social Widget with Green Circular Buttons */}
+              {/* 5. Follow Us Social Widget with Navy & Sky Blue Circular Buttons */}
               <div className="bg-white rounded-xl border border-gray-200/90 p-5 shadow-xs">
                 <div>
                   <h4 className="text-sm sm:text-base font-bold text-[#0B132A]">
                     Follow Us
                   </h4>
-                  <div className="h-0.5 w-10 bg-[#064E3B] mt-1.5 mb-3.5" />
+                  <div className="h-0.5 w-10 bg-[#03ADFF] mt-1.5 mb-3.5" />
                 </div>
                 <div className="flex items-center gap-2.5">
                   <a
@@ -445,7 +445,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Facebook"
-                    className="w-8 h-8 rounded-full bg-[#064E3B] hover:bg-[#1877F2] text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+                    className="w-8 h-8 rounded-full bg-[#00285C] hover:bg-[#03ADFF] text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
                   >
                     <FaFacebookF className="w-3.5 h-3.5" />
                   </a>
@@ -454,7 +454,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="Twitter"
-                    className="w-8 h-8 rounded-full bg-[#064E3B] hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+                    className="w-8 h-8 rounded-full bg-[#00285C] hover:bg-black text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
                   >
                     <FaXTwitter className="w-3.5 h-3.5" />
                   </a>
@@ -463,30 +463,30 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="WhatsApp"
-                    className="w-8 h-8 rounded-full bg-[#064E3B] hover:bg-[#25D366] text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+                    className="w-8 h-8 rounded-full bg-[#00285C] hover:bg-[#25D366] text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
                   >
                     <FaWhatsapp className="w-3.5 h-3.5" />
                   </a>
                 </div>
               </div>
 
-              {/* 6. Subscribe to Our Newsletter (Dark Green Card from Screenshot) */}
-              <div className="bg-[#064E3B] text-white rounded-xl p-5 shadow-sm text-left">
+              {/* 6. Subscribe to Our Newsletter (Brand Navy Blue Card) */}
+              <div className="bg-[#00285C] text-white rounded-xl p-5 shadow-sm text-left">
                 <h4 className="text-sm sm:text-base font-bold text-white mb-1.5">
                   Subscribe to Our Newsletter
                 </h4>
-                <p className="text-xs text-emerald-100/90 font-normal leading-relaxed mb-3.5">
+                <p className="text-xs text-blue-100/90 font-normal leading-relaxed mb-3.5">
                   Get the latest updates and travel guides right in your inbox.
                 </p>
                 <div className="space-y-2.5">
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="w-full px-3 py-2 rounded-md bg-[#075944] border border-white/20 text-white placeholder:text-gray-300 text-xs focus:outline-none focus:bg-[#096a52] transition-colors font-normal"
+                    className="w-full px-3 py-2 rounded-md bg-[#083570] border border-white/20 text-white placeholder:text-blue-100 text-xs focus:outline-none focus:bg-[#0a4187] transition-colors font-normal"
                   />
                   <button
                     type="button"
-                    className="w-full py-2 rounded-md bg-[#D97706] hover:bg-[#B45309] text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
+                    className="w-full py-2 rounded-md bg-[#03ADFF] hover:bg-[#0092db] text-[#00285C] text-xs font-bold uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
                   >
                     SUBSCRIBE
                   </button>
@@ -501,14 +501,16 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
           <div className="container">
             {/* Header: Subtitle & Title */}
             <div className="mb-8 text-left">
-
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#0B132A] mt-2 tracking-tight">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#1877F2] bg-blue-50 px-2.5 py-1 rounded-md border border-blue-100">
+                RECENT ARTICLES
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-[#00285C] mt-2 tracking-tight">
                 Related Blog Posts
               </h2>
             </div>
 
             {/* 2-Column Responsive Grid matching screenshot */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-7">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-7 max-w-5xl">
               {relatedPosts.map((rPost) => (
                 <article
                   key={rPost.slug}

@@ -166,8 +166,8 @@ export default function BlogListPage() {
                     onClick={() => goToPage(page)}
                     className={`w-9 h-9 rounded-[3px] text-xs sm:text-sm font-medium transition-all flex items-center justify-center ${
                       currentPage === page
-                        ? "bg-[#064E3B] text-white shadow-xs cursor-default"
-                        : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 shadow-2xs cursor-pointer"
+                        ? "bg-[#00285C] text-white shadow-xs cursor-default"
+                        : "bg-white text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] hover:border-blue-200 border border-gray-200 shadow-2xs cursor-pointer"
                     }`}
                   >
                     {page}
