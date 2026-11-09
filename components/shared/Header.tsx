@@ -384,7 +384,7 @@ export default function Header() {
                   </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="text-[15px] font-bold text-gray-900 leading-tight tracking-tight">
-                      +91 345 533 865
+                      +91 8250338715
                     </span>
                     {/* Exact solid down triangle dropdown icon */}
                     <svg
@@ -410,7 +410,7 @@ export default function Header() {
 
                   {/* Mail Support Option */}
                   <a
-                    href="mailto:info@example.com"
+                    href="mailto:info@krikotrips.com"
                     className="flex items-center gap-3.5 p-1 rounded-none hover:bg-gray-50/80 transition-colors group"
                   >
                     <div className="w-11 h-11 rounded-full bg-white shadow-xs border border-gray-100 flex items-center justify-center shrink-0">
@@ -430,14 +430,14 @@ export default function Header() {
                         Mail Support
                       </span>
                       <span className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors mt-1">
-                        info@example.com
+                        info@krikotrips.com
                       </span>
                     </div>
                   </a>
 
                   {/* More Inquiry Option */}
                   <a
-                    href="tel:+91345533865"
+                    href="tel:+918250338715"
                     className="flex items-center gap-3.5 p-1 rounded-none hover:bg-gray-50/80 transition-colors group"
                   >
                     <div className="w-11 h-11 rounded-full bg-white shadow-xs border border-gray-100 flex items-center justify-center shrink-0">
@@ -464,7 +464,7 @@ export default function Header() {
                         More Inquery
                       </span>
                       <span className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors mt-1">
-                        +91 345 533 865
+                        +91 8250338715
                       </span>
                     </div>
                   </a>
@@ -835,7 +835,7 @@ export default function Header() {
               </span>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <span className="text-[15px] font-bold text-gray-900 leading-tight">
-                  +91 345 533 865
+                  +91 8250338715
                 </span>
                 <svg viewBox="0 0 10 6" fill="currentColor" className="w-2.5 h-2.5 text-gray-900 ml-0.5">
                   <path d="M0 0L5 6L10 0H0Z" />

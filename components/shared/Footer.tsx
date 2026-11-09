@@ -87,8 +87,20 @@ export default function Footer() {
               <p className="font-bold text-white text-[15px]">
                 KrikoTrip Travel Agency
               </p>
-              <p>Skyline Plaza, 5th Floor, 123 Main Street</p>
-              <p>Los Angeles, CA 90001, USA</p>
+              <p>BL-A Shop-GLP/5 676 Green Land Park</p>
+              <p>Sonarpur, Kolkata - 700103</p>
+              <p className="pt-1.5 flex items-center gap-2 text-white/90">
+                <span className="text-[#03ADFF]">📞</span>
+                <a href="tel:+918250338715" className="hover:text-white transition-colors">
+                  +91 8250338715
+                </a>
+              </p>
+              <p className="flex items-center gap-2 text-white/90">
+                <span className="text-[#03ADFF]">✉️</span>
+                <a href="mailto:info@krikotrips.com" className="hover:text-white transition-colors">
+                  info@krikotrips.com
+                </a>
+              </p>
             </div>
 
             {/* Social Icons */}

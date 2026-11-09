@@ -136,10 +136,10 @@ export default function FeaturedDestinations() {
               </div>
 
               {/* Destination Title (top 12px margin) */}
-              <h3 className="text-base lg:text-xl font-bold text-gray-950 mt-3  transition-colors duration-200 group-hover:text-[#1877F2] tracking-tight">
+              <h3 className="text-base lg:text-lg font-semibold text-gray-950 mt-3  transition-colors duration-200 group-hover:text-[#1877F2]">
                 {item.name}
               </h3>
-              <p className="text-xs sm:text-[13px] font-medium text-gray-500 mt-1">
+              <p className="text-xs font-medium text-gray-500 mt-1">
                 {item.activities}
               </p>
             </Link>

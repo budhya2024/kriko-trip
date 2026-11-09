@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import {
   User,
   Mail,
+  Phone,
   FileText,
   MessageSquare,
   CheckCircle2,
@@ -59,8 +60,71 @@ export default function ContactFormSection() {
   };
 
   return (
-    <section className="w-full pt-8 lg:pt-16 bg-white">
+    <section className="w-full pt-8 lg:pt-14 pb-12 bg-white">
       <div className="container">
+        {/* Contact Info Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
+          {/* Card 1: Office Address */}
+          <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50/60 hover:bg-white hover:border-[#1877F2]/40 transition-all flex items-start gap-4 shadow-2xs">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
+              <MapPin className="w-6 h-6 stroke-[2.2]" />
+            </div>
+            <div>
+              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                Office Address
+              </h4>
+              <p className="text-sm font-bold text-gray-900 leading-snug">
+                BL-A Shop-GLP/5 676 Green Land Park
+              </p>
+              <p className="text-xs text-gray-600 mt-0.5 font-medium">
+                Sonarpur, Kolkata - 700103
+              </p>
+            </div>
+          </div>
+
+          {/* Card 2: Phone & WhatsApp */}
+          <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50/60 hover:bg-white hover:border-[#1877F2]/40 transition-all flex items-start gap-4 shadow-2xs">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
+              <Phone className="w-6 h-6 stroke-[2.2]" />
+            </div>
+            <div>
+              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                Call & WhatsApp
+              </h4>
+              <a
+                href="tel:+918250338715"
+                className="text-base font-bold text-gray-900 hover:text-[#1877F2] transition-colors block"
+              >
+                +91 8250338715
+              </a>
+              <p className="text-xs text-gray-500 mt-0.5 font-medium">
+                Mon - Sun: 9:00 AM - 9:00 PM IST
+              </p>
+            </div>
+          </div>
+
+          {/* Card 3: Email Support */}
+          <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50/60 hover:bg-white hover:border-[#1877F2]/40 transition-all flex items-start gap-4 shadow-2xs">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
+              <Mail className="w-6 h-6 stroke-[2.2]" />
+            </div>
+            <div>
+              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
+                Email Support
+              </h4>
+              <a
+                href="mailto:info@krikotrips.com"
+                className="text-base font-bold text-gray-900 hover:text-[#1877F2] transition-colors block"
+              >
+                info@krikotrips.com
+              </a>
+              <p className="text-xs text-gray-500 mt-0.5 font-medium">
+                Online support & fast response
+              </p>
+            </div>
+          </div>
+        </div>
+
         {/* Equal Height Grid for Form and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
           {/* ─── Left Column: Contact Form ─── */}
@@ -270,7 +334,7 @@ export default function ContactFormSection() {
                 </span>
               </div>
               <a
-                href="https://maps.google.com/?q=Los+Angeles+CA"
+                href="https://maps.google.com/?q=Sonarpur+Kolkata+700103"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-semibold text-[#1877F2] hover:underline inline-flex items-center gap-1"
@@ -284,24 +348,24 @@ export default function ContactFormSection() {
             <div className="w-full flex-1 min-h-[380px] sm:min-h-[420px] bg-gray-100 flex flex-col">
               <iframe
                 title="KrikoTrip Location Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d105799.39077221008!2d-118.34300305!3d34.02047895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20CA%2C%20USA!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14748.241355447664!2d88.4239!3d22.4419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02720d440939fb%3A0xb35a396e6255776a!2sSonarpur%2C%20Kolkata%2C%20West%20Bengal%20700103!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: "380px" }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full flex-1 min-h-[380px] sm:min-h-[420px] block filter grayscale-[15%] contrast-[105%]"
+                className="w-full flex-1 min-h-[380px] sm:min-h-[420px] block filter grayscale-[10%] contrast-[105%]"
               />
             </div>
 
             {/* Map Footer Bar */}
             <div className="p-3.5 bg-gray-50/60 text-xs text-gray-600 flex items-center justify-between border-t border-gray-100 shrink-0">
               <span className="truncate">
-                Skyline Plaza, 5th Floor, 123 Main Street, Los Angeles, CA
+                BL-A Shop-GLP/5 676 Green Land Park, Sonarpur
               </span>
               <span className="font-semibold text-gray-800 shrink-0 ml-2">
-                USA
+                Kolkata 700103
               </span>
             </div>
           </div>
