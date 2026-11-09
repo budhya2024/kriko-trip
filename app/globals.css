@@ -20,7 +20,7 @@ select {
   --card-foreground: #09090b;
   --popover: #ffffff;
   --popover-foreground: #09090b;
-  --primary: #1d82f5;
+  --primary: #1877f2;
   --primary-foreground: #ffffff;
   --secondary: #f4f4f5;
   --secondary-foreground: #18181b;
@@ -28,14 +28,28 @@ select {
   --muted-foreground: #71717a;
   --accent: #f4f4f5;
   --accent-foreground: #18181b;
-  --destructive: #ef4444;
+  --destructive: #b91c1c;
   --destructive-foreground: #fafafa;
   --border: #e4e4e7;
   --input: #e4e4e7;
-  --ring: #1d82f5;
+  --ring: #1877f2;
   --radius: 0.75rem;
   --title-color: #0b132a;
   --text-color: #64748b;
+
+  /* Global Brand & UI Colors */
+  --brand-primary: #1877f2;
+  --brand-navy: #00285c;
+  --brand-cyan: #03adff;
+  --brand-teal: #004d40;
+  --brand-amber: #b45309;
+
+  /* Deep Red Palette for Badges & Highlights */
+  --deep-red: #b91c1c;
+  --deep-red-dark: #991b1b;
+  --deep-red-light: #dc2626;
+  --badge-deep-red: #b91c1c;
+  --badge-red: #b91c1c;
 }
 
 @theme inline {
@@ -58,6 +72,20 @@ select {
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* Custom Tailwind Theme Color Utilities */
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-navy: var(--brand-navy);
+  --color-brand-cyan: var(--brand-cyan);
+  --color-brand-teal: var(--brand-teal);
+  --color-brand-amber: var(--brand-amber);
+
+  --color-deep-red: var(--deep-red);
+  --color-deep-red-dark: var(--deep-red-dark);
+  --color-deep-red-light: var(--deep-red-light);
+  --color-badge-deep-red: var(--badge-deep-red);
+  --color-badge-red: var(--badge-red);
+
   --font-sans: var(--font-poppins), "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-poppins: var(--font-poppins), "Poppins", sans-serif;
 }

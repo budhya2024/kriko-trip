@@ -89,12 +89,12 @@ export default function HeroSearchForm() {
           onClick={() => setActiveTab("experience")}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-full font-semibold text-[15px] transition-all duration-200 cursor-pointer ${
             activeTab === "experience"
-              ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
+              ? "bg-brand-primary text-white shadow-md shadow-blue-500/20"
               : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
           }`}
         >
-          {/* Yellow Badge with Wave/Activity */}
-          <span className="w-5 h-5 rounded-full bg-[#EAB308] flex items-center justify-center text-white shrink-0">
+          {/* Deep Red Badge with Wave/Activity */}
+          <span className="w-5 h-5 rounded-full bg-deep-red flex items-center justify-center text-white shrink-0 shadow-xs">
             <svg
               className="w-3.5 h-3.5"
               viewBox="0 0 24 24"

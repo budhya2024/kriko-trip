@@ -42,7 +42,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-semibold drop-shadow-sm">
             {pkg.travelType}
           </span>
-          <span className="px-2.5 py-1 rounded-full bg-[#EF4444] text-white text-[11px] font-extrabold shadow-sm tracking-wide">
+          <span className="px-2.5 py-1 rounded-full bg-deep-red text-white text-[11px] font-extrabold shadow-sm tracking-wide">
             {discountPercent}% OFF
           </span>
         </div>

@@ -174,7 +174,7 @@ export default function PopularPackages() {
                         <span className="bg-[#FFDE14] text-gray-950 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
                           {pkg.badge}
                         </span>
-                        <span className="bg-[#EF4444] text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-sm tracking-wide">
+                        <span className="bg-deep-red text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-sm tracking-wide">
                           {Math.round(((pkg.originalPrice - pkg.price) / pkg.originalPrice) * 100)}% OFF
                         </span>
                       </div>
