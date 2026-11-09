@@ -322,23 +322,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
 
             {/* ─── Right Column: Sidebar (4 cols) ─── */}
             <aside className="lg:col-span-4 space-y-7 lg:sticky lg:top-24 text-left">
-              {/* 1. Search Bar Widget */}
-              <div className="bg-white rounded-xl border border-gray-200/90 p-5 shadow-xs">
-                <div className="relative">
-                  <input
-                    type="text"
-                    placeholder="Search Here..."
-                    className="w-full pl-3.5 pr-10 py-2.5 rounded-lg border border-gray-200 text-xs sm:text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#1877F2] transition-colors"
-                  />
-                  <button
-                    type="button"
-                    aria-label="Search"
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#1877F2] cursor-pointer"
-                  >
-                    <Search className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
+
 
               {/* 2. Recent Posts Widget */}
               <div className="bg-white rounded-xl border border-gray-200/90 p-5 shadow-xs">
@@ -400,36 +384,6 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </div>
               </div>
 
-              {/* 4. Contact Info Widget */}
-              <div className="bg-white rounded-xl border border-gray-200/90 p-5 shadow-xs">
-                <div>
-                  <h4 className="text-sm sm:text-base font-bold text-[#0B132A]">
-                    Contact Info
-                  </h4>
-                  <div className="h-0.5 w-10 bg-[#03ADFF] mt-1.5 mb-3.5" />
-                </div>
-                <div className="space-y-3 text-xs sm:text-sm text-gray-600">
-                  <div className="flex items-start gap-2.5">
-                    <Phone className="w-4 h-4 text-[#03ADFF] shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-semibold text-gray-900">+91 70014 56789</p>
-                      <p className="text-[11px] text-gray-400">Toll Free: 1800 456 7890</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <Mail className="w-4 h-4 text-[#03ADFF] shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-medium text-gray-900">booking@krikotrip.com</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-2.5">
-                    <MapPin className="w-4 h-4 text-[#03ADFF] shrink-0 mt-0.5" />
-                    <div>
-                      <p className="font-normal text-gray-600">Kolkata, West Bengal, India</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               {/* 5. Follow Us Social Widget with Navy & Sky Blue Circular Buttons */}
               <div className="bg-white rounded-xl border border-gray-200/90 p-5 shadow-xs">

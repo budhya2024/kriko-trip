@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useEffect, useMemo, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { Header, Footer, PageHeader } from "@/components/shared";
 import {
   MapPin,
@@ -10,9 +9,6 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  Camera,
-  Compass,
-  ArrowRight,
 } from "lucide-react";
 
 interface GalleryPhoto {
@@ -171,40 +167,25 @@ const galleryData: GalleryPhoto[] = [
   },
 ];
 
-const categories = [
-  "All",
-  "Wildlife & Safaris",
-  "Beaches & Islands",
-  "Luxury Resorts",
-  "Mountains & Lakes",
-  "Culture & Heritage",
-] as const;
-
 export default function GalleryPage() {
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
 
-  // Filtered photos
-  const filteredPhotos = useMemo(() => {
-    if (selectedCategory === "All") return galleryData;
-    return galleryData.filter((p) => p.category === selectedCategory);
-  }, [selectedCategory]);
-
-  const activePhoto = activePhotoIndex !== null ? filteredPhotos[activePhotoIndex] : null;
+  const activePhoto =
+    activePhotoIndex !== null ? galleryData[activePhotoIndex] : null;
 
   const handlePrevPhoto = useCallback(() => {
     if (activePhotoIndex === null) return;
     setActivePhotoIndex((prev) =>
-      prev !== null && prev > 0 ? prev - 1 : filteredPhotos.length - 1
+      prev !== null && prev > 0 ? prev - 1 : galleryData.length - 1
     );
-  }, [activePhotoIndex, filteredPhotos.length]);
+  }, [activePhotoIndex]);
 
   const handleNextPhoto = useCallback(() => {
     if (activePhotoIndex === null) return;
     setActivePhotoIndex((prev) =>
-      prev !== null && prev < filteredPhotos.length - 1 ? prev + 1 : 0
+      prev !== null && prev < galleryData.length - 1 ? prev + 1 : 0
     );
-  }, [activePhotoIndex, filteredPhotos.length]);
+  }, [activePhotoIndex]);
 
   // Keyboard navigation for Lightbox
   useEffect(() => {
@@ -248,42 +229,9 @@ export default function GalleryPage() {
 
         {/* ─── Gallery Section ─── */}
         <section className="container py-10 sm:py-14 lg:py-16">
-          {/* Top Filter Pills Row */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-10 pb-6 border-b border-gray-200">
-            {/* Category Pills */}
-            <div className="flex flex-wrap items-center gap-2">
-              {categories.map((cat) => (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => {
-                    setSelectedCategory(cat);
-                    setActivePhotoIndex(null);
-                  }}
-                  className={`px-4 sm:px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all cursor-pointer ${
-                    selectedCategory === cat
-                      ? "bg-[#00285C] text-white shadow-sm"
-                      : "bg-white text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] hover:border-blue-200 border border-gray-200 shadow-2xs"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Photo Counter */}
-            <div className="text-xs sm:text-sm text-gray-500 font-normal">
-              Showing{" "}
-              <span className="font-semibold text-gray-900">
-                {filteredPhotos.length}
-              </span>{" "}
-              captures
-            </div>
-          </div>
-
           {/* Responsive Gallery Grid (1 col mobile, 2 col tab, 3 col desktop) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
-            {filteredPhotos.map((photo, index) => (
+            {galleryData.map((photo, index) => (
               <div
                 key={photo.id}
                 onClick={() => setActivePhotoIndex(index)}
@@ -328,38 +276,6 @@ export default function GalleryPage() {
                 </div>
               </div>
             ))}
-          </div>
-
-          {/* ─── Bottom CTA Card with Brand Logo Colors ─── */}
-          <div className="mt-14 sm:mt-20 p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-[#00285C] via-[#08182B] to-[#041E42] text-white flex flex-col lg:flex-row items-center justify-between gap-8 text-center lg:text-left shadow-xl border border-white/10">
-            <div className="max-w-xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-sky-300 text-xs font-medium mb-3 border border-white/10">
-                <Compass className="w-3.5 h-3.5" />
-                <span>Turn Inspiration into Memories</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight mb-3">
-                Ready to Experience These Destinations in Person?
-              </h2>
-              <p className="text-sm sm:text-base text-blue-100/90 font-normal leading-relaxed">
-                From private Sundarban wildlife cruises to luxury overwater villas, our certified travel specialists craft bespoke holiday packages tailored to your schedule and budget.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row items-center gap-3.5 shrink-0">
-              <Link
-                href="/tour-packages"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-[#03ADFF] hover:bg-[#0092db] text-[#00285C] text-sm font-bold transition-all shadow-md inline-flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>Explore Packages</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-              <Link
-                href="/contact-us"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-sm font-semibold transition-all border border-white/20 inline-flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <span>Contact Travel Planner</span>
-              </Link>
-            </div>
           </div>
         </section>
       </main>
@@ -446,7 +362,7 @@ export default function GalleryPage() {
                 <span className="text-white font-semibold">
                   {(activePhotoIndex ?? 0) + 1}
                 </span>{" "}
-                of <span className="text-white font-semibold">{filteredPhotos.length}</span>
+                of <span className="text-white font-semibold">{galleryData.length}</span>
               </div>
             </div>
           </div>
