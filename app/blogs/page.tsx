@@ -7,13 +7,13 @@ import { Header, Footer, PageHeader } from "@/components/shared";
 import { blogPosts } from "@/components/blogs/data";
 import { Clock, ArrowRight, Tag, ChevronLeft, ChevronRight } from "lucide-react";
 
-const POSTS_PER_PAGE = 6;
+const POSTS_PER_PAGE = 8;
 
 export default function BlogListPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const articlesTopRef = useRef<HTMLDivElement>(null);
 
-  const totalPages = Math.ceil(blogPosts.length / POSTS_PER_PAGE);
+  const totalPages = Math.max(1, Math.ceil(blogPosts.length / POSTS_PER_PAGE));
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
   const currentPosts = blogPosts.slice(startIndex, startIndex + POSTS_PER_PAGE);
 
@@ -61,7 +61,7 @@ export default function BlogListPage() {
 
                   {/* Category / Badge on Top-Left */}
                   <div className="absolute top-3.5 left-3.5 z-10 pointer-events-none">
-                    <span className="px-3 py-1 rounded-md bg-white text-[#0B132A] text-[11px] font-medium tracking-wider uppercase shadow-xs border border-gray-100">
+                    <span className="px-3 py-1 rounded-md bg-white text-[#0B132A] text-[11px] font-bold tracking-wider uppercase shadow-xs border border-gray-100">
                       {post.badge || post.category || "TRAVEL GUIDE"}
                     </span>
                   </div>
@@ -80,15 +80,15 @@ export default function BlogListPage() {
                       </div>
                     </div>
 
-                    {/* Title (Regular/Medium Weight without bold) */}
-                    <h3 className="text-[17px] sm:text-[18px] font-medium text-[#0B132A] group-hover:text-[#1877F2] transition-colors leading-[1.35] line-clamp-2 mb-2.5">
+                    {/* Title */}
+                    <h3 className="text-[17px] sm:text-[18px] font-bold text-[#0B132A] group-hover:text-[#1877F2] transition-colors leading-[1.35] line-clamp-2 mb-2.5">
                       <Link href={`/blogs/${post.slug}`} className="cursor-pointer">
                         {post.title}
                       </Link>
                     </h3>
 
                     {/* Excerpt */}
-                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5 font-normal">
+                    <p className="text-xs sm:text-[13px] text-gray-500 leading-relaxed line-clamp-2 mb-3.5">
                       {post.excerpt}
                     </p>
 
@@ -97,7 +97,7 @@ export default function BlogListPage() {
                       {(post.tags || ["Sundarban", "Wildlife", "Tiger Trail"]).map((tag, tIdx) => (
                         <span
                           key={tIdx}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-medium cursor-pointer hover:bg-amber-100/70 transition-colors"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#FFF9EE] border border-[#FEEFD6] text-[#78350F] text-xs font-semibold cursor-pointer hover:bg-amber-100/70 transition-colors"
                         >
                           <Tag className="w-2.5 h-2.5 text-amber-500 fill-amber-500 shrink-0" />
                           <span>{tag}</span>
@@ -110,7 +110,7 @@ export default function BlogListPage() {
                   <div className="pt-4 mt-auto border-t border-gray-100 flex items-center justify-between">
                     <Link
                       href={`/blogs/${post.slug}`}
-                      className="text-[13.5px] sm:text-[14px] font-medium text-[#0B132A] group-hover:text-[#1877F2] transition-colors cursor-pointer"
+                      className="text-[13.5px] sm:text-[14px] font-bold text-[#0B132A] group-hover:text-[#1877F2] transition-colors cursor-pointer"
                     >
                       Read Article
                     </Link>
@@ -119,7 +119,7 @@ export default function BlogListPage() {
                       aria-label={`Read article: ${post.title}`}
                       className="text-gray-900 group-hover:text-[#1877F2] transition-transform duration-200 group-hover:translate-x-1 cursor-pointer flex items-center justify-center p-1"
                     >
-                      <ArrowRight className="w-4 h-4 stroke-[2]" />
+                      <ArrowRight className="w-4 h-4 stroke-[2.2]" />
                     </Link>
                   </div>
                 </div>
@@ -127,62 +127,66 @@ export default function BlogListPage() {
             ))}
           </div>
 
-          {/* ─── Professional Square Pagination Bar ─── */}
-          {totalPages > 1 && (
-            <div className="mt-12 sm:mt-16 pt-8 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-4">
-              {/* Left: Article Count Info */}
-              <div className="text-xs sm:text-sm text-gray-500 font-normal">
-                Showing{" "}
-                <span className="font-medium text-gray-900">
-                  {startIndex + 1}–{Math.min(startIndex + POSTS_PER_PAGE, blogPosts.length)}
-                </span>{" "}
-                of <span className="font-medium text-gray-900">{blogPosts.length}</span> articles
-              </div>
-
-              {/* Right: Square Pagination Controls (No Bold Font) */}
-              <div className="flex items-center gap-2">
-                {/* Prev Button (Square) */}
-                <button
-                  type="button"
-                  onClick={() => goToPage(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs sm:text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] hover:border-blue-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-2xs"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                  <span className="hidden sm:inline">Prev</span>
-                </button>
-
-                {/* Page Numbers (Square) */}
-                <div className="flex items-center gap-1.5">
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                    <button
-                      key={page}
-                      type="button"
-                      onClick={() => goToPage(page)}
-                      className={`w-9 h-9 sm:w-10 sm:h-10 rounded-md text-xs sm:text-sm font-medium transition-all cursor-pointer flex items-center justify-center ${
-                        currentPage === page
-                          ? "bg-[#1877F2] text-white shadow-xs"
-                          : "bg-white text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] border border-gray-200 shadow-2xs"
-                      }`}
-                    >
-                      {page}
-                    </button>
-                  ))}
-                </div>
-
-                {/* Next Button (Square) */}
-                <button
-                  type="button"
-                  onClick={() => goToPage(currentPage + 1)}
-                  disabled={currentPage === totalPages}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md border border-gray-200 bg-white text-xs sm:text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] hover:border-blue-200 disabled:opacity-40 disabled:cursor-not-allowed transition-all cursor-pointer shadow-2xs"
-                >
-                  <span className="hidden sm:inline">Next</span>
-                  <ChevronRight className="w-4 h-4" />
-                </button>
-              </div>
+          {/* ─── Exact Screenshot Matched Pagination Bar ─── */}
+          <div className="mt-12 sm:mt-16 pt-6 sm:pt-8 border-t border-gray-200/80 flex flex-col sm:flex-row items-center justify-between gap-4 select-none">
+            {/* Left: Article Count Info (Showing 1 to 8 of 8 articles) */}
+            <div className="text-xs sm:text-sm text-gray-500 font-normal">
+              Showing{" "}
+              <span className="font-bold text-gray-900">
+                {blogPosts.length > 0 ? startIndex + 1 : 0}
+              </span>{" "}
+              to{" "}
+              <span className="font-bold text-gray-900">
+                {Math.min(startIndex + POSTS_PER_PAGE, blogPosts.length)}
+              </span>{" "}
+              of{" "}
+              <span className="font-bold text-gray-900">{blogPosts.length}</span>{" "}
+              articles
             </div>
-          )}
+
+            {/* Right: Pagination Controls */}
+            <div className="flex items-center gap-2">
+              {/* Previous Button */}
+              <button
+                type="button"
+                onClick={() => goToPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-[3px] border border-gray-200/90 text-xs sm:text-sm font-medium transition-colors shadow-2xs disabled:bg-[#FAFAFA] disabled:text-gray-300 disabled:border-gray-200 disabled:cursor-not-allowed enabled:bg-white enabled:text-gray-700 enabled:hover:bg-gray-50 enabled:hover:text-gray-900 enabled:cursor-pointer"
+              >
+                <ChevronLeft className="w-4 h-4 stroke-[1.8]" />
+                <span>Previous</span>
+              </button>
+
+              {/* Page Numbers */}
+              <div className="flex items-center gap-1.5">
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                  <button
+                    key={page}
+                    type="button"
+                    onClick={() => goToPage(page)}
+                    className={`w-9 h-9 rounded-[3px] text-xs sm:text-sm font-bold transition-all flex items-center justify-center ${
+                      currentPage === page
+                        ? "bg-[#064E3B] text-white shadow-xs cursor-default"
+                        : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 shadow-2xs cursor-pointer"
+                    }`}
+                  >
+                    {page}
+                  </button>
+                ))}
+              </div>
+
+              {/* Next Button */}
+              <button
+                type="button"
+                onClick={() => goToPage(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:py-2 rounded-[3px] border border-gray-200/90 text-xs sm:text-sm font-medium transition-colors shadow-2xs disabled:bg-[#FAFAFA] disabled:text-gray-300 disabled:border-gray-200 disabled:cursor-not-allowed enabled:bg-white enabled:text-gray-700 enabled:hover:bg-gray-50 enabled:hover:text-gray-900 enabled:cursor-pointer"
+              >
+                <span>Next</span>
+                <ChevronRight className="w-4 h-4 stroke-[1.8]" />
+              </button>
+            </div>
+          </div>
         </div>
       </main>
 
