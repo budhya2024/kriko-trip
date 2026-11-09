@@ -151,11 +151,11 @@ export default function PopularPackages() {
                   spaceBetween: 26,
                 },
               }}
-              className="w-full !overflow-visible !py-4"
+              className="w-full"
             >
               {packages.map((pkg) => (
                 <SwiperSlide key={pkg.id}>
-                  <div className="bg-white rounded-2xl p-3.5 sm:p-4 shadow-[0_8px_25px_rgba(0,0,0,0.06)] hover:shadow-[0_16px_35px_rgba(0,0,0,0.12)] transition-all duration-300 border border-gray-100 flex flex-col h-full group">
+                  <div className="bg-white rounded-2xl p-3.5 sm:p-4  transition-all duration-300 border border-gray-100 flex flex-col h-full group">
                     {/* Image Container with Badge, Mini Dots & Diagonal Shine Hover Layer */}
                     <Link
                       href={pkg.href}

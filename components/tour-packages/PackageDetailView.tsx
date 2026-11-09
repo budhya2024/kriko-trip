@@ -220,50 +220,53 @@ export default function PackageDetailView({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
             {/* ════ LEFT COLUMN: ALL TOUR DETAILS (lg:col-span-8) ════ */}
             <div className="lg:col-span-8 space-y-10 sm:space-y-12">
-              {/* ─── 1. PHOTO GALLERY COLLAGE (Inside Left Column) ─── */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+              {/* ─── 1. PHOTO GALLERY COLLAGE (Always shows all 4 photos side-by-side) ─── */}
+              <div className="grid grid-cols-2 gap-2 sm:gap-3.5 h-[220px] xs:h-[270px] sm:h-[380px] md:h-[430px]">
                 {/* Left Tall Vertical Photo */}
-                <div className="relative w-full h-[280px] sm:h-[400px] rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
                   <Image
                     src={galleryImages[0]}
                     alt={`${pkg.title} - Main Feature`}
                     fill
                     priority
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 460px"
+                    sizes="(max-width: 1024px) 50vw, 460px"
                     className="object-cover group-hover:scale-102 transition-transform duration-500"
                   />
                 </div>
 
                 {/* Right 3 Photos (1 Wide Top, 2 Half-width Bottom in a 2x2 grid) */}
-                <div className="grid grid-cols-2 grid-rows-2 gap-3 sm:gap-3.5 h-[280px] sm:h-[400px]">
+                <div className="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-3.5 h-full">
                   {/* Top Wide Photo (Spans 2 columns across Row 1) */}
-                  <div className="col-span-2 relative w-full h-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                  <div className="col-span-2 relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[1]}
                       alt={`${pkg.title} - Landmark`}
                       fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 460px"
+                      priority
+                      sizes="(max-width: 1024px) 50vw, 460px"
                       className="object-cover group-hover:scale-102 transition-transform duration-500"
                     />
                   </div>
 
                   {/* Bottom Left Photo (Row 2 Col 1) */}
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                  <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[2]}
                       alt={`${pkg.title} - Experience 1`}
                       fill
+                      priority
                       sizes="(max-width: 1024px) 25vw, 230px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
 
                   {/* Bottom Right Photo (Row 2 Col 2) */}
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gray-100 border border-gray-150 shadow-xs group">
+                  <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[3]}
                       alt={`${pkg.title} - Experience 2`}
                       fill
+                      priority
                       sizes="(max-width: 1024px) 25vw, 230px"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -460,7 +463,7 @@ export default function PackageDetailView({
                             {/* Pin Icon */}
                             <MapPin className="w-4 h-4 text-gray-900 shrink-0 stroke-[2.2]" />
                             {/* Day Number */}
-                            <span className="font-semibold text-gray-950 text-sm sm:text-base shrink-0 ml-2.5">
+                            <span className="font-semibold text-gray-950 text-sm sm:text-base shrink-0 mx-2.5">
                               Day-{dayPadded}
                             </span>
                             {/* Main Heading with Left Side Space */}
@@ -669,7 +672,7 @@ export default function PackageDetailView({
                           />
                         </button>
                         {isOpen && (
-                          <div className="p-4 sm:p-5 bg-white border  text-xs sm:text-sm text-gray-600 font-normal leading-relaxed animate-in fade-in">
+                          <div className="p-4 sm:p-5 bg-white   text-xs sm:text-sm text-gray-600 font-normal leading-relaxed animate-in fade-in">
                             {faq.a}
                           </div>
                         )}
