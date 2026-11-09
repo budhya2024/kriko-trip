@@ -41,6 +41,7 @@ const popularSearches = [
 
 const resources = [
   "About KrikoTrip",
+  "Travel Gallery",
   "Health & Safety Measure",
   "Visa Processing",
   "Customize Tour",
@@ -151,6 +152,7 @@ export default function Footer() {
               {resources.map((item) => {
                 const getHref = () => {
                   if (item === "Travel Inspirations") return "/blogs";
+                  if (item === "Travel Gallery") return "/gallery";
                   if (item === "About KrikoTrip") return "/about-us";
                   return `#${item.toLowerCase().replace(/[\s&]+/g, "-")}`;
                 };

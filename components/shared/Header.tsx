@@ -109,6 +109,11 @@ const navItems = [
     subItems: travelPackageSubItems,
   },
   {
+    name: "Gallery",
+    href: "/gallery",
+    hasDropdown: false,
+  },
+  {
     name: "Blogs",
     href: "/blogs",
     hasDropdown: false,
@@ -766,6 +771,17 @@ export default function Header() {
                 ))}
               </div>
             )}
+          </div>
+
+          {/* Gallery */}
+          <div className="py-2.5 border-b border-gray-50">
+            <Link
+              href="/gallery"
+              onClick={() => setIsMobileDrawerOpen(false)}
+              className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
+            >
+              Gallery
+            </Link>
           </div>
 
           {/* Blogs */}
