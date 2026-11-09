@@ -162,7 +162,7 @@ export default function PackageDetailView({
   return (
     <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
       {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
-      <section className="relative w-full overflow-hidden bg-[#00285C] py-10 sm:py-12 lg:py-14">
+      <section className="relative w-full overflow-hidden bg-[#00285C] py-12 sm:py-14 lg:py-16">
         {/* Background Image with Ambient Dark Gradient Overlay */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -176,12 +176,12 @@ export default function PackageDetailView({
           <div className="absolute inset-0 bg-gradient-to-r from-[#001433]/95 via-[#00285C]/85 to-[#00285C]/75" />
         </div>
 
-        {/* Content Container */}
-        <div className="container relative z-10 text-left">
+        {/* Content Container with Generous Left Spacing for Main Heading */}
+        <div className="container relative z-10 text-left px-6 sm:px-10 lg:px-12">
           {/* Breadcrumb Navigation on Top with Background */}
           <nav
             aria-label="Breadcrumb"
-            className="flex items-center gap-2 text-xs sm:text-[13px] text-white/80 mb-2.5 font-normal"
+            className="flex items-center gap-2 text-xs sm:text-[13px] text-white/80 mb-3 font-normal"
           >
             <Link
               href="/"
@@ -202,7 +202,7 @@ export default function PackageDetailView({
             </span>
           </nav>
 
-          {/* Package Heading */}
+          {/* Package Heading with Space on Left */}
           <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
             {pkg.title}
           </h1>
@@ -437,39 +437,49 @@ export default function PackageDetailView({
                   </div>
                 </div>
 
-                {/* Itinerary Card with Dividers & Pin Icons */}
-                <div className="rounded-2xl border border-gray-200/90 bg-white p-5 sm:p-7 shadow-xs divide-y divide-gray-150">
+                {/* Itinerary Card with Dividers, Pin Icons & Spacing Matching Screenshot */}
+                <div className="rounded-2xl sm:rounded-3xl border border-gray-200/90 bg-white px-6 sm:px-8 py-2 shadow-2xs divide-y divide-gray-150">
                   {pkg.itinerary.map((dayItem) => {
                     const isOpen = openDays.includes(dayItem.day);
                     const dayPadded =
                       dayItem.day < 10 ? `0${dayItem.day}` : dayItem.day;
 
                     return (
-                      <div key={dayItem.day} className="py-4.5 first:pt-1 last:pb-1">
+                      <div key={dayItem.day} className="py-5 sm:py-6 first:pt-4 last:pb-4">
                         <button
                           type="button"
                           onClick={() => toggleDay(dayItem.day)}
                           className="w-full flex items-center justify-between text-left cursor-pointer group"
                         >
-                          <div className="flex items-center gap-3 pr-4">
-                            <MapPin className="w-4 h-4 text-gray-800 shrink-0" strokeWidth={2} />
-                            <span className="font-semibold text-gray-900 text-sm sm:text-[15px] shrink-0">
+                          <div className="flex items-center pr-4 flex-1">
+                            {/* Pin Icon */}
+                            <MapPin className="w-4 h-4 text-gray-900 shrink-0 stroke-[2.2]" />
+                            {/* Day Number */}
+                            <span className="font-semibold text-gray-950 text-sm sm:text-base shrink-0 ml-2.5">
                               Day-{dayPadded}
                             </span>
-                            <span className="text-sm sm:text-[15px] font-normal text-gray-700 group-hover:text-[#1877F2] transition-colors line-clamp-1">
+                            {/* Main Heading with Left Side Space */}
+                            <span className="text-sm sm:text-base font-normal text-gray-800 group-hover:text-[#1877F2] transition-colors ml-6 sm:ml-8 line-clamp-1">
                               {dayItem.title}
                             </span>
                           </div>
-                          <ChevronDown
-                            className={`w-4 h-4 text-gray-500 transition-transform duration-200 shrink-0 ${
-                              isOpen ? "rotate-180 text-[#1877F2]" : ""
-                            }`}
-                          />
+
+                          {/* Caret Down Icon matching screenshot */}
+                          <div className="shrink-0 text-gray-600 pl-2">
+                            <svg
+                              className={`w-3.5 h-3.5 fill-gray-600 transition-transform duration-200 ${
+                                isOpen ? "rotate-180" : ""
+                              }`}
+                              viewBox="0 0 24 24"
+                            >
+                              <path d="M7 10l5 5 5-5z" />
+                            </svg>
+                          </div>
                         </button>
 
                         {/* Expandable Day Details */}
                         {isOpen && (
-                          <div className="mt-3.5 pt-3 text-xs sm:text-sm text-gray-600 space-y-3 pl-7 animate-in fade-in">
+                          <div className="mt-4 pt-3 text-xs sm:text-sm text-gray-600 space-y-3 pl-8 sm:pl-10 animate-in fade-in">
                             <p className="leading-relaxed font-normal">
                               {dayItem.description}
                             </p>
