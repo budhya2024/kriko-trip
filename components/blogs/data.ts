@@ -22,20 +22,54 @@ export const blogPosts: BlogPost[] = [
         "Experience the mystical mangrove wilderness of the Sundarban Tiger Reserve in royal luxury with Hotel Sonar Bangla. Our premier winter safari brings you closer to the Bengal Tiger, spotted deer, and saltwater crocodiles.",
       sections: [
         {
-          heading: "Winter Luxury Safari Cruise & Mangrove Trails",
+          heading: "Overview of the Sundarban Tour Package",
           paragraphs: [
-            "Winter is the peak season to explore the world's largest mangrove forest. With mist dancing over tidal waterways and migratory birds arriving in thousands, every boat safari unveils nature's untamed spectacle.",
-            "Sail on private motor launches equipped with safety gear, naturalist guides, and warm local cuisine freshly prepared onboard.",
+            "The Sundarbans, the largest mangrove delta in the world, is a UNESCO World Heritage site known for its rich biodiversity and the Royal Bengal Tiger. Our winter luxury package is tailored for travelers who want to explore this wild paradise without compromising on comfort.",
+            "From sunrise boat cruises through narrow creek networks to cultural evenings featuring local Baul songs, this package offers a complete, immersive wilderness experience.",
+          ],
+          highlight:
+            "Experience the mystical mangrove wilderness of the Sundarban Tiger Reserve in royal luxury with Hotel Sonar Bangla. Our premier winter safari brings you closer to the Bengal Tiger, spotted deer, and saltwater crocodiles.",
+        },
+        {
+          heading: "Why Choose Hotel Sonar Bangla for Your Sundarban Tour?",
+          paragraphs: [
+            "Hotel Sonar Bangla is the pinnacle of luxury hospitality in Gosaba, Sundarban. Nestled right by the tranquil river, it features private lake-view cottages, an infinity swimming pool, lush landscaped lawns, and multi-cuisine fine dining.",
+            "After an adventurous day navigating the tidal waterways, return to air-conditioned comfort, modern plush bedding, hot showers, and warm Bengali hospitality.",
+          ],
+        },
+        {
+          heading: "What Does the Tour Package Include?",
+          paragraphs: [
+            "1. Accommodation: Luxurious rooms and lake-view cottages at Hotel Sonar Bangla with modern amenities.",
+            "2. Food Plan: All meals included (Bed Tea, Breakfast, Grand Lunch with fresh delta fish & prawns, Evening High Tea with snacks, and Buffet Dinner).",
+            "3. Mangrove Safari Boat: Exclusive private motorized tourist launch with upper observation deck and safety gear.",
+            "4. Forest Tours & Permits: Government forest permits, guide fees, and entry to Sajnekhali, Sudhanyakhali & Dobanki watchtowers.",
+            "5. Pick-up and Drop: Private AC transportation from Kolkata to Gadkhali jetty and return.",
+          ],
+        },
+        {
+          heading: "Itinerary for the 2 Nights 3 Days Tour Package",
+          paragraphs: [
+            "Day 1: Departure from Kolkata in the early morning. Board our luxury safari boat at Gadkhali. Cruise along river junctions, enjoy hot lunch onboard, check in at Hotel Sonar Bangla, and experience evening folk music by the bonfire.",
+            "Day 2: Full-day deep mangrove boat safari. Explore narrow creeks, visit the Sajnekhali Tiger Interpretation Centre, climb the Sudhanyakhali watchtower, and walk the Dobanki canopy walk.",
+            "Day 3: Morning village cultural walk and birdwatching. Enjoy farewell breakfast, boat cruise back to Gadkhali, and drive to Kolkata with unforgettable memories.",
+          ],
+        },
+        {
+          heading: "Best Time to Visit Sundarban",
+          paragraphs: [
+            "Winter months (October to March) offer the most pleasant weather for boat safaris. Cool delta breezes, sunbathing crocodiles along mudbanks, and migratory waterfowl make it prime season for wildlife photography.",
           ],
         },
       ],
       tips: [
-        "Pack warm layers for early morning boat safaris.",
-        "Carry high-magnification binoculars for bird watching.",
-        "Keep government photo ID handy for forest entry permits.",
+        "Pack warm fleece layers and windbreakers for early morning boat cruises.",
+        "Carry high-magnification binoculars (8x42 or 10x42) and zoom camera lenses.",
+        "Keep government-issued original photo ID handy for checkpoint verification.",
+        "Sunscreen, wide-brim hats, and insect repellent are essential field gear.",
       ],
       conclusion:
-        "A winter journey into the Sundarbans with Hotel Sonar Bangla redefines adventure with unparalleled comfort.",
+        "A winter journey into the Sundarbans with Hotel Sonar Bangla redefines adventure travel in West Bengal. Book early to secure your preferred weekend slots during the peak winter season.",
     },
   },
   {
