@@ -281,17 +281,17 @@ export default function ContactFormSection() {
             </div>
 
             {/* Responsive Google Maps Embed Iframe (Expands to match exact form height) */}
-            <div className="relative w-full flex-1 min-h-[300px] sm:min-h-[350px] lg:min-h-0 bg-gray-100">
+            <div className="w-full flex-1 min-h-[380px] sm:min-h-[420px] bg-gray-100 flex flex-col">
               <iframe
                 title="KrikoTrip Location Map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d105799.39077221008!2d-118.34300305!3d34.02047895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20CA%2C%20USA!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
                 width="100%"
                 height="100%"
-                style={{ border: 0 }}
+                style={{ border: 0, minHeight: "380px" }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full absolute inset-0 filter grayscale-[15%] contrast-[105%]"
+                className="w-full flex-1 min-h-[380px] sm:min-h-[420px] block filter grayscale-[15%] contrast-[105%]"
               />
             </div>
 
