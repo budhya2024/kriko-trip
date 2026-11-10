@@ -5,13 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import {
-  ArrowUpRight,
-  ChevronLeft,
-  ChevronRight,
-  MapPin,
-  Tag,
-} from "lucide-react";
+import { ArrowUpRight, MapPin, MoveHorizontal, Tag } from "lucide-react";
 
 import "swiper/css";
 
@@ -25,7 +19,6 @@ interface PackageCard {
   price: number;
   originalPrice: number;
   image: string;
-  images: string[];
   href: string;
 }
 
@@ -40,11 +33,6 @@ const packages: PackageCard[] = [
     originalPrice: 22000,
     image:
       "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80",
-    ],
     href: "/tour-packages/andaman-short-stay",
   },
   {
@@ -57,11 +45,6 @@ const packages: PackageCard[] = [
     originalPrice: 34000,
     image:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80",
-    ],
     href: "/tour-packages/andaman-wonders",
   },
   {
@@ -74,11 +57,6 @@ const packages: PackageCard[] = [
     originalPrice: 44000,
     image:
       "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
-    ],
     href: "/tour-packages/best-of-andaman",
   },
   {
@@ -91,11 +69,6 @@ const packages: PackageCard[] = [
     originalPrice: 39000,
     image:
       "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    ],
     href: "/tour-packages/kashmir-valley-paradise",
   },
   {
@@ -108,11 +81,6 @@ const packages: PackageCard[] = [
     originalPrice: 42000,
     image:
       "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1599661046289-e31897846e41?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1561361513-2d000a50f0dc?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
-    ],
     href: "/tour-packages/rajasthan-royal-heritage",
   },
   {
@@ -125,172 +93,9 @@ const packages: PackageCard[] = [
     originalPrice: 32000,
     image:
       "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
-    images: [
-      "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?auto=format&fit=crop&w=800&q=80",
-    ],
     href: "/tour-packages/kerala-backwaters-munnar",
   },
 ];
-
-function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
-  const [activeImg, setActiveImg] = useState(0);
-  const images = pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image];
-
-  const handlePrev = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setActiveImg((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-  };
-
-  const handleNext = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setActiveImg((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-  };
-
-  return (
-    <div className="bg-white rounded-2xl p-3 sm:p-3.5 transition-all duration-300 border border-gray-150 flex flex-col h-full group hover:shadow-md">
-      {/* ─── Image Container with Multiple Images Slider, Navigation Arrows & Dots ─── */}
-      <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 select-none">
-        {/* Clickable Overlay to Package Page */}
-        <Link
-          href={pkg.href}
-          className="absolute inset-0 z-10 cursor-pointer"
-          aria-label={`View details of ${pkg.title}`}
-        />
-
-        {/* Sliding Images Container */}
-        <div
-          className="flex h-full w-full transition-transform duration-400 ease-out"
-          style={{ transform: `translateX(-${activeImg * 100}%)` }}
-        >
-          {images.map((imgSrc, idx) => (
-            <div key={idx} className="relative w-full h-full shrink-0">
-              <Image
-                src={imgSrc}
-                alt={`${pkg.title} - photo ${idx + 1}`}
-                fill
-                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
-                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                priority={idx === 0}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Top Badges: Tour Type on Left + Percent OFF on Right */}
-        <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20 pointer-events-none">
-          <span className="bg-[#FFDE14] text-gray-950 text-[11px] sm:text-xs font-bold px-2.5 py-0.5 sm:py-1 rounded-full shadow-2xs">
-            {pkg.badge}
-          </span>
-          <span className="bg-deep-red text-white text-[10px] sm:text-[11px] font-bold px-2 py-0.5 sm:py-1 rounded-full shadow-2xs tracking-wide inline-flex items-center gap-1">
-            <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
-            {Math.round(((pkg.originalPrice - pkg.price) / pkg.originalPrice) * 100)}% OFF
-          </span>
-        </div>
-
-        {/* Left & Right Navigation Arrows for Multiple Images */}
-        {images.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label="Previous image"
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center transition-all z-20 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100 shadow-xs active:scale-90"
-            >
-              <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label="Next image"
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center transition-all z-20 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100 shadow-xs active:scale-90"
-            >
-              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
-            </button>
-          </>
-        )}
-
-        {/* Dynamic Indicator Dots matching Active Image */}
-        {images.length > 1 && (
-          <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1 z-20 pointer-events-none">
-            {images.map((_, idx) => (
-              <span
-                key={idx}
-                className={`h-1.5 rounded-full transition-all duration-300 ${
-                  idx === activeImg
-                    ? "w-3.5 bg-[#1877F2]"
-                    : "w-1.5 bg-white/80"
-                }`}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Card Content Area */}
-      <div className="pt-3 pb-1 px-0.5 flex-1 flex flex-col justify-between">
-        <div>
-          {/* Title */}
-          <Link href={pkg.href}>
-            <h3 className="text-[13.5px] sm:text-[14.5px] font-semibold text-[#1877F2] hover:text-[#00285C] transition-colors line-clamp-1 leading-snug">
-              {pkg.title}
-            </h3>
-          </Link>
-
-          {/* Location & Duration Meta */}
-          <div className="flex items-center gap-2 mt-1.5 text-[11px] sm:text-xs text-gray-500">
-            <span className="flex items-center gap-1 font-normal text-gray-600">
-              <MapPin className="w-3 h-3 text-gray-400 shrink-0" />
-              {pkg.destination}
-            </span>
-            <span className="text-gray-300">↔</span>
-            <span className="font-normal text-gray-500">
-              {pkg.duration}
-            </span>
-          </div>
-        </div>
-
-        {/* ─── Bottom Footer: Book Now (Left) & Refined Reduced Price (Right) ─── */}
-        <div className="flex items-center justify-between pt-3 mt-2.5 border-t border-gray-100 gap-2 min-w-0">
-          {/* Book Now Button */}
-          <Link
-            href={pkg.href}
-            className="inline-flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[10.5px] sm:text-[11px] font-semibold shadow-2xs hover:shadow-xs transition-all active:scale-95 cursor-pointer shrink-0"
-          >
-            <span>Book Now</span>
-            <ArrowUpRight className="w-3 h-3 stroke-[2.2] text-white" />
-          </Link>
-
-          {/* Starting From, Original & Sales Price (Reduced Font Size by a few pixels) */}
-          <div className="flex flex-col text-right items-end shrink-0 min-w-0">
-            <div className="flex items-center gap-1 leading-none mb-0.5">
-              <span className="text-[9px] text-gray-400 font-normal">
-                Starting From
-              </span>
-              {pkg.originalPrice > pkg.price && (
-                <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[9px] font-bold leading-none">
-                  <Tag className="w-2 h-2 stroke-[2.2]" />
-                  Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
-                </span>
-              )}
-            </div>
-            <div className="flex items-baseline justify-end gap-1 leading-none">
-              <span className="text-[10px] text-gray-400 line-through font-normal">
-                ₹{pkg.originalPrice.toLocaleString("en-IN")}
-              </span>
-              <span className="text-[12.5px] sm:text-[13px] font-bold text-gray-900 leading-tight">
-                ₹{pkg.price.toLocaleString("en-IN")}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default function PopularPackages() {
   const [mounted, setMounted] = useState(false);
@@ -301,6 +106,9 @@ export default function PopularPackages() {
 
   return (
     <section className="w-full bg-white pb-8 md:pb-16 relative overflow-hidden">
+      {/* ─── Background Decorative Illustrations ─── */}
+
+
       <div className="container relative z-20">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto pb-6 md:pb-8">
@@ -314,7 +122,7 @@ export default function PopularPackages() {
         </div>
 
         {/* ─── Package Cards Swiper Slider ─── */}
-        <div>
+        <div className="">
           {mounted ? (
             <Swiper
               modules={[Autoplay]}
@@ -341,13 +149,105 @@ export default function PopularPackages() {
                 1280: {
                   slidesPerView: 3.4,
                   spaceBetween: 24,
+
                 },
               }}
               className="w-full"
             >
               {packages.map((pkg) => (
                 <SwiperSlide key={pkg.id}>
-                  <PopularPackageCardItem pkg={pkg} />
+                  <div className="bg-white rounded-2xl p-3.5 sm:p-4  transition-all duration-300 border border-gray-100 flex flex-col h-full group">
+                    {/* Image Container with Badge, Mini Dots & Diagonal Shine Hover Layer */}
+                    <Link
+                      href={pkg.href}
+                      className="block relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 image-shine cursor-pointer"
+                    >
+                      <Image
+                        src={pkg.image}
+                        alt={pkg.title}
+                        fill
+                        sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      />
+
+                      {/* Top Badges: Tour Type on Left + Percent OFF on Right */}
+                      <div className="absolute top-3 inset-x-3 flex items-center justify-between z-10 pointer-events-none">
+                        <span className="bg-[#FFDE14] text-gray-950 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
+                          {pkg.badge}
+                        </span>
+                        <span className="bg-deep-red text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm tracking-wide inline-flex items-center gap-1">
+                          <Tag className="w-3 h-3 stroke-[2.2]" />
+                          {Math.round(((pkg.originalPrice - pkg.price) / pkg.originalPrice) * 100)}% OFF
+                        </span>
+                      </div>
+
+                      {/* Mini Thumbnail Dots (as seen in Card 1) */}
+                      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-white/80" />
+                        <span className="w-4 h-1.5 rounded-full bg-[#1877F2]" />
+                      </div>
+                    </Link>
+
+                    {/* Card Content Area */}
+                    <div className="pt-3.5 pb-2 px-1 flex-1 flex flex-col justify-between">
+                      <div>
+                        {/* Title */}
+                        <Link href={pkg.href}>
+                          <h3 className="text-[14px] sm:text-[15px] font-semibold text-[#1877F2] hover:text-[#00285C] transition-colors line-clamp-1">
+                            {pkg.title}
+                          </h3>
+                        </Link>
+
+                        {/* Location & Duration Meta */}
+                        <div className="flex items-center gap-2 mt-1.5 text-xs text-gray-500">
+                          <span className="flex items-center gap-1 font-normal text-gray-600">
+                            <MapPin className="w-3 h-3 text-gray-400 shrink-0" />
+                            {pkg.destination}
+                          </span>
+                          <span className="text-gray-300">↔</span>
+                          <span className="font-normal text-gray-500">
+                            {pkg.duration}
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Bottom Footer Row: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
+                      <div className="flex items-center justify-between pt-3.5 mt-3 border-t border-gray-100 gap-2 min-w-0">
+                        {/* Book Now Button */}
+                        <Link
+                          href={pkg.href}
+                          className="inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-md transition-colors active:scale-95 cursor-pointer shrink-0"
+                        >
+                          <span className="relative z-10">Book Now</span>
+                          <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white relative z-10" />
+                        </Link>
+
+                        {/* Starting From, Original Price & Sales Price */}
+                        <div className="flex flex-col text-right items-end shrink-0 min-w-0">
+                          <div className="flex items-center gap-1.5 leading-none mb-1">
+                            <span className="text-[10px] text-gray-400 font-normal">
+                              Starting From
+                            </span>
+                            {pkg.originalPrice > pkg.price && (
+                              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-bold leading-none">
+                                <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
+                                Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
+                              </span>
+                            )}
+                          </div>
+                          <div className="flex items-baseline justify-end gap-1.5 leading-none">
+                            <span className="text-[11px] text-gray-400 line-through font-normal">
+                              ₹{pkg.originalPrice.toLocaleString("en-IN")}
+                            </span>
+                            <span className="text-[14px] sm:text-[15px] font-semibold text-gray-900 leading-tight">
+                              ₹{pkg.price.toLocaleString("en-IN")}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </SwiperSlide>
               ))}
             </Swiper>
@@ -357,9 +257,9 @@ export default function PopularPackages() {
               {packages.slice(0, 3).map((pkg) => (
                 <div
                   key={pkg.id}
-                  className="bg-white rounded-2xl p-3.5 border border-gray-150"
+                  className="bg-white rounded-3xl p-4 shadow-sm border border-gray-100"
                 >
-                  <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100">
+                  <div className="relative w-full aspect-[4/3] rounded-full overflow-hidden bg-gray-100">
                     <Image
                       src={pkg.image}
                       alt={pkg.title}
@@ -367,8 +267,8 @@ export default function PopularPackages() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="pt-3">
-                    <h3 className="text-sm font-semibold text-gray-900 truncate">
+                  <div className="pt-4">
+                    <h3 className="text-lg font-bold text-gray-900 truncate">
                       {pkg.title}
                     </h3>
                   </div>
@@ -381,3 +281,4 @@ export default function PopularPackages() {
     </section>
   );
 }
+
