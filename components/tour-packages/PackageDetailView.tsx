@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -26,6 +26,7 @@ import {
   Heart,
   Send,
   ArrowUpRight,
+  ArrowDown,
   Download,
   User,
   Phone,
@@ -172,6 +173,38 @@ export default function PackageDetailView({
     }
   }, [user, isLoggedIn]);
 
+  // Mobile Scroll & Form Visibility Tracking
+  const bookingFormRef = useRef<HTMLDivElement>(null);
+  const [isFormInView, setIsFormInView] = useState(false);
+
+  useEffect(() => {
+    const target = bookingFormRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFormInView(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, []);
+
+  const scrollToBookingForm = () => {
+    if (bookingFormRef.current) {
+      bookingFormRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      const firstInput = bookingFormRef.current.querySelector<HTMLInputElement>("input");
+      if (firstInput) {
+        setTimeout(() => firstInput.focus({ preventScroll: true }), 450);
+      }
+    } else {
+      const el = document.getElementById("booking-form");
+      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const originalPrice = pkg.originalPrice || Math.round(pkg.price * 1.25);
   const savings = originalPrice - pkg.price;
   const discountPercent = Math.round((savings / originalPrice) * 100);
@@ -284,7 +317,7 @@ export default function PackageDetailView({
   ];
 
   return (
-    <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
+    <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827] pb-20 lg:pb-0 relative">
       {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
       <section className="relative w-full overflow-hidden bg-black py-7 sm:py-9 flex items-center min-h-[160px] sm:min-h-[190px]">
         {/* Background Image with Black Layer Above */}
@@ -328,7 +361,7 @@ export default function PackageDetailView({
           </nav>
 
           {/* Package Heading: Refined, Elegant Typography */}
-          <h1 className="text-xl sm:text-2xl lg:text-[28px] font-bold text-white tracking-tight leading-snug max-w-4xl">
+          <h1 className="text-xl sm:text-2xl lg:text-[28px] font-semibold text-white tracking-tight leading-snug max-w-4xl">
             {mainTitle}
           </h1>
         </div>
@@ -394,9 +427,37 @@ export default function PackageDetailView({
                 </div>
               </div>
 
+              {/* ─── Mobile Quick Booking Bar (Right below photos for mobile visitors) ─── */}
+              <div className="lg:hidden p-4 rounded-xl bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-white border border-blue-100 flex items-center justify-between shadow-2xs">
+                <div>
+                  <span className="text-[10.5px] font-bold text-gray-500 uppercase tracking-wider block">
+                    Starting From
+                  </span>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-extrabold text-[#0F172A] leading-tight">
+                      ₹{pkg.price.toLocaleString("en-IN")}
+                    </span>
+                    <span className="text-xs text-gray-500 font-medium">/ person</span>
+                  </div>
+                  {savings > 0 && (
+                    <span className="inline-block text-[10px] font-bold text-amber-700 bg-amber-100/90 px-1.5 py-0.5 rounded mt-0.5">
+                      Save ₹{savings.toLocaleString("en-IN")}
+                    </span>
+                  )}
+                </div>
+                <button
+                  type="button"
+                  onClick={scrollToBookingForm}
+                  className="px-5 py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-95 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+                >
+                  <span>Book Now</span>
+                  <ArrowDown className="w-3.5 h-3.5" />
+                </button>
+              </div>
+
               {/* ─── 2. ABOUT TOUR PACKAGE ─── */}
               <div className="mt-10">
-                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-3 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-3 tracking-tight">
                   About Tour Package
                 </h2>
                 <p className="text-sm sm:text-[15px] text-gray-600 leading-relaxed font-normal mb-7">
@@ -530,7 +591,7 @@ export default function PackageDetailView({
               <div className="mt-10">
                 {/* Header with Title & Expand / Collapse */}
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 tracking-tight">
+                  <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 tracking-tight">
                     Tour Itinerary
                   </h2>
                   <div className="flex items-center gap-2">
@@ -691,7 +752,7 @@ export default function PackageDetailView({
 
               {/* ─── 4. PACKAGE FEATURES LIST ─── */}
               <div className="mt-10">
-                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-6 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-6 tracking-tight">
                   Package Features List
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -739,7 +800,7 @@ export default function PackageDetailView({
 
               {/* ─── 5. ADDITIONAL INFO ─── */}
               <div className="mt-10">
-                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-4 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-4 tracking-tight">
                   Additional Info
                 </h2>
                 <div className="space-y-3.5">
@@ -773,7 +834,7 @@ export default function PackageDetailView({
 
               {/* ─── 6. FREQUENTLY ASKED & QUESTION ─── */}
               <div className="mt-10">
-                <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-4 tracking-tight">
+                <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-4 tracking-tight">
                   Frequently Asked & Question
                 </h2>
                 <div className="space-y-3.5">
@@ -836,7 +897,11 @@ export default function PackageDetailView({
             </div>
 
             {/* ════ RIGHT COLUMN: SIDEBAR FORM (Inside lg:col-span-4) ════ */}
-            <div className="lg:col-span-4 lg:sticky lg:top-24">
+            <div
+              id="booking-form"
+              ref={bookingFormRef}
+              className="lg:col-span-4 lg:sticky lg:top-24 scroll-mt-24"
+            >
               <div className="bg-white rounded-xl border border-gray-200/90 shadow-sm p-5 sm:p-6 relative">
                 {/* Top Row: Download Brochure & Share */}
                 <div className="flex items-center gap-2.5 mb-5">
@@ -863,7 +928,7 @@ export default function PackageDetailView({
                   <div className="rounded-xl border border-[#FDE68A] bg-[#FFFDF7] p-4 sm:p-5 mb-5 flex items-center justify-between shadow-2xs">
                     {/* Left Side */}
                     <div className="flex flex-col items-start">
-                      <span className="text-xs font-bold text-[#C2410C] uppercase tracking-wide mb-1">
+                      <span className="text-xs font-semibold text-[#C2410C] uppercase tracking-wide mb-1">
                         SPECIAL OFFER
                       </span>
                       <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#1E293B] mb-2.5">
@@ -874,7 +939,7 @@ export default function PackageDetailView({
                             : pkg.duration}
                         </span>
                       </div>
-                      <span className="badge-shine relative overflow-hidden inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs rounded-md">
+                      <span className="badge-shine relative overflow-hidden inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-semibold shadow-2xs rounded-md">
                         <Tag className="w-3.5 h-3.5 stroke-[2.2]" />
                         Save ₹{savings.toLocaleString("en-IN")}
                       </span>
@@ -882,7 +947,7 @@ export default function PackageDetailView({
 
                     {/* Right Side */}
                     <div className="flex flex-col text-right items-end">
-                      <div className="flex items-center justify-end gap-1.5 text-[11px] font-bold text-[#475569] uppercase tracking-wide">
+                      <div className="flex items-center justify-end gap-1.5 text-[11px] font-semibold text-[#475569] uppercase tracking-wide">
                         <span>STARTING FROM</span>
                         <span className="line-through text-slate-400 font-semibold">
                           ₹{originalPrice.toLocaleString("en-IN")}
@@ -1046,7 +1111,7 @@ export default function PackageDetailView({
                         <span>Have a Coupon Code?</span>
                       </label>
                       {appliedCoupon && (
-                        <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
+                        <span className="text-[11px] font-semibold text-emerald-600 flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3" />
                           Applied
                         </span>
@@ -1073,7 +1138,7 @@ export default function PackageDetailView({
                             type="button"
                             onClick={() => handleApplyCoupon()}
                             disabled={!couponInput.trim()}
-                            className="px-4 py-2 mr-1 my-1 rounded-md bg-[#1877F2] hover:bg-[#00285C] active:scale-95 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all cursor-pointer shrink-0"
+                            className="px-4 py-2 mr-1 my-1 rounded-md bg-[#1877F2] hover:bg-[#00285C] active:scale-95 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-semibold transition-all cursor-pointer shrink-0"
                           >
                             Apply
                           </button>
@@ -1094,7 +1159,7 @@ export default function PackageDetailView({
                               key={c.code}
                               type="button"
                               onClick={() => handleApplyCoupon(c.code)}
-                              className="text-[10px] font-mono font-bold text-[#1877F2] bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2 py-0.5 rounded-md transition-colors cursor-pointer flex items-center gap-1"
+                              className="text-[10px] font-mono font-semibold text-[#1877F2] bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2 py-0.5 rounded-md transition-colors cursor-pointer flex items-center gap-1"
                             >
                               <span>{c.code}</span>
                               <span className="text-gray-500 font-normal">({c.discountText})</span>
@@ -1111,10 +1176,10 @@ export default function PackageDetailView({
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
-                              <span className="font-mono font-bold text-emerald-900 text-xs">
+                              <span className="font-mono font-semibold text-emerald-900 text-xs">
                                 {appliedCoupon.code}
                               </span>
-                              <span className="text-[10px] font-bold text-emerald-800 bg-emerald-200/80 px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] font-semibold text-emerald-800 bg-emerald-200/80 px-1.5 py-0.5 rounded">
                                 {appliedCoupon.discountText}
                               </span>
                             </div>
@@ -1142,7 +1207,7 @@ export default function PackageDetailView({
                         <span>Kriko Loyalty Points</span>
                       </label>
                       {applyLoyalty && loyaltyDiscount > 0 && (
-                        <span className="text-[11px] font-bold text-amber-700 flex items-center gap-1">
+                        <span className="text-[11px] font-semibold text-amber-700 flex items-center gap-1">
                           <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                           Redeemed
                         </span>
@@ -1158,10 +1223,10 @@ export default function PackageDetailView({
                             </div>
                             <div className="min-w-0">
                               <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="text-xs font-bold text-gray-900">
+                                <span className="text-xs font-semibold text-gray-900">
                                   {availableLoyaltyPoints.toLocaleString("en-IN")} Points
                                 </span>
-                                <span className="text-[10px] font-bold text-amber-800 bg-amber-200/80 px-1.5 py-0.2 rounded">
+                                <span className="text-[10px] font-semibold text-amber-800 bg-amber-200/80 px-1.5 py-0.2 rounded">
                                   ₹{availableLoyaltyPoints.toLocaleString("en-IN")} OFF
                                 </span>
                               </div>
@@ -1173,7 +1238,7 @@ export default function PackageDetailView({
                           <button
                             type="button"
                             onClick={() => setApplyLoyalty(true)}
-                            className="px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-bold transition-all cursor-pointer shrink-0 shadow-2xs"
+                            className="px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-semibold transition-all cursor-pointer shrink-0 shadow-2xs"
                           >
                             Apply
                           </button>
@@ -1188,10 +1253,10 @@ export default function PackageDetailView({
                           </div>
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
-                              <span className="font-bold text-amber-950 text-xs">
+                              <span className="font-semibold text-amber-950 text-xs">
                                 {redeemableLoyaltyPoints.toLocaleString("en-IN")} Points Redeemed
                               </span>
-                              <span className="text-[10px] font-bold text-amber-900 bg-amber-200 px-1.5 py-0.5 rounded">
+                              <span className="text-[10px] font-semibold text-amber-900 bg-amber-200 px-1.5 py-0.5 rounded">
                                 ₹{loyaltyDiscount.toLocaleString("en-IN")} OFF
                               </span>
                             </div>
@@ -1244,13 +1309,13 @@ export default function PackageDetailView({
                       {appliedCoupon && applyLoyalty && loyaltyDiscount > 0 && (
                         <div className="flex items-center justify-between text-gray-600 text-[11px] pt-0.5">
                           <span>Total Savings</span>
-                          <span className="font-bold text-emerald-700">
+                          <span className="font-semibold text-emerald-700">
                             - ₹{totalSavings.toLocaleString("en-IN")}
                           </span>
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between pt-1.5 border-t border-gray-200 font-bold text-gray-900 text-sm">
+                      <div className="flex items-center justify-between pt-1.5 border-t border-gray-200 font-semibold text-gray-900 text-sm">
                         <span>Effective Price</span>
                         <span className="text-[#1877F2] font-extrabold text-base">
                           ₹{finalPrice.toLocaleString("en-IN")}
@@ -1278,7 +1343,7 @@ export default function PackageDetailView({
                     </div>
                   </div>
 
-                  {/* Submit Button */}
+                  {/* Submit Button (Price not shown in button) */}
                   <button
                     type="submit"
                     disabled={isQuoteSubmitted}
@@ -1286,11 +1351,7 @@ export default function PackageDetailView({
                   >
                     <Send className="w-4 h-4 text-white relative z-10" />
                     <span className="relative z-10">
-                      {isQuoteSubmitted
-                        ? "Submitting Request..."
-                        : totalSavings > 0
-                        ? `Book Now • ₹${finalPrice.toLocaleString("en-IN")} (Save ₹${totalSavings.toLocaleString("en-IN")})`
-                        : "Get Best Quote"}
+                      {isQuoteSubmitted ? "Submitting Request..." : "Book Now"}
                     </span>
                   </button>
                 </form>
@@ -1302,6 +1363,43 @@ export default function PackageDetailView({
 
       {/* ─── BOTTOM SECTION: RELEVANT PACKAGE SLIDER COMPONENT ─── */}
       <RelevantPackagesSlider packages={relatedPackages} />
+
+      {/* ─── MOBILE STICKY BOTTOM BAR (Visible on mobile visits; click scrolls smoothly to form) ─── */}
+      <aside
+        aria-label="Mobile booking action bar"
+        className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/90 shadow-[0_-4px_25px_rgba(0,0,0,0.12)] px-4 py-3 flex items-center justify-between transition-all duration-300 ${
+          isFormInView ? "opacity-0 pointer-events-none translate-y-full" : "opacity-100 translate-y-0"
+        }`}
+      >
+        <div>
+          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">
+            Starting From
+          </span>
+          <div className="flex items-baseline gap-1">
+            <span className="text-xl font-black text-gray-900 leading-tight">
+              ₹{(totalSavings > 0 ? finalPrice : pkg.price).toLocaleString("en-IN")}
+            </span>
+            <span className="text-xs text-gray-500 font-medium">/ person</span>
+          </div>
+          {totalSavings > 0 ? (
+            <span className="text-[10px] font-bold text-emerald-600 block">
+              ₹{totalSavings.toLocaleString("en-IN")} Discount Applied
+            </span>
+          ) : savings > 0 ? (
+            <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-1 py-0.2 rounded inline-block">
+              Save ₹{savings.toLocaleString("en-IN")}
+            </span>
+          ) : null}
+        </div>
+        <button
+          type="button"
+          onClick={scrollToBookingForm}
+          className="px-6 py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-95 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+        >
+          <span>Book Now</span>
+          <ArrowDown className="w-3.5 h-3.5" />
+        </button>
+      </aside>
     </div>
   );
 }
