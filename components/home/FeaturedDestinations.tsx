@@ -102,7 +102,7 @@ export default function FeaturedDestinations() {
   return (
     <section
       id="featured-destinations"
-      className="w-full bg-white py-8 md:py-16"
+      className="w-full bg-[#f6f9fd] py-8 md:py-16"
     >
       <div className="container">
         {/* ─── Header: Title & Subtitle ─── */}

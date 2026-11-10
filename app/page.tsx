@@ -27,13 +27,15 @@ export default function Home() {
 
 
         <Suspense fallback={null}>
-          <PopularPackages />
+          <SpecialOffers />
         </Suspense>
+
         <FeaturedDestinations />
 
 
+
         <Suspense fallback={null}>
-          <SpecialOffers />
+          <PopularPackages />
         </Suspense>
         <GallerySection />
         <TestimonialsSection />

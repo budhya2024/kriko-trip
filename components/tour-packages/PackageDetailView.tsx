@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   MapPin,
   Clock,
-  Star,
   Users,
   Compass,
   Building,
@@ -87,7 +86,6 @@ export default function PackageDetailView({
   // Split title if it contains parenthesis route details (e.g. "Kerala Backwaters (2 nts Munnar + ...)")
   const parenMatch = pkg.title.match(/^(.*?)\s*\((.*?)\)\s*$/);
   const mainTitle = parenMatch ? parenMatch[1].trim() : pkg.title;
-  const routeInfo = parenMatch ? parenMatch[2].trim() : null;
 
   const fallbackImages = [
     "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=800&q=80",
@@ -173,7 +171,7 @@ export default function PackageDetailView({
   return (
     <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827]">
       {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
-      <section className="relative w-full overflow-hidden bg-black py-8 sm:py-10 lg:py-12 flex items-center min-h-[220px] sm:min-h-[260px]">
+      <section className="relative w-full overflow-hidden bg-black py-7 sm:py-9 flex items-center min-h-[160px] sm:min-h-[190px]">
         {/* Background Image with Black Layer Above */}
         <div className="absolute inset-0 z-0">
           <Image
@@ -214,42 +212,10 @@ export default function PackageDetailView({
             </span>
           </nav>
 
-          {/* Badges Row: Destination, Duration, Travel Type, Rating */}
-          <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-2.5">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs border border-white/20 text-white font-medium text-[11px] sm:text-xs">
-              <MapPin className="w-3 h-3 text-[#03ADFF]" />
-              {pkg.location || pkg.destination}
-            </span>
-
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/15 backdrop-blur-xs border border-white/20 text-white font-medium text-[11px] sm:text-xs">
-              <Clock className="w-3 h-3 text-[#03ADFF]" />
-              {pkg.nights && pkg.days ? `${pkg.nights}N / ${pkg.days}D` : pkg.duration}
-            </span>
-
-            {pkg.travelType && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#03ADFF]/25 border border-[#03ADFF]/40 text-sky-200 font-semibold text-[11px] sm:text-xs">
-                {pkg.travelType}
-              </span>
-            )}
-
-            <span className="inline-flex items-center gap-1 text-amber-300 font-semibold text-xs ml-0.5">
-              <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
-              4.9 (120+ reviews)
-            </span>
-          </div>
-
-          {/* Package Heading: Refined Smaller, Elegant Typography */}
+          {/* Package Heading: Refined, Elegant Typography */}
           <h1 className="text-xl sm:text-2xl lg:text-[28px] font-bold text-white tracking-tight leading-snug max-w-4xl">
             {mainTitle}
           </h1>
-
-          {/* Itinerary Route Tag (if breakdown exists) */}
-          {routeInfo && (
-            <div className="mt-2.5 inline-flex items-center gap-1.5 px-3 py-1 rounded-md bg-black/40 backdrop-blur-xs border border-white/15 text-sky-200 text-xs sm:text-[13px] font-medium">
-              <span className="text-white/60">Route:</span>
-              <span>{routeInfo}</span>
-            </div>
-          )}
         </div>
       </section>
 
