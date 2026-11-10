@@ -187,7 +187,8 @@ select {
   justify-content: center;
 }
 
-.custom-offers-pagination .swiper-pagination-bullet {
+.custom-offers-pagination .swiper-pagination-bullet,
+.relevant-packages-pagination .swiper-pagination-bullet {
   width: 10px;
   height: 10px;
   background-color: #cbd5e1;
@@ -198,9 +199,10 @@ select {
   margin: 0 4px !important;
 }
 
-.custom-offers-pagination .swiper-pagination-bullet-active {
-  width: 34px !important;
-  background-color: #0284c7 !important;
+.custom-offers-pagination .swiper-pagination-bullet-active,
+.relevant-packages-pagination .swiper-pagination-bullet-active {
+  width: 30px !important;
+  background-color: #1877F2 !important;
   border-radius: 9999px !important;
 }
 
