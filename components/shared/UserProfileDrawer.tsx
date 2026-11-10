@@ -8,14 +8,11 @@ import {
   Crown,
   Calendar,
   MapPin,
-  Eye,
-  EyeOff,
   LogOut,
   User,
   Phone,
   Mail,
   CheckCircle2,
-  ShieldCheck,
   Trash2,
   FileText,
 } from "lucide-react";
@@ -32,23 +29,11 @@ export default function UserProfileDrawer() {
     updateProfile,
   } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<"profile" | "trips" | "password">("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "trips">("profile");
 
   // Photo upload ref
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [photoSuccess, setPhotoSuccess] = useState<string | null>(null);
-
-  // Password change state
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [showCurrentPass, setShowCurrentPass] = useState(false);
-  const [showNewPass, setShowNewPass] = useState(false);
-  const [showConfirmPass, setShowConfirmPass] = useState(false);
-  const [passwordMessage, setPasswordMessage] = useState<{
-    type: "success" | "error";
-    text: string;
-  } | null>(null);
 
   // Profile edit state
   const [editName, setEditName] = useState(user?.name || "");
@@ -96,35 +81,6 @@ export default function UserProfileDrawer() {
     updateAvatar("");
     setPhotoSuccess("Profile photo removed. Initial letter is now shown.");
     setTimeout(() => setPhotoSuccess(null), 2500);
-  };
-
-  // Handle Password Update
-  const handlePasswordSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!currentPassword) {
-      setPasswordMessage({ type: "error", text: "Please enter your current password." });
-      return;
-    }
-    if (newPassword.length < 6) {
-      setPasswordMessage({
-        type: "error",
-        text: "New password must be at least 6 characters long.",
-      });
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setPasswordMessage({ type: "error", text: "New passwords do not match." });
-      return;
-    }
-
-    setPasswordMessage({
-      type: "success",
-      text: "Password updated successfully!",
-    });
-    setCurrentPassword("");
-    setNewPassword("");
-    setConfirmPassword("");
-    setTimeout(() => setPasswordMessage(null), 3500);
   };
 
   // Handle Profile Update
@@ -176,7 +132,7 @@ export default function UserProfileDrawer() {
             <button
               type="button"
               onClick={closeProfileDrawer}
-              className="w-8 h-8 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer outline-none focus:outline-none"
+              className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer outline-none focus:outline-none"
               aria-label="Close drawer"
             >
               <X className="w-4 h-4 stroke-[2.2]" />
@@ -311,8 +267,8 @@ export default function UserProfileDrawer() {
                 type="button"
                 onClick={() => setActiveTab("profile")}
                 className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "profile"
-                    ? "text-[#1877F2]"
-                    : "text-gray-500 hover:text-gray-800"
+                  ? "text-[#1877F2]"
+                  : "text-gray-500 hover:text-gray-800"
                   }`}
               >
                 <span>Profile Info</span>
@@ -325,26 +281,12 @@ export default function UserProfileDrawer() {
                 type="button"
                 onClick={() => setActiveTab("trips")}
                 className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "trips"
-                    ? "text-[#1877F2]"
-                    : "text-gray-500 hover:text-gray-800"
+                  ? "text-[#1877F2]"
+                  : "text-gray-500 hover:text-gray-800"
                   }`}
               >
                 <span>Bookings</span>
                 {activeTab === "trips" && (
-                  <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#1877F2] rounded-full transition-all duration-300" />
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setActiveTab("password")}
-                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "password"
-                    ? "text-[#1877F2]"
-                    : "text-gray-500 hover:text-gray-800"
-                  }`}
-              >
-                <span>Password</span>
-                {activeTab === "password" && (
                   <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#1877F2] rounded-full transition-all duration-300" />
                 )}
               </button>
@@ -490,8 +432,8 @@ export default function UserProfileDrawer() {
                           </span>
                           <span
                             className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${trip.status === "Confirmed"
-                                ? "bg-emerald-100/80 text-emerald-800"
-                                : "bg-blue-100/80 text-blue-800"
+                              ? "bg-emerald-100/80 text-emerald-800"
+                              : "bg-blue-100/80 text-blue-800"
                               }`}
                           >
                             {trip.status}
@@ -527,103 +469,6 @@ export default function UserProfileDrawer() {
                   </div>
                 ))}
               </div>
-            )}
-
-            {/* ─── TAB 3: Change Password (Per box bg color, no borders) ─── */}
-            {activeTab === "password" && (
-              <form onSubmit={handlePasswordSubmit} className="space-y-3.5 animate-in fade-in duration-200">
-                <div className="flex items-center gap-2 pb-1 text-xs text-gray-600">
-                  <ShieldCheck className="w-4 h-4 text-[#1877F2]" />
-                  <span>Protect your account with a secure password</span>
-                </div>
-
-                {passwordMessage && (
-                  <div
-                    className={`p-3 rounded-lg text-xs font-medium ${passwordMessage.type === "success"
-                        ? "bg-emerald-50 text-emerald-800"
-                        : "bg-red-50 text-red-700"
-                      }`}
-                  >
-                    {passwordMessage.text}
-                  </div>
-                )}
-
-                {/* Current Password */}
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Current Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showCurrentPass ? "text" : "password"}
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      placeholder="Enter current password"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 outline-none focus:outline-none ring-0 focus:ring-0 text-xs sm:text-sm text-gray-900 font-normal transition-colors"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowCurrentPass(!showCurrentPass)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 outline-none focus:outline-none"
-                    >
-                      {showCurrentPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* New Password */}
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    New Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showNewPass ? "text" : "password"}
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                      placeholder="Min. 6 characters"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 outline-none focus:outline-none ring-0 focus:ring-0 text-xs sm:text-sm text-gray-900 font-normal transition-colors"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowNewPass(!showNewPass)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 outline-none focus:outline-none"
-                    >
-                      {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                </div>
-
-                {/* Confirm New Password */}
-                <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Confirm New Password
-                  </label>
-                  <div className="relative">
-                    <input
-                      type={showConfirmPass ? "text" : "password"}
-                      value={confirmPassword}
-                      onChange={(e) => setConfirmPassword(e.target.value)}
-                      placeholder="Re-enter new password"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 outline-none focus:outline-none ring-0 focus:ring-0 text-xs sm:text-sm text-gray-900 font-normal transition-colors"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowConfirmPass(!showConfirmPass)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 outline-none focus:outline-none"
-                    >
-                      {showConfirmPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer outline-none focus:outline-none"
-                >
-                  Update Password
-                </button>
-              </form>
             )}
           </div>
 

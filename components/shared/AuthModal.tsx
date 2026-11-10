@@ -3,7 +3,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import brandLogo from "@/public/assets/images/brand-logo.png";
-import { X, Phone, ArrowRight, ArrowLeft, RotateCcw, ShieldCheck, CheckCircle2, Sparkles } from "lucide-react";
+import {
+  X,
+  Phone,
+  ArrowRight,
+  ArrowLeft,
+  RotateCcw,
+  ShieldCheck,
+  CheckCircle2,
+  User,
+  Mail,
+  MapPin,
+  Sparkles,
+} from "lucide-react";
 import { useAuth } from "./AuthContext";
 
 interface AuthModalProps {
@@ -48,8 +60,8 @@ export default function AuthModal({
   onClose,
 }: AuthModalProps) {
   const { login } = useAuth();
-  // Steps: "phone" (enter mobile number) | "otp" (enter OTP)
-  const [step, setStep] = useState<"phone" | "otp">("phone");
+  // Steps: "phone" (enter mobile) | "otp" (verify OTP) | "profile" (name, email, address form)
+  const [step, setStep] = useState<"phone" | "otp" | "profile">("phone");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
@@ -57,6 +69,11 @@ export default function AuthModal({
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Profile details state (opened once mobile number is verified)
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [address, setAddress] = useState("");
 
   const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -70,6 +87,9 @@ export default function AuthModal({
       setSuccessMessage("");
       setTimer(30);
       setIsResendActive(false);
+      setFullName("");
+      setEmail("");
+      setAddress("");
     }
   }, [isOpen]);
 
@@ -167,7 +187,7 @@ export default function AuthModal({
     setTimeout(() => setSuccessMessage(""), 3000);
   };
 
-  // Verify OTP submit
+  // Verify OTP submit -> Moves to Name, Email, Address Profile Form
   const handleVerifyOtp = (e: React.FormEvent) => {
     e.preventDefault();
     const fullOtp = otp.join("");
@@ -180,12 +200,60 @@ export default function AuthModal({
 
     setTimeout(() => {
       setIsLoading(false);
-      setSuccessMessage("Signed in successfully!");
-      login({ phone: phoneNumber ? `+91 ${phoneNumber}` : "+91 98765 43210" });
+      setSuccessMessage("Mobile number verified successfully!");
+
+      // Pre-fill if existing details saved in localStorage
+      try {
+        const saved = localStorage.getItem("krikotrip_user_profile");
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.name) setFullName(parsed.name);
+          if (parsed.email) setEmail(parsed.email);
+          if (parsed.location) setAddress(parsed.location);
+        }
+      } catch (err) {
+        console.error(err);
+      }
+
+      setTimeout(() => {
+        setSuccessMessage("");
+        setStep("profile");
+      }, 350);
+    }, 450);
+  };
+
+  // Profile Form submit (Name, Email, Address)
+  const handleCompleteProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!fullName.trim()) {
+      setErrorMessage("Please enter your full name");
+      return;
+    }
+    if (!email.trim()) {
+      setErrorMessage("Please enter your email address");
+      return;
+    }
+    if (!address.trim()) {
+      setErrorMessage("Please enter your address or city");
+      return;
+    }
+
+    setErrorMessage("");
+    setIsLoading(true);
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setSuccessMessage("Profile completed successfully!");
+      login({
+        name: fullName.trim(),
+        email: email.trim(),
+        phone: phoneNumber ? `+91 ${phoneNumber}` : "+91 98765 43210",
+        location: address.trim(),
+      });
       setTimeout(() => {
         onClose();
-      }, 500);
-    }, 500);
+      }, 400);
+    }, 400);
   };
 
   return (
@@ -227,12 +295,18 @@ export default function AuthModal({
           {/* Title & Description */}
           <div>
             <h3 className="text-base sm:text-lg font-medium text-gray-900 tracking-tight">
-              {step === "phone" ? "Sign In to KrikoTrip" : "Enter Verification Code"}
+              {step === "phone"
+                ? "Sign In to KrikoTrip"
+                : step === "otp"
+                ? "Enter Verification Code"
+                : "Complete Your Profile"}
             </h3>
             <p className="text-xs text-gray-500 font-normal mt-0.5">
               {step === "phone"
                 ? "Enter your mobile number to receive an OTP verification code."
-                : `We've sent a 6-digit OTP to +91 ${phoneNumber}`}
+                : step === "otp"
+                ? `We've sent a 6-digit OTP to +91 ${phoneNumber}`
+                : "Please enter your name, email, and address to get started."}
             </p>
           </div>
 
@@ -420,7 +494,7 @@ export default function AuthModal({
                 disabled={isLoading}
                 className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-[0.99] disabled:opacity-60 text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer flex items-center justify-center gap-1.5"
               >
-                <span>{isLoading ? "Verifying..." : "Verify & Sign In"}</span>
+                <span>{isLoading ? "Verifying..." : "Verify OTP"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
 
@@ -431,6 +505,89 @@ export default function AuthModal({
                 className="w-full text-center text-xs text-gray-500 hover:text-gray-800 font-normal pt-1 cursor-pointer"
               >
                 ← Back to enter another number
+              </button>
+            </form>
+          )}
+
+          {/* ─── STEP 3: NAME, EMAIL & ADDRESS PROFILE FORM (Opened after mobile verification) ─── */}
+          {step === "profile" && (
+            <form onSubmit={handleCompleteProfile} className="space-y-3.5 animate-in fade-in duration-200">
+              {/* Verified Phone Banner */}
+              <div className="flex items-center justify-between px-3 py-2 bg-emerald-50/80 rounded-lg border border-emerald-200/80">
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span className="text-xs font-semibold text-emerald-900">
+                    +91 {phoneNumber}
+                  </span>
+                </div>
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                  <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                  Verified
+                </span>
+              </div>
+
+              {/* Full Name */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  Full Name <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <User className="w-4 h-4 text-gray-400 shrink-0" />
+                  <input
+                    type="text"
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="e.g. Rahul Sharma"
+                    className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
+                  />
+                </div>
+              </div>
+
+              {/* Email Address */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <Mail className="w-4 h-4 text-gray-400 shrink-0" />
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="e.g. rahul.sharma@example.com"
+                    className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
+                  />
+                </div>
+              </div>
+
+              {/* Address / City */}
+              <div>
+                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  Address / City <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
+                  <input
+                    type="text"
+                    required
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="e.g. Salt Lake, Kolkata, West Bengal"
+                    className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
+                  />
+                </div>
+              </div>
+
+              {/* Submit & Save Profile Button */}
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-[0.99] disabled:opacity-60 text-white text-xs sm:text-sm font-semibold transition-colors cursor-pointer flex items-center justify-center gap-2 shadow-xs"
+              >
+                <span>{isLoading ? "Saving Profile..." : "Complete & Continue"}</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </form>
           )}

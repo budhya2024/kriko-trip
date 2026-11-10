@@ -830,9 +830,8 @@ export default function Header() {
             <svg
               viewBox="0 0 10 6"
               fill="currentColor"
-              className={`w-2.5 h-2.5 text-gray-900 transition-transform duration-200 ml-1 shrink-0 ${
-                isMobileSupportOpen ? "rotate-180" : ""
-              }`}
+              className={`w-2.5 h-2.5 text-gray-900 transition-transform duration-200 ml-1 shrink-0 ${isMobileSupportOpen ? "rotate-180" : ""
+                }`}
             >
               <path d="M0 0L5 6L10 0H0Z" />
             </svg>
