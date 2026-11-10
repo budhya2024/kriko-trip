@@ -29,6 +29,21 @@ const MONTH_NAMES = [
   "December",
 ];
 
+const SHORT_MONTHS = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
 const WEEK_DAYS = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
 
 export default function BankingDatePicker({
@@ -41,10 +56,12 @@ export default function BankingDatePicker({
   onClose,
 }: BankingDatePickerProps) {
   const [isOpen, setIsOpen] = useState(inline);
+  const [viewMode, setViewMode] = useState<"days" | "months" | "years">("days");
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleClose = () => {
     setIsOpen(false);
+    setViewMode("days");
     if (onClose) onClose();
   };
 
@@ -165,7 +182,7 @@ export default function BankingDatePicker({
     handleClose();
   };
 
-  // Format date display for trigger
+  // Format date display for trigger input
   const formatDisplay = (dateObj: Date | null) => {
     if (!dateObj) return "";
     return dateObj.toLocaleDateString("en-IN", {
@@ -175,13 +192,15 @@ export default function BankingDatePicker({
     });
   };
 
-  // Year options: from current year to +10 years
-  const currentYear = today ? today.getFullYear() : 2026;
-  const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear + i);
-
-  // Build calendar matrix
+  // Active year & month numbers
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
+
+  // Year options list
+  const currentYear = today ? today.getFullYear() : 2026;
+  const yearOptions = Array.from({ length: 12 }, (_, i) => currentYear + i);
+
+  // Build calendar matrix
   const firstDayIndex = new Date(year, month, 1).getDay();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
   const prevMonthDays = new Date(year, month, 0).getDate();
@@ -232,15 +251,15 @@ export default function BankingDatePicker({
 
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
-      {/* ─── Clean Trigger Input (when not inline) ─── */}
+      {/* ─── Clean Professional Trigger Input (when not inline) ─── */}
       {!inline && (
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors shadow-2xs text-left cursor-pointer group"
+          className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors shadow-2xs text-left cursor-pointer group"
         >
           <div className="flex items-center gap-2.5 min-w-0">
-            <Calendar className="w-4 h-4 text-gray-500 group-hover:text-[#1877F2] transition-colors shrink-0" />
+            <Calendar className="w-4 h-4 text-gray-400 group-hover:text-[#1877F2] transition-colors shrink-0" />
             {value ? (
               <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
                 {formatDisplay(selectedDateObj)}
@@ -251,14 +270,14 @@ export default function BankingDatePicker({
               </span>
             )}
           </div>
-          <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 shrink-0 transition-colors" />
+          <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-gray-600 shrink-0 transition-transform duration-200" />
         </button>
       )}
 
-      {/* ─── Professional Clean Calendar Modal / Dropdown ─── */}
+      {/* ─── Professional Clean Calendar Popover / Modal ─── */}
       {(inline || isOpen) && (
         <>
-          {/* Mobile Backdrop (when not inline) */}
+          {/* Mobile Dimmed Backdrop */}
           {!inline && (
             <div
               className="sm:hidden fixed inset-0 z-[120] bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
@@ -266,87 +285,93 @@ export default function BankingDatePicker({
             />
           )}
 
-          {/* Calendar Box: Professional, Clean White UI, No Gradients */}
+          {/* Calendar Card: Zero Gradients, Minimalist Professional White UI */}
           <div
             className={
               inline
-                ? "relative w-full bg-white rounded-xl shadow-lg border border-gray-200 p-3.5 sm:p-4 z-50 animate-in fade-in duration-150"
-                : "fixed sm:absolute inset-x-4 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:inset-x-auto sm:top-[calc(100%+8px)] sm:left-0 z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-32px)] max-w-[340px] sm:w-[320px] bg-white rounded-xl shadow-xl border border-gray-200 p-3.5 sm:p-4 animate-in fade-in zoom-in-95 sm:zoom-in-100 duration-150"
+                ? "relative w-full bg-white rounded-2xl shadow-xl border border-gray-150 p-4 sm:p-5 z-50 animate-in fade-in duration-150"
+                : "fixed sm:absolute inset-x-4 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:inset-x-auto sm:top-[calc(100%+8px)] sm:left-0 z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-32px)] max-w-[340px] sm:w-[320px] bg-white rounded-2xl shadow-2xl border border-gray-150 p-4 sm:p-5 animate-in fade-in zoom-in-95 sm:zoom-in-100 duration-150"
             }
           >
             {/* ─── Header: Month Select + Year Select + Nav Arrows ─── */}
-            <div className="flex items-center justify-between gap-1.5 pb-3 mb-2 border-b border-gray-150">
-              <div className="flex items-center gap-1.5 min-w-0">
-                {/* Month Select Option */}
-                <div className="relative">
-                  <select
-                    value={month}
-                    onChange={(e) => {
-                      const newMonth = parseInt(e.target.value);
-                      setViewDate(new Date(year, newMonth, 1));
-                    }}
-                    className="appearance-none bg-gray-50 hover:bg-gray-100 focus:bg-white text-gray-900 text-xs sm:text-[13px] font-semibold pl-2.5 pr-6 py-1.5 rounded-lg border border-gray-200 outline-none focus:border-[#1877F2] transition-colors cursor-pointer"
-                    aria-label="Select month"
-                  >
-                    {MONTH_NAMES.map((name, idx) => (
-                      <option key={name} value={idx}>
-                        {name}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
+            <div className="flex items-center justify-between pb-3 mb-2 border-b border-gray-100">
+              <div className="flex items-center gap-1">
+                {/* Month Select Button */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setViewMode((prev) => (prev === "months" ? "days" : "months"))
+                  }
+                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                    viewMode === "months"
+                      ? "bg-blue-50 text-[#1877F2]"
+                      : "text-gray-900 hover:bg-gray-100"
+                  }`}
+                  aria-label="Select month"
+                >
+                  <span>{MONTH_NAMES[month]}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${
+                      viewMode === "months" ? "rotate-180 text-[#1877F2]" : ""
+                    }`}
+                  />
+                </button>
 
-                {/* Year Select Option */}
-                <div className="relative">
-                  <select
-                    value={year}
-                    onChange={(e) => {
-                      const newYear = parseInt(e.target.value);
-                      setViewDate(new Date(newYear, month, 1));
-                    }}
-                    className="appearance-none bg-gray-50 hover:bg-gray-100 focus:bg-white text-gray-900 text-xs sm:text-[13px] font-semibold pl-2.5 pr-6 py-1.5 rounded-lg border border-gray-200 outline-none focus:border-[#1877F2] transition-colors cursor-pointer"
-                    aria-label="Select year"
-                  >
-                    {yearOptions.map((y) => (
-                      <option key={y} value={y}>
-                        {y}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
+                {/* Year Select Button */}
+                <button
+                  type="button"
+                  onClick={() =>
+                    setViewMode((prev) => (prev === "years" ? "days" : "years"))
+                  }
+                  className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition-colors cursor-pointer ${
+                    viewMode === "years"
+                      ? "bg-blue-50 text-[#1877F2]"
+                      : "text-gray-900 hover:bg-gray-100"
+                  }`}
+                  aria-label="Select year"
+                >
+                  <span>{year}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${
+                      viewMode === "years" ? "rotate-180 text-[#1877F2]" : ""
+                    }`}
+                  />
+                </button>
               </div>
 
-              {/* Prev / Next Month Nav Arrows */}
-              <div className="flex items-center gap-1 shrink-0">
-                <button
-                  type="button"
-                  disabled={isPrevMonthDisabled}
-                  onClick={handlePrevMonth}
-                  className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${
-                    isPrevMonthDisabled
-                      ? "text-gray-300 cursor-not-allowed opacity-40"
-                      : "hover:bg-gray-100 text-gray-600 hover:text-gray-900 cursor-pointer"
-                  }`}
-                  aria-label="Previous Month"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNextMonth}
-                  className="w-7 h-7 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
-                  aria-label="Next Month"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+              {/* Prev / Next Month Navigation Buttons */}
+              <div className="flex items-center gap-0.5">
+                {viewMode === "days" && (
+                  <>
+                    <button
+                      type="button"
+                      disabled={isPrevMonthDisabled}
+                      onClick={handlePrevMonth}
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
+                        isPrevMonthDisabled
+                          ? "text-gray-200 cursor-not-allowed"
+                          : "hover:bg-gray-100 text-gray-600 hover:text-gray-900 cursor-pointer"
+                      }`}
+                      aria-label="Previous Month"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleNextMonth}
+                      className="w-7 h-7 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+                      aria-label="Next Month"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </>
+                )}
 
                 {!inline && (
                   <button
                     type="button"
                     onClick={handleClose}
-                    className="w-7 h-7 ml-0.5 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+                    className="w-7 h-7 ml-1 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
                     aria-label="Close"
                   >
                     <X className="w-3.5 h-3.5" />
@@ -355,59 +380,132 @@ export default function BankingDatePicker({
               </div>
             </div>
 
-            {/* ─── Weekday Header ─── */}
-            <div className="grid grid-cols-7 gap-1 text-center py-1 mb-1 text-gray-400 text-[11px] font-semibold uppercase tracking-wider select-none">
-              {WEEK_DAYS.map((wd) => (
-                <span key={wd}>{wd}</span>
-              ))}
-            </div>
+            {/* ─── Mode 1: Month Picker Grid ─── */}
+            {viewMode === "months" && (
+              <div className="py-2 animate-in fade-in duration-150">
+                <div className="grid grid-cols-3 gap-2">
+                  {SHORT_MONTHS.map((name, idx) => {
+                    const isSelectedMonth = idx === month;
+                    const isPastMonth =
+                      today &&
+                      year === today.getFullYear() &&
+                      idx < today.getMonth();
 
-            {/* ─── Days Grid ─── */}
-            <div className="grid grid-cols-7 gap-1 text-center">
-              {calendarCells.map((cell) => {
-                if (!cell.isCurrentMonth) {
-                  return (
-                    <span
-                      key={cell.key}
-                      className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs text-gray-300 font-normal select-none"
-                    >
-                      {cell.day}
-                    </span>
-                  );
-                }
+                    return (
+                      <button
+                        key={name}
+                        type="button"
+                        disabled={Boolean(isPastMonth)}
+                        onClick={() => {
+                          setViewDate(new Date(year, idx, 1));
+                          setViewMode("days");
+                        }}
+                        className={`py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                          isSelectedMonth
+                            ? "bg-[#1877F2] text-white shadow-xs"
+                            : isPastMonth
+                            ? "text-gray-300 cursor-not-allowed"
+                            : "text-gray-700 hover:bg-gray-100 active:scale-98"
+                        }`}
+                      >
+                        {name}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
-                if (cell.isDisabled) {
-                  return (
-                    <span
-                      key={cell.key}
-                      className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs text-gray-300 font-normal select-none cursor-not-allowed"
-                    >
-                      {cell.day}
-                    </span>
-                  );
-                }
+            {/* ─── Mode 2: Year Picker Grid ─── */}
+            {viewMode === "years" && (
+              <div className="py-2 animate-in fade-in duration-150">
+                <div className="grid grid-cols-3 gap-2 max-h-[220px] overflow-y-auto pr-1">
+                  {yearOptions.map((y) => {
+                    const isSelectedYear = y === year;
+                    return (
+                      <button
+                        key={y}
+                        type="button"
+                        onClick={() => {
+                          setViewDate(new Date(y, month, 1));
+                          setViewMode("days");
+                        }}
+                        className={`py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                          isSelectedYear
+                            ? "bg-[#1877F2] text-white shadow-xs"
+                            : "text-gray-700 hover:bg-gray-100 active:scale-98"
+                        }`}
+                      >
+                        {y}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
 
-                return (
-                  <button
-                    key={cell.key}
-                    type="button"
-                    onClick={() => handleSelectDay(cell.day)}
-                    className={`w-8 h-8 sm:w-9 sm:h-9 mx-auto rounded-lg flex items-center justify-center text-xs sm:text-[13px] transition-all cursor-pointer select-none ${
-                      cell.isSelected
-                        ? "bg-[#1877F2] text-white font-semibold shadow-xs"
-                        : cell.isToday
-                        ? "border border-[#1877F2] text-[#1877F2] font-semibold hover:bg-blue-50"
-                        : "text-gray-800 font-medium hover:bg-gray-100 active:scale-95"
-                    }`}
-                  >
-                    {cell.day}
-                  </button>
-                );
-              })}
-            </div>
+            {/* ─── Mode 3: Standard Days View ─── */}
+            {viewMode === "days" && (
+              <>
+                {/* Weekdays Header */}
+                <div className="grid grid-cols-7 gap-1 text-center py-1 mb-1 text-gray-400 text-[11px] font-semibold uppercase tracking-wider select-none">
+                  {WEEK_DAYS.map((wd) => (
+                    <span key={wd}>{wd}</span>
+                  ))}
+                </div>
+
+                {/* Days Grid */}
+                <div className="grid grid-cols-7 gap-1 text-center">
+                  {calendarCells.map((cell) => {
+                    if (!cell.isCurrentMonth) {
+                      return (
+                        <span
+                          key={cell.key}
+                          className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs text-gray-300 font-normal select-none"
+                        >
+                          {cell.day}
+                        </span>
+                      );
+                    }
+
+                    if (cell.isDisabled) {
+                      return (
+                        <span
+                          key={cell.key}
+                          className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs text-gray-300 font-normal select-none cursor-not-allowed"
+                        >
+                          {cell.day}
+                        </span>
+                      );
+                    }
+
+                    return (
+                      <button
+                        key={cell.key}
+                        type="button"
+                        onClick={() => handleSelectDay(cell.day)}
+                        className={`w-8 h-8 sm:w-9 sm:h-9 mx-auto rounded-full flex flex-col items-center justify-center text-xs sm:text-[13px] transition-all cursor-pointer select-none relative ${
+                          cell.isSelected
+                            ? "bg-[#1877F2] text-white font-semibold shadow-xs"
+                            : cell.isToday
+                            ? "text-[#1877F2] font-semibold hover:bg-blue-50/70"
+                            : "text-gray-800 font-medium hover:bg-gray-100 active:scale-95"
+                        }`}
+                      >
+                        <span>{cell.day}</span>
+                        {/* Apple/Google Style Subtle Dot for Today */}
+                        {cell.isToday && !cell.isSelected && (
+                          <span className="absolute bottom-1 w-1 h-1 rounded-full bg-[#1877F2]" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </>
+            )}
 
             {/* ─── Footer Action Bar ─── */}
-            <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-xs">
+            <div className="mt-3.5 pt-2.5 border-t border-gray-100 flex items-center justify-between text-xs">
               <button
                 type="button"
                 onClick={handleClear}
@@ -418,7 +516,7 @@ export default function BankingDatePicker({
               <button
                 type="button"
                 onClick={handleToday}
-                className="text-[#1877F2] hover:text-[#00285C] font-semibold transition-colors cursor-pointer px-2.5 py-1 rounded hover:bg-blue-50"
+                className="text-[#1877F2] hover:text-[#00285C] font-semibold transition-colors cursor-pointer px-3 py-1 rounded-full hover:bg-blue-50"
               >
                 Today
               </button>

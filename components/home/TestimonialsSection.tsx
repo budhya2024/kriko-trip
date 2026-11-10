@@ -147,11 +147,10 @@ function TestimonialCard({
 }) {
   return (
     <div
-      className={`${
-        isMobile
-          ? "w-full h-[255px] sm:h-[270px] shadow-xs"
-          : `${item.width || "w-[340px] sm:w-[370px]"} h-[265px] sm:h-[280px] shrink-0`
-      } bg-white rounded-2xl p-5 sm:p-7 border-0 flex flex-col justify-between select-none cursor-pointer`}
+      className={`${isMobile
+        ? "w-full h-[255px] sm:h-[270px] shadow-xs"
+        : `${item.width || "w-[340px] sm:w-[370px]"} h-[265px] sm:h-[280px] shrink-0`
+        } bg-white rounded-2xl p-5 sm:p-7 border-0 flex flex-col justify-between select-none cursor-pointer`}
     >
       <div>
         {/* Star Rating in Logo Color */}
@@ -293,12 +292,8 @@ export default function TestimonialsSection() {
             {/* ─── Mobile View: Interactive Swipeable Reviews Carousel ─── */}
             <div className="block lg:hidden w-full min-w-0 mt-6 sm:mt-8">
               <div className="flex items-center justify-between mb-3 px-1">
-                <span className="text-xs font-semibold text-[#1877F2] tracking-wider uppercase">
-                  Customer Reviews
-                </span>
-                <span className="text-[11px] text-gray-400 font-normal">
-                  Swipe to explore →
-                </span>
+
+
               </div>
 
               {mounted ? (

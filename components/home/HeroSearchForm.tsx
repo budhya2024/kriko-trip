@@ -266,39 +266,45 @@ export default function HeroSearchForm() {
 
             {/* Calendar Popover */}
             {isDateOpen && (
-              <div className="fixed sm:absolute inset-x-4 sm:inset-x-auto sm:left-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+8px)] z-[150] w-[calc(100%-32px)] max-w-[340px] sm:w-[330px] mx-auto sm:mx-0 animate-in fade-in zoom-in-95 duration-150">
-                <BankingDatePicker
-                  inline={true}
-                  value={selectedDate.raw}
-                  onChange={(val) => {
-                    if (val) {
-                      const parts = val.split("-");
-                      const d = new Date(
-                        parseInt(parts[0]),
-                        parseInt(parts[1]) - 1,
-                        parseInt(parts[2])
-                      );
-                      setSelectedDate({
-                        day: d.toLocaleDateString("en-US", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        }),
-                        year: "Date",
-                        raw: val,
-                      });
-                    } else {
-                      setSelectedDate({
-                        day: "Select Date",
-                        year: "Date",
-                        raw: "",
-                      });
-                    }
-                    setIsDateOpen(false);
-                  }}
-                  onClose={() => setIsDateOpen(false)}
+              <>
+                <div
+                  className="sm:hidden fixed inset-0 z-[140] bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+                  onClick={() => setIsDateOpen(false)}
                 />
-              </div>
+                <div className="fixed sm:absolute inset-x-4 sm:inset-x-auto sm:left-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+8px)] z-[150] w-[calc(100%-32px)] max-w-[340px] sm:w-[330px] mx-auto sm:mx-0 animate-in fade-in zoom-in-95 duration-150">
+                  <BankingDatePicker
+                    inline={true}
+                    value={selectedDate.raw}
+                    onChange={(val) => {
+                      if (val) {
+                        const parts = val.split("-");
+                        const d = new Date(
+                          parseInt(parts[0]),
+                          parseInt(parts[1]) - 1,
+                          parseInt(parts[2])
+                        );
+                        setSelectedDate({
+                          day: d.toLocaleDateString("en-US", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          }),
+                          year: "Date",
+                          raw: val,
+                        });
+                      } else {
+                        setSelectedDate({
+                          day: "Select Date",
+                          year: "Date",
+                          raw: "",
+                        });
+                      }
+                      setIsDateOpen(false);
+                    }}
+                    onClose={() => setIsDateOpen(false)}
+                  />
+                </div>
+              </>
             )}
           </div>
 
