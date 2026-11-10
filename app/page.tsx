@@ -25,7 +25,6 @@ export default function Home() {
 
         <StatsBar />
 
-
         <Suspense fallback={null}>
           <SpecialOffers />
         </Suspense>

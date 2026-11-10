@@ -3,7 +3,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search, Check } from "lucide-react";
 import { FaSuitcaseRolling, FaBed, FaPassport } from "react-icons/fa";
-import BankingDatePicker from "@/components/shared/BankingDatePicker";
 
 export default function HeroSearchForm() {
   const [activeTab, setActiveTab] = useState<"tours" | "hotels" | "visa" | "experience">("tours");
@@ -20,9 +19,17 @@ export default function HeroSearchForm() {
     year: "Date",
     raw: "",
   });
-  const [isDateOpen, setIsDateOpen] = useState(false);
   const [selectedTourType, setSelectedTourType] = useState<string>("Select");
   const [isTourTypeOpen, setIsTourTypeOpen] = useState(false);
+  const [minDate, setMinDate] = useState<string>("2026-11-01");
+
+  useEffect(() => {
+    const today = new Date();
+    const y = today.getFullYear();
+    const m = String(today.getMonth() + 1).padStart(2, "0");
+    const d = String(today.getDate()).padStart(2, "0");
+    setMinDate(`${y}-${m}-${d}`);
+  }, []);
 
   const destinations = [
     "Andaman & Nicobar Islands",
@@ -44,7 +51,6 @@ export default function HeroSearchForm() {
   ];
 
   const destinationRef = useRef<HTMLDivElement>(null);
-  const dateRef = useRef<HTMLDivElement>(null);
   const tourTypeRef = useRef<HTMLDivElement>(null);
 
   // Click / Touch outside handler to dismiss any open dropdown
@@ -55,12 +61,6 @@ export default function HeroSearchForm() {
         !destinationRef.current.contains(e.target as Node)
       ) {
         setIsDestinationOpen(false);
-      }
-      if (
-        dateRef.current &&
-        !dateRef.current.contains(e.target as Node)
-      ) {
-        setIsDateOpen(false);
       }
       if (
         tourTypeRef.current &&
@@ -162,7 +162,6 @@ export default function HeroSearchForm() {
               type="button"
               onClick={() => {
                 setIsDestinationOpen(!isDestinationOpen);
-                setIsDateOpen(false);
                 setIsTourTypeOpen(false);
               }}
               className="w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
@@ -220,19 +219,11 @@ export default function HeroSearchForm() {
             )}
           </div>
 
-          {/* Field 2: Date */}
-          <div ref={dateRef} className="relative md:col-span-3">
-            <button
-              type="button"
-              onClick={() => {
-                setIsDateOpen(!isDateOpen);
-                setIsDestinationOpen(false);
-                setIsTourTypeOpen(false);
-              }}
-              className="w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
-            >
+          {/* Field 2: Date (Clean Standard Picker) */}
+          <div className="relative md:col-span-3">
+            <div className="relative w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus-within:border-[#1877F2] bg-white transition-all text-left group cursor-pointer">
               {/* Calendar with "8" inside icon */}
-              <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors">
+              <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors pointer-events-none">
                 <svg
                   className="w-5 h-5"
                   viewBox="0 0 24 24"
@@ -261,7 +252,7 @@ export default function HeroSearchForm() {
                 </svg>
               </div>
 
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 pointer-events-none">
                 <div className="text-[16px] font-semibold text-gray-900 truncate leading-snug">
                   {selectedDate.day}
                 </div>
@@ -269,47 +260,40 @@ export default function HeroSearchForm() {
                   {selectedDate.year}
                 </div>
               </div>
-            </button>
 
-            {/* Slice & Axis Banking Style Date Picker (Modal on mobile, dropdown on desktop) */}
-            {isDateOpen && (
-              <div className="fixed sm:absolute inset-0 sm:inset-auto sm:left-0 sm:top-[calc(100%+6px)] z-[120] sm:z-50 flex items-center justify-center sm:block p-4 sm:p-0">
-                {/* Backdrop on mobile */}
-                <div
-                  className="fixed inset-0 bg-black/60 backdrop-blur-xs sm:hidden animate-in fade-in duration-200"
-                  onClick={() => setIsDateOpen(false)}
-                />
-                <div className="relative w-full max-w-[330px] sm:w-[320px] z-10 animate-in zoom-in-95 sm:zoom-in-100 duration-200">
-                  <BankingDatePicker
-                    inline={true}
-                    value={selectedDate.raw}
-                    onChange={(val) => {
-                      if (val) {
-                        const parts = val.split("-");
-                        const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-                        setSelectedDate({
-                          day: d.toLocaleDateString("en-US", {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          }),
-                          year: "Date",
-                          raw: val,
-                        });
-                      } else {
-                        setSelectedDate({
-                          day: "Select Date",
-                          year: "Date",
-                          raw: "",
-                        });
-                      }
-                      setIsDateOpen(false);
-                    }}
-                    onClose={() => setIsDateOpen(false)}
-                  />
-                </div>
-              </div>
-            )}
+              {/* Standard date picker overlay (clicking anywhere triggers browser date picker cleanly with 0 glitches) */}
+              <input
+                type="date"
+                min={minDate}
+                value={selectedDate.raw}
+                onChange={(e) => {
+                  if (e.target.value) {
+                    const parts = e.target.value.split("-");
+                    const d = new Date(
+                      parseInt(parts[0]),
+                      parseInt(parts[1]) - 1,
+                      parseInt(parts[2])
+                    );
+                    setSelectedDate({
+                      day: d.toLocaleDateString("en-US", {
+                        day: "numeric",
+                        month: "short",
+                        year: "numeric",
+                      }),
+                      year: "Date",
+                      raw: e.target.value,
+                    });
+                  } else {
+                    setSelectedDate({
+                      day: "Select Date",
+                      year: "Date",
+                      raw: "",
+                    });
+                  }
+                }}
+                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              />
+            </div>
           </div>
 
           {/* Field 3: Tour Types */}
@@ -319,7 +303,6 @@ export default function HeroSearchForm() {
               onClick={() => {
                 setIsTourTypeOpen(!isTourTypeOpen);
                 setIsDestinationOpen(false);
-                setIsDateOpen(false);
               }}
               className="w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
             >

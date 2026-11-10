@@ -33,7 +33,7 @@ export default function GallerySection() {
               href="#book-trip"
               className="inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#111827] hover:bg-[#1877F2] text-white text-[15px] font-semibold transition-all duration-300 shadow-sm hover:shadow-md group cursor-pointer"
             >
-              <span>Book Your Trip</span>
+              <span>View full gallery</span>
               <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>

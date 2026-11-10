@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -33,7 +33,6 @@ import {
 } from "lucide-react";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
-import BankingDatePicker from "@/components/shared/BankingDatePicker";
 
 const countryOptions = [
   { code: "+91", flag: "🇮🇳", label: "+91" },
@@ -78,6 +77,15 @@ export default function PackageDetailView({
     message: "",
   });
   const [isQuoteSubmitted, setIsQuoteSubmitted] = useState(false);
+  const [minDate, setMinDate] = useState<string>("2026-11-01");
+
+  useEffect(() => {
+    const today = new Date();
+    const y = today.getFullYear();
+    const m = String(today.getMonth() + 1).padStart(2, "0");
+    const d = String(today.getDate()).padStart(2, "0");
+    setMinDate(`${y}-${m}-${d}`);
+  }, []);
 
   const originalPrice = pkg.originalPrice || Math.round(pkg.price * 1.25);
   const savings = originalPrice - pkg.price;
@@ -900,13 +908,49 @@ export default function PackageDetailView({
                       <label className="block text-xs font-medium text-gray-700 mb-1">
                         Travel Date
                       </label>
-                      <BankingDatePicker
-                        value={sidebarForm.travelDate}
-                        onChange={(dateStr) =>
-                          setSidebarForm({ ...sidebarForm, travelDate: dateStr })
-                        }
-                        placeholder="Select Travel Date"
-                      />
+                      <div className="relative flex items-center justify-between px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs group cursor-pointer">
+                        <div className="flex items-center gap-2 min-w-0 pointer-events-none">
+                          <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
+                          <span
+                            className={`text-xs sm:text-sm truncate select-none ${
+                              sidebarForm.travelDate
+                                ? "text-gray-900 font-medium"
+                                : "text-gray-400 font-normal"
+                            }`}
+                          >
+                            {sidebarForm.travelDate
+                              ? (() => {
+                                  const parts = sidebarForm.travelDate.split("-");
+                                  if (parts.length === 3) {
+                                    const d = new Date(
+                                      parseInt(parts[0]),
+                                      parseInt(parts[1]) - 1,
+                                      parseInt(parts[2])
+                                    );
+                                    return d.toLocaleDateString("en-IN", {
+                                      day: "numeric",
+                                      month: "short",
+                                      year: "numeric",
+                                    });
+                                  }
+                                  return sidebarForm.travelDate;
+                                })()
+                              : "Select Travel Date"}
+                          </span>
+                        </div>
+                        <input
+                          type="date"
+                          min={minDate}
+                          value={sidebarForm.travelDate}
+                          onChange={(e) =>
+                            setSidebarForm({
+                              ...sidebarForm,
+                              travelDate: e.target.value,
+                            })
+                          }
+                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                        />
+                      </div>
                     </div>
 
                     {/* No. of Travellers */}
