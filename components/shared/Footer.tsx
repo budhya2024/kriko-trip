@@ -4,10 +4,9 @@ import React from "react";
 import Link from "next/link";
 import {
   FaFacebookF,
-  FaXTwitter,
+  FaInstagram,
   FaYoutube,
-  FaLinkedinIn,
-  FaGooglePlay,
+  FaPinterestP,
 } from "react-icons/fa6";
 import Image from "next/image";
 import footerBg from "@/public/assets/images/footer-bg-1-2-2.webp";
@@ -110,9 +109,9 @@ export default function Footer() {
             <div className="flex items-center gap-2.5 mb-6">
               {[
                 { icon: FaFacebookF, href: "#", label: "Facebook" },
-                { icon: FaXTwitter, href: "#", label: "X" },
+                { icon: FaInstagram, href: "#", label: "Instagram" },
                 { icon: FaYoutube, href: "#", label: "YouTube" },
-                { icon: FaLinkedinIn, href: "#", label: "LinkedIn" },
+                { icon: FaPinterestP, href: "#", label: "Pinterest" },
               ].map((s) => (
                 <Link
                   key={s.label}
