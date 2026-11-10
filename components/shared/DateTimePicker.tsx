@@ -312,15 +312,15 @@ export default function BankingDatePicker({
             />
           )}
 
-          {/* Calendar Card: Single Month, Zero Shadows, Compact Height */}
+          {/* Calendar Card: Single Month, 80% Width on Mobile Centered, Compact Height */}
           <div
             className={
               inline
                 ? "relative w-full bg-white rounded-lg border border-gray-200 p-3 sm:p-4 z-50 animate-in fade-in duration-150"
-                : `fixed sm:absolute inset-x-2 sm:inset-x-auto ${align === "right"
+                : `fixed sm:absolute left-1/2 -translate-x-1/2 sm:translate-x-0 ${align === "right"
                   ? "sm:right-0 sm:left-auto"
                   : "sm:left-0 sm:right-auto"
-                } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-16px)] max-w-[420px] sm:w-[380px] bg-white rounded-lg border border-gray-200 p-3 sm:p-4 animate-in fade-in duration-150 max-h-[94vh] overflow-y-auto`
+                } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 w-[80vw] max-w-[340px] sm:w-[360px] bg-white rounded-xl border border-gray-200/90 p-3.5 sm:p-4 shadow-xl sm:shadow-lg animate-in fade-in duration-150 max-h-[92vh] overflow-y-auto`
             }
           >
 

@@ -427,46 +427,8 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* ─── Mobile Quick Booking Bar (With badge-shine save tag and original + discount price) ─── */}
-              <div className="lg:hidden p-3.5 rounded-xl border border-[#FDE68A] bg-[#FFFDF7] flex items-center justify-between shadow-2xs">
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1.5 mb-0.5">
-                    <span className="text-[10.5px] font-medium text-[#C2410C] uppercase tracking-wide">
-                      SPECIAL OFFER
-                    </span>
-                    {originalPrice > pkg.price && (
-                      <span className="line-through text-gray-400 text-xs font-normal">
-                        ₹{originalPrice.toLocaleString("en-IN")}
-                      </span>
-                    )}
-                  </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-semibold text-[#0F172A] leading-tight">
-                      ₹{pkg.price.toLocaleString("en-IN")}
-                    </span>
-                    <span className="text-[11px] text-gray-500 font-normal">/ person</span>
-                  </div>
-                  {savings > 0 && (
-                    <div className="mt-1">
-                      <span className="badge-shine relative overflow-hidden inline-flex items-center gap-1 px-2.5 py-0.5 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-[10.5px] font-medium shadow-2xs rounded-md">
-                        <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
-                        <span>Save ₹{savings.toLocaleString("en-IN")}</span>
-                      </span>
-                    </div>
-                  )}
-                </div>
-                <button
-                  type="button"
-                  onClick={scrollToBookingForm}
-                  className="px-4 py-2 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-95 text-white font-medium text-xs sm:text-sm shadow-xs transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ml-3"
-                >
-                  <span>Book Now</span>
-                  <ArrowDown className="w-3.5 h-3.5 opacity-90" />
-                </button>
-              </div>
-
               {/* ─── 2. ABOUT TOUR PACKAGE ─── */}
-              <div className="mt-10">
+              <div className="mt-6 md:mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-3 tracking-tight">
                   About Tour Package
                 </h2>
@@ -1377,9 +1339,8 @@ export default function PackageDetailView({
       {/* ─── MOBILE STICKY BOTTOM BAR (With badge-shine save tag and original + discount price) ─── */}
       <aside
         aria-label="Mobile booking action bar"
-        className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/90 shadow-[0_-2px_15px_rgba(0,0,0,0.08)] px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${
-          isFormInView ? "opacity-0 pointer-events-none translate-y-full" : "opacity-100 translate-y-0"
-        }`}
+        className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/90 shadow-[0_-2px_15px_rgba(0,0,0,0.08)] px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${isFormInView ? "opacity-0 pointer-events-none translate-y-full" : "opacity-100 translate-y-0"
+          }`}
       >
         <div className="flex flex-col min-w-0">
           <div className="flex items-center gap-1.5 leading-none mb-1">
