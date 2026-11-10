@@ -344,9 +344,7 @@ export default function GalleryPage() {
             {/* Modal Caption Footer */}
             <div className="p-4 sm:p-6 bg-[#08182B] border-t border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-white">
               <div>
-                <span className="inline-block px-2.5 py-0.5 rounded-md bg-[#00285C] text-sky-200 border border-blue-500/30 text-[11px] font-medium tracking-wide uppercase mb-1.5">
-                  {activePhoto.category}
-                </span>
+
                 <h3 className="text-base sm:text-lg font-medium text-white line-clamp-1">
                   {activePhoto.title}
                 </h3>

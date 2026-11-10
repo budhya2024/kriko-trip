@@ -294,7 +294,7 @@ export default function Header() {
                 type="text"
                 autoFocus
                 placeholder="Find Your Perfect Tour Package"
-                className="w-full bg-[#f4f5f7] text-gray-800 text-sm pl-10 pr-4 py-2.5 rounded-lg outline-none border border-transparent focus:border-blue-400 focus:bg-white"
+                className="w-full bg-[#f4f5f7] text-gray-800 text-sm pl-10 pr-4 py-2.5 rounded-full outline-none border border-transparent focus:border-blue-400 focus:bg-white"
               />
             </div>
           </div>

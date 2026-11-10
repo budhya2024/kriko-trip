@@ -195,14 +195,14 @@ export default function PackageDetailView({
           >
             <Link
               href="/"
-              className="hover:text-white transition-colors whitespace-nowarp"
+              className="hover:text-white transition-colors whitespace-nowrap"
             >
               Home
             </Link>
             <span className="text-white/40">/</span>
             <Link
               href="/tour-packages"
-              className="hover:text-white transition-colors whitespace-nowarp"
+              className="hover:text-white transition-colors whitespace-nowrap"
             >
               Tour Packages
             </Link>
@@ -289,8 +289,8 @@ export default function PackageDetailView({
                 </p>
 
                 {/* 9-Item Specs Box in Clean Rounded Border Card */}
-                <div className="rounded-2xl border border-gray-200/90 bg-white p-6 sm:p-8 shadow-xs">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-7 gap-x-8">
+                <div className="rounded-2xl border border-gray-200/90 bg-white p-4 sm:p-8 shadow-xs">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-y-5 sm:gap-y-7 gap-x-4 sm:gap-x-8">
                     {/* Accomodation */}
                     <div className="flex items-center gap-3.5">
                       <Building className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />

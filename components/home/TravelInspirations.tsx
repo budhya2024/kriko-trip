@@ -57,7 +57,7 @@ export default function TravelInspirations() {
                 className="bg-white  border border-gray-200  transition-colors duration-200 overflow-hidden flex flex-col sm:flex-row group"
               >
                 {/* Left: Card Image with Diagonal Shine Hover Layer */}
-                <div className="relative sm:w-[45%] h-80 overflow-hidden bg-gray-100 shrink-0 image-shine">
+                <div className="relative w-full sm:w-[45%] h-52 sm:h-72 md:h-80 overflow-hidden bg-gray-100 shrink-0 image-shine">
                   <Link href={`/blogs/${post.slug}`} className="block w-full h-full relative">
                     <Image
                       src={post.image}
@@ -70,9 +70,9 @@ export default function TravelInspirations() {
                 </div>
 
                 {/* Right: Card Details */}
-                <div className="p-6 sm:p-7 flex flex-col justify-center flex-1 text-left">
+                <div className="p-4 sm:p-7 flex flex-col justify-center flex-1 text-left">
                   {/* Author Avatar (Circle), Name & Date (Above Title) */}
-                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-500 font-normal mb-2.5">
+                  <div className="flex items-center gap-2 text-xs sm:text-[13px] text-gray-500 font-normal mb-2 sm:mb-2.5">
                     <div className="flex items-center gap-1.5">
                       <div className="relative w-5 h-5 rounded-full overflow-hidden bg-gray-100 border border-gray-200 shrink-0">
                         <Image
@@ -95,7 +95,7 @@ export default function TravelInspirations() {
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-xl md:text-2xl font-semibold text-gray-950 leading-snug tracking-tight mb-2.5">
+                  <h3 className="text-base sm:text-xl md:text-2xl font-semibold text-gray-950 leading-snug tracking-tight mb-2 sm:mb-2.5">
                     <Link
                       href={`/blogs/${post.slug}`}
                       className="hover:text-[#1877F2] transition-colors"
@@ -105,7 +105,7 @@ export default function TravelInspirations() {
                   </h3>
 
                   {/* Excerpt */}
-                  <p className="text-sm md:text-base text-gray-500 leading-relaxed font-normal">
+                  <p className="text-xs sm:text-sm md:text-base text-gray-500 leading-relaxed font-normal line-clamp-2 sm:line-clamp-3">
                     {post.excerpt}
                   </p>
                 </div>

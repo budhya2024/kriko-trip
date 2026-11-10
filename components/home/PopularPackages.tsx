@@ -192,7 +192,7 @@ export default function PopularPackages() {
                       <div>
                         {/* Title */}
                         <Link href={pkg.href}>
-                          <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900 hover:text-[#1877F2] transition-colors line-clamp-1">
+                          <h3 className="text-[14px] sm:text-[15px] font-semibold text-[#1877F2] hover:text-[#00285C] transition-colors line-clamp-1">
                             {pkg.title}
                           </h3>
                         </Link>

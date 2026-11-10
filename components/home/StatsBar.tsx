@@ -136,13 +136,13 @@ export default function StatsBar() {
   ];
 
   return (
-    <section className="w-full bg-[#f4f5f8] pt-20 sm:pt-28 md:pt-32 lg:pt-36 pb-10 sm:pb-12 border-b border-gray-200/60">
+    <section className="w-full bg-[#f4f5f8] pt-14 sm:pt-24 md:pt-32 lg:pt-36 pb-8 sm:pb-12 border-b border-gray-200/60">
       <div className="container">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-0 items-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8 lg:gap-0 items-center">
           {stats.map((item, idx) => (
             <div
               key={item.id}
-              className={`flex items-center justify-start sm:justify-center px-3 sm:px-6 relative group ${idx < stats.length - 1
+              className={`flex items-center justify-start sm:justify-center px-2 sm:px-6 relative group ${idx < stats.length - 1
                 ? "lg:border-r lg:border-dashed lg:border-gray-300"
                 : ""
                 } ${idx % 2 === 0
@@ -150,18 +150,18 @@ export default function StatsBar() {
                   : ""
                 }`}
             >
-              <div className="flex items-center gap-3.5 sm:gap-4 transition-transform duration-200 ">
+              <div className="flex items-center gap-2.5 sm:gap-4 transition-transform duration-200">
                 {/* Blue Icon */}
-                <div className="shrink-0 transition-transform duration-200 ">
+                <div className="shrink-0 transition-transform duration-200 scale-90 sm:scale-100">
                   {item.icon}
                 </div>
 
                 {/* Number & Text */}
-                <div className="flex flex-col text-left">
-                  <span className="text-2xl sm:text-4xl font-semibold text-black tracking-tight leading-none">
+                <div className="flex flex-col text-left min-w-0">
+                  <span className="text-xl sm:text-3xl lg:text-4xl font-semibold text-black tracking-tight leading-none">
                     {item.number}
                   </span>
-                  <span className="text-sm md:text-base font-semibold text-gray-800 tracking-tight mt-1.5 whitespace-nowrap">
+                  <span className="text-xs sm:text-sm md:text-base font-semibold text-gray-800 tracking-tight mt-1 sm:mt-1.5 leading-snug break-words">
                     {item.label}
                   </span>
                 </div>

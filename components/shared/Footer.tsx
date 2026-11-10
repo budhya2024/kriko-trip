@@ -67,10 +67,10 @@ export default function Footer() {
       </div>
 
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8">
 
           {/* ─── Column 1: Brand Logo, Address, Socials & App ─── */}
-          <div className="lg:col-span-4 flex flex-col items-start pr-0 lg:pr-6">
+          <div className="sm:col-span-2 lg:col-span-4 flex flex-col items-start pr-0 lg:pr-6">
             {/* Brand Logo */}
             <Link href="/" className="flex items-center gap-3 mb-6">
               <Image
@@ -91,13 +91,13 @@ export default function Footer() {
               <p>Sonarpur, Kolkata - 700103</p>
               <p className="pt-1.5 flex items-center gap-2 text-white/90">
                 <span className="text-[#03ADFF]">📞</span>
-                <a href="tel:+918250338715" className="hover:text-white transition-colors whitespace-nowarp">
+                <a href="tel:+918250338715" className="hover:text-white transition-colors">
                   +91 8250338715
                 </a>
               </p>
               <p className="flex items-center gap-2 text-white/90">
                 <span className="text-[#03ADFF]">✉️</span>
-                <a href="mailto:info@krikotrips.com" className="hover:text-white transition-colors whitespace-nowarp">
+                <a href="mailto:info@krikotrips.com" className="hover:text-white transition-colors break-all">
                   info@krikotrips.com
                 </a>
               </p>
@@ -128,15 +128,15 @@ export default function Footer() {
 
           {/* ─── Column 2: Top Destination ─── */}
           <div className="lg:col-span-3 text-left">
-            <h3 className="text-white font-bold text-[18px] mb-5 tracking-tight">
+            <h3 className="text-white font-bold text-[17px] sm:text-[18px] mb-4 sm:mb-5 tracking-tight">
               Top Destination
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5 sm:space-y-3">
               {topDestinations.map((item) => (
                 <li key={item}>
                   <Link
                     href={`#${item.toLowerCase().replace(/[\s(),]+/g, "-")}`}
-                    className="text-sm font-medium text-white/80 hover:text-white transition-colors whitespace-nowarp duration-150 inline-block "
+                    className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
                   >
                     {item}
                   </Link>
@@ -147,15 +147,15 @@ export default function Footer() {
 
           {/* ─── Column 3: Popular Search ─── */}
           <div className="lg:col-span-3 text-left">
-            <h3 className="text-white font-bold text-[18px] mb-5 tracking-tight">
+            <h3 className="text-white font-bold text-[17px] sm:text-[18px] mb-4 sm:mb-5 tracking-tight">
               Popular Search
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5 sm:space-y-3">
               {popularSearches.map((item) => (
                 <li key={item}>
                   <Link
                     href={`#${item.toLowerCase().replace(/[\s&]+/g, "-")}`}
-                    className="text-sm font-medium text-white/80 hover:text-white transition-colors whitespace-nowarp duration-150 inline-block "
+                    className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
                   >
                     {item}
                   </Link>
@@ -166,10 +166,10 @@ export default function Footer() {
 
           {/* ─── Column 4: Resources ─── */}
           <div className="lg:col-span-2 text-left">
-            <h3 className="text-white font-bold text-[18px] mb-5 tracking-tight">
+            <h3 className="text-white font-bold text-[17px] sm:text-[18px] mb-4 sm:mb-5 tracking-tight">
               Resources
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-2.5 sm:space-y-3">
               {resources.map((item) => {
                 const getHref = () => {
                   if (item === "Travel Inspirations") return "/blogs";
@@ -181,7 +181,7 @@ export default function Footer() {
                   <li key={item}>
                     <Link
                       href={getHref()}
-                      className="text-sm font-medium text-white/80 hover:text-white transition-colors whitespace-nowarp duration-150 inline-block "
+                      className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
                     >
                       {item}
                     </Link>
@@ -194,18 +194,18 @@ export default function Footer() {
         </div>
 
         {/* ─── Bottom Copyright Bar ─── */}
-        <div className="mt-14 pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-white/75">
+        <div className="mt-10 sm:mt-14 pt-6 sm:pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-medium text-white/75 text-center sm:text-left">
           <p>
             © 2026 KrikoTrip Travel Agency. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <Link href="#privacy" className="hover:text-white transition-colors whitespace-nowarp">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+            <Link href="#privacy" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#terms" className="hover:text-white transition-colors whitespace-nowarp">
+            <Link href="#terms" className="hover:text-white transition-colors">
               Terms of Service
             </Link>
-            <Link href="#cookies" className="hover:text-white transition-colors whitespace-nowarp">
+            <Link href="#cookies" className="hover:text-white transition-colors">
               Cookie Settings
             </Link>
           </div>

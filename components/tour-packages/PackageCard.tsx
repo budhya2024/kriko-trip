@@ -139,8 +139,8 @@ export default function PackageCard({ pkg }: PackageCardProps) {
       {/* ─── Card Body ─── */}
       <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
         <div>
-          {/* Package Title */}
-          <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900 leading-snug line-clamp-2 group-hover:text-[#1877F2] transition-colors">
+          {/* Package Title (Vivid blue matching screenshot) */}
+          <h3 className="text-[14px] sm:text-[15px] font-semibold text-[#1877F2] hover:text-[#00285C] leading-snug line-clamp-2 transition-colors">
             <Link href={`/tour-packages/${pkg.id}`}>
               {pkg.title}
             </Link>

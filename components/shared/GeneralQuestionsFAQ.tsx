@@ -65,18 +65,18 @@ export default function GeneralQuestionsFAQ() {
               <div
                 key={idx}
                 className={`rounded-xl transition-all duration-300 overflow-hidden ${isOpen
-                  ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-5 sm:p-6"
-                  : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-5 sm:p-6"
+                  ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-4 sm:p-6"
+                  : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-4 sm:p-6"
                   }`}
               >
                 {/* Accordion Header */}
                 <button
                   type="button"
                   onClick={() => toggle(idx)}
-                  className="w-full flex items-center justify-between gap-4 text-left cursor-pointer focus:outline-none select-none"
+                  className="w-full flex items-center justify-between gap-3 sm:gap-4 text-left cursor-pointer focus:outline-none select-none"
                 >
                   <span
-                    className={`text-base md:text-lg font-semibold leading-snug transition-colors duration-200 ${isOpen ? "text-[#1877F2]" : "text-gray-950"
+                    className={`text-sm sm:text-base md:text-lg font-semibold leading-snug transition-colors duration-200 ${isOpen ? "text-[#1877F2]" : "text-gray-950"
                       }`}
                   >
                     {item.question}

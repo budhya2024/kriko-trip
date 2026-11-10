@@ -79,17 +79,17 @@ export default function GallerySection() {
                 </div>
 
                 {/* Bottom Row: 2K+ Counter + Friends with Guitar (gallery3) */}
-                <div className="flex items-center gap-3.5 sm:gap-4 pt-1">
+                <div className="flex items-center gap-2 sm:gap-4 pt-1">
                   {/* 2K+ Tour Completed Stat Widget */}
-                  <div className="w-[40%] sm:w-[42%] flex items-center gap-2.5 sm:gap-3 shrink-0">
+                  <div className="w-[42%] sm:w-[42%] flex items-center gap-1.5 sm:gap-3 shrink-0">
                     {/* Exact Traveler & Globe Icon */}
-                    <div className="shrink-0 text-gray-950">
+                    <div className="shrink-0 text-gray-950 scale-75 xs:scale-90 sm:scale-100 origin-left">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="45"
                         height="45"
                         viewBox="0 0 45 45"
-                        className="w-10 h-10 sm:w-11 sm:h-11 fill-current"
+                        className="w-8 h-8 sm:w-11 sm:h-11 fill-current"
                       >
                         <path
                           fillRule="evenodd"
@@ -98,18 +98,18 @@ export default function GallerySection() {
                         />
                       </svg>
                     </div>
-                    <div className="flex flex-col text-left">
-                      <span className="text-2xl sm:text-[30px] font-extrabold text-gray-950 leading-none tracking-tight">
+                    <div className="flex flex-col text-left min-w-0">
+                      <span className="text-lg xs:text-xl sm:text-[30px] font-extrabold text-gray-950 leading-none tracking-tight">
                         2K+
                       </span>
-                      <span className="text-[12px] sm:text-[13px] font-medium text-gray-600 mt-1 leading-tight">
+                      <span className="text-[10px] xs:text-[11px] sm:text-[13px] font-medium text-gray-600 mt-0.5 sm:mt-1 leading-tight break-words">
                         Tour Completed
                       </span>
                     </div>
                   </div>
 
                   {/* gallery3: Friends with guitar */}
-                  <div className="w-[60%] sm:w-[58%]  overflow-hidden shadow-xs group">
+                  <div className="w-[58%] sm:w-[58%] overflow-hidden shadow-xs group">
                     <Image
                       src={gallery3}
                       alt="Friends travel with guitar"
@@ -124,7 +124,7 @@ export default function GallerySection() {
               {/* ── Right Sub-Cluster (36% of collage width) ── */}
               <div className="w-[36%] sm:w-[35%] flex flex-col gap-3.5 sm:gap-4">
                 {/* Top: gallery5 Group Selfie */}
-                <div className="w-full  overflow-hidden shadow-xs mt-6 sm:mt-8 lg:mt-10 group">
+                <div className="w-full overflow-hidden shadow-xs mt-4 sm:mt-8 lg:mt-10 group">
                   <Image
                     src={gallery5}
                     alt="Travelers group selfie"
@@ -134,7 +134,7 @@ export default function GallerySection() {
                 </div>
 
                 {/* Bottom: gallery6 Indian Heritage Monument */}
-                <div className="w-full  overflow-hidden shadow-xs group flex-1">
+                <div className="w-full overflow-hidden shadow-xs group flex-1">
                   <Image
                     src={gallery6}
                     alt="Indian Heritage Monument"
@@ -146,9 +146,9 @@ export default function GallerySection() {
 
               {/* ─── Exact Center Floating Circular Passport Badge ─── */}
               <div className="absolute top-[37%] sm:top-[35%] left-[64%] sm:left-[65%] -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none">
-                <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-2xl border-[3.5px] sm:border-[4px] border-white transition-transform duration-300 hover:scale-110">
+                <div className="w-11 h-11 xs:w-13 xs:h-13 sm:w-16 sm:h-16 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-2xl border-[2.5px] sm:border-[4px] border-white transition-transform duration-300 hover:scale-110">
                   <svg
-                    className="w-7 h-7 sm:w-8 sm:h-8"
+                    className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8"
                     viewBox="0 0 28 28"
                     fill="none"
                   >

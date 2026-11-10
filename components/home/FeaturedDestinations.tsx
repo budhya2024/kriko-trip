@@ -117,7 +117,7 @@ export default function FeaturedDestinations() {
         </div>
 
         {/* ─── 12 Destination Circular Cards Grid (2 rows of 6 on desktop) ─── */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-y-8 sm:gap-y-10 gap-x-5 sm:gap-x-6 lg:gap-x-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-y-6 sm:gap-y-10 gap-x-4 sm:gap-x-6 lg:gap-x-5">
           {destinations.map((item) => (
             <Link
               key={item.id}
@@ -125,21 +125,21 @@ export default function FeaturedDestinations() {
               className="group flex flex-col items-center text-center cursor-pointer"
             >
               {/* Circular Destination Image Container with Diagonal Shine Hover Effect */}
-              <div className="w-full max-w-[190px] aspect-square rounded-full overflow-hidden relative shadow-sm transition-all duration-300 image-shine">
+              <div className="w-full max-w-[140px] xs:max-w-[160px] sm:max-w-[190px] aspect-square rounded-full overflow-hidden relative shadow-sm transition-all duration-300 image-shine">
                 <Image
                   src={item.image}
                   alt={item.name}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                  className="object-cover transition-transform duration-500 "
+                  className="object-cover transition-transform duration-500"
                 />
               </div>
 
               {/* Destination Title (top 12px margin) */}
-              <h3 className="text-base lg:text-lg font-semibold text-gray-950 mt-3  transition-colors duration-200 group-hover:text-[#1877F2]">
+              <h3 className="text-sm sm:text-base lg:text-lg font-semibold text-gray-950 mt-2.5 sm:mt-3 transition-colors duration-200 group-hover:text-[#1877F2] leading-tight">
                 {item.name}
               </h3>
-              <p className="text-xs font-medium text-gray-500 mt-1">
+              <p className="text-[11px] sm:text-xs font-medium text-gray-500 mt-1">
                 {item.activities}
               </p>
             </Link>
