@@ -261,7 +261,15 @@ select {
   isolation: isolate;
 }
 
-/* Primary rising liquid wave */
+/* Ensure all text, icons, and child elements stay above the rising liquid wave */
+.btn-water-fill > *,
+.btn-liquid > * {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Primary rising liquid wave - Vibrant Brand Deep Navy to Electric Sky-Blue Gradient */
 .btn-water-fill::before,
 .btn-liquid::before {
   content: "";
@@ -270,15 +278,18 @@ select {
   left: -25%;
   width: 150%;
   height: 350%;
-  background: var(--water-fill, #00285C);
+  background: var(
+    --water-fill,
+    linear-gradient(135deg, #00285C 0%, #0D4B9F 50%, #03ADFF 100%)
+  );
   border-radius: 40%;
-  z-index: -1;
+  z-index: 1;
   transform: translateY(0) rotate(0deg);
   transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
-/* Secondary wave for realistic liquid depth and frothy water surface */
+/* Secondary wave for realistic liquid depth, frothy water surface & subtle shine */
 .btn-water-fill::after,
 .btn-liquid::after {
   content: "";
@@ -287,9 +298,12 @@ select {
   left: -35%;
   width: 170%;
   height: 350%;
-  background: var(--water-fill-secondary, rgba(255, 255, 255, 0.18));
+  background: var(
+    --water-fill-secondary,
+    linear-gradient(135deg, rgba(3, 173, 255, 0.45) 0%, rgba(255, 255, 255, 0.35) 100%)
+  );
   border-radius: 44%;
-  z-index: -1;
+  z-index: 1;
   transform: translateY(0) rotate(0deg);
   transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;

@@ -245,7 +245,10 @@ export default function ContactFormSection() {
                       type="submit"
                       disabled={isSubmitting}
                       className="btn-water-fill w-full sm:w-auto inline-flex items-center justify-center px-10 py-3 rounded-full bg-[#00285C] active:scale-98 text-white text-sm font-semibold transition-all shadow-xs cursor-pointer disabled:opacity-70"
-                      style={{ ["--water-fill" as string]: "#1877F2" }}
+                      style={{
+                        ["--water-fill" as string]:
+                          "linear-gradient(135deg, #1877F2 0%, #03ADFF 100%)",
+                      }}
                     >
                       {isSubmitting ? (
                         <span className="flex items-center gap-2 relative z-10">

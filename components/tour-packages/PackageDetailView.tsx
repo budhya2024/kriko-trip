@@ -992,7 +992,8 @@ export default function PackageDetailView({
                     style={{
                       background:
                         "linear-gradient(90deg, #18367C 0%, #1D449C 50%, #2546A5 100%)",
-                      ["--water-fill" as string]: "#00285C",
+                      ["--water-fill" as string]:
+                        "linear-gradient(135deg, #00285C 0%, #0D4B9F 50%, #03ADFF 100%)",
                     }}
                   >
                     <Send className="w-4 h-4 text-white relative z-10" />
