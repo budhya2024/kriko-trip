@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Search, Check } from "lucide-react";
 import { FaSuitcaseRolling, FaBed, FaPassport } from "react-icons/fa";
+import BankingDatePicker from "@/components/shared/BankingDatePicker";
 
 export default function HeroSearchForm() {
   const [activeTab, setActiveTab] = useState<"tours" | "hotels" | "visa" | "experience">("tours");
@@ -257,39 +258,36 @@ export default function HeroSearchForm() {
               </div>
             </button>
 
-            {/* Desktop Date Picker Dropdown */}
+            {/* Slice & Axis Banking Style Date Picker Dropdown */}
             {isDateOpen && (
-              <div className="hidden md:block absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-xl shadow-xl border border-gray-100 p-3 z-50 animate-in fade-in duration-150">
-                <label className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">
-                  Pick a Travel Date
-                </label>
-                <div className="relative flex items-center">
-                  <input
-                    type="date"
-                    value={selectedDate.raw}
-                    onChange={(e) => {
-                      if (e.target.value) {
-                        const d = new Date(e.target.value);
-                        setSelectedDate({
-                          day: d.toLocaleDateString("en-US", {
-                            day: "numeric",
-                            month: "short",
-                            year: "numeric",
-                          }),
-                          year: "Date",
-                          raw: e.target.value,
-                        });
-                        setIsDateOpen(false);
-                      }
-                    }}
-                    className="w-full text-sm border border-gray-200 rounded-lg p-2 outline-none focus:border-[#1877F2] cursor-pointer"
-                  />
-                  {!selectedDate.raw && (
-                    <span className="absolute left-3 text-xs text-gray-400 pointer-events-none select-none">
-                      Select Date
-                    </span>
-                  )}
-                </div>
+              <div className="absolute left-0 top-[calc(100%+6px)] w-[300px] sm:w-[320px] z-50">
+                <BankingDatePicker
+                  inline={true}
+                  value={selectedDate.raw}
+                  onChange={(val) => {
+                    if (val) {
+                      const parts = val.split("-");
+                      const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                      setSelectedDate({
+                        day: d.toLocaleDateString("en-US", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        }),
+                        year: "Date",
+                        raw: val,
+                      });
+                    } else {
+                      setSelectedDate({
+                        day: "Select Date",
+                        year: "Date",
+                        raw: "",
+                      });
+                    }
+                    setIsDateOpen(false);
+                  }}
+                  onClose={() => setIsDateOpen(false)}
+                />
               </div>
             )}
           </div>

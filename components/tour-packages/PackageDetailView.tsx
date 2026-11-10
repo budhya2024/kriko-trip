@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
+import BankingDatePicker from "@/components/shared/BankingDatePicker";
 
 const countryOptions = [
   { code: "+91", flag: "🇮🇳", label: "+91" },
@@ -900,22 +901,13 @@ export default function PackageDetailView({
                       <label className="block text-xs font-medium text-gray-700 mb-1">
                         Travel Date
                       </label>
-                      <div className="relative flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
-                        <Calendar className="w-4 h-4 text-gray-400 shrink-0" />
-                        <input
-                          type="date"
-                          value={sidebarForm.travelDate}
-                          onChange={(e) =>
-                            setSidebarForm({ ...sidebarForm, travelDate: e.target.value })
-                          }
-                          className="w-full text-xs text-gray-800 outline-none bg-transparent font-normal cursor-pointer relative z-10"
-                        />
-                        {!sidebarForm.travelDate && (
-                          <span className="absolute left-9 text-xs text-gray-400 pointer-events-none select-none z-0">
-                            Select Travel Date
-                          </span>
-                        )}
-                      </div>
+                      <BankingDatePicker
+                        value={sidebarForm.travelDate}
+                        onChange={(dateStr) =>
+                          setSidebarForm({ ...sidebarForm, travelDate: dateStr })
+                        }
+                        placeholder="Select Travel Date"
+                      />
                     </div>
 
                     {/* No. of Travellers */}
