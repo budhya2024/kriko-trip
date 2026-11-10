@@ -16,10 +16,10 @@ export default function GallerySection() {
   return (
     <section className="w-full bg-white py-8 md:py-16 relative overflow-hidden">
       <div className="container relative">
-        <div className="flex flex-col lg:flex-row items-start gap-10 lg:gap-8 xl:gap-12">
+        <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-8 xl:gap-12">
 
           {/* ─── Left Header & CTA Block ─── */}
-          <div className="w-full lg:w-[32%] xl:w-[30%] shrink-0 pt-2 lg:pt-8">
+          <div className="w-full lg:w-[32%] xl:w-[30%] shrink-0 pt-2 lg:pt-8 text-left">
             <h2 className="section-title">
               KrikoTrip Gallery
             </h2>
@@ -28,27 +28,27 @@ export default function GallerySection() {
               experiences that match your dreams!
             </p>
 
-            {/* Follow Gallery Button with Liquid Water Fill Effect */}
+            {/* Desktop View: Follow Gallery Button with Liquid Water Fill Effect */}
             <Link
               href="/gallery"
-              className="btn-water-fill inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#1877F2] text-white text-[15px] font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="btn-water-fill hidden lg:inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#1877F2] text-white text-[15px] font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
             >
               <span className="relative z-10">Follow Gallery</span>
               <ArrowUpRight className="w-4 h-4 relative z-10 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
-          {/* ─── Right Collage Block ─── */}
+          {/* ─── Right Collage Block (Reduced Inner Gaps) ─── */}
           <div className="w-full lg:w-[68%] xl:w-[70%] relative">
-            <div className="flex gap-3.5 sm:gap-4 items-start relative">
+            <div className="flex gap-1.5 sm:gap-2.5 items-start relative">
 
               {/* ── Left Sub-Cluster (64% of collage width) ── */}
-              <div className="w-[64%] sm:w-[65%] flex flex-col gap-3.5 sm:gap-4">
+              <div className="w-[64%] sm:w-[65%] flex flex-col gap-1.5 sm:gap-2.5">
 
                 {/* Top Row: Blossom (gallery1) & Tall Bridge (gallery4) */}
-                <div className="flex items-end gap-3.5 sm:gap-4">
+                <div className="flex items-end gap-1.5 sm:gap-2.5">
                   {/* gallery1: Cherry blossom woman in red */}
-                  <div className="w-[52%]  overflow-hidden shadow-xs group">
+                  <div className="w-[52%] overflow-hidden shadow-xs group">
                     <Image
                       src={gallery1}
                       alt="Cherry blossom travel"
@@ -58,7 +58,7 @@ export default function GallerySection() {
                   </div>
 
                   {/* gallery4: Tall Bridge - sticks up higher than rest */}
-                  <div className="w-[48%]  overflow-hidden shadow-xs -mt-10 sm:-mt-14 lg:-mt-16 group">
+                  <div className="w-[48%] overflow-hidden shadow-xs -mt-8 sm:-mt-12 lg:-mt-14 group">
                     <Image
                       src={gallery4}
                       alt="Golden bridge Da Nang"
@@ -69,7 +69,7 @@ export default function GallerySection() {
                 </div>
 
                 {/* Middle: Wide Panoramic Longtail Boats (gallery2) */}
-                <div className="w-full  overflow-hidden shadow-xs group">
+                <div className="w-full overflow-hidden shadow-xs group">
                   <Image
                     src={gallery2}
                     alt="Andaman coastal boats on turquoise ocean"
@@ -79,9 +79,9 @@ export default function GallerySection() {
                 </div>
 
                 {/* Bottom Row: 2K+ Counter + Friends with Guitar (gallery3) */}
-                <div className="flex items-center gap-2 sm:gap-4 pt-1">
+                <div className="flex items-center gap-1.5 sm:gap-2.5 pt-0.5">
                   {/* 2K+ Tour Completed Stat Widget */}
-                  <div className="w-[42%] sm:w-[42%] flex items-center gap-1.5 sm:gap-3 shrink-0">
+                  <div className="w-[42%] sm:w-[42%] flex items-center gap-1.5 sm:gap-2.5 shrink-0">
                     {/* Exact Traveler & Globe Icon */}
                     <div className="shrink-0 text-gray-950 scale-75 xs:scale-90 sm:scale-100 origin-left">
                       <svg
@@ -122,9 +122,9 @@ export default function GallerySection() {
               </div>
 
               {/* ── Right Sub-Cluster (36% of collage width) ── */}
-              <div className="w-[36%] sm:w-[35%] flex flex-col gap-3.5 sm:gap-4">
+              <div className="w-[36%] sm:w-[35%] flex flex-col gap-1.5 sm:gap-2.5">
                 {/* Top: gallery5 Group Selfie */}
-                <div className="w-full overflow-hidden shadow-xs mt-4 sm:mt-8 lg:mt-10 group">
+                <div className="w-full overflow-hidden shadow-xs mt-3 sm:mt-6 lg:mt-8 group">
                   <Image
                     src={gallery5}
                     alt="Travelers group selfie"
@@ -146,9 +146,9 @@ export default function GallerySection() {
 
               {/* ─── Exact Center Floating Circular Passport Badge ─── */}
               <div className="absolute top-[37%] sm:top-[35%] left-[64%] sm:left-[65%] -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none">
-                <div className="w-11 h-11 xs:w-13 xs:h-13 sm:w-16 sm:h-16 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-2xl border-[2.5px] sm:border-[4px] border-white transition-transform duration-300 hover:scale-110">
+                <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-16 sm:h-16 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-xl border-[2px] sm:border-[4px] border-white transition-transform duration-300 hover:scale-110">
                   <svg
-                    className="w-5 h-5 xs:w-6 xs:h-6 sm:w-8 sm:h-8"
+                    className="w-4.5 h-4.5 xs:w-5 xs:h-5 sm:w-8 sm:h-8"
                     viewBox="0 0 28 28"
                     fill="none"
                   >
@@ -205,6 +205,17 @@ export default function GallerySection() {
                 </div>
               </div>
 
+            </div>
+
+            {/* ─── Mobile View Only: Follow Gallery Button at Bottom ─── */}
+            <div className="mt-6 flex justify-start sm:justify-center lg:hidden w-full">
+              <Link
+                href="/gallery"
+                className="btn-water-fill inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1877F2] text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              >
+                <span className="relative z-10">Follow Gallery</span>
+                <ArrowUpRight className="w-4 h-4 relative z-10 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
             </div>
           </div>
 
