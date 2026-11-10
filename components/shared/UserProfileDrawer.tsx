@@ -23,6 +23,7 @@ import {
   Download,
   ShieldCheck,
   Check,
+  Tag,
 } from "lucide-react";
 import { useAuth, TripHistoryItem } from "./AuthContext";
 
@@ -558,23 +559,54 @@ export default function UserProfileDrawer() {
                       </ul>
                     </div>
 
-                    {/* Payment & Rewards Breakdown */}
+                    {/* Payment & Rewards Breakdown with Applied Coupon */}
                     <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2 text-xs">
                       <span className="text-xs font-bold text-gray-900 block">
                         Payment &amp; Rewards
                       </span>
+
                       <div className="flex items-center justify-between text-gray-600">
-                        <span>Total Package Cost</span>
-                        <span className="font-bold text-gray-900 text-sm">
+                        <span>Base Package Fare</span>
+                        <span className="font-medium text-gray-700">
+                          ₹{(
+                            selectedTrip.appliedCoupon
+                              ? selectedTrip.amount + selectedTrip.appliedCoupon.discountAmount
+                              : selectedTrip.amount
+                          ).toLocaleString("en-IN")}
+                        </span>
+                      </div>
+
+                      {/* Display Applied Coupon code and discount amount */}
+                      {selectedTrip.appliedCoupon && (
+                        <div className="flex items-center justify-between text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-1.5 rounded-md border border-emerald-200/80">
+                          <div className="flex items-center gap-1.5">
+                            <Tag className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                            <span>
+                              Coupon Applied (
+                              <strong className="font-mono text-emerald-950">
+                                {selectedTrip.appliedCoupon.code}
+                              </strong>
+                              )
+                            </span>
+                          </div>
+                          <span>- ₹{selectedTrip.appliedCoupon.discountAmount.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+
+                      <div className="flex items-center justify-between text-gray-600 pt-0.5">
+                        <span className="font-semibold text-gray-800">Final Paid Amount</span>
+                        <span className="font-extrabold text-gray-900 text-sm">
                           ₹{selectedTrip.amount.toLocaleString("en-IN")}
                         </span>
                       </div>
+
                       <div className="flex items-center justify-between text-gray-600">
                         <span>Payment Status</span>
                         <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-md text-[11px]">
                           {selectedTrip.paymentMode || "Paid in Full via UPI"}
                         </span>
                       </div>
+
                       <div className="flex items-center justify-between pt-1.5 border-t border-gray-100 text-emerald-700 font-semibold">
                         <span>Rewards Points Earned</span>
                         <span>+{selectedTrip.pointsEarned} Points</span>
@@ -661,6 +693,20 @@ export default function UserProfileDrawer() {
                                 <MapPin className="w-3 h-3 text-[#1877F2] shrink-0" />
                                 <span className="truncate">{trip.destination}</span>
                               </div>
+
+                              {/* Applied Coupon Badge */}
+                              {trip.appliedCoupon && (
+                                <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 mt-1">
+                                  <Tag className="w-3 h-3 text-emerald-600 shrink-0" />
+                                  <span>
+                                    Coupon:{" "}
+                                    <strong className="font-mono text-emerald-950">
+                                      {trip.appliedCoupon.code}
+                                    </strong>{" "}
+                                    (-₹{trip.appliedCoupon.discountAmount.toLocaleString("en-IN")})
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </div>
 

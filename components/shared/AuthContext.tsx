@@ -19,6 +19,10 @@ export interface TripHistoryItem {
   pickupPoint?: string;
   inclusions?: string[];
   paymentMode?: string;
+  appliedCoupon?: {
+    code: string;
+    discountAmount: number;
+  };
 }
 
 export interface UserProfile {
@@ -61,6 +65,10 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       mealPlan: "Breakfast & Dinner Included (MAP Plan)",
       pickupPoint: "Veer Savarkar Airport (IXZ), Port Blair",
       paymentMode: "UPI / Net Banking (Paid in Full)",
+      appliedCoupon: {
+        code: "KRIKO10",
+        discountAmount: 3200,
+      },
       inclusions: [
         "Private AC Sedan for all transfers",
         "Inter-Island Luxury Ferry (Makruzz / Nautika)",
@@ -86,6 +94,10 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       mealPlan: "All Meals Included (Buffet Style)",
       pickupPoint: "Science City, Kolkata",
       paymentMode: "Credit Card (Paid in Full)",
+      appliedCoupon: {
+        code: "EXPLORE2000",
+        discountAmount: 2000,
+      },
       inclusions: [
         "Dedicated Motorized Safari Boat",
         "Sajnekhali & Sudhanyakhali Watch Tower Entry",
@@ -110,6 +122,10 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       mealPlan: "Daily Buffet Breakfast & Dinner",
       pickupPoint: "Sheikh ul-Alam Airport (SXR), Srinagar",
       paymentMode: "Net Banking (Paid in Full)",
+      appliedCoupon: {
+        code: "FESTIVE15",
+        discountAmount: 5000,
+      },
       inclusions: [
         "1 Night Houseboat Stay with Shikara Ride",
         "Gulmarg Gondola Phase 1 Cable Car Tickets",
