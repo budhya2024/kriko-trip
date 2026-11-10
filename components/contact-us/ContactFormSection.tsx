@@ -62,68 +62,6 @@ export default function ContactFormSection() {
   return (
     <section className="w-full pt-8 lg:pt-14 pb-12 bg-white">
       <div className="container">
-        {/* Contact Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-10">
-          {/* Card 1: Office Address */}
-          <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50/60 hover:bg-white hover:border-[#1877F2]/40 transition-all flex items-start gap-4 shadow-2xs">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-              <MapPin className="w-6 h-6 stroke-[2.2]" />
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
-                Office Address
-              </h4>
-              <p className="text-sm font-bold text-gray-900 leading-snug">
-                BL-A Shop-GLP/5 676 Green Land Park
-              </p>
-              <p className="text-xs text-gray-600 mt-0.5 font-medium">
-                Sonarpur, Kolkata - 700103
-              </p>
-            </div>
-          </div>
-
-          {/* Card 2: Phone & WhatsApp */}
-          <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50/60 hover:bg-white hover:border-[#1877F2]/40 transition-all flex items-start gap-4 shadow-2xs">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-              <Phone className="w-6 h-6 stroke-[2.2]" />
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
-                Call & WhatsApp
-              </h4>
-              <a
-                href="tel:+918250338715"
-                className="text-base font-bold text-gray-900 hover:text-[#1877F2] transition-colors block"
-              >
-                +91 8250338715
-              </a>
-              <p className="text-xs text-gray-500 mt-0.5 font-medium">
-                Mon - Sun: 9:00 AM - 9:00 PM IST
-              </p>
-            </div>
-          </div>
-
-          {/* Card 3: Email Support */}
-          <div className="p-6 rounded-2xl border border-gray-200 bg-gray-50/60 hover:bg-white hover:border-[#1877F2]/40 transition-all flex items-start gap-4 shadow-2xs">
-            <div className="w-12 h-12 rounded-xl bg-blue-50 text-[#1877F2] flex items-center justify-center shrink-0">
-              <Mail className="w-6 h-6 stroke-[2.2]" />
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">
-                Email Support
-              </h4>
-              <a
-                href="mailto:info@krikotrips.com"
-                className="text-base font-bold text-gray-900 hover:text-[#1877F2] transition-colors block"
-              >
-                info@krikotrips.com
-              </a>
-              <p className="text-xs text-gray-500 mt-0.5 font-medium">
-                Online support & fast response
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* Equal Height Grid for Form and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
