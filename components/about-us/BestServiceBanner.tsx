@@ -10,7 +10,6 @@ export default function BestServiceBanner() {
       <div className="container">
         {/* Soft Lavender / Periwinkle Card Container Matching Reference Image */}
         <div className="relative w-full bg-[#EEF2FC] rounded-2xl sm:rounded-[32px] p-7 sm:p-11 lg:p-14 text-center overflow-hidden shadow-xs">
-          
           {/* Small Sky Blue Accent Dot in Top-Right Corner */}
           <div className="absolute top-6 right-6 sm:top-8 sm:right-8 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#60A5FA] pointer-events-none" />
 
@@ -111,7 +110,7 @@ export default function BestServiceBanner() {
               <span className="text-xs sm:text-sm font-medium tracking-wide text-white">
                 Flat 30% Discounts All Packages
               </span>
-              <span className="text-xs sm:text-sm font-bold tracking-tight text-white inline-flex items-center gap-1 group-hover:underline">
+              <span className="text-xs sm:text-sm font-semibold tracking-tight text-white inline-flex items-center gap-1 group-hover:underline">
                 Check Offer
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </span>

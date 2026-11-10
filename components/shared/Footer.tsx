@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa6";
 import Image from "next/image";
 import footerBg from "@/public/assets/images/footer-bg-1-2-2.webp";
+import { Phone, Mail } from "lucide-react";
 
 const topDestinations = [
   "Andaman & Nicobar Tour",
@@ -90,13 +91,13 @@ export default function Footer() {
               <p>BL-A Shop-GLP/5 676 Green Land Park</p>
               <p>Sonarpur, Kolkata - 700103</p>
               <p className="pt-1.5 flex items-center gap-2 text-white/90">
-                <span className="text-[#03ADFF]">📞</span>
+                <Phone className="w-3.5 h-3.5 text-[#03ADFF] shrink-0" />
                 <a href="tel:+918250338715" className="hover:text-white transition-colors">
                   +91 8250338715
                 </a>
               </p>
               <p className="flex items-center gap-2 text-white/90">
-                <span className="text-[#03ADFF]">✉️</span>
+                <Mail className="w-3.5 h-3.5 text-[#03ADFF] shrink-0" />
                 <a href="mailto:info@krikotrips.com" className="hover:text-white transition-colors break-all">
                   info@krikotrips.com
                 </a>
