@@ -208,7 +208,7 @@ export default function GallerySection() {
             </div>
 
             {/* ─── Mobile View Only: Follow Gallery Button at Bottom ─── */}
-            <div className="mt-6 flex justify-start sm:justify-center lg:hidden w-full">
+            <div className="mt-6 flex justify-center lg:hidden w-full">
               <Link
                 href="/gallery"
                 className="btn-water-fill inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1877F2] text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"

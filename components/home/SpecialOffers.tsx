@@ -87,7 +87,7 @@ export default function SpecialOffers() {
               }}
               breakpoints={{
                 320: {
-                  slidesPerView: 1.05,
+                  slidesPerView: 1.2,
                   spaceBetween: 14,
                 },
                 480: {

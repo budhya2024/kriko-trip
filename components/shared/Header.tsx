@@ -134,10 +134,11 @@ const navItems = [
 
 // ─── Header Component ───────────────────────────────────────────────────────
 import AuthModal from "./AuthModal";
+import SearchModal from "./SearchModal";
 
 export default function Header() {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
-  const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isSupportDropdownOpen, setIsSupportDropdownOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -148,6 +149,18 @@ export default function Header() {
   const [openMobileContinent, setOpenMobileContinent] = useState<string | null>("Africa");
 
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Shortcut Ctrl/Cmd + K for Search
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        setIsSearchModalOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
   const supportDropdownRef = useRef<HTMLDivElement | null>(null);
 
   // Close support dropdown when clicking outside
@@ -207,16 +220,21 @@ export default function Header() {
 
           {/* Desktop Search Bar (Center) */}
           <div className="hidden lg:flex flex-1 max-w-xl mx-4 lg:mx-8">
-            <div className="relative w-full">
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+            <button
+              type="button"
+              onClick={() => setIsSearchModalOpen(true)}
+              className="relative w-full text-left cursor-pointer group"
+            >
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-hover:text-[#1877F2] transition-colors">
                 <Search className="w-[18px] h-[18px] stroke-[2]" />
               </div>
-              <input
-                type="text"
-                placeholder="Find Your Perfect Tour Package"
-                className="w-full bg-[#f4f5f7] hover:bg-[#eceef2] focus:bg-white text-gray-800 text-sm placeholder:text-gray-400 font-normal pl-11 pr-5 py-2.5 rounded-lg outline-none transition-all duration-200 border border-transparent focus:border-blue-400 focus:ring-1 focus:ring-blue-100"
-              />
-            </div>
+              <div className="w-full bg-[#f4f5f7] hover:bg-[#eceef2] text-gray-400 hover:text-gray-600 text-sm font-normal pl-11 pr-4 py-2.5 rounded-lg border border-transparent transition-all duration-200 flex items-center justify-between">
+                <span>Find Your Perfect Tour Package</span>
+                <span className="text-[11px] font-medium bg-white border border-gray-200/80 rounded px-1.5 py-0.5 text-gray-400">
+                  Ctrl + K
+                </span>
+              </div>
+            </button>
           </div>
 
           {/* Desktop Right Utilities (Need Help?, Login) */}
@@ -264,7 +282,7 @@ export default function Header() {
             {/* Mobile Circular Search Button */}
             <button
               type="button"
-              onClick={() => setIsMobileSearchOpen(!isMobileSearchOpen)}
+              onClick={() => setIsSearchModalOpen(true)}
               className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
               aria-label="Search"
             >
@@ -284,21 +302,6 @@ export default function Header() {
           </div>
 
         </div>
-
-        {/* Mobile Dropdown Search Input Bar */}
-        {isMobileSearchOpen && (
-          <div className="lg:hidden pb-3 pt-1 animate-in fade-in duration-150">
-            <div className="relative w-full">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="text"
-                autoFocus
-                placeholder="Find Your Perfect Tour Package"
-                className="w-full bg-[#f4f5f7] text-gray-800 text-sm pl-10 pr-4 py-2.5 rounded-full outline-none border border-transparent focus:border-blue-400 focus:bg-white"
-              />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* ─── Desktop Lower Navigation Bar ─────────────────────────────────── */}
@@ -770,7 +773,7 @@ export default function Header() {
         {/* Drawer Footer: WhatsApp + Login Button */}
         <div className="p-5 pt-3 border-t border-gray-100 bg-white">
           {/* WhatsApp Card */}
-          <div className="bg-[#f4f5f7] rounded-xl p-3.5 flex items-center gap-3">
+          <div className="bg-[#f4f5f7]  p-3.5 flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-white shadow-xs border border-gray-100 flex items-center justify-center shrink-0">
               <svg viewBox="0 0 24 24" fill="#25D366" className="w-5 h-5">
                 <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.15C10.56 20.15 9.11 19.75 7.85 19L7.55 18.82L4.43 19.64L5.26 16.59L5.07 16.29C4.24 14.97 3.81 13.46 3.81 11.91C3.81 7.37 7.5 3.69 12.05 3.69C14.25 3.69 16.32 4.55 17.88 6.11C19.44 7.67 20.3 9.74 20.3 11.94C20.3 16.48 16.6 20.15 12.05 20.15ZM16.57 14.33C16.32 14.2 15.1 13.6 14.87 13.52C14.65 13.43 14.48 13.39 14.32 13.64C14.15 13.89 13.68 14.45 13.53 14.62C13.39 14.78 13.24 14.81 12.99 14.68C12.74 14.56 11.94 14.29 10.99 13.44C10.25 12.78 9.75 11.96 9.61 11.71C9.46 11.46 9.59 11.33 9.72 11.2C9.83 11.09 9.97 10.91 10.09 10.76C10.22 10.62 10.26 10.51 10.34 10.35C10.42 10.18 10.38 10.04 10.32 9.91C10.26 9.79 9.77 8.58 9.56 8.08C9.36 7.59 9.16 7.66 9.01 7.65C8.87 7.64 8.71 7.64 8.54 7.64C8.38 7.64 8.11 7.7 7.89 7.95C7.66 8.19 7.03 8.78 7.03 9.99C7.03 11.2 7.91 12.37 8.03 12.53C8.16 12.7 9.76 15.17 12.22 16.23C12.8 16.48 13.26 16.63 13.61 16.74C14.2 16.93 14.74 16.9 15.16 16.84C15.63 16.77 16.61 16.25 16.81 15.68C17.02 15.11 17.02 14.62 16.96 14.52C16.89 14.41 16.74 14.34 16.57 14.22V14.33Z" />
@@ -791,19 +794,7 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Login Button */}
-          <button
-            type="button"
-            onClick={() => {
-              setIsMobileDrawerOpen(false);
-              setAuthModalMode("login");
-              setIsAuthModalOpen(true);
-            }}
-            className="w-full bg-[#111827] hover:bg-black text-white py-3.5 rounded-full font-bold text-sm flex items-center justify-center gap-2 mt-3.5 shadow-xs transition-colors active:scale-98 cursor-pointer"
-          >
-            <User className="w-4 h-4" />
-            <span>Login / Register</span>
-          </button>
+
         </div>
       </aside>
 
@@ -812,6 +803,12 @@ export default function Header() {
         isOpen={isAuthModalOpen}
         onClose={() => setIsAuthModalOpen(false)}
         defaultMode={authModalMode}
+      />
+
+      {/* Global Search Modal Component */}
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
       />
     </header>
   );
