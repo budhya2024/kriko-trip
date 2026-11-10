@@ -33,9 +33,7 @@ export default function PageHeader({
       {/* Black Layer Above Image */}
       <div className="absolute inset-0 bg-black/60 z-10" />
 
-      {/* Decorative Subtle Concentric Rings */}
-      <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full border border-white/10 pointer-events-none z-10" />
-      <div className="absolute -bottom-24 -right-12 w-64 h-64 rounded-full border border-white/5 pointer-events-none z-10" />
+
 
       {/* Content Container (Left-Aligned) */}
       <div className="container relative z-20 text-left px-6 sm:px-10 lg:px-12">

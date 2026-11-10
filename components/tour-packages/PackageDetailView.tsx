@@ -183,9 +183,6 @@ export default function PackageDetailView({
           <div className="absolute inset-0 bg-black/60" />
         </div>
 
-        {/* Decorative Subtle Concentric Rings */}
-        <div className="absolute -top-24 -right-24 w-80 h-80 rounded-full border border-white/10 pointer-events-none z-10" />
-        <div className="absolute -bottom-24 -right-12 w-64 h-64 rounded-full border border-white/5 pointer-events-none z-10" />
 
         {/* Content Container with Generous Left Spacing for Main Heading */}
         <div className="container relative z-10 text-left px-6 sm:px-10 lg:px-12">
@@ -746,7 +743,7 @@ export default function PackageDetailView({
 
                 {/* Deal & Price Box (Matches Special Offer Reference Screenshot) */}
                 {savings > 0 ? (
-                  <div className="rounded-2xl border border-[#FDE68A] bg-[#FFFDF7] p-4 sm:p-5 mb-5 flex items-center justify-between shadow-2xs">
+                  <div className="rounded-xl border border-[#FDE68A] bg-[#FFFDF7] p-4 sm:p-5 mb-5 flex items-center justify-between shadow-2xs">
                     {/* Left Side */}
                     <div className="flex flex-col items-start">
                       <span className="text-xs font-bold text-[#C2410C] uppercase tracking-wide mb-1">
@@ -760,7 +757,7 @@ export default function PackageDetailView({
                             : pkg.duration}
                         </span>
                       </div>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs">
                         <Tag className="w-3.5 h-3.5 stroke-[2.2]" />
                         Save ₹{savings.toLocaleString("en-IN")}
                       </span>
@@ -955,14 +952,15 @@ export default function PackageDetailView({
                   <button
                     type="submit"
                     disabled={isQuoteSubmitted}
-                    className="w-full py-3 rounded-lg text-white font-medium text-sm shadow-sm hover:brightness-110 active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer mt-1"
+                    className="btn-water-fill w-full py-3 rounded-lg text-white font-medium text-sm shadow-sm active:scale-98 transition-all flex items-center justify-center gap-2 cursor-pointer mt-1"
                     style={{
                       background:
                         "linear-gradient(90deg, #18367C 0%, #1D449C 50%, #2546A5 100%)",
+                      ["--water-fill" as string]: "#00285C",
                     }}
                   >
-                    <Send className="w-4 h-4 text-white" />
-                    <span>
+                    <Send className="w-4 h-4 text-white relative z-10" />
+                    <span className="relative z-10">
                       {isQuoteSubmitted ? "Submitting Request..." : "Get Best Quote"}
                     </span>
                   </button>
@@ -1041,14 +1039,13 @@ export default function PackageDetailView({
 
                       {/* Card Footer: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
                       <div className="pt-3.5 mt-3 border-t border-gray-100 flex items-center justify-between gap-2 min-w-0">
-                        {/* Book Now Button: Fully Rounded with White Text */}
+                        {/* Book Now Button: Liquid Water Fill Effect */}
                         <Link
                           href={`/tour-packages/${rPkg.id}`}
-                          className="inline-flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-medium transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer shrink-0"
-                          style={{ backgroundColor: "#1877F2", color: "#ffffff" }}
+                          className="btn-water-fill inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1877F2] text-white text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-md active:scale-95 cursor-pointer shrink-0"
                         >
-                          <span>Book Now</span>
-                          <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white" />
+                          <span className="relative z-10">Book Now</span>
+                          <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white relative z-10" />
                         </Link>
 
                         {/* Starting From & Prices Matching Clean, Non-Overlapping Format */}

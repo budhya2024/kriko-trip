@@ -356,14 +356,14 @@ export default function HeroSearchForm() {
             )}
           </div>
 
-          {/* Field 4: Search Button */}
+          {/* Field 4: Search Button with Liquid Water Fill Effect */}
           <div className="md:col-span-2">
             <button
               type="button"
-              className="w-full h-[52px] sm:h-[72px] bg-[#1877F2] hover:bg-[#1466d3] text-white font-bold rounded-full flex items-center justify-center gap-2 text-[15px] sm:text-[16px] tracking-wide shadow-xs hover:shadow-md transition-all duration-200 active:scale-[0.98] cursor-pointer"
+              className="btn-water-fill w-full h-[52px] sm:h-[72px] bg-[#1877F2] text-white font-bold rounded-full flex items-center justify-center gap-2 text-[15px] sm:text-[16px] tracking-wide shadow-xs hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
             >
-              <Search className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.4]" />
-              <span>SEARCH</span>
+              <Search className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.4] relative z-10" />
+              <span className="relative z-10">SEARCH</span>
             </button>
           </div>
 

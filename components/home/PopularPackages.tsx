@@ -213,14 +213,13 @@ export default function PopularPackages() {
 
                       {/* Bottom Footer Row: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
                       <div className="flex items-center justify-between pt-3.5 mt-3 border-t border-gray-100 gap-2 min-w-0">
-                        {/* Book Now Button: Fully Rounded with White Text */}
+                        {/* Book Now Button: Liquid Water Fill Effect */}
                         <Link
                           href={pkg.href}
-                          className="inline-flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-medium shadow-2xs hover:shadow-xs transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
-                          style={{ backgroundColor: "#1877F2", color: "#ffffff" }}
+                          className="btn-water-fill inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1877F2] text-white text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-md active:scale-95 cursor-pointer shrink-0"
                         >
-                          <span>Book Now</span>
-                          <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white" />
+                          <span className="relative z-10">Book Now</span>
+                          <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white relative z-10" />
                         </Link>
 
                         {/* Starting From, Original Price & Sales Price */}

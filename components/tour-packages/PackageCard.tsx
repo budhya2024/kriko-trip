@@ -155,14 +155,13 @@ export default function PackageCard({ pkg }: PackageCardProps) {
 
         {/* ─── Card Footer: Book Now Button (Left) & Starting From, Original & Sales Price (Right) ─── */}
         <div className="mt-3.5 pt-3 border-t border-gray-100 flex items-center justify-between gap-2 min-w-0">
-          {/* Book Now Button: Fully Rounded with White Text */}
+          {/* Book Now Button: Liquid Water Fill Effect */}
           <Link
             href={`/tour-packages/${pkg.id}`}
-            className="inline-flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-medium transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 shrink-0 cursor-pointer"
-            style={{ backgroundColor: "#1877F2", color: "#ffffff" }}
+            className="btn-water-fill inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1877F2] text-white text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-md active:scale-95 shrink-0 cursor-pointer"
           >
-            <span>Book Now</span>
-            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white" />
+            <span className="relative z-10">Book Now</span>
+            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white relative z-10" />
           </Link>
 
           {/* Starting From & Prices with Save Tag Badge */}

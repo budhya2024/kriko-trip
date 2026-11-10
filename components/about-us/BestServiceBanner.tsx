@@ -101,16 +101,16 @@ export default function BestServiceBanner() {
             </div>
           </div>
 
-          {/* Blue CTA Pill Button Matching Screenshot */}
+          {/* Blue CTA Pill Button with Liquid Water Fill Effect */}
           <div className="mt-9 sm:mt-11 flex justify-center">
             <Link
               href="/tour-packages"
-              className="inline-flex items-center gap-3.5 px-7 sm:px-9 py-3 sm:py-3.5 rounded-full bg-[#1877F2] hover:bg-[#1466D3] text-white transition-all duration-300 shadow-md hover:shadow-lg active:scale-98 cursor-pointer group"
+              className="btn-water-fill inline-flex items-center gap-3.5 px-7 sm:px-9 py-3 sm:py-3.5 rounded-full bg-[#1877F2] text-white transition-all duration-300 shadow-md hover:shadow-xl active:scale-98 cursor-pointer group"
             >
-              <span className="text-xs sm:text-sm font-medium tracking-wide text-white">
+              <span className="relative z-10 text-xs sm:text-sm font-medium tracking-wide text-white">
                 Flat 30% Discounts All Packages
               </span>
-              <span className="text-xs sm:text-sm font-semibold tracking-tight text-white inline-flex items-center gap-1 group-hover:underline">
+              <span className="relative z-10 text-xs sm:text-sm font-semibold tracking-tight text-white inline-flex items-center gap-1 group-hover:underline">
                 Check Offer
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </span>

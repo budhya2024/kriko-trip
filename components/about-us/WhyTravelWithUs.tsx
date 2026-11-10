@@ -101,7 +101,7 @@ export default function WhyTravelWithUs() {
               </div>
 
               {/* Title */}
-              <h3 className="text-base sm:text-[17px] font-bold text-gray-950 leading-snug tracking-tight mt-6 sm:mt-8">
+              <h3 className="text-lg sm:text-xl font-semibold text-gray-950 leading-snug tracking-tight mt-6 sm:mt-8 w-60">
                 {item.title}
               </h3>
             </div>

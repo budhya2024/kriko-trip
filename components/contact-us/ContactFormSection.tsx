@@ -239,20 +239,21 @@ export default function ContactFormSection() {
                     </label>
                   </div>
 
-                  {/* Center-Aligned Submit Button without Icon */}
+                  {/* Center-Aligned Submit Button with Liquid Water Fill Effect */}
                   <div className="pt-3 flex justify-center">
                     <button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full sm:w-auto inline-flex items-center justify-center px-10 py-3 rounded-full bg-[#00285C] hover:bg-[#1877F2] active:scale-98 text-white text-sm font-semibold transition-all shadow-xs cursor-pointer disabled:opacity-70"
+                      className="btn-water-fill w-full sm:w-auto inline-flex items-center justify-center px-10 py-3 rounded-full bg-[#00285C] active:scale-98 text-white text-sm font-semibold transition-all shadow-xs cursor-pointer disabled:opacity-70"
+                      style={{ ["--water-fill" as string]: "#1877F2" }}
                     >
                       {isSubmitting ? (
-                        <span className="flex items-center gap-2">
+                        <span className="flex items-center gap-2 relative z-10">
                           <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                           <span>Sending...</span>
                         </span>
                       ) : (
-                        <span>Send Message</span>
+                        <span className="relative z-10">Send Message</span>
                       )}
                     </button>
                   </div>
