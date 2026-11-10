@@ -451,11 +451,10 @@ export default function UserProfileDrawer() {
                           #{selectedTrip.bookingId}
                         </span>
                         <span
-                          className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                            selectedTrip.status === "Confirmed"
-                              ? "bg-emerald-500 text-white"
-                              : "bg-blue-600 text-white"
-                          }`}
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${selectedTrip.status === "Confirmed"
+                            ? "bg-emerald-500 text-white"
+                            : "bg-blue-600 text-white"
+                            }`}
                         >
                           ✓ {selectedTrip.status}
                         </span>
@@ -545,11 +544,11 @@ export default function UserProfileDrawer() {
                         {(selectedTrip.inclusions && selectedTrip.inclusions.length > 0
                           ? selectedTrip.inclusions
                           : [
-                              "Private AC vehicle for all sightseeing & transfers",
-                              "Daily complimentary buffet breakfast & dinner",
-                              "Entry permits and govt. taxes included",
-                              "24/7 dedicated trip support concierge",
-                            ]
+                            "Private AC vehicle for all sightseeing & transfers",
+                            "Daily complimentary buffet breakfast & dinner",
+                            "Entry permits and govt. taxes included",
+                            "24/7 dedicated trip support concierge",
+                          ]
                         ).map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2">
                             <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
@@ -624,7 +623,7 @@ export default function UserProfileDrawer() {
                         <div
                           key={trip.id}
                           onClick={() => setSelectedTrip(trip)}
-                          className="p-3.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#1877F2]/40 transition-all cursor-pointer space-y-2.5 group"
+                          className="p-3.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs  transition-all cursor-pointer space-y-2.5 group"
                         >
                           <div className="flex items-start gap-3">
                             {/* Trip Thumbnail */}
@@ -645,17 +644,16 @@ export default function UserProfileDrawer() {
                                   #{trip.bookingId}
                                 </span>
                                 <span
-                                  className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                                    trip.status === "Confirmed"
-                                      ? "bg-emerald-50 text-emerald-700"
-                                      : "bg-blue-50 text-blue-700"
-                                  }`}
+                                  className={`px-2 py-0.5 rounded-md text-[10px] font-semibold ${trip.status === "Confirmed"
+                                    ? "bg-emerald-50 text-emerald-700"
+                                    : "bg-blue-50 text-blue-700"
+                                    }`}
                                 >
                                   {trip.status}
                                 </span>
                               </div>
 
-                              <h4 className="text-xs sm:text-sm font-bold text-gray-900 truncate mt-0.5 group-hover:text-[#1877F2] transition-colors">
+                              <h4 className="text-xs sm:text-sm font-semibold text-gray-900 truncate mt-0.5 group-hover:text-[#1877F2] transition-colors">
                                 {trip.packageTitle}
                               </h4>
 

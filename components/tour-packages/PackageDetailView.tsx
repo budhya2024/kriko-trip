@@ -32,6 +32,8 @@ import {
   Mail,
   MessageSquare,
   Activity,
+  Ticket,
+  Percent,
 } from "lucide-react";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
@@ -71,6 +73,63 @@ export default function PackageDetailView({
   const [isQuoteSubmitted, setIsQuoteSubmitted] = useState(false);
   const [minDate, setMinDate] = useState<string>("2026-11-01");
   const [mounted, setMounted] = useState(false);
+
+  // Professional Coupon Code State
+  const [couponInput, setCouponInput] = useState("");
+  const [couponError, setCouponError] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<{
+    code: string;
+    discountAmount: number;
+    discountText: string;
+  } | null>(null);
+
+  const availableCoupons = [
+    { code: "KRIKO10", discountPercent: 10, discountText: "10% OFF" },
+    { code: "EXPLORE2000", discountFixed: 2000, discountText: "₹2,000 OFF" },
+    { code: "FESTIVE15", discountPercent: 15, discountText: "15% OFF" },
+  ];
+
+  const handleApplyCoupon = (codeToApply?: string) => {
+    const raw = (codeToApply || couponInput).trim().toUpperCase();
+    if (!raw) {
+      setCouponError("Please enter a valid coupon code");
+      return;
+    }
+
+    const matched = availableCoupons.find((c) => c.code === raw);
+    let discount = 0;
+    let label = "DISCOUNT";
+
+    if (matched) {
+      if (matched.discountPercent) {
+        discount = Math.round((pkg.price * matched.discountPercent) / 100);
+        label = matched.discountText;
+      } else if (matched.discountFixed) {
+        discount = matched.discountFixed;
+        label = matched.discountText;
+      }
+    } else if (raw === "WELCOME" || raw === "TRAVEL" || raw === "HOLIDAY") {
+      discount = Math.round((pkg.price * 10) / 100);
+      label = "10% OFF";
+    } else {
+      setCouponError("Invalid coupon code. Try 'KRIKO10' or 'EXPLORE2000'");
+      return;
+    }
+
+    setAppliedCoupon({
+      code: raw,
+      discountAmount: discount,
+      discountText: label,
+    });
+    setCouponError("");
+    setCouponInput("");
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponError("");
+    setCouponInput("");
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -924,6 +983,124 @@ export default function PackageDetailView({
                       </div>
                     </div>
                   </div>
+
+                  {/* ─── Professional Coupon Code Apply Section ─── */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+                        <Ticket className="w-3.5 h-3.5 text-[#1877F2]" />
+                        <span>Have a Coupon Code?</span>
+                      </label>
+                      {appliedCoupon && (
+                        <span className="text-[11px] font-bold text-emerald-600 flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3" />
+                          Applied
+                        </span>
+                      )}
+                    </div>
+
+                    {!appliedCoupon ? (
+                      <div className="space-y-1.5">
+                        <div className="relative flex items-center rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs overflow-hidden">
+                          <div className="pl-3 pr-2 text-gray-400 shrink-0">
+                            <Tag className="w-4 h-4" />
+                          </div>
+                          <input
+                            type="text"
+                            value={couponInput}
+                            onChange={(e) => {
+                              setCouponInput(e.target.value.toUpperCase());
+                              setCouponError("");
+                            }}
+                            placeholder="ENTER COUPON CODE"
+                            className="w-full text-xs sm:text-sm font-mono tracking-wider font-semibold text-gray-800 placeholder:text-gray-400 placeholder:font-normal placeholder:tracking-normal outline-none bg-transparent py-2.5"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleApplyCoupon()}
+                            disabled={!couponInput.trim()}
+                            className="px-4 py-2 mr-1 my-1 rounded-md bg-[#1877F2] hover:bg-[#00285C] active:scale-95 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-bold transition-all cursor-pointer shrink-0"
+                          >
+                            Apply
+                          </button>
+                        </div>
+
+                        {couponError && (
+                          <p className="text-[11px] text-red-600 font-medium pl-1 flex items-center gap-1">
+                            <XCircle className="w-3 h-3 shrink-0" />
+                            <span>{couponError}</span>
+                          </p>
+                        )}
+
+                        {/* Suggested Quick Apply Badges */}
+                        <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+                          <span className="text-[10px] text-gray-400 font-medium">Offers:</span>
+                          {availableCoupons.map((c) => (
+                            <button
+                              key={c.code}
+                              type="button"
+                              onClick={() => handleApplyCoupon(c.code)}
+                              className="text-[10px] font-mono font-bold text-[#1877F2] bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2 py-0.5 rounded-md transition-colors cursor-pointer flex items-center gap-1"
+                            >
+                              <span>{c.code}</span>
+                              <span className="text-gray-500 font-normal">({c.discountText})</span>
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    ) : (
+                      /* Applied State Card */
+                      <div className="p-2.5 rounded-lg bg-emerald-50/90 border border-emerald-200 flex items-center justify-between text-xs animate-in fade-in duration-200">
+                        <div className="flex items-center gap-2 min-w-0">
+                          <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+                            <Percent className="w-3.5 h-3.5 stroke-[2.5]" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-mono font-bold text-emerald-900 text-xs">
+                                {appliedCoupon.code}
+                              </span>
+                              <span className="text-[10px] font-bold text-emerald-800 bg-emerald-200/80 px-1.5 py-0.5 rounded">
+                                {appliedCoupon.discountText}
+                              </span>
+                            </div>
+                            <span className="text-[11px] text-emerald-700 font-medium block truncate">
+                              ₹{appliedCoupon.discountAmount.toLocaleString("en-IN")} discount applied!
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleRemoveCoupon}
+                          className="text-[11px] font-semibold text-red-600 hover:text-red-700 hover:underline cursor-pointer shrink-0 ml-2"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Price Summary with Applied Discount */}
+                  {appliedCoupon && (
+                    <div className="p-3 rounded-lg bg-gray-50 border border-gray-200/80 space-y-1.5 text-xs text-gray-700 animate-in fade-in duration-150">
+                      <div className="flex items-center justify-between">
+                        <span>Original Price</span>
+                        <span className="font-medium text-gray-500 line-through">
+                          ₹{pkg.price.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-emerald-700 font-semibold">
+                        <span>Coupon Savings ({appliedCoupon.code})</span>
+                        <span>- ₹{appliedCoupon.discountAmount.toLocaleString("en-IN")}</span>
+                      </div>
+                      <div className="flex items-center justify-between pt-1.5 border-t border-gray-200 font-bold text-gray-900 text-sm">
+                        <span>Effective Price</span>
+                        <span className="text-[#1877F2] font-extrabold text-base">
+                          ₹{(pkg.price - appliedCoupon.discountAmount).toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Message (Optional) */}
                   <div>
