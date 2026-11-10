@@ -85,15 +85,15 @@ export default function AuthModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/55 backdrop-blur-xs transition-opacity"
+        className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
         onClick={onClose}
       />
 
-      {/* Modal Dialog Card (Clean professional rounded-xl, no large rounded borders) */}
-      <div className="relative w-full max-w-[430px] bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-10 max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-150">
+      {/* Modal Dialog Card (Clean flat border, zero shadow) */}
+      <div className="relative w-full max-w-[420px] bg-white rounded-xl border border-gray-200 overflow-hidden z-10 max-h-[92vh] flex flex-col animate-in fade-in duration-150">
         
         {/* Top Header */}
-        <div className="px-6 pt-5 pb-3.5 flex items-center justify-between border-b border-gray-150 bg-gray-50/50">
+        <div className="px-6 pt-5 pb-3.5 flex items-center justify-between border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-2">
             <Image
               src={brandLogo}
@@ -119,48 +119,22 @@ export default function AuthModal({
           
           {/* Welcome Text */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 tracking-tight">
-              {mode === "login" ? "Welcome back" : "Create an account"}
+            <h3 className="text-lg font-medium text-gray-900 tracking-tight">
+              {mode === "login" ? "Sign In" : "Register"}
             </h3>
             <p className="text-xs text-gray-500 font-normal mt-0.5">
               {mode === "login"
-                ? "Enter your credentials to manage your bookings."
-                : "Sign up to start planning your dream holidays."}
+                ? "Enter your details to sign in to your account."
+                : "Create an account to start planning your trips."}
             </p>
           </div>
 
-          {/* Clean Segmented Tab Switcher */}
-          <div className="grid grid-cols-2 p-1 bg-gray-100 rounded-lg text-xs font-medium">
-            <button
-              type="button"
-              onClick={() => setMode("login")}
-              className={`py-2 rounded-md transition-all cursor-pointer ${
-                mode === "login"
-                  ? "bg-white text-gray-900 shadow-2xs font-semibold"
-                  : "text-gray-600 hover:text-gray-900 font-normal"
-              }`}
-            >
-              Sign In
-            </button>
-            <button
-              type="button"
-              onClick={() => setMode("register")}
-              className={`py-2 rounded-md transition-all cursor-pointer ${
-                mode === "register"
-                  ? "bg-white text-gray-900 shadow-2xs font-semibold"
-                  : "text-gray-600 hover:text-gray-900 font-normal"
-              }`}
-            >
-              Register
-            </button>
-          </div>
-
-          {/* Social Logins: Official Google and Facebook styling */}
+          {/* Social Logins: Flat borders, no shadow, normal font */}
           <div className="grid grid-cols-2 gap-2.5">
             <button
               type="button"
               onClick={() => alert("Google Login")}
-              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-xs font-medium transition-colors cursor-pointer shadow-2xs"
+              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-xs font-normal transition-colors cursor-pointer"
             >
               <GoogleIcon />
               <span>Google</span>
@@ -168,7 +142,7 @@ export default function AuthModal({
             <button
               type="button"
               onClick={() => alert("Facebook Login")}
-              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-xs font-medium transition-colors cursor-pointer shadow-2xs"
+              className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 text-gray-700 text-xs font-normal transition-colors cursor-pointer"
             >
               <FacebookIcon />
               <span>Facebook</span>
@@ -188,7 +162,7 @@ export default function AuthModal({
             <form onSubmit={handleLoginSubmit} className="space-y-3.5">
               {/* Email */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-normal text-gray-700 mb-1">
                   Email Address
                 </label>
                 <div className="relative">
@@ -199,7 +173,7 @@ export default function AuthModal({
                     value={loginEmail}
                     onChange={(e) => setLoginEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors shadow-2xs font-normal"
+                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors font-normal"
                   />
                 </div>
               </div>
@@ -207,7 +181,7 @@ export default function AuthModal({
               {/* Password */}
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <label className="block text-xs font-medium text-gray-700">
+                  <label className="block text-xs font-normal text-gray-700">
                     Password
                   </label>
                   <a
@@ -216,7 +190,7 @@ export default function AuthModal({
                       e.preventDefault();
                       alert("Password reset instructions sent to your email!");
                     }}
-                    className="text-xs font-medium text-[#1877F2] hover:underline"
+                    className="text-xs font-normal text-[#1877F2] hover:underline"
                   >
                     Forgot password?
                   </a>
@@ -229,7 +203,7 @@ export default function AuthModal({
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="w-full pl-9 pr-9 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors shadow-2xs font-normal"
+                    className="w-full pl-9 pr-9 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors font-normal"
                   />
                   <button
                     type="button"
@@ -257,16 +231,16 @@ export default function AuthModal({
                 />
                 <label
                   htmlFor="rememberMe"
-                  className="text-xs text-gray-600 select-none cursor-pointer"
+                  className="text-xs text-gray-600 select-none cursor-pointer font-normal"
                 >
                   Remember me on this device
                 </label>
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button (Flat, no shadow, font-medium) */}
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-[0.99] text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs cursor-pointer mt-1"
+                className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-[0.99] text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer mt-1"
               >
                 Sign In
               </button>
@@ -276,7 +250,7 @@ export default function AuthModal({
             <form onSubmit={handleRegisterSubmit} className="space-y-3">
               {/* Full Name */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-normal text-gray-700 mb-1">
                   Full Name
                 </label>
                 <div className="relative">
@@ -287,14 +261,14 @@ export default function AuthModal({
                     value={registerName}
                     onChange={(e) => setRegisterName(e.target.value)}
                     placeholder="Enter your name"
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors shadow-2xs font-normal"
+                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors font-normal"
                   />
                 </div>
               </div>
 
               {/* Email */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-normal text-gray-700 mb-1">
                   Email Address
                 </label>
                 <div className="relative">
@@ -305,14 +279,14 @@ export default function AuthModal({
                     value={registerEmail}
                     onChange={(e) => setRegisterEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors shadow-2xs font-normal"
+                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors font-normal"
                   />
                 </div>
               </div>
 
               {/* Phone Number */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-normal text-gray-700 mb-1">
                   Phone Number
                 </label>
                 <div className="relative">
@@ -323,14 +297,14 @@ export default function AuthModal({
                     value={registerPhone}
                     onChange={(e) => setRegisterPhone(e.target.value)}
                     placeholder="Enter your phone number"
-                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors shadow-2xs font-normal"
+                    className="w-full pl-9 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors font-normal"
                   />
                 </div>
               </div>
 
               {/* Password */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-normal text-gray-700 mb-1">
                   Password
                 </label>
                 <div className="relative">
@@ -341,7 +315,7 @@ export default function AuthModal({
                     value={registerPassword}
                     onChange={(e) => setRegisterPassword(e.target.value)}
                     placeholder="Create a password"
-                    className="w-full pl-9 pr-9 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors shadow-2xs font-normal"
+                    className="w-full pl-9 pr-9 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors font-normal"
                   />
                   <button
                     type="button"
@@ -360,7 +334,7 @@ export default function AuthModal({
 
               {/* Confirm Password */}
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">
+                <label className="block text-xs font-normal text-gray-700 mb-1">
                   Confirm Password
                 </label>
                 <div className="relative">
@@ -371,7 +345,7 @@ export default function AuthModal({
                     value={registerConfirmPassword}
                     onChange={(e) => setRegisterConfirmPassword(e.target.value)}
                     placeholder="Re-enter your password"
-                    className="w-full pl-9 pr-9 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors shadow-2xs font-normal"
+                    className="w-full pl-9 pr-9 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:border-[#1877F2] transition-colors font-normal"
                   />
                   <button
                     type="button"
@@ -400,33 +374,33 @@ export default function AuthModal({
                 />
                 <label
                   htmlFor="agreeTerms"
-                  className="text-xs text-gray-600 select-none cursor-pointer leading-tight"
+                  className="text-xs text-gray-600 select-none cursor-pointer leading-tight font-normal"
                 >
                   I agree to the Terms of Service &amp; Privacy Policy.
                 </label>
               </div>
 
-              {/* Submit Button */}
+              {/* Submit Button (Flat, no shadow, font-medium) */}
               <button
                 type="submit"
-                className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-[0.99] text-white text-xs sm:text-sm font-semibold transition-colors shadow-xs cursor-pointer mt-1"
+                className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-blue-600 active:scale-[0.99] text-white text-xs sm:text-sm font-medium transition-colors cursor-pointer mt-1"
               >
-                Create Account
+                Register
               </button>
             </form>
           )}
 
-          {/* Bottom Switcher */}
-          <div className="pt-2 text-center text-xs text-gray-600">
+          {/* Bottom Site Register / Sign In Link (Zero shadow, normal font) */}
+          <div className="pt-2 text-center text-xs text-gray-600 font-normal">
             {mode === "login" ? (
               <p>
                 Don&apos;t have an account?{" "}
                 <button
                   type="button"
                   onClick={() => setMode("register")}
-                  className="font-semibold text-[#1877F2] hover:underline cursor-pointer"
+                  className="text-[#1877F2] hover:underline font-medium cursor-pointer ml-0.5"
                 >
-                  Create one now
+                  Register
                 </button>
               </p>
             ) : (
@@ -435,9 +409,9 @@ export default function AuthModal({
                 <button
                   type="button"
                   onClick={() => setMode("login")}
-                  className="font-semibold text-[#1877F2] hover:underline cursor-pointer"
+                  className="text-[#1877F2] hover:underline font-medium cursor-pointer ml-0.5"
                 >
-                  Sign in here
+                  Sign In
                 </button>
               </p>
             )}
