@@ -500,22 +500,10 @@ export default function Header() {
                       <li key={country.name}>
                         <Link
                           href={`#${country.name.toLowerCase().replace(/[\s,]+/g, "-")}`}
-                          className="flex items-center gap-2.5 text-sm font-medium text-gray-700 hover:text-[#0284c7] transition-all group"
+                          className="flex items-center text-sm font-normal text-gray-700 hover:text-[#0284c7] transition-all group py-0.5"
                         >
-                          {/* Circular Flag Badge */}
-                          <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 shadow-xs border border-gray-200/80 bg-gray-50 flex items-center justify-center">
-                            <Image
-                              src={`https://flagcdn.com/w40/${country.code}.png`}
-                              alt={country.name}
-                              width={20}
-                              height={20}
-                              unoptimized
-                              className="w-full h-full object-cover group-hover:scale-110 transition-transform"
-                            />
-                          </div>
-
                           {/* Country Name */}
-                          <span className="group-hover:translate-x-0.5 transition-transform duration-150">
+                          <span className="group-hover:translate-x-1 transition-transform duration-150">
                             {country.name}
                           </span>
                         </Link>
@@ -650,18 +638,8 @@ export default function Header() {
                               key={country.name}
                               href="#"
                               onClick={() => setIsMobileDrawerOpen(false)}
-                              className="flex items-center gap-3 py-2.5 border-b border-gray-100 text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors"
+                              className="flex items-center py-2 border-b border-gray-100 text-sm font-normal text-gray-700 hover:text-blue-600 transition-colors"
                             >
-                              <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 shadow-xs border border-gray-200/90 flex items-center justify-center">
-                                <Image
-                                  src={`https://flagcdn.com/w40/${country.code}.png`}
-                                  alt={country.name}
-                                  width={18}
-                                  height={18}
-                                  unoptimized
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
                               <span>{country.name}</span>
                             </Link>
                           ))}
