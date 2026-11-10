@@ -49,7 +49,7 @@ export default function BankingDatePicker({
   const [isOpen, setIsOpen] = useState(inline);
   const [tripType, setTripType] = useState<"Round trip" | "One way">("Round trip");
   const [returnDate, setReturnDate] = useState<string>("");
-  const [activeMonthPicker, setActiveMonthPicker] = useState<number | null>(null); // 0 for m1, 1 for m2
+  const [activeMonthPicker, setActiveMonthPicker] = useState<number | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleClose = () => {
@@ -71,7 +71,7 @@ export default function BankingDatePicker({
 
   const [today, setToday] = useState<Date | null>(null);
 
-  // Initialize client date inside useEffect for Next.js SSR/prerender safety
+  // Initialize client date inside useEffect for SSR/prerender safety
   useEffect(() => {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -168,7 +168,6 @@ export default function BankingDatePicker({
     const clickedDate = new Date(y, m, d);
     clickedDate.setHours(0, 0, 0, 0);
 
-    // If round-trip is active and start is selected, clicking a date after sets return
     if (tripType === "Round trip" && selectedStartObj && !selectedEndObj) {
       if (clickedDate >= selectedStartObj) {
         setReturnDate(dateStr);
@@ -176,7 +175,6 @@ export default function BankingDatePicker({
       }
     }
 
-    // Default / first click: sets departure date
     onChange(dateStr);
     setReturnDate("");
   };
@@ -194,9 +192,9 @@ export default function BankingDatePicker({
     handleClose();
   };
 
-  // Format date helper matching screenshot: "Fri, 24 May"
+  // Format date pill: "Fri, 24 May"
   const formatDatePill = (dateObj: Date | null) => {
-    if (!dateObj) return "Fri, 24 May";
+    if (!dateObj) return "Select date";
     return dateObj.toLocaleDateString("en-US", {
       weekday: "short",
       day: "numeric",
@@ -287,7 +285,7 @@ export default function BankingDatePicker({
   const month1 = generateMonthMatrix(m1Date);
   const month2 = generateMonthMatrix(m2Date);
 
-  // Render Month Table (Exact visual matching reference screenshot)
+  // Render Month Table (Compact height, clean typography, zero shadow)
   const renderMonthTable = (
     data: ReturnType<typeof generateMonthMatrix>,
     isSecondMonth = false
@@ -297,8 +295,8 @@ export default function BankingDatePicker({
 
     return (
       <div className="flex-1 min-w-0 relative">
-        {/* Month Title (Matching Reference: e.g. "May", "June") */}
-        <div className="mb-4 px-1 relative">
+        {/* Month Title with integrated mobile chevron navigation */}
+        <div className="mb-2 px-1 flex items-center justify-between relative">
           <button
             type="button"
             onClick={() =>
@@ -306,7 +304,7 @@ export default function BankingDatePicker({
                 prev === monthPickerIndex ? null : monthPickerIndex
               )
             }
-            className="flex items-center gap-1.5 text-base sm:text-lg font-bold text-[#0F172A] hover:text-[#1877F2] transition-colors cursor-pointer group"
+            className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-[#0F172A] hover:text-[#1877F2] transition-colors cursor-pointer group"
           >
             <span>{MONTH_NAMES[data.month]}</span>
             <span className="text-xs font-normal text-gray-400 group-hover:text-gray-600">
@@ -315,18 +313,45 @@ export default function BankingDatePicker({
             <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1877F2]" />
           </button>
 
-          {/* Clean Quick Month & Year Picker Dropdown */}
+          {/* Mobile-only Nav Arrows in Header for effortless 1-tap switching */}
+          {!isSecondMonth && (
+            <div className="flex md:hidden items-center gap-1">
+              <button
+                type="button"
+                disabled={isPrevMonthDisabled}
+                onClick={() => handlePrevMonth()}
+                className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${
+                  isPrevMonthDisabled
+                    ? "text-gray-300 cursor-not-allowed"
+                    : "text-[#3b82f6] hover:bg-blue-50 cursor-pointer"
+                }`}
+                aria-label="Previous Month"
+              >
+                <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleNextMonth()}
+                className="w-6 h-6 rounded-md flex items-center justify-center text-[#3b82f6] hover:bg-blue-50 transition-colors cursor-pointer"
+                aria-label="Next Month"
+              >
+                <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+              </button>
+            </div>
+          )}
+
+          {/* Quick Month & Year Picker Dropdown (Flat border, zero shadow) */}
           {isPickerOpen && (
-            <div className="absolute top-8 left-0 z-30 bg-white rounded-xl shadow-xl border border-gray-200 p-3 w-[260px] animate-in fade-in zoom-in-95 duration-100">
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-gray-100">
-                <span className="text-xs font-semibold text-gray-700">Select Month & Year</span>
+            <div className="absolute top-7 left-0 z-30 bg-white rounded-lg border border-gray-200 p-2.5 w-[240px] animate-in fade-in duration-100">
+              <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-gray-100">
+                <span className="text-[11px] font-semibold text-gray-600">Select Month & Year</span>
                 <select
                   value={data.year}
                   onChange={(e) => {
                     const newY = parseInt(e.target.value);
                     setViewDate(new Date(newY, viewDate.getMonth(), 1));
                   }}
-                  className="text-xs font-bold text-[#1877F2] bg-blue-50 px-2 py-0.5 rounded cursor-pointer border-none outline-none"
+                  className="text-xs font-bold text-[#1877F2] bg-blue-50 px-1.5 py-0.5 rounded cursor-pointer border-none outline-none"
                 >
                   {yearOptions.map((y) => (
                     <option key={y} value={y}>
@@ -336,7 +361,7 @@ export default function BankingDatePicker({
                 </select>
               </div>
 
-              <div className="grid grid-cols-3 gap-1.5">
+              <div className="grid grid-cols-3 gap-1">
                 {MONTH_NAMES.map((name, idx) => (
                   <button
                     key={name}
@@ -347,7 +372,7 @@ export default function BankingDatePicker({
                       );
                       setActiveMonthPicker(null);
                     }}
-                    className={`py-1.5 px-2 rounded-lg text-xs font-medium transition-colors ${
+                    className={`py-1 px-1.5 rounded text-xs font-medium transition-colors ${
                       idx === data.month
                         ? "bg-[#1877F2] text-white font-semibold"
                         : "text-gray-700 hover:bg-gray-100"
@@ -362,11 +387,11 @@ export default function BankingDatePicker({
         </div>
 
         {/* Weekday Row: Mon-Fri gray, Sat blue, Sun red */}
-        <div className="grid grid-cols-7 gap-y-1 mb-2.5 text-center select-none">
+        <div className="grid grid-cols-7 gap-y-0.5 mb-1 text-center select-none">
           {WEEK_DAYS.map((wd, idx) => (
             <span
               key={wd}
-              className={`text-[12px] font-normal ${
+              className={`text-[11px] font-normal ${
                 idx === 5
                   ? "text-[#93c5fd]"
                   : idx === 6
@@ -379,14 +404,14 @@ export default function BankingDatePicker({
           ))}
         </div>
 
-        {/* Days Grid: Mon-Fri dark, Sat light-blue, Sun red, Solid blue active circle, Light-blue range ribbon */}
-        <div className="grid grid-cols-7 gap-y-1.5 text-center">
+        {/* Days Grid: Compact row heights (h-7 sm:h-8), no shadows */}
+        <div className="grid grid-cols-7 gap-y-0.5 text-center">
           {data.cells.map((cell, idx) => {
             if (!cell.day || !cell.fullDate) {
               return (
                 <div
                   key={`empty-${idx}`}
-                  className="h-9 sm:h-10 w-full"
+                  className="h-7 sm:h-8 w-full"
                 />
               );
             }
@@ -397,20 +422,17 @@ export default function BankingDatePicker({
             return (
               <div
                 key={`day-${cell.day}-${idx}`}
-                className="relative h-9 sm:h-10 flex items-center justify-center"
+                className="relative h-7 sm:h-8 flex items-center justify-center"
               >
-                {/* ─── Continuous Range Ribbon matching Screenshot ─── */}
+                {/* Continuous Range Ribbon matching Screenshot */}
                 {hasRange && (
                   <>
-                    {/* Start Date: ribbon flows from center to right */}
                     {cell.isStart && (
                       <div className="absolute top-0 bottom-0 left-1/2 right-0 bg-[#EEF4FF] z-0" />
                     )}
-                    {/* In-between Dates: full background ribbon */}
                     {cell.isInRange && (
                       <div className="absolute inset-0 bg-[#EEF4FF] z-0" />
                     )}
-                    {/* End Date: ribbon flows from left into center */}
                     {cell.isEnd && (
                       <div className="absolute top-0 bottom-0 left-0 right-1/2 bg-[#EEF4FF] z-0" />
                     )}
@@ -418,7 +440,7 @@ export default function BankingDatePicker({
                 )}
 
                 {cell.isDisabled ? (
-                  <span className="text-sm text-gray-300 font-normal select-none cursor-not-allowed relative z-10">
+                  <span className="text-xs sm:text-sm text-gray-300 font-normal select-none cursor-not-allowed relative z-10">
                     {cell.day}
                   </span>
                 ) : (
@@ -427,9 +449,9 @@ export default function BankingDatePicker({
                     onClick={() =>
                       handleSelectDay(data.year, data.month, cell.day!)
                     }
-                    className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-sm font-medium transition-all cursor-pointer relative z-10 ${
+                    className={`w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full flex items-center justify-center text-xs sm:text-[13px] font-medium transition-all cursor-pointer relative z-10 ${
                       isHighlighted
-                        ? "bg-[#1877F2] text-white font-bold shadow-xs hover:bg-[#1565C0]"
+                        ? "bg-[#1877F2] text-white font-bold"
                         : cell.isWeekendSun
                         ? "text-[#ef4444] hover:bg-gray-100"
                         : cell.isWeekendSat
@@ -455,9 +477,9 @@ export default function BankingDatePicker({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors shadow-2xs text-left cursor-pointer group"
+          className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors text-left cursor-pointer group"
         >
-          <div className="flex items-center gap-2.5 min-w-0">
+          <div className="flex items-center gap-2 min-w-0">
             <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
             {value ? (
               <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
@@ -469,33 +491,33 @@ export default function BankingDatePicker({
               </span>
             )}
           </div>
-          <ChevronDown className="w-4 h-4 text-gray-400 group-hover:text-gray-600 shrink-0 transition-transform duration-200" />
+          <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 shrink-0 transition-transform duration-200" />
         </button>
       )}
 
-      {/* ─── Exact Reference Calendar Card ─── */}
+      {/* ─── Compact, Flat (Zero Shadow) Reference Calendar ─── */}
       {(inline || isOpen) && (
         <>
           {/* Mobile Backdrop */}
           {!inline && (
             <div
-              className="sm:hidden fixed inset-0 z-[120] bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+              className="sm:hidden fixed inset-0 z-[120] bg-black/35 backdrop-blur-xs animate-in fade-in duration-150"
               onClick={handleClose}
             />
           )}
 
-          {/* Calendar Card: Matches Reference Screenshot Pixel-by-Pixel */}
+          {/* Calendar Card: Zero Shadows, Compact Reduced Height */}
           <div
             className={
               inline
-                ? "relative w-full bg-white rounded-xl shadow-xl border border-gray-200/90 p-4 sm:p-7 z-50 animate-in fade-in duration-150"
-                : "fixed sm:absolute inset-x-2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+8px)] z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-16px)] max-w-[760px] md:w-[740px] bg-white rounded-xl shadow-2xl border border-gray-200/90 p-4 sm:p-7 animate-in fade-in zoom-in-95 sm:zoom-in-100 duration-150"
+                ? "relative w-full bg-white rounded-lg border border-gray-200 p-3 sm:p-4 z-50 animate-in fade-in duration-150"
+                : "fixed sm:absolute inset-x-2 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-16px)] max-w-[700px] md:w-[680px] bg-white rounded-lg border border-gray-200 p-3 sm:p-4 animate-in fade-in duration-150 max-h-[94vh] overflow-y-auto"
             }
           >
-            {/* ─── Top Bar: "Round trip ▾", "Reset", and Dual Date Input Boxes ─── */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-6 mb-6 border-b border-gray-100">
+            {/* ─── Compact Top Bar ─── */}
+            <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-gray-150">
               {/* Left Side: "Round trip ▾" & "Reset" */}
-              <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3.5 sm:gap-5">
                 <button
                   type="button"
                   onClick={() =>
@@ -503,7 +525,7 @@ export default function BankingDatePicker({
                       prev === "Round trip" ? "One way" : "Round trip"
                     )
                   }
-                  className="flex items-center gap-1.5 text-[15px] font-semibold text-[#1e293b] hover:text-[#1877F2] transition-colors cursor-pointer"
+                  className="flex items-center gap-1 text-xs sm:text-sm font-semibold text-[#1e293b] hover:text-[#1877F2] transition-colors cursor-pointer"
                 >
                   <span>{tripType}</span>
                   <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
@@ -512,109 +534,109 @@ export default function BankingDatePicker({
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="text-[14px] font-medium text-[#3b82f6] hover:underline cursor-pointer"
+                  className="text-xs sm:text-sm font-medium text-[#3b82f6] hover:underline cursor-pointer"
                 >
                   Reset
                 </button>
               </div>
 
-              {/* Right Side: Departure Box & Return Box */}
-              <div className="flex items-center gap-3">
-                {/* Departure Box (Active Outline matching screenshot) */}
-                <div className="flex items-center gap-2.5 px-3 py-1.5 rounded-md border border-[#3b82f6] bg-[#f0f6ff]/40">
-                  <Calendar className="w-4 h-4 text-[#3b82f6] shrink-0" />
-                  <span className="text-[14px] font-semibold text-[#1e293b]">
+              {/* Right Side: Date Pills */}
+              <div className="flex items-center gap-2">
+                {/* Departure Box */}
+                <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 py-1 rounded border border-[#3b82f6] bg-[#f0f6ff]/40">
+                  <Calendar className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
+                  <span className="text-xs sm:text-[13px] font-semibold text-[#1e293b]">
                     {formatDatePill(selectedStartObj)}
                   </span>
-                  <div className="flex items-center gap-1 ml-1.5">
+                  <div className="flex items-center gap-0.5 ml-1">
                     <button
                       type="button"
                       disabled={isPrevMonthDisabled}
                       onClick={() => handlePrevMonth()}
-                      className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors ${
+                      className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center transition-colors ${
                         isPrevMonthDisabled
                           ? "text-gray-300 cursor-not-allowed"
                           : "hover:bg-blue-100 text-[#3b82f6] cursor-pointer"
                       }`}
                       aria-label="Previous Month"
                     >
-                      <ChevronLeft className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <ChevronLeft className="w-3 h-3 stroke-[2.5]" />
                     </button>
                     <button
                       type="button"
                       onClick={() => handleNextMonth()}
-                      className="w-5 h-5 rounded-full hover:bg-blue-100 flex items-center justify-center text-[#3b82f6] transition-colors cursor-pointer"
+                      className="w-4 h-4 sm:w-5 sm:h-5 rounded-full hover:bg-blue-100 flex items-center justify-center text-[#3b82f6] transition-colors cursor-pointer"
                       aria-label="Next Month"
                     >
-                      <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                      <ChevronRight className="w-3 h-3 stroke-[2.5]" />
                     </button>
                   </div>
                 </div>
 
-                {/* Return Box (matching screenshot) */}
+                {/* Return Box (Desktop) */}
                 <div
                   onClick={() => setTripType("Round trip")}
-                  className={`hidden sm:flex items-center gap-2.5 px-3 py-1.5 rounded-md border transition-all cursor-pointer ${
+                  className={`hidden sm:flex items-center gap-2 px-2.5 py-1 rounded border transition-all cursor-pointer ${
                     selectedEndObj
                       ? "border-[#3b82f6] bg-[#f0f6ff]/40"
                       : "border-gray-200 bg-white hover:border-gray-300"
                   }`}
                 >
                   <Calendar
-                    className={`w-4 h-4 shrink-0 ${
+                    className={`w-3.5 h-3.5 shrink-0 ${
                       selectedEndObj ? "text-[#3b82f6]" : "text-gray-400"
                     }`}
                   />
                   <span
-                    className={`text-[14px] font-semibold ${
+                    className={`text-xs sm:text-[13px] font-semibold ${
                       selectedEndObj ? "text-[#1e293b]" : "text-gray-400"
                     }`}
                   >
                     {selectedEndObj
                       ? formatDatePill(selectedEndObj)
-                      : formatDatePill(selectedStartObj)}
+                      : "Return date"}
                   </span>
-                  <div className="flex items-center gap-1 ml-1.5">
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center text-gray-300">
-                      <ChevronLeft className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <div className="flex items-center gap-0.5 ml-1">
+                    <div className="w-4 h-4 flex items-center justify-center text-gray-300">
+                      <ChevronLeft className="w-3 h-3 stroke-[2.5]" />
                     </div>
-                    <div className="w-5 h-5 rounded-full flex items-center justify-center text-gray-300">
-                      <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
+                    <div className="w-4 h-4 flex items-center justify-center text-gray-300">
+                      <ChevronRight className="w-3 h-3 stroke-[2.5]" />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* ─── Dual-Month Calendar Body with Floating Chevrons ─── */}
+            {/* ─── Calendar Body with Zero-Shadow Floating Chevrons (Desktop) ─── */}
             <div className="relative">
-              {/* Floating Left Circular Arrow Button matching screenshot */}
+              {/* Floating Left Arrow (Zero Shadow) */}
               <button
                 type="button"
                 disabled={isPrevMonthDisabled}
                 onClick={() => handlePrevMonth()}
-                className={`hidden md:flex absolute -left-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-md border border-gray-200 items-center justify-center transition-all ${
+                className={`hidden md:flex absolute -left-3.5 top-1/2 -translate-y-1/2 z-20 w-7.5 h-7.5 rounded-full bg-white border border-gray-200 items-center justify-center transition-all ${
                   isPrevMonthDisabled
                     ? "opacity-30 cursor-not-allowed"
-                    : "text-[#1877F2] hover:bg-blue-50 cursor-pointer hover:scale-105"
+                    : "text-[#1877F2] hover:bg-blue-50 cursor-pointer"
                 }`}
                 aria-label="Previous Month"
               >
                 <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
               </button>
 
-              {/* Floating Right Circular Arrow Button matching screenshot */}
+              {/* Floating Right Arrow (Zero Shadow) */}
               <button
                 type="button"
                 onClick={() => handleNextMonth()}
-                className="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white shadow-md border border-gray-200 items-center justify-center text-[#1877F2] hover:bg-blue-50 transition-all hover:scale-105 cursor-pointer"
+                className="hidden md:flex absolute -right-3.5 top-1/2 -translate-y-1/2 z-20 w-7.5 h-7.5 rounded-full bg-white border border-gray-200 items-center justify-center text-[#1877F2] hover:bg-blue-50 transition-all cursor-pointer"
                 aria-label="Next Month"
               >
                 <ChevronRight className="w-4 h-4 stroke-[2.5]" />
               </button>
 
               {/* 2 Months Side by Side (Desktop) or 1 Month (Mobile) */}
-              <div className="flex flex-col md:flex-row gap-8 md:gap-14">
+              <div className="flex flex-col md:flex-row gap-4 md:gap-8">
                 {renderMonthTable(month1, false)}
                 <div className="hidden md:block flex-1 min-w-0">
                   {renderMonthTable(month2, true)}
@@ -622,12 +644,12 @@ export default function BankingDatePicker({
               </div>
             </div>
 
-            {/* ─── Bottom Footer: Single Solid Blue "Done" Button matching screenshot ─── */}
-            <div className="mt-8 pt-4 flex items-center justify-end">
+            {/* ─── Compact Bottom Footer: Single Solid Blue "Done" Button (Zero Shadow) ─── */}
+            <div className="mt-3.5 pt-2 flex items-center justify-end">
               <button
                 type="button"
                 onClick={handleDone}
-                className="bg-[#1877F2] hover:bg-[#1565C0] text-white font-semibold text-sm px-8 py-2.5 rounded-md shadow-xs active:scale-95 transition-all cursor-pointer"
+                className="bg-[#1877F2] hover:bg-[#1565C0] text-white font-semibold text-xs sm:text-sm px-6 py-2 rounded transition-all active:scale-95 cursor-pointer"
               >
                 Done
               </button>

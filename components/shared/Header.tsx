@@ -230,9 +230,7 @@ export default function Header() {
               </div>
               <div className="w-full bg-[#f4f5f7] hover:bg-[#eceef2] text-gray-400 hover:text-gray-600 text-sm font-normal pl-11 pr-4 py-2.5 rounded-lg border border-transparent transition-all duration-200 flex items-center justify-between">
                 <span>Find Your Perfect Tour Package</span>
-                <span className="text-[11px] font-medium bg-white border border-gray-200/80 rounded px-1.5 py-0.5 text-gray-400">
-                  Ctrl + K
-                </span>
+
               </div>
             </button>
           </div>
