@@ -79,7 +79,7 @@ export default function TravelThemesSection() {
             <Link
               key={theme.id}
               href={theme.href}
-              className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-100 ${theme.colSpan} ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
+              className={`group relative rounded-md overflow-hidden bg-gray-100 ${theme.colSpan} ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
             >
               {/* Background Photo */}
               <Image
@@ -95,7 +95,7 @@ export default function TravelThemesSection() {
 
               {/* Bottom Left Title Matching Reference */}
               <div className="absolute bottom-4 sm:bottom-6 left-5 sm:left-6 z-10">
-                <span className="text-xl sm:text-2xl lg:text-[26px] font-bold text-white tracking-tight drop-shadow-sm">
+                <span className="text-xl md:text-2xl  font-semibold text-white tracking-tight drop-shadow-sm">
                   {theme.name}
                 </span>
               </div>

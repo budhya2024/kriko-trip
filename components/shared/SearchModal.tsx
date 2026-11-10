@@ -88,7 +88,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
       {/* Modal Dialog Container */}
       <div className="relative z-10 w-full sm:max-w-2xl bg-white sm:rounded-2xl flex flex-col h-full sm:h-auto sm:max-h-[85vh] overflow-hidden shadow-2xl animate-in zoom-in-95 duration-150">
-        
+
         {/* ─── Search Input Header ─── */}
         <div className="p-3.5 sm:p-4 border-b border-gray-150 bg-white flex items-center gap-2.5 shrink-0">
           <div className="relative flex-1 flex items-center">
@@ -315,7 +315,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
             onClick={onClose}
             className="text-[11px] sm:text-xs font-semibold text-[#1877F2] hover:underline"
           >
-            Contact Experts →
+            Contact Experts
           </Link>
         </div>
 
@@ -323,3 +323,4 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     </div>
   );
 }
+

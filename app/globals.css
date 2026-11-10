@@ -327,6 +327,12 @@ select {
   transform: translateY(-88%) rotate(380deg);
 }
 
+/* Water fill variation for dark / neutral buttons: fills with vibrant brand blue liquid on hover */
+.btn-water-fill-blue {
+  --water-fill: linear-gradient(135deg, #1877F2 0%, #03ADFF 100%);
+  --water-fill-secondary: rgba(255, 255, 255, 0.35);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

@@ -28,10 +28,10 @@ export default function GallerySection() {
               experiences that match your dreams!
             </p>
 
-            {/* Desktop View: Follow Gallery Button with Normal Classic Styling and Blue Hover */}
+            {/* Desktop View: Follow Gallery Button with Normal Color and Liquid Water Color Change Effect */}
             <Link
               href="/gallery"
-              className="hidden lg:inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#111827] hover:bg-[#1877F2] text-white text-[15px] font-semibold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group"
+              className="btn-water-fill btn-water-fill-blue hidden lg:inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#111827] text-white text-[15px] font-semibold shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group active:scale-95"
             >
               <span>Follow Gallery</span>
               <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -211,7 +211,7 @@ export default function GallerySection() {
             <div className="mt-6 flex justify-center lg:hidden w-full">
               <Link
                 href="/gallery"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#111827] hover:bg-[#1877F2] text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group"
+                className="btn-water-fill btn-water-fill-blue inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#111827] text-white text-sm font-semibold shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group active:scale-95"
               >
                 <span>Follow Gallery</span>
                 <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

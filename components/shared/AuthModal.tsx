@@ -195,7 +195,7 @@ export default function AuthModal({
 
       {/* Modal Dialog Card (Flat border, zero heavy shadow, clean typography) */}
       <div className="relative w-full max-w-[400px] bg-white rounded-xl border border-gray-200 overflow-hidden z-10 max-h-[92vh] flex flex-col animate-in fade-in duration-150">
-        
+
         {/* Top Header */}
         <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-gray-100 bg-gray-50/50">
           <div className="flex items-center gap-2">
@@ -220,7 +220,7 @@ export default function AuthModal({
 
         {/* Modal Body */}
         <div className="p-5 sm:p-6 overflow-y-auto space-y-4">
-          
+
           {/* Title & Description */}
           <div>
             <h3 className="text-base sm:text-lg font-medium text-gray-900 tracking-tight">
@@ -299,7 +299,7 @@ export default function AuthModal({
                     value={phoneNumber}
                     onChange={handlePhoneChange}
                     placeholder="Enter 10-digit number"
-                    className="w-full pl-20 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#1877F2] transition-colors font-normal tracking-wide"
+                    className="w-full pl-20 pr-3.5 py-3 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#1877F2] transition-colors font-normal tracking-wide"
                     autoFocus
                   />
                 </div>
