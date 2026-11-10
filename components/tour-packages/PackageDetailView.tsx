@@ -35,7 +35,7 @@ import {
 } from "lucide-react";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
-import BankingDatePicker from "@/components/shared/BankingDatePicker";
+import BankingDatePicker from "@/components/shared/DateTimePicker";
 import RelevantPackagesSlider from "./RelevantPackagesSlider";
 import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 
@@ -908,7 +908,7 @@ export default function PackageDetailView({
                       <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
                         Travellers
                       </label>
-                      <div className="flex items-center gap-2 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs w-full min-w-0">
+                      <div className="flex items-center gap-2 px-3 py-2.5 h-[46px] rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs w-full min-w-0">
                         <Users className="w-4 h-4 text-gray-400 shrink-0" />
                         <input
                           type="number"

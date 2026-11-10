@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { SlidersHorizontal, Search, RefreshCw } from "lucide-react";
 import FilterSidebar from "./FilterSidebar";
 import PackageCard from "./PackageCard";
@@ -8,12 +9,70 @@ import { initialTourPackages } from "./data";
 import { SortOption } from "./types";
 
 export default function TourPackagesContent() {
+  const searchParams = useSearchParams();
+  const urlDestination = searchParams.get("destination");
+  const urlTheme = searchParams.get("theme");
+  const urlType = searchParams.get("type");
+
   const [selectedTravelType, setSelectedTravelType] = useState<string | null>(null);
   const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [selectedBudget, setSelectedBudget] = useState<string | null>(null);
   const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("popular");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+  // Synchronize state when URL query params are present (e.g., clicked from destination cards or mega menu)
+  useEffect(() => {
+    if (urlDestination) {
+      const d = urlDestination.toLowerCase();
+      if (d.includes("andaman")) setSelectedDestination("Andaman");
+      else if (d.includes("kashmir")) setSelectedDestination("Kashmir");
+      else if (
+        d.includes("kerala") ||
+        d.includes("munnar") ||
+        d.includes("alleppey") ||
+        d.includes("ooty")
+      )
+        setSelectedDestination("Kerala");
+      else if (
+        d.includes("rajasthan") ||
+        d.includes("jaipur") ||
+        d.includes("udaipur") ||
+        d.includes("jodhpur") ||
+        d.includes("varanasi")
+      )
+        setSelectedDestination("Rajasthan");
+      else if (d.includes("goa")) setSelectedDestination("Goa");
+      else if (
+        d.includes("himachal") ||
+        d.includes("manali") ||
+        d.includes("shimla") ||
+        d.includes("kullu") ||
+        d.includes("rishikesh")
+      )
+        setSelectedDestination("Himachal");
+      else if (d.includes("ladakh") || d.includes("leh"))
+        setSelectedDestination("Ladakh");
+      else if (d.includes("sundarban")) setSelectedDestination("Sundarban");
+      else setSelectedDestination(urlDestination);
+    }
+    if (urlTheme) {
+      const t = urlTheme.toLowerCase();
+      if (t.includes("beach")) setSelectedTheme("Beaches");
+      else if (t.includes("hill")) setSelectedTheme("Hills");
+      else if (t.includes("heritage")) setSelectedTheme("Heritage");
+      else if (t.includes("nature") || t.includes("wildlife"))
+        setSelectedTheme("Nature");
+      else if (t.includes("honeymoon") || t.includes("romantic"))
+        setSelectedTheme("Honeymoon");
+      else if (t.includes("adventure") || t.includes("snow"))
+        setSelectedTheme("Adventure");
+      else setSelectedTheme(urlTheme);
+    }
+    if (urlType) {
+      setSelectedTravelType(urlType);
+    }
+  }, [urlDestination, urlTheme, urlType]);
 
   // Filter and Sort Logic
   const filteredPackages = useMemo(() => {
@@ -40,10 +99,13 @@ export default function TourPackagesContent() {
 
     // Destination Filter
     if (selectedDestination) {
+      const destLower = selectedDestination.toLowerCase();
       result = result.filter(
         (p) =>
-          p.destination.toLowerCase() === selectedDestination.toLowerCase() ||
-          p.location.toLowerCase().includes(selectedDestination.toLowerCase())
+          p.destination.toLowerCase().includes(destLower) ||
+          destLower.includes(p.destination.toLowerCase()) ||
+          p.location.toLowerCase().includes(destLower) ||
+          destLower.includes(p.location.toLowerCase())
       );
     }
 

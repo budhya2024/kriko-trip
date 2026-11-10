@@ -82,6 +82,45 @@ const destinationColumns = [
   },
 ];
 
+function getDestinationUrl(name: string): string {
+  const lower = name.toLowerCase();
+  if (lower.includes("andaman")) return "/tour-packages?destination=Andaman";
+  if (lower.includes("kashmir")) return "/tour-packages?destination=Kashmir";
+  if (lower.includes("ladakh") || lower.includes("leh"))
+    return "/tour-packages?destination=Ladakh";
+  if (
+    lower.includes("kerala") ||
+    lower.includes("munnar") ||
+    lower.includes("alleppey") ||
+    lower.includes("ooty") ||
+    lower.includes("coorg")
+  )
+    return "/tour-packages?destination=Kerala";
+  if (
+    lower.includes("rajasthan") ||
+    lower.includes("jaipur") ||
+    lower.includes("jodhpur") ||
+    lower.includes("udaipur") ||
+    lower.includes("jaisalmer") ||
+    lower.includes("hampi") ||
+    lower.includes("khajuraho") ||
+    lower.includes("varanasi")
+  )
+    return "/tour-packages?destination=Rajasthan";
+  if (lower.includes("goa") || lower.includes("gokarna"))
+    return "/tour-packages?destination=Goa";
+  if (
+    lower.includes("himachal") ||
+    lower.includes("manali") ||
+    lower.includes("shimla") ||
+    lower.includes("kullu") ||
+    lower.includes("rishikesh")
+  )
+    return "/tour-packages?destination=Himachal";
+  if (lower.includes("sundarban")) return "/tour-packages?destination=Sundarban";
+  return `/tour-packages?destination=${encodeURIComponent(name.split(" ")[0])}`;
+}
+
 const travelPackageSubItems = [
   "Honeymoon Special",
   "Family Vacation",
@@ -550,7 +589,7 @@ export default function Header() {
                     {col.countries.map((country) => (
                       <li key={country.name}>
                         <Link
-                          href={`#${country.name.toLowerCase().replace(/[\s,]+/g, "-")}`}
+                          href={getDestinationUrl(country.name)}
                           className="flex items-center text-sm font-normal text-gray-700 hover:text-[#0284c7] transition-all group py-0.5"
                         >
                           {/* Country Name */}
@@ -666,7 +705,7 @@ export default function Header() {
                           {col.countries.map((country) => (
                             <Link
                               key={country.name}
-                              href="#"
+                              href={getDestinationUrl(country.name)}
                               onClick={() => setIsMobileDrawerOpen(false)}
                               className="flex items-center py-2 border-b border-gray-100 text-sm font-normal text-gray-700 hover:text-blue-600 transition-colors"
                             >

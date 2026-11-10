@@ -283,7 +283,7 @@ export default function BankingDatePicker({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between gap-1.5 px-3 py-3 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors text-left cursor-pointer group min-w-0"
+          className="w-full h-[46px] flex items-center justify-between gap-1.5 px-3 py-2.5 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors text-left cursor-pointer group min-w-0"
         >
           <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
             <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
@@ -317,11 +317,10 @@ export default function BankingDatePicker({
             className={
               inline
                 ? "relative w-full bg-white rounded-lg border border-gray-200 p-3 sm:p-4 z-50 animate-in fade-in duration-150"
-                : `fixed sm:absolute inset-x-2 sm:inset-x-auto ${
-                    align === "right"
-                      ? "sm:right-0 sm:left-auto"
-                      : "sm:left-0 sm:right-auto"
-                  } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-16px)] max-w-[420px] sm:w-[380px] bg-white rounded-lg border border-gray-200 p-3 sm:p-4 animate-in fade-in duration-150 max-h-[94vh] overflow-y-auto`
+                : `fixed sm:absolute inset-x-2 sm:inset-x-auto ${align === "right"
+                  ? "sm:right-0 sm:left-auto"
+                  : "sm:left-0 sm:right-auto"
+                } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-16px)] max-w-[420px] sm:w-[380px] bg-white rounded-lg border border-gray-200 p-3 sm:p-4 animate-in fade-in duration-150 max-h-[94vh] overflow-y-auto`
             }
           >
 

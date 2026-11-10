@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Header, Footer, PageHeader } from "@/components/shared";
 import { TourPackagesContent } from "@/components/tour-packages";
 
@@ -24,7 +24,15 @@ export default function TourPackagesPage() {
         />
 
         {/* Interactive Tour Packages Filter & Grid Section */}
-        <TourPackagesContent />
+        <Suspense
+          fallback={
+            <div className="w-full py-20 text-center text-sm text-gray-500 font-medium">
+              Loading tour packages...
+            </div>
+          }
+        >
+          <TourPackagesContent />
+        </Suspense>
       </main>
 
       {/* Global Footer */}

@@ -1,11 +1,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Search, Check } from "lucide-react";
 import { FaSuitcaseRolling, FaBed, FaPassport } from "react-icons/fa";
-import BankingDatePicker from "@/components/shared/BankingDatePicker";
+import BankingDatePicker from "@/components/shared/DateTimePicker";
 
 export default function HeroSearchForm() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"tours" | "hotels" | "visa" | "experience">("tours");
 
   // Field states
@@ -32,6 +34,19 @@ export default function HeroSearchForm() {
     const d = String(today.getDate()).padStart(2, "0");
     setMinDate(`${y}-${m}-${d}`);
   }, []);
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (selectedDestination && selectedDestination !== "Select") {
+      const dest = selectedDestination.split(" ")[0].replace(/[^a-zA-Z]/g, "");
+      params.set("destination", dest);
+    }
+    if (selectedTourType && selectedTourType !== "Select") {
+      params.set("type", selectedTourType);
+    }
+    const query = params.toString();
+    router.push(query ? `/tour-packages?${query}` : "/tour-packages");
+  };
 
   const destinations = [
     "Andaman & Nicobar Islands",
@@ -375,6 +390,7 @@ export default function HeroSearchForm() {
           <div className="md:col-span-2">
             <button
               type="button"
+              onClick={handleSearch}
               className="btn-water-fill w-full h-[52px] sm:h-[72px] bg-[#1877F2] text-white font-bold rounded-full flex items-center justify-center gap-2 text-[15px] sm:text-[16px] tracking-wide shadow-xs hover:shadow-lg transition-all duration-200 active:scale-[0.98] cursor-pointer"
             >
               <Search className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.4] relative z-10" />

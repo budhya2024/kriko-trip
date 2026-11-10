@@ -121,7 +121,9 @@ export default function FeaturedDestinations() {
           {destinations.map((item) => (
             <Link
               key={item.id}
-              href={`#${item.id}`}
+              href={`/tour-packages?destination=${encodeURIComponent(
+                item.id.charAt(0).toUpperCase() + item.id.slice(1)
+              )}`}
               className="group flex flex-col items-center text-center cursor-pointer"
             >
               {/* Circular Destination Image Container with Diagonal Shine Hover Effect */}

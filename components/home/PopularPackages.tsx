@@ -151,7 +151,7 @@ function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-3.5 sm:p-4 transition-all duration-300 border border-gray-100 flex flex-col h-full group hover:shadow-md">
+    <div className="bg-white rounded-2xl p-3.5 sm:p-4 transition-all duration-300 border border-gray-100 flex flex-col h-full group ">
       {/* ─── Image Container with Multiple Images Slider, Navigation Arrows & Dots ─── */}
       <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 select-none">
         {/* Clickable Overlay to Package Page */}
@@ -227,8 +227,8 @@ function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
                 }}
                 aria-label={`Go to photo ${idx + 1}`}
                 className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${activeImg === idx
-                    ? "w-4 bg-white shadow-sm"
-                    : "w-1.5 bg-white/60 hover:bg-white/90"
+                  ? "w-4 bg-white shadow-sm"
+                  : "w-1.5 bg-white/60 hover:bg-white/90"
                   }`}
               />
             ))}
@@ -363,7 +363,7 @@ export default function PopularPackages() {
               {packages.slice(0, 3).map((pkg) => (
                 <div
                   key={pkg.id}
-                  className="bg-white rounded-2xl p-3.5 "
+                  className="bg-white rounded-2xl p-3.5 border border-gray-150"
                 >
                   <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100">
                     <Image
