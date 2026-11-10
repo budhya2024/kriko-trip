@@ -135,8 +135,11 @@ const navItems = [
 // ─── Header Component ───────────────────────────────────────────────────────
 import AuthModal from "./AuthModal";
 import SearchModal from "./SearchModal";
+import UserProfileDrawer from "./UserProfileDrawer";
+import { useAuth } from "./AuthContext";
 
 export default function Header() {
+  const { user, isLoggedIn, openProfileDrawer } = useAuth();
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isSupportDropdownOpen, setIsSupportDropdownOpen] = useState(false);
@@ -248,34 +251,79 @@ export default function Header() {
             {/* Vertical Divider */}
             <div className="h-4 w-px bg-gray-200" />
 
-            {/* Login Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setAuthModalMode("login");
-                setIsAuthModalOpen(true);
-              }}
-              className="flex items-center gap-2 bg-[#121820] hover:bg-black text-white px-5 py-2.5 rounded-full font-medium text-sm shadow-xs transition-all duration-200 active:scale-95 cursor-pointer"
-            >
-              <User className="w-4 h-4" />
-              <span>Login</span>
-            </button>
+            {/* Desktop: When logged in vs logged out */}
+            {isLoggedIn && user ? (
+              <button
+                type="button"
+                onClick={openProfileDrawer}
+                className="flex items-center gap-2.5 bg-gray-50 hover:bg-blue-50/60 border border-gray-200 hover:border-blue-300 px-3 py-1.5 rounded-full transition-all duration-200 cursor-pointer group shadow-2xs"
+                title="View My Profile & Bookings"
+              >
+                <div className="relative w-7 h-7 rounded-full overflow-hidden border border-[#1877F2]/40 shrink-0">
+                  <Image
+                    src={user.avatar}
+                    alt={user.name}
+                    fill
+                    sizes="28px"
+                    className="object-cover"
+                  />
+                </div>
+                <div className="flex flex-col text-left leading-none pr-0.5">
+                  <span className="text-xs font-bold text-gray-900 group-hover:text-[#1877F2] transition-colors">
+                    {user.name.split(" ")[0]}
+                  </span>
+                  <span className="text-[10px] font-bold text-amber-600 mt-0.5">
+                    ★ {user.loyaltyPoints.toLocaleString("en-IN")} pts
+                  </span>
+                </div>
+                <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1877F2] transition-colors" />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode("login");
+                  setIsAuthModalOpen(true);
+                }}
+                className="flex items-center gap-2 bg-[#121820] hover:bg-black text-white px-5 py-2.5 rounded-full font-medium text-sm shadow-xs transition-all duration-200 active:scale-95 cursor-pointer"
+              >
+                <User className="w-4 h-4" />
+                <span>Login</span>
+              </button>
+            )}
           </div>
 
           {/* ─── Mobile Top Header Elements ─────────────────────────────────── */}
           <div className="flex lg:hidden items-center gap-2 sm:gap-2.5">
-            {/* Mobile Login Icon Button */}
-            <button
-              type="button"
-              onClick={() => {
-                setAuthModalMode("login");
-                setIsAuthModalOpen(true);
-              }}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
-              aria-label="Login"
-            >
-              <User className="w-4 h-4 stroke-[2]" />
-            </button>
+            {/* Mobile Login / User Profile Button */}
+            {isLoggedIn && user ? (
+              <button
+                type="button"
+                onClick={openProfileDrawer}
+                className="w-10 h-10 rounded-full border-2 border-[#1877F2] overflow-hidden relative cursor-pointer shadow-xs"
+                aria-label="Open profile drawer"
+              >
+                <Image
+                  src={user.avatar}
+                  alt={user.name}
+                  fill
+                  sizes="40px"
+                  className="object-cover"
+                />
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthModalMode("login");
+                  setIsAuthModalOpen(true);
+                }}
+                className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white text-gray-800 hover:bg-gray-50 transition-colors focus:outline-none cursor-pointer"
+                aria-label="Login"
+              >
+                <User className="w-4 h-4 stroke-[2]" />
+              </button>
+            )}
 
             {/* Mobile Circular Search Button */}
             <button
@@ -669,44 +717,6 @@ export default function Header() {
 
 
 
-          {/* Pages */}
-          <div className="py-2.5 border-b border-gray-50">
-            <button
-              type="button"
-              onClick={() =>
-                setOpenMobileSection(openMobileSection === "Pages" ? null : "Pages")
-              }
-              className={`w-full flex items-center justify-between text-[16px] font-bold text-left ${openMobileSection === "Pages" ? "text-[#0284c7]" : "text-gray-900"
-                }`}
-            >
-              <span>Pages</span>
-              {openMobileSection === "Pages" ? (
-                <Minus className="w-4 h-4 text-[#0284c7] stroke-[2.5]" />
-              ) : (
-                <Plus className="w-4 h-4 text-gray-900 stroke-[2.5]" />
-              )}
-            </button>
-            {openMobileSection === "Pages" && (
-              <div className="mt-2 pl-3 space-y-2 pt-1">
-                {[
-                  { name: "About Us", href: "/about-us" },
-                  { name: "Terms of Service", href: "/terms-of-service" },
-                  { name: "Privacy Policy", href: "/privacy-policy" },
-                  { name: "Contact Us", href: "/contact-us" },
-                ].map((item) => (
-                  <Link
-                    key={item.name}
-                    href={item.href}
-                    onClick={() => setIsMobileDrawerOpen(false)}
-                    className="block text-sm font-medium text-gray-600 hover:text-blue-600 py-1"
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
           {/* Gallery */}
           <div className="py-2.5 border-b border-gray-50">
             <Link
@@ -792,6 +802,9 @@ export default function Header() {
         isOpen={isSearchModalOpen}
         onClose={() => setIsSearchModalOpen(false)}
       />
+
+      {/* Right Slide-Over Profile Drawer */}
+      <UserProfileDrawer />
     </header>
   );
 }

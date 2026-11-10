@@ -1,19 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Header, Footer, PageHeader } from "@/components/shared";
-import {
-  ShieldCheck,
-  Lock,
-  Eye,
-  FileText,
-  UserCheck,
-  BellRing,
-  HelpCircle,
-  Mail,
-  Phone,
-  MapPin,
-  Clock,
-} from "lucide-react";
 
 export const metadata = {
   title: "Privacy Policy | KrikoTrip Travel Agency",
@@ -28,7 +15,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "introduction",
       title: "1. Introduction & Overview",
-      icon: ShieldCheck,
       content: (
         <>
           <p>
@@ -50,7 +36,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "information-collected",
       title: "2. Information We Collect",
-      icon: Eye,
       content: (
         <>
           <p>
@@ -79,7 +64,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "how-we-use",
       title: "3. How We Use Your Information",
-      icon: FileText,
       content: (
         <>
           <p>We use your personal data strictly for legitimate travel-related purposes, including:</p>
@@ -115,7 +99,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "sharing",
       title: "4. Sharing with Trusted Travel Partners",
-      icon: UserCheck,
       content: (
         <>
           <p>
@@ -144,7 +127,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "security",
       title: "5. Data Security & Encryption",
-      icon: Lock,
       content: (
         <>
           <p>
@@ -162,7 +144,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "cookies",
       title: "6. Cookies & Analytical Tracking",
-      icon: BellRing,
       content: (
         <>
           <p>
@@ -177,7 +158,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "your-rights",
       title: "7. Your Rights & Control",
-      icon: HelpCircle,
       content: (
         <>
           <p>Under applicable Indian data protection principles, you possess the right to:</p>
@@ -193,7 +173,6 @@ export default function PrivacyPolicyPage() {
     {
       id: "contact",
       title: "8. Grievance Officer & Contact Us",
-      icon: Mail,
       content: (
         <>
           <p>
@@ -241,56 +220,44 @@ export default function PrivacyPolicyPage() {
 
         {/* Content Section */}
         <div className="container py-10 sm:py-16">
-          <article className="max-w-4xl mx-auto bg-white rounded-2xl p-6 sm:p-10 border border-gray-200/80 shadow-2xs space-y-10">
-              {/* Header Meta */}
-              <div className="pb-6 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <Clock className="w-4 h-4 text-[#1877F2]" />
-                  Last Updated: {lastUpdated}
-                </span>
-                <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 font-semibold border border-emerald-200">
-                  Active &amp; Compliant
-                </span>
-              </div>
+          <article className=" bg-white p-6 sm:p-10 border border-gray-200/80 shadow-2xs space-y-10">
+            {/* Header Meta */}
+            <div className="pb-6 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500">
+              <span className="font-medium">
+                Last Updated: {lastUpdated}
+              </span>
+            </div>
 
-              {/* Document Sections */}
-              {sections.map((section) => {
-                const IconComponent = section.icon;
-                return (
-                  <section
-                    key={section.id}
-                    id={section.id}
-                    className="scroll-mt-28 space-y-3 pt-2 first:pt-0"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#1877F2] shrink-0">
-                        <IconComponent className="w-4 h-4 stroke-[2.2]" />
-                      </div>
-                      <h2 className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
-                        {section.title}
-                      </h2>
-                    </div>
+            {/* Document Sections */}
+            {sections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className="scroll-mt-28 space-y-3 pt-2 first:pt-0"
+              >
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
+                  {section.title}
+                </h2>
 
-                    <div className="text-xs sm:text-sm text-gray-600 leading-relaxed pl-0 sm:pl-10">
-                      {section.content}
-                    </div>
-                  </section>
-                );
-              })}
+                <div className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  {section.content}
+                </div>
+              </section>
+            ))}
 
-              {/* Related Document Links */}
-              <div className="pt-8 mt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-                <span className="text-gray-500">
-                  Looking for terms of booking and cancellation rules?
-                </span>
-                <Link
-                  href="/terms-of-service"
-                  className="font-semibold text-[#1877F2] hover:underline flex items-center gap-1"
-                >
-                  View Terms of Service &rarr;
-                </Link>
-              </div>
-            </article>
+            {/* Related Document Links */}
+            <div className="pt-8 mt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+              <span className="text-gray-500">
+                Looking for terms of booking and cancellation rules?
+              </span>
+              <Link
+                href="/terms-of-service"
+                className="font-semibold text-[#1877F2] hover:underline flex items-center gap-1"
+              >
+                View Terms of Service
+              </Link>
+            </div>
+          </article>
         </div>
       </main>
 

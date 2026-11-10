@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import brandLogo from "@/public/assets/images/brand-logo.png";
 import { Header, Footer } from "@/components/shared";
-import { Phone, ArrowRight, ArrowLeft, RotateCcw, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { Phone, ArrowRight, ArrowLeft, RotateCcw, ShieldCheck, CheckCircle2, Sparkles } from "lucide-react";
+import { useAuth } from "@/components/shared/AuthContext";
 
 function GoogleIcon() {
   return (
@@ -39,6 +40,7 @@ function FacebookIcon() {
 }
 
 export default function LoginPage() {
+  const { login } = useAuth();
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
@@ -150,9 +152,10 @@ export default function LoginPage() {
     setTimeout(() => {
       setIsLoading(false);
       setSuccessMessage("Signed in successfully!");
+      login({ phone: phoneNumber ? `+91 ${phoneNumber}` : "+91 98765 43210" });
       setTimeout(() => {
         window.location.href = "/";
-      }, 700);
+      }, 500);
     }, 500);
   };
 
@@ -266,6 +269,19 @@ export default function LoginPage() {
               >
                 <span>{isLoading ? "Sending OTP..." : "Get OTP"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+              {/* Quick Fake / Demo Login Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  login();
+                  window.location.href = "/";
+                }}
+                className="w-full py-2 px-3 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100/80 text-amber-950 text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                <span>⚡ Instant Demo Login (Open Profile Bar)</span>
               </button>
 
               <div className="pt-2 text-center">

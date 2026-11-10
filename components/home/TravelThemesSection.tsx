@@ -74,7 +74,7 @@ export default function TravelThemesSection() {
         </div>
 
         {/* ─── Bento Grid Layout Matching Reference Design ─── */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3.5 sm:gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-2 sm:gap-5">
           {themes.map((theme) => (
             <Link
               key={theme.id}
@@ -95,7 +95,7 @@ export default function TravelThemesSection() {
 
               {/* Bottom Left Title Matching Reference */}
               <div className="absolute bottom-4 sm:bottom-6 left-5 sm:left-6 z-10">
-                <span className="text-xl md:text-2xl  font-semibold text-white tracking-tight drop-shadow-sm">
+                <span className="text-base sm:text-xl md:text-2xl font-semibold text-white tracking-tight drop-shadow-sm">
                   {theme.name}
                 </span>
               </div>

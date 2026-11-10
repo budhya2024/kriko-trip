@@ -32,7 +32,7 @@ export default function TravelInspirations() {
   const visiblePosts = displayPosts.slice(currentIndex, currentIndex + cardsPerPage);
 
   return (
-    <section className="w-full py-8 md:py-16 bg-white">
+    <section className="w-full pb-8 md:pb-16 bg-white">
       <div className="container relative">
         {/* Section Header */}
         <div className="text-center max-w-xl mx-auto mb-10 sm:mb-12 relative">

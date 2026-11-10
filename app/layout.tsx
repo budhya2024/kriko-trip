@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/components/shared/AuthContext";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -25,7 +26,7 @@ export default function RootLayout({
       className={`${poppins.variable} ${poppins.className} h-full antialiased scroll-smooth`}
     >
       <body className={`${poppins.className} min-h-full flex flex-col font-sans antialiased`}>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

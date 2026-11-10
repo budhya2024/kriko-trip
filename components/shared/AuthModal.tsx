@@ -3,7 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import brandLogo from "@/public/assets/images/brand-logo.png";
-import { X, Phone, ArrowRight, ArrowLeft, RotateCcw, ShieldCheck, CheckCircle2 } from "lucide-react";
+import { X, Phone, ArrowRight, ArrowLeft, RotateCcw, ShieldCheck, CheckCircle2, Sparkles } from "lucide-react";
+import { useAuth } from "./AuthContext";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -46,6 +47,7 @@ export default function AuthModal({
   isOpen,
   onClose,
 }: AuthModalProps) {
+  const { login } = useAuth();
   // Steps: "phone" (enter mobile number) | "otp" (enter OTP)
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -179,9 +181,10 @@ export default function AuthModal({
     setTimeout(() => {
       setIsLoading(false);
       setSuccessMessage("Signed in successfully!");
+      login({ phone: phoneNumber ? `+91 ${phoneNumber}` : "+91 98765 43210" });
       setTimeout(() => {
         onClose();
-      }, 700);
+      }, 500);
     }, 500);
   };
 
@@ -316,6 +319,19 @@ export default function AuthModal({
               >
                 <span>{isLoading ? "Sending OTP..." : "Get OTP"}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+
+              {/* Quick Fake / Demo Login Button */}
+              <button
+                type="button"
+                onClick={() => {
+                  login();
+                  onClose();
+                }}
+                className="w-full py-2 px-3 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100/80 text-amber-950 text-xs font-semibold transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
+              >
+                <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                <span>⚡ Instant Demo Login (Open Profile Bar)</span>
               </button>
 
               {/* Privacy note */}

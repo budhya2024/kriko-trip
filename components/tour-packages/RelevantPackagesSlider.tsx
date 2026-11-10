@@ -175,3 +175,4 @@ function RelevantPackageCard({ pkg }: { pkg: TourPackage }) {
     </div>
   );
 }
+

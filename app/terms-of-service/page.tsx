@@ -1,18 +1,6 @@
 import React from "react";
 import Link from "next/link";
 import { Header, Footer, PageHeader } from "@/components/shared";
-import {
-  FileText,
-  CreditCard,
-  AlertTriangle,
-  RotateCcw,
-  Plane,
-  ShieldAlert,
-  Scale,
-  Compass,
-  Clock,
-  HelpCircle,
-} from "lucide-react";
 
 export const metadata = {
   title: "Terms of Service | KrikoTrip Travel Agency",
@@ -27,7 +15,6 @@ export default function TermsOfServicePage() {
     {
       id: "agreement",
       title: "1. Agreement & Acceptance",
-      icon: Scale,
       content: (
         <>
           <p>
@@ -46,7 +33,6 @@ export default function TermsOfServicePage() {
     {
       id: "booking-process",
       title: "2. Booking & Confirmation Process",
-      icon: Compass,
       content: (
         <>
           <p>
@@ -69,7 +55,6 @@ export default function TermsOfServicePage() {
     {
       id: "pricing-payments",
       title: "3. Pricing, GST & Payment Schedule",
-      icon: CreditCard,
       content: (
         <>
           <p>
@@ -98,7 +83,6 @@ export default function TermsOfServicePage() {
     {
       id: "cancellation-refund",
       title: "4. Cancellation & Refund Policy",
-      icon: RotateCcw,
       content: (
         <>
           <p>
@@ -147,7 +131,6 @@ export default function TermsOfServicePage() {
     {
       id: "unforeseen-events",
       title: "5. Force Majeure & Itinerary Modifications",
-      icon: AlertTriangle,
       content: (
         <>
           <p>
@@ -167,7 +150,6 @@ export default function TermsOfServicePage() {
     {
       id: "documents-permits",
       title: "6. Identity Proofs & Forest / Island Permits",
-      icon: FileText,
       content: (
         <>
           <p>
@@ -187,7 +169,6 @@ export default function TermsOfServicePage() {
     {
       id: "health-insurance",
       title: "7. Health, Fitness & Comprehensive Insurance",
-      icon: ShieldAlert,
       content: (
         <>
           <p>
@@ -202,7 +183,6 @@ export default function TermsOfServicePage() {
     {
       id: "liability-jurisdiction",
       title: "8. Limitation of Liability & Governing Jurisdiction",
-      icon: Scale,
       content: (
         <>
           <p>
@@ -217,7 +197,6 @@ export default function TermsOfServicePage() {
     {
       id: "contact-support",
       title: "9. Customer Support & Assistance",
-      icon: HelpCircle,
       content: (
         <>
           <p>
@@ -261,56 +240,44 @@ export default function TermsOfServicePage() {
 
         {/* Content Section */}
         <div className="container py-10 sm:py-16">
-          <article className="max-w-4xl mx-auto bg-white rounded-2xl p-6 sm:p-10 border border-gray-200/80 shadow-2xs space-y-10">
-              {/* Header Meta */}
-              <div className="pb-6 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500">
-                <span className="flex items-center gap-1.5 font-medium">
-                  <Clock className="w-4 h-4 text-[#1877F2]" />
-                  Last Updated: {lastUpdated}
-                </span>
-                <span className="px-2.5 py-1 rounded-full bg-blue-50 text-[#1877F2] font-semibold border border-blue-200">
-                  Standard Booking Contract
-                </span>
-              </div>
+          <article className=" bg-white  p-6 sm:p-10 border border-gray-200/80 shadow-2xs space-y-10">
+            {/* Header Meta */}
+            <div className="pb-6 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3 text-xs text-gray-500">
+              <span className="font-medium">
+                Last Updated: {lastUpdated}
+              </span>
+            </div>
 
-              {/* Document Sections */}
-              {sections.map((section) => {
-                const IconComponent = section.icon;
-                return (
-                  <section
-                    key={section.id}
-                    id={section.id}
-                    className="scroll-mt-28 space-y-3 pt-2 first:pt-0"
-                  >
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center text-[#1877F2] shrink-0">
-                        <IconComponent className="w-4 h-4 stroke-[2.2]" />
-                      </div>
-                      <h2 className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
-                        {section.title}
-                      </h2>
-                    </div>
+            {/* Document Sections */}
+            {sections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className="scroll-mt-28 space-y-3 pt-2 first:pt-0"
+              >
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
+                  {section.title}
+                </h2>
 
-                    <div className="text-xs sm:text-sm text-gray-600 leading-relaxed pl-0 sm:pl-10">
-                      {section.content}
-                    </div>
-                  </section>
-                );
-              })}
+                <div className="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                  {section.content}
+                </div>
+              </section>
+            ))}
 
-              {/* Related Document Links */}
-              <div className="pt-8 mt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-                <span className="text-gray-500">
-                  Curious about how we safeguard your personal data?
-                </span>
-                <Link
-                  href="/privacy-policy"
-                  className="font-semibold text-[#1877F2] hover:underline flex items-center gap-1"
-                >
-                  View Privacy Policy &rarr;
-                </Link>
-              </div>
-            </article>
+            {/* Related Document Links */}
+            <div className="pt-8 mt-8 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+              <span className="text-gray-500">
+                Curious about how we safeguard your personal data?
+              </span>
+              <Link
+                href="/privacy-policy"
+                className="font-semibold text-[#1877F2] flex items-center gap-1"
+              >
+                View Privacy Policy
+              </Link>
+            </div>
+          </article>
         </div>
       </main>
 
