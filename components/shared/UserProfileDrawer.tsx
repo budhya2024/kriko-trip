@@ -17,7 +17,6 @@ import {
   CheckCircle2,
   ShieldCheck,
   Trash2,
-  Compass,
   FileText,
 } from "lucide-react";
 import { useAuth } from "./AuthContext";
@@ -180,7 +179,7 @@ export default function UserProfileDrawer() {
             <button
               type="button"
               onClick={closeProfileDrawer}
-              className="w-8 h-8 rounded-md border border-gray-200 hover:border-gray-300 hover:bg-gray-100 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Close drawer"
             >
               <X className="w-4 h-4 stroke-[2.2]" />
@@ -189,12 +188,12 @@ export default function UserProfileDrawer() {
 
           {/* ─── Scrollable Body ─── */}
           <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5">
-            {/* ─── 1. User Profile Header Card ─── */}
-            <div className="p-4 rounded-lg bg-[#0F172A] text-white border border-gray-800 relative shadow-xs">
+            {/* ─── 1. User Profile Header Card (Bg color used per box, no borders, subtle rounded-lg) ─── */}
+            <div className="p-4 rounded-lg bg-[#0F172A] text-white relative">
               <div className="flex items-center gap-3.5">
                 {/* Avatar with initial fallback */}
                 <div className="relative shrink-0">
-                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white/70 bg-[#1E293B] relative flex items-center justify-center shadow-xs">
+                  <div className="w-16 h-16 rounded-full overflow-hidden bg-[#1E293B] relative flex items-center justify-center">
                     {user.avatar ? (
                       <Image
                         src={user.avatar}
@@ -214,7 +213,7 @@ export default function UserProfileDrawer() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white border-2 border-[#0F172A] flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
                     title="Upload profile photo"
                     aria-label="Upload profile photo"
                   >
@@ -250,7 +249,7 @@ export default function UserProfileDrawer() {
               </div>
 
               {/* Photo Actions Row */}
-              <div className="mt-3 pt-3 border-t border-gray-800 flex items-center justify-between text-xs text-gray-300">
+              <div className="mt-3 pt-2.5 border-t border-gray-800/80 flex items-center justify-between text-xs text-gray-300">
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
@@ -274,17 +273,17 @@ export default function UserProfileDrawer() {
 
             {/* Notification alert */}
             {photoSuccess && (
-              <div className="px-3.5 py-2.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-medium flex items-center gap-2 animate-in fade-in duration-200">
+              <div className="px-3.5 py-2.5 rounded-lg bg-emerald-50 text-emerald-800 text-xs font-medium flex items-center gap-2 animate-in fade-in duration-200">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>{photoSuccess}</span>
               </div>
             )}
 
-            {/* ─── 2. Loyalty Points Summary Card ─── */}
-            <div className="p-3.5 rounded-lg border border-amber-200 bg-amber-50/70 text-gray-900 shadow-2xs">
+            {/* ─── 2. Loyalty Points Summary Card (Bg color used per box, no border) ─── */}
+            <div className="p-3.5 rounded-lg bg-amber-50 text-gray-900">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-md bg-amber-100 border border-amber-200 flex items-center justify-center text-amber-700">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-8 h-8 rounded-md bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
                     <Award className="w-4 h-4" />
                   </div>
                   <div>
@@ -299,7 +298,7 @@ export default function UserProfileDrawer() {
                 </div>
 
                 <div className="text-right">
-                  <span className="inline-block px-2.5 py-1 rounded-md bg-amber-200/80 border border-amber-300 text-amber-950 text-xs font-bold shadow-2xs">
+                  <span className="inline-block px-2.5 py-1 rounded-md bg-amber-200/80 text-amber-950 text-xs font-bold">
                     ₹{user.loyaltyPoints.toLocaleString("en-IN")} Off
                   </span>
                   <span className="block text-[10px] text-gray-500 mt-0.5">
@@ -309,50 +308,59 @@ export default function UserProfileDrawer() {
               </div>
             </div>
 
-            {/* ─── 3. Professional Segmented Navigation Tabs ─── */}
-            <div className="grid grid-cols-3 gap-1 p-1 bg-gray-100 rounded-lg border border-gray-200 text-xs font-medium">
+            {/* ─── 3. Border-Bottom Smooth Tab Bar (Profile Info, Bookings, Password) ─── */}
+            <div className="flex items-center border-b border-gray-200">
               <button
                 type="button"
                 onClick={() => setActiveTab("profile")}
-                className={`py-2 px-2 text-center rounded-md transition-all cursor-pointer truncate ${
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
                   activeTab === "profile"
-                    ? "bg-white text-gray-900 font-bold shadow-xs border border-gray-200/80"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-[#1877F2]"
+                    : "text-gray-500 hover:text-gray-800"
                 }`}
               >
-                Profile Info
+                <span>Profile Info</span>
+                {activeTab === "profile" && (
+                  <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#1877F2] rounded-full transition-all duration-300" />
+                )}
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab("trips")}
-                className={`py-2 px-2 text-center rounded-md transition-all cursor-pointer truncate ${
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
                   activeTab === "trips"
-                    ? "bg-white text-gray-900 font-bold shadow-xs border border-gray-200/80"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-[#1877F2]"
+                    : "text-gray-500 hover:text-gray-800"
                 }`}
               >
-                Bookings ({user.trips.length})
+                <span>Bookings</span>
+                {activeTab === "trips" && (
+                  <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#1877F2] rounded-full transition-all duration-300" />
+                )}
               </button>
 
               <button
                 type="button"
                 onClick={() => setActiveTab("password")}
-                className={`py-2 px-2 text-center rounded-md transition-all cursor-pointer truncate ${
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
                   activeTab === "password"
-                    ? "bg-white text-gray-900 font-bold shadow-xs border border-gray-200/80"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-[#1877F2]"
+                    : "text-gray-500 hover:text-gray-800"
                 }`}
               >
-                Password
+                <span>Password</span>
+                {activeTab === "password" && (
+                  <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#1877F2] rounded-full transition-all duration-300" />
+                )}
               </button>
             </div>
 
-            {/* ─── TAB 1: Edit Profile Form ─── */}
+            {/* ─── TAB 1: Edit Profile Form (Per box bg color, no borders) ─── */}
             {activeTab === "profile" && (
-              <form onSubmit={handleProfileSubmit} className="space-y-3.5">
+              <form onSubmit={handleProfileSubmit} className="space-y-3.5 animate-in fade-in duration-200">
                 {profileMessage && (
-                  <div className="p-3 rounded-lg text-xs font-medium bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-center gap-2 animate-in fade-in duration-150">
+                  <div className="p-3 rounded-lg text-xs font-medium bg-emerald-50 text-emerald-800 flex items-center gap-2 animate-in fade-in duration-150">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{profileMessage}</span>
                   </div>
@@ -363,7 +371,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Full Name
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
                     <User className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
@@ -371,7 +379,7 @@ export default function UserProfileDrawer() {
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       placeholder="Enter full name"
-                      className="w-full text-xs sm:text-sm text-gray-900 outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
                     />
                   </div>
                 </div>
@@ -381,7 +389,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Email Address
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
                     <Mail className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="email"
@@ -389,7 +397,7 @@ export default function UserProfileDrawer() {
                       value={editEmail}
                       onChange={(e) => setEditEmail(e.target.value)}
                       placeholder="Enter email address"
-                      className="w-full text-xs sm:text-sm text-gray-900 outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
                     />
                   </div>
                 </div>
@@ -399,7 +407,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Phone Number
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
                     <Phone className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="tel"
@@ -407,7 +415,7 @@ export default function UserProfileDrawer() {
                       value={editPhone}
                       onChange={(e) => setEditPhone(e.target.value)}
                       placeholder="Enter phone number"
-                      className="w-full text-xs sm:text-sm text-gray-900 outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
                     />
                   </div>
                 </div>
@@ -417,14 +425,14 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     City / Location
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
                     <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
                       value={editLocation}
                       onChange={(e) => setEditLocation(e.target.value)}
                       placeholder="e.g. Kolkata, West Bengal"
-                      className="w-full text-xs sm:text-sm text-gray-900 outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
                     />
                   </div>
                 </div>
@@ -434,14 +442,14 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Travel Preferences / Bio
                   </label>
-                  <div className="flex items-start gap-2 px-3 py-2 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
                     <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-1" />
                     <textarea
                       rows={2}
                       value={editBio}
                       onChange={(e) => setEditBio(e.target.value)}
                       placeholder="Add personal travel preferences or bio notes"
-                      className="w-full text-xs sm:text-sm text-gray-900 outline-none font-normal resize-none"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal resize-none"
                     />
                   </div>
                 </div>
@@ -456,22 +464,21 @@ export default function UserProfileDrawer() {
               </form>
             )}
 
-            {/* ─── TAB 2: Trip History ─── */}
+            {/* ─── TAB 2: Trip History (No numbers in tab or headers, bg color per box, border not) ─── */}
             {activeTab === "trips" && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs text-gray-500 pb-1">
-                  <span className="font-semibold text-gray-700">Recent &amp; Past Bookings</span>
-                  <span>{user.trips.length} Bookings</span>
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <div className="text-xs text-gray-700 font-semibold pb-0.5">
+                  Recent &amp; Past Bookings
                 </div>
 
                 {user.trips.map((trip) => (
                   <div
                     key={trip.id}
-                    className="p-3 rounded-lg border border-gray-200 bg-white hover:border-blue-300 hover:shadow-2xs transition-all space-y-2.5"
+                    className="p-3.5 rounded-lg bg-gray-50 hover:bg-gray-100/80 transition-colors space-y-2.5"
                   >
                     <div className="flex items-start gap-3">
                       {/* Trip Thumbnail */}
-                      <div className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                      <div className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-200 shrink-0">
                         <Image
                           src={trip.image}
                           alt={trip.packageTitle}
@@ -490,8 +497,8 @@ export default function UserProfileDrawer() {
                           <span
                             className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
                               trip.status === "Confirmed"
-                                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                                : "bg-blue-50 text-blue-700 border border-blue-200"
+                                ? "bg-emerald-100/80 text-emerald-800"
+                                : "bg-blue-100/80 text-blue-800"
                             }`}
                           >
                             {trip.status}
@@ -510,7 +517,7 @@ export default function UserProfileDrawer() {
                     </div>
 
                     {/* Dates & Cost Footer */}
-                    <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-600">
+                    <div className="pt-2 flex items-center justify-between text-[11px] text-gray-600">
                       <div className="flex items-center gap-1 text-gray-500">
                         <Calendar className="w-3 h-3 text-gray-400" />
                         <span>{trip.dates}</span>
@@ -529,9 +536,9 @@ export default function UserProfileDrawer() {
               </div>
             )}
 
-            {/* ─── TAB 3: Change Password ─── */}
+            {/* ─── TAB 3: Change Password (Per box bg color, no borders) ─── */}
             {activeTab === "password" && (
-              <form onSubmit={handlePasswordSubmit} className="space-y-3.5">
+              <form onSubmit={handlePasswordSubmit} className="space-y-3.5 animate-in fade-in duration-200">
                 <div className="flex items-center gap-2 pb-1 text-xs text-gray-600">
                   <ShieldCheck className="w-4 h-4 text-[#1877F2]" />
                   <span>Protect your account with a secure password</span>
@@ -541,8 +548,8 @@ export default function UserProfileDrawer() {
                   <div
                     className={`p-3 rounded-lg text-xs font-medium ${
                       passwordMessage.type === "success"
-                        ? "bg-emerald-50 border border-emerald-200 text-emerald-800"
-                        : "bg-red-50 border border-red-200 text-red-700"
+                        ? "bg-emerald-50 text-emerald-800"
+                        : "bg-red-50 text-red-700"
                     }`}
                   >
                     {passwordMessage.text}
@@ -560,7 +567,7 @@ export default function UserProfileDrawer() {
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       placeholder="Enter current password"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-[#1877F2] outline-none text-xs sm:text-sm text-gray-900"
+                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 focus:ring-2 focus:ring-[#1877F2]/40 outline-none text-xs sm:text-sm text-gray-900 font-normal transition-colors"
                     />
                     <button
                       type="button"
@@ -583,7 +590,7 @@ export default function UserProfileDrawer() {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="Min. 6 characters"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-[#1877F2] outline-none text-xs sm:text-sm text-gray-900"
+                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 focus:ring-2 focus:ring-[#1877F2]/40 outline-none text-xs sm:text-sm text-gray-900 font-normal transition-colors"
                     />
                     <button
                       type="button"
@@ -606,7 +613,7 @@ export default function UserProfileDrawer() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Re-enter new password"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg border border-gray-300 focus:border-[#1877F2] outline-none text-xs sm:text-sm text-gray-900"
+                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 focus:ring-2 focus:ring-[#1877F2]/40 outline-none text-xs sm:text-sm text-gray-900 font-normal transition-colors"
                     />
                     <button
                       type="button"
@@ -641,7 +648,7 @@ export default function UserProfileDrawer() {
             <button
               type="button"
               onClick={logout}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer shrink-0 border border-transparent hover:border-red-200"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer shrink-0"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Sign Out</span>
