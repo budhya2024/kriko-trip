@@ -832,7 +832,7 @@ export default function PackageDetailView({
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Your Name <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
+                    <div className="flex items-center gap-2.5 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
                       <User className="w-4 h-4 text-gray-400 shrink-0" />
                       <input
                         type="text"
@@ -859,7 +859,7 @@ export default function PackageDetailView({
                           value={countryCode}
                           onChange={(e) => setCountryCode(e.target.value)}
                           aria-label="Country Code"
-                          className="appearance-none pl-2.5 pr-6 py-2.5 bg-transparent text-xs sm:text-sm font-medium text-gray-700 outline-none cursor-pointer"
+                          className="appearance-none pl-2.5 pr-6 py-3 bg-transparent text-xs sm:text-sm font-medium text-gray-700 outline-none cursor-pointer"
                         >
                           {countryOptions.map((c) => (
                             <option key={c.code} value={c.code}>
@@ -871,7 +871,7 @@ export default function PackageDetailView({
                       </div>
 
                       {/* Phone Input */}
-                      <div className="flex items-center gap-2 px-3 py-2.5 flex-1">
+                      <div className="flex items-center gap-2 px-3 py-3 flex-1">
                         <Phone className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                         <input
                           type="tel"
@@ -892,7 +892,7 @@ export default function PackageDetailView({
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Email Address <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
+                    <div className="flex items-center gap-2.5 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
                       <Mail className="w-4 h-4 text-gray-400 shrink-0" />
                       <input
                         type="email"
@@ -907,11 +907,11 @@ export default function PackageDetailView({
                     </div>
                   </div>
 
-                  {/* Travel Date & No. of Travellers in 2 Cols */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  {/* Travel Date & No. of Travellers (Always 1 Row on Mobile and Desktop) */}
+                  <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
                     {/* Travel Date */}
-                    <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                    <div className="min-w-0">
+                      <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
                         Travel Date
                       </label>
                       <BankingDatePicker
@@ -919,16 +919,16 @@ export default function PackageDetailView({
                         onChange={(dateStr) =>
                           setSidebarForm({ ...sidebarForm, travelDate: dateStr })
                         }
-                        placeholder="Select Travel Date"
+                        placeholder="Select Date"
                       />
                     </div>
 
                     {/* No. of Travellers */}
-                    <div>
-                      <label className="block text-xs font-medium text-gray-700 mb-1">
+                    <div className="min-w-0">
+                      <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
                         Travellers
                       </label>
-                      <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
+                      <div className="flex items-center gap-2 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
                         <Users className="w-4 h-4 text-gray-400 shrink-0" />
                         <input
                           type="number"
@@ -950,7 +950,7 @@ export default function PackageDetailView({
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Message (Optional)
                     </label>
-                    <div className="flex items-start gap-2.5 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
+                    <div className="flex items-start gap-2.5 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
                       <MessageSquare className="w-4 h-4 text-gray-400 shrink-0 mt-1" />
                       <textarea
                         rows={2}

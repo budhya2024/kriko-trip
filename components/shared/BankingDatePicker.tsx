@@ -281,7 +281,7 @@ export default function BankingDatePicker({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors text-left cursor-pointer group"
+          className="w-full flex items-center justify-between gap-2 px-3 py-3 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors text-left cursor-pointer group"
         >
           <div className="flex items-center gap-2 min-w-0">
             <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
