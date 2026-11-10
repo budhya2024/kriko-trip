@@ -116,7 +116,7 @@ export default function UserProfileDrawer() {
       {/* ─── Slide-Over Panel (Smooth ease-out translation, clean professional styling) ─── */}
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
         <div
-          className={`w-screen max-w-[460px] bg-white border-l border-gray-200 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isProfileDrawerOpen ? "translate-x-0" : "translate-x-full"
+          className={`w-screen max-w-[460px] bg-[#F8FAFC] border-l border-gray-200 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isProfileDrawerOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
           {/* ─── Drawer Header ─── */}
@@ -139,8 +139,8 @@ export default function UserProfileDrawer() {
             </button>
           </div>
 
-          {/* ─── Scrollable Body ─── */}
-          <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5">
+          {/* ─── Scrollable Body (Changed to soft modern background) ─── */}
+          <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5 bg-[#F8FAFC]">
             {/* ─── 1. User Profile Header Card (Bg color used per box, no borders, subtle rounded-lg) ─── */}
             <div className="p-4 rounded-lg bg-[#0F172A] text-white relative">
               <div className="flex items-center gap-3.5">
@@ -307,7 +307,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Full Name
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white border border-gray-200/90 focus-within:border-[#1877F2] transition-colors">
                     <User className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
@@ -325,7 +325,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Email Address
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white border border-gray-200/90 focus-within:border-[#1877F2] transition-colors">
                     <Mail className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="email"
@@ -343,7 +343,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Phone Number
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white border border-gray-200/90 focus-within:border-[#1877F2] transition-colors">
                     <Phone className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="tel"
@@ -361,7 +361,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     City / Location
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white border border-gray-200/90 focus-within:border-[#1877F2] transition-colors">
                     <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
@@ -378,7 +378,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Travel Preferences / Bio
                   </label>
-                  <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-white border border-gray-200/90 focus-within:border-[#1877F2] transition-colors">
                     <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-1" />
                     <textarea
                       rows={2}
@@ -400,10 +400,10 @@ export default function UserProfileDrawer() {
               </form>
             )}
 
-            {/* ─── TAB 2: Trip History (Recent & Past Bookings container uses drawer bg, inner cards use white, no large rounded) ─── */}
+            {/* ─── TAB 2: Trip History (Direct clean white cards without outer box) ─── */}
             {activeTab === "trips" && (
-              <div className="p-3.5 sm:p-4 rounded-lg bg-gray-100/90 space-y-3 animate-in fade-in duration-200">
-                <div className="flex items-center justify-between pb-0.5">
+              <div className="space-y-3 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between px-0.5 pb-0.5">
                   <span className="text-xs text-gray-800 font-bold tracking-tight">
                     Recent &amp; Past Bookings
                   </span>
@@ -416,7 +416,7 @@ export default function UserProfileDrawer() {
                   {user.trips.map((trip) => (
                     <div
                       key={trip.id}
-                      className="p-3.5 rounded-lg bg-white shadow-2xs hover:shadow-xs transition-shadow space-y-2.5"
+                      className="p-3.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5"
                     >
                       <div className="flex items-start gap-3">
                         {/* Trip Thumbnail */}
