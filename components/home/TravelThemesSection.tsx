@@ -56,7 +56,7 @@ const themes: ThemeItem[] = [
     image:
       "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
     href: "/tour-packages?theme=beach",
-    colSpan: "lg:col-span-4",
+    colSpan: "col-span-2 lg:col-span-4",
     heightClass: "h-[220px] sm:h-[260px] lg:h-[300px]",
   },
 ];
@@ -75,11 +75,13 @@ export default function TravelThemesSection() {
 
         {/* ─── Bento Grid Layout Matching Reference Design ─── */}
         <div className="grid grid-cols-2 lg:grid-cols-12 gap-2 sm:gap-5">
-          {themes.map((theme) => (
+          {themes.map((theme, index) => (
             <Link
               key={theme.id}
               href={theme.href}
-              className={`group relative rounded-md overflow-hidden bg-gray-100 ${theme.colSpan} ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
+              className={`group relative rounded-md overflow-hidden bg-gray-100 ${
+                index === themes.length - 1 ? "col-span-2 lg:col-span-4" : theme.colSpan
+              } ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
             >
               {/* Background Photo */}
               <Image
