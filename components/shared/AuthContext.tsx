@@ -13,6 +13,12 @@ export interface TripHistoryItem {
   amount: number;
   pointsEarned: number;
   image: string;
+  travellers?: string;
+  hotelCategory?: string;
+  mealPlan?: string;
+  pickupPoint?: string;
+  inclusions?: string[];
+  paymentMode?: string;
 }
 
 export interface UserProfile {
@@ -50,6 +56,18 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       pointsEarned: 290,
       image:
         "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
+      travellers: "2 Adults (Double Sharing)",
+      hotelCategory: "4-Star Beachfront Luxury Resort",
+      mealPlan: "Breakfast & Dinner Included (MAP Plan)",
+      pickupPoint: "Veer Savarkar Airport (IXZ), Port Blair",
+      paymentMode: "UPI / Net Banking (Paid in Full)",
+      inclusions: [
+        "Private AC Sedan for all transfers",
+        "Inter-Island Luxury Ferry (Makruzz / Nautika)",
+        "Radhanagar Beach & Elephant Beach Excursions",
+        "Complimentary Snorkeling Session",
+        "24/7 Dedicated Holiday Concierge",
+      ],
     },
     {
       id: "trip-2",
@@ -63,6 +81,17 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       pointsEarned: 145,
       image:
         "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80",
+      travellers: "2 Adults, 1 Child",
+      hotelCategory: "Luxury Riverfront Eco Cottage",
+      mealPlan: "All Meals Included (Buffet Style)",
+      pickupPoint: "Science City, Kolkata",
+      paymentMode: "Credit Card (Paid in Full)",
+      inclusions: [
+        "Dedicated Motorized Safari Boat",
+        "Sajnekhali & Sudhanyakhali Watch Tower Entry",
+        "Govt. Forest Guide & Permits",
+        "Local Baul Folk Music Evening",
+      ],
     },
     {
       id: "trip-3",
@@ -76,6 +105,17 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       pointsEarned: 325,
       image:
         "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=600&q=80",
+      travellers: "2 Adults",
+      hotelCategory: "Dal Lake Heritage Houseboat & 4-Star Hotel",
+      mealPlan: "Daily Buffet Breakfast & Dinner",
+      pickupPoint: "Sheikh ul-Alam Airport (SXR), Srinagar",
+      paymentMode: "Net Banking (Paid in Full)",
+      inclusions: [
+        "1 Night Houseboat Stay with Shikara Ride",
+        "Gulmarg Gondola Phase 1 Cable Car Tickets",
+        "Pahalgam Betaab Valley Sightseeing",
+        "Heated AC Vehicle with Chauffeur",
+      ],
     },
   ],
 };

@@ -15,8 +15,16 @@ import {
   CheckCircle2,
   Trash2,
   FileText,
+  ArrowLeft,
+  ChevronRight,
+  Clock,
+  Users,
+  Utensils,
+  Download,
+  ShieldCheck,
+  Check,
 } from "lucide-react";
-import { useAuth } from "./AuthContext";
+import { useAuth, TripHistoryItem } from "./AuthContext";
 
 export default function UserProfileDrawer() {
   const {
@@ -30,10 +38,18 @@ export default function UserProfileDrawer() {
   } = useAuth();
 
   const [activeTab, setActiveTab] = useState<"profile" | "trips">("profile");
+  const [selectedTrip, setSelectedTrip] = useState<TripHistoryItem | null>(null);
 
   // Photo upload ref
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [photoSuccess, setPhotoSuccess] = useState<string | null>(null);
+
+  // Reset selected trip when drawer closes or tab switches
+  useEffect(() => {
+    if (!isProfileDrawerOpen) {
+      setSelectedTrip(null);
+    }
+  }, [isProfileDrawerOpen]);
 
   // Profile edit state
   const [editName, setEditName] = useState(user?.name || "");
@@ -265,7 +281,10 @@ export default function UserProfileDrawer() {
             <div className="flex items-center border-b border-gray-200">
               <button
                 type="button"
-                onClick={() => setActiveTab("profile")}
+                onClick={() => {
+                  setActiveTab("profile");
+                  setSelectedTrip(null);
+                }}
                 className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "profile"
                   ? "text-[#1877F2]"
                   : "text-gray-500 hover:text-gray-800"
@@ -400,82 +419,273 @@ export default function UserProfileDrawer() {
               </form>
             )}
 
-            {/* ─── TAB 2: Trip History (Direct clean white cards without outer box) ─── */}
+            {/* ─── TAB 2: Trip History (List View & Full Booking Details View) ─── */}
             {activeTab === "trips" && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <div className="flex items-center justify-between px-0.5 pb-0.5">
-                  <span className="text-xs text-gray-800 font-bold tracking-tight">
-                    Recent &amp; Past Bookings
-                  </span>
-                  <span className="text-[11px] font-medium text-gray-500">
-                    {user.trips.length} {user.trips.length === 1 ? "Trip" : "Trips"}
-                  </span>
-                </div>
-
-                <div className="space-y-2.5">
-                  {user.trips.map((trip) => (
-                    <div
-                      key={trip.id}
-                      className="p-3.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs hover:shadow-xs transition-shadow space-y-2.5"
+              <div className="space-y-3.5 animate-in fade-in duration-200">
+                {selectedTrip ? (
+                  /* ─── FULL BOOKING HISTORY DETAILS VIEW ─── */
+                  <div className="space-y-3.5 animate-in fade-in duration-150">
+                    {/* Back Button */}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedTrip(null)}
+                      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#1877F2] hover:text-[#00285C] transition-colors cursor-pointer"
                     >
-                      <div className="flex items-start gap-3">
-                        {/* Trip Thumbnail */}
-                        <div className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
-                          <Image
-                            src={trip.image}
-                            alt={trip.packageTitle}
-                            fill
-                            sizes="64px"
-                            className="object-cover"
-                          />
-                        </div>
+                      <ArrowLeft className="w-3.5 h-3.5" />
+                      <span>Back to All Bookings</span>
+                    </button>
 
-                        {/* Details */}
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center justify-between gap-1">
-                            <span className="text-[10px] font-mono text-gray-400">
-                              #{trip.bookingId}
-                            </span>
-                            <span
-                              className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                                trip.status === "Confirmed"
-                                  ? "bg-emerald-50 text-emerald-700"
-                                  : "bg-blue-50 text-blue-700"
-                              }`}
-                            >
-                              {trip.status}
-                            </span>
-                          </div>
+                    {/* Hero Card */}
+                    <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-slate-900 text-white shadow-2xs">
+                      <Image
+                        src={selectedTrip.image}
+                        alt={selectedTrip.packageTitle}
+                        fill
+                        className="object-cover opacity-85"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                          <h4 className="text-xs sm:text-sm font-bold text-gray-900 truncate mt-0.5">
-                            {trip.packageTitle}
-                          </h4>
-
-                          <div className="flex items-center gap-1.5 text-[11px] text-gray-500 mt-0.5">
-                            <MapPin className="w-3 h-3 text-[#1877F2] shrink-0" />
-                            <span className="truncate">{trip.destination}</span>
-                          </div>
-                        </div>
+                      {/* Badges on top */}
+                      <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between">
+                        <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-black/60 backdrop-blur-xs text-white">
+                          #{selectedTrip.bookingId}
+                        </span>
+                        <span
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                            selectedTrip.status === "Confirmed"
+                              ? "bg-emerald-500 text-white"
+                              : "bg-blue-600 text-white"
+                          }`}
+                        >
+                          ✓ {selectedTrip.status}
+                        </span>
                       </div>
 
-                      {/* Dates & Cost Footer */}
-                      <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-600">
-                        <div className="flex items-center gap-1 text-gray-500">
-                          <Calendar className="w-3 h-3 text-gray-400" />
-                          <span>{trip.dates}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-emerald-600 font-semibold">
-                            +{trip.pointsEarned} pts
-                          </span>
-                          <span className="font-bold text-gray-900">
-                            ₹{trip.amount.toLocaleString("en-IN")}
-                          </span>
+                      {/* Title & destination on bottom */}
+                      <div className="absolute bottom-2.5 left-2.5 right-2.5 text-left">
+                        <h3 className="text-sm sm:text-base font-bold text-white leading-snug drop-shadow-sm">
+                          {selectedTrip.packageTitle}
+                        </h3>
+                        <div className="flex items-center gap-1 text-xs text-gray-200 mt-1">
+                          <MapPin className="w-3 h-3 text-[#1877F2] shrink-0" />
+                          <span className="truncate">{selectedTrip.destination}</span>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    {/* Quick Specs Grid (2 columns, subtle rounded-lg) */}
+                    <div className="grid grid-cols-2 gap-2 text-xs">
+                      <div className="p-2.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-1">
+                        <div className="flex items-center gap-1 text-gray-400 text-[10px]">
+                          <Calendar className="w-3 h-3 text-[#1877F2]" />
+                          <span>Travel Dates</span>
+                        </div>
+                        <div className="font-bold text-gray-900 leading-tight text-[11px] sm:text-xs">
+                          {selectedTrip.dates}
+                        </div>
+                      </div>
+
+                      <div className="p-2.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-1">
+                        <div className="flex items-center gap-1 text-gray-400 text-[10px]">
+                          <Clock className="w-3 h-3 text-[#1877F2]" />
+                          <span>Duration</span>
+                        </div>
+                        <div className="font-bold text-gray-900 leading-tight text-[11px] sm:text-xs">
+                          {selectedTrip.duration}
+                        </div>
+                      </div>
+
+                      <div className="p-2.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-1">
+                        <div className="flex items-center gap-1 text-gray-400 text-[10px]">
+                          <Users className="w-3 h-3 text-[#1877F2]" />
+                          <span>Travellers</span>
+                        </div>
+                        <div className="font-bold text-gray-900 leading-tight text-[11px] sm:text-xs truncate">
+                          {selectedTrip.travellers || "2 Adults"}
+                        </div>
+                      </div>
+
+                      <div className="p-2.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-1">
+                        <div className="flex items-center gap-1 text-gray-400 text-[10px]">
+                          <Utensils className="w-3 h-3 text-[#1877F2]" />
+                          <span>Meal Plan</span>
+                        </div>
+                        <div className="font-bold text-gray-900 leading-tight text-[11px] sm:text-xs truncate">
+                          {selectedTrip.mealPlan || "Breakfast & Dinner"}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Hotel Stay & Pickup Box */}
+                    <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2 text-xs">
+                      <div>
+                        <span className="text-[10px] font-semibold text-gray-400 block uppercase tracking-wider">
+                          Hotel / Stay Category
+                        </span>
+                        <span className="font-bold text-gray-900 text-xs sm:text-[13px] mt-0.5 block">
+                          {selectedTrip.hotelCategory || "4-Star Luxury Resort Stay"}
+                        </span>
+                      </div>
+                      <div className="pt-2 border-t border-gray-100">
+                        <span className="text-[10px] font-semibold text-gray-400 block uppercase tracking-wider">
+                          Pickup &amp; Departure
+                        </span>
+                        <span className="font-medium text-gray-700 text-xs mt-0.5 block">
+                          {selectedTrip.pickupPoint || "Airport / City Station Pickup Included"}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Inclusions Checklist */}
+                    <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2">
+                      <span className="text-xs font-bold text-gray-900 block">
+                        Included in this Booking
+                      </span>
+                      <ul className="space-y-1.5 text-xs text-gray-700">
+                        {(selectedTrip.inclusions && selectedTrip.inclusions.length > 0
+                          ? selectedTrip.inclusions
+                          : [
+                              "Private AC vehicle for all sightseeing & transfers",
+                              "Daily complimentary buffet breakfast & dinner",
+                              "Entry permits and govt. taxes included",
+                              "24/7 dedicated trip support concierge",
+                            ]
+                        ).map((item, idx) => (
+                          <li key={idx} className="flex items-start gap-2">
+                            <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    {/* Payment & Rewards Breakdown */}
+                    <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2 text-xs">
+                      <span className="text-xs font-bold text-gray-900 block">
+                        Payment &amp; Rewards
+                      </span>
+                      <div className="flex items-center justify-between text-gray-600">
+                        <span>Total Package Cost</span>
+                        <span className="font-bold text-gray-900 text-sm">
+                          ₹{selectedTrip.amount.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-gray-600">
+                        <span>Payment Status</span>
+                        <span className="text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded-md text-[11px]">
+                          {selectedTrip.paymentMode || "Paid in Full via UPI"}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between pt-1.5 border-t border-gray-100 text-emerald-700 font-semibold">
+                        <span>Rewards Points Earned</span>
+                        <span>+{selectedTrip.pointsEarned} Points</span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons */}
+                    <div className="grid grid-cols-2 gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          alert(
+                            `Downloading confirmed voucher for booking #${selectedTrip.bookingId}...`
+                          )
+                        }
+                        className="py-2.5 px-3 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      >
+                        <Download className="w-3.5 h-3.5 text-gray-600" />
+                        <span>Download Voucher</span>
+                      </button>
+                      <a
+                        href="https://wa.me/918250338715"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="py-2.5 px-3 rounded-lg bg-[#1877F2] hover:bg-blue-600 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors"
+                      >
+                        <Phone className="w-3.5 h-3.5" />
+                        <span>Support</span>
+                      </a>
+                    </div>
+                  </div>
+                ) : (
+                  /* ─── BOOKINGS LIST VIEW ─── */
+                  <>
+                    <div className="flex items-center justify-between px-0.5 pb-0.5">
+                      <span className="text-xs text-gray-800 font-bold tracking-tight">
+                        Recent &amp; Past Bookings
+                      </span>
+                      <span className="text-[11px] font-medium text-gray-500">
+                        {user.trips.length} {user.trips.length === 1 ? "Trip" : "Trips"}
+                      </span>
+                    </div>
+
+                    <div className="space-y-2.5">
+                      {user.trips.map((trip) => (
+                        <div
+                          key={trip.id}
+                          onClick={() => setSelectedTrip(trip)}
+                          className="p-3.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs hover:shadow-xs hover:border-[#1877F2]/40 transition-all cursor-pointer space-y-2.5 group"
+                        >
+                          <div className="flex items-start gap-3">
+                            {/* Trip Thumbnail */}
+                            <div className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                              <Image
+                                src={trip.image}
+                                alt={trip.packageTitle}
+                                fill
+                                sizes="64px"
+                                className="object-cover"
+                              />
+                            </div>
+
+                            {/* Details */}
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center justify-between gap-1">
+                                <span className="text-[10px] font-mono text-gray-400">
+                                  #{trip.bookingId}
+                                </span>
+                                <span
+                                  className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                                    trip.status === "Confirmed"
+                                      ? "bg-emerald-50 text-emerald-700"
+                                      : "bg-blue-50 text-blue-700"
+                                  }`}
+                                >
+                                  {trip.status}
+                                </span>
+                              </div>
+
+                              <h4 className="text-xs sm:text-sm font-bold text-gray-900 truncate mt-0.5 group-hover:text-[#1877F2] transition-colors">
+                                {trip.packageTitle}
+                              </h4>
+
+                              <div className="flex items-center gap-1.5 text-[11px] text-gray-500 mt-0.5">
+                                <MapPin className="w-3 h-3 text-[#1877F2] shrink-0" />
+                                <span className="truncate">{trip.destination}</span>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Dates, Cost & Clickable Details Row */}
+                          <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-600">
+                            <div className="flex items-center gap-1 text-gray-500">
+                              <Calendar className="w-3 h-3 text-gray-400" />
+                              <span>{trip.dates}</span>
+                            </div>
+                            <div className="flex items-center gap-2.5">
+                              <span className="font-bold text-gray-900">
+                                ₹{trip.amount.toLocaleString("en-IN")}
+                              </span>
+                              <span className="text-[#1877F2] font-semibold text-xs flex items-center gap-0.5 group-hover:translate-x-0.5 transition-transform">
+                                Details <ChevronRight className="w-3.5 h-3.5" />
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
             )}
           </div>
