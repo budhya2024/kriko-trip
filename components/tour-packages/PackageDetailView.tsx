@@ -489,78 +489,85 @@ export default function PackageDetailView({
                           </div>
                         </button>
 
-                        {/* Expandable Day Details (Matching Reference Screenshot Structure) */}
-                        {isOpen && (
-                          <div className="mt-4 pt-1 text-sm sm:text-[15px] text-gray-700 space-y-4 pl-0 sm:pl-2 animate-in fade-in">
-                            {/* Description Paragraph */}
-                            <p className="leading-relaxed font-normal text-gray-600">
-                              {dayItem.description}
-                            </p>
+                        {/* Expandable Day Details (Matching Reference Screenshot Structure with Smooth Dropdown) */}
+                        <div
+                          className={`grid transition-all duration-300 ease-in-out ${isOpen
+                            ? "grid-rows-[1fr] opacity-100 mt-4 pt-1"
+                            : "grid-rows-[0fr] opacity-0 mt-0 pt-0"
+                            }`}
+                        >
+                          <div className="overflow-hidden">
+                            <div className="text-sm sm:text-[15px] text-gray-700 space-y-4 pl-0 sm:pl-2">
+                              {/* Description Paragraph */}
+                              <p className="leading-relaxed font-normal text-gray-600">
+                                {dayItem.description}
+                              </p>
 
-                            {/* 4 Details Rows with Blue Icons and Exact Colon Alignment */}
-                            <div className="space-y-3 pt-2">
-                              {/* Transport */}
-                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
-                                <svg className="w-4 h-4 text-[#1877F2] fill-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24">
-                                  <path d="M12 2L2 12l10 10 10-10L12 2zm0 5.5l4.5 4.5-4.5 4.5-4.5-4.5 4.5-4.5z" />
-                                </svg>
-                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
-                                  Transport
-                                </span>
-                                <span className="text-gray-900 font-semibold shrink-0">:</span>
-                                <span className="text-gray-700 font-normal ml-1">
-                                  {dayItem.transport || "Car, Flight, Boat"}
-                                </span>
-                              </div>
+                              {/* 4 Details Rows with Blue Icons and Exact Colon Alignment */}
+                              <div className="space-y-3 pt-2">
+                                {/* Transport */}
+                                <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                  <svg className="w-4 h-4 text-[#1877F2] fill-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24">
+                                    <path d="M12 2L2 12l10 10 10-10L12 2zm0 5.5l4.5 4.5-4.5 4.5-4.5-4.5 4.5-4.5z" />
+                                  </svg>
+                                  <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                    Transport
+                                  </span>
+                                  <span className="text-gray-900 font-semibold shrink-0">:</span>
+                                  <span className="text-gray-700 font-normal ml-1">
+                                    {dayItem.transport || "Car, Flight, Boat"}
+                                  </span>
+                                </div>
 
-                              {/* Activities */}
-                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
-                                <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none">
-                                  <circle cx="12" cy="12" r="9" fill="#1877F2" />
-                                  <path d="M7 12h2.5l1.5-3 2 6 1.5-3H17" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
-                                  Activities
-                                </span>
-                                <span className="text-gray-900 font-semibold shrink-0">:</span>
-                                <span className="text-gray-700 font-normal ml-1">
-                                  {dayItem.activities && dayItem.activities.length > 0
-                                    ? dayItem.activities.join(", ")
-                                    : "Sightseeing, Guided Heritage Walk, Sunset Viewpoint, Cultural Show."}
-                                </span>
-                              </div>
+                                {/* Activities */}
+                                <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                  <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none">
+                                    <circle cx="12" cy="12" r="9" fill="#1877F2" />
+                                    <path d="M7 12h2.5l1.5-3 2 6 1.5-3H17" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                  </svg>
+                                  <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                    Activities
+                                  </span>
+                                  <span className="text-gray-900 font-semibold shrink-0">:</span>
+                                  <span className="text-gray-700 font-normal ml-1">
+                                    {dayItem.activities && dayItem.activities.length > 0
+                                      ? dayItem.activities.join(", ")
+                                      : "Sightseeing, Guided Heritage Walk, Sunset Viewpoint, Cultural Show."}
+                                  </span>
+                                </div>
 
-                              {/* Meals */}
-                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
-                                <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
-                                  <circle cx="12" cy="12" r="9" />
-                                  <circle cx="12" cy="12" r="3.5" fill="#1877F2" stroke="none" />
-                                </svg>
-                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
-                                  Meals
-                                </span>
-                                <span className="text-gray-900 font-semibold shrink-0">:</span>
-                                <span className="text-gray-700 font-normal ml-1">
-                                  {dayItem.meals || "Breakfast, Lunch, Snacks"}
-                                </span>
-                              </div>
+                                {/* Meals */}
+                                <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                  <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
+                                    <circle cx="12" cy="12" r="9" />
+                                    <circle cx="12" cy="12" r="3.5" fill="#1877F2" stroke="none" />
+                                  </svg>
+                                  <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                    Meals
+                                  </span>
+                                  <span className="text-gray-900 font-semibold shrink-0">:</span>
+                                  <span className="text-gray-700 font-normal ml-1">
+                                    {dayItem.meals || "Breakfast, Lunch, Snacks"}
+                                  </span>
+                                </div>
 
-                              {/* Accomodation */}
-                              <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
-                                <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                </svg>
-                                <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
-                                  Accomodation
-                                </span>
-                                <span className="text-gray-900 font-semibold shrink-0">:</span>
-                                <span className="text-gray-700 font-normal ml-1">
-                                  {dayItem.stay || pkg.hotelName || "Luxury Heritage Resort"}
-                                </span>
+                                {/* Accomodation */}
+                                <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
+                                  <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                  </svg>
+                                  <span className="font-semibold text-gray-950 w-28 sm:w-32 shrink-0">
+                                    Accomodation
+                                  </span>
+                                  <span className="text-gray-900 font-semibold shrink-0">:</span>
+                                  <span className="text-gray-700 font-normal ml-1">
+                                    {dayItem.stay || pkg.hotelName || "Luxury Heritage Resort"}
+                                  </span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        )}
+                        </div>
                       </div>
                     );
                   })}
@@ -654,35 +661,58 @@ export default function PackageDetailView({
                 <h2 className="text-2xl sm:text-[26px] font-bold text-gray-900 mb-4 tracking-tight">
                   Frequently Asked & Question
                 </h2>
-                <div className="space-y-3">
+                <div className="space-y-3.5">
                   {faqs.map((faq, idx) => {
                     const isOpen = openFaq === idx;
                     return (
                       <div
                         key={idx}
-                        className="rounded-xl overflow-hidden transition-all duration-200"
+                        className={`rounded-xl transition-all duration-300 overflow-hidden ${isOpen
+                          ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-5 sm:p-6 border border-gray-100"
+                          : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-5 sm:p-6"
+                          }`}
                       >
+                        {/* Accordion Header */}
                         <button
                           type="button"
                           onClick={() => setOpenFaq(isOpen ? null : idx)}
-                          className={`w-full p-4 sm:p-4.5 flex items-center justify-between text-left cursor-pointer transition-colors ${isOpen
-                            ? "bg-[#EAECEF]"
-                            : "bg-[#F3F4F6] hover:bg-[#EAECEF]"
-                            }`}
+                          className="w-full flex items-center justify-between gap-4 text-left cursor-pointer focus:outline-none select-none"
                         >
-                          <span className="text-sm sm:text-[15px] font-medium text-gray-800 pr-4">
+                          <span
+                            className={`text-sm sm:text-base font-semibold leading-snug transition-colors duration-200 ${isOpen ? "text-[#1877F2]" : "text-gray-900"
+                              }`}
+                          >
                             {faq.q}
                           </span>
-                          <ChevronDown
-                            className={`w-4 h-4 text-gray-500 transition-transform duration-200 shrink-0 ${isOpen ? "rotate-180 text-[#1877F2]" : ""
-                              }`}
-                          />
-                        </button>
-                        {isOpen && (
-                          <div className="p-4 sm:p-5 bg-white   text-xs sm:text-sm text-gray-600 font-normal leading-relaxed animate-in fade-in">
-                            {faq.a}
+
+                          {/* Smooth Rotating Triangle Arrow Like Home Page */}
+                          <div className="shrink-0 ml-2">
+                            <svg
+                              viewBox="0 0 10 6"
+                              fill="currentColor"
+                              className={`w-2.5 h-2.5 transition-transform duration-300 ease-in-out ${isOpen
+                                ? "text-[#1877F2] rotate-180"
+                                : "text-[#4B5563] rotate-0"
+                                }`}
+                            >
+                              <path d="M0 0L5 6L10 0H0Z" />
+                            </svg>
                           </div>
-                        )}
+                        </button>
+
+                        {/* Smooth Animated Opening & Closing Dropdown */}
+                        <div
+                          className={`grid transition-all duration-300 ease-in-out ${isOpen
+                            ? "grid-rows-[1fr] opacity-100 mt-3 pt-1"
+                            : "grid-rows-[0fr] opacity-0 mt-0 pt-0"
+                            }`}
+                        >
+                          <div className="overflow-hidden">
+                            <p className="text-xs sm:text-sm text-[#4B5563] leading-relaxed font-normal">
+                              {faq.a}
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     );
                   })}
