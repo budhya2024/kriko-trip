@@ -12,12 +12,17 @@ import {
   Users2,
   MapPin,
   X,
+  Landmark,
+  Trees,
+  Compass,
 } from "lucide-react";
 import { SortOption } from "./types";
 
 interface FilterSidebarProps {
   selectedTravelType: string | null;
   onSelectTravelType: (type: string | null) => void;
+  selectedTheme: string | null;
+  onSelectTheme: (theme: string | null) => void;
   selectedBudget: string | null;
   onSelectBudget: (budget: string | null) => void;
   selectedDestination: string | null;
@@ -36,6 +41,15 @@ const travelTypes = [
   { id: "Leisure", label: "Leisure", icon: Palmtree },
   { id: "Adventure", label: "Adventure", icon: Mountain },
   { id: "Group", label: "Group", icon: Users2 },
+];
+
+const tourThemes = [
+  { id: "Beaches", label: "Beaches & Islands", icon: Palmtree },
+  { id: "Hills", label: "Hills & Mountains", icon: Mountain },
+  { id: "Heritage", label: "Heritage & Palaces", icon: Landmark },
+  { id: "Nature", label: "Nature & Wildlife", icon: Trees },
+  { id: "Honeymoon", label: "Romantic Escapes", icon: Heart },
+  { id: "Adventure", label: "Snow & Adventure", icon: Compass },
 ];
 
 const budgetRanges = [
@@ -60,6 +74,8 @@ const destinationsList = [
 export default function FilterSidebar({
   selectedTravelType,
   onSelectTravelType,
+  selectedTheme,
+  onSelectTheme,
   selectedBudget,
   onSelectBudget,
   selectedDestination,
@@ -71,6 +87,7 @@ export default function FilterSidebar({
   onCloseMobile,
 }: FilterSidebarProps) {
   const [isTravelTypeOpen, setIsTravelTypeOpen] = useState(true);
+  const [isThemeOpen, setIsThemeOpen] = useState(true);
   const [isBudgetOpen, setIsBudgetOpen] = useState(true);
   const [isDestinationOpen, setIsDestinationOpen] = useState(true);
   const [isSortOpen, setIsSortOpen] = useState(false);
@@ -202,6 +219,53 @@ export default function FilterSidebar({
                     strokeWidth={1.8}
                   />
                   <span>{type.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* ─── Divider & Accordion: Tour Theme ─── */}
+      <div className="border-t border-gray-150 pt-5">
+        <button
+          type="button"
+          onClick={() => setIsThemeOpen(!isThemeOpen)}
+          className="w-full flex items-center justify-between text-left text-[15.5px] font-bold text-gray-950 mb-3.5 cursor-pointer focus:outline-none"
+        >
+          <span>Tour Theme</span>
+          {isThemeOpen ? (
+            <ChevronUp className="w-4 h-4 text-gray-700" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-gray-700" />
+          )}
+        </button>
+
+        {isThemeOpen && (
+          <div className="grid grid-cols-2 gap-2.5">
+            {tourThemes.map((theme) => {
+              const isSelected = selectedTheme === theme.id;
+              const Icon = theme.icon;
+              return (
+                <button
+                  key={theme.id}
+                  type="button"
+                  onClick={() =>
+                    onSelectTheme(isSelected ? null : theme.id)
+                  }
+                  className={`flex items-center justify-center gap-1.5 py-2.5 px-2.5 rounded-full border text-[13px] transition-all duration-150 cursor-pointer ${
+                    isSelected
+                      ? "border-[#1877F2] bg-blue-50/60 text-[#1877F2] font-semibold shadow-xs"
+                      : "border-gray-200 bg-white text-gray-800 hover:border-gray-300 hover:bg-gray-50/50 font-medium"
+                  }`}
+                >
+                  <Icon
+                    className={`w-3.5 h-3.5 shrink-0 ${
+                      isSelected ? "text-[#1877F2]" : "text-gray-700"
+                    }`}
+                    strokeWidth={1.8}
+                  />
+                  <span className="truncate">{theme.label}</span>
                 </button>
               );
             })}

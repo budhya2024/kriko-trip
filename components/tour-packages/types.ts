@@ -17,6 +17,7 @@ export interface TourPackage {
   days: number;
   nights: number;
   travelType: "Couple" | "Family" | "Honeymoon" | "Leisure" | "Adventure" | "Group";
+  theme?: string;
   price: number;
   originalPrice?: number;
   rating: number;

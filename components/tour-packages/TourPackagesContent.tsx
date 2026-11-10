@@ -9,6 +9,7 @@ import { SortOption } from "./types";
 
 export default function TourPackagesContent() {
   const [selectedTravelType, setSelectedTravelType] = useState<string | null>(null);
+  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
   const [selectedBudget, setSelectedBudget] = useState<string | null>(null);
   const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<SortOption>("popular");
@@ -21,6 +22,20 @@ export default function TourPackagesContent() {
     // Travel Type Filter
     if (selectedTravelType) {
       result = result.filter((p) => p.travelType === selectedTravelType);
+    }
+
+    // Theme Filter
+    if (selectedTheme) {
+      result = result.filter(
+        (p) =>
+          p.theme === selectedTheme ||
+          (selectedTheme === "Beaches" && (p.destination === "Andaman" || p.destination === "Goa")) ||
+          (selectedTheme === "Hills" && (p.destination === "Kashmir" || p.destination === "Himachal")) ||
+          (selectedTheme === "Heritage" && p.destination === "Rajasthan") ||
+          (selectedTheme === "Nature" && (p.destination === "Kerala" || p.destination === "Sundarban")) ||
+          (selectedTheme === "Honeymoon" && p.travelType === "Honeymoon") ||
+          (selectedTheme === "Adventure" && (p.travelType === "Adventure" || p.destination === "Ladakh"))
+      );
     }
 
     // Destination Filter
@@ -64,6 +79,7 @@ export default function TourPackagesContent() {
 
   const handleClearAll = () => {
     setSelectedTravelType(null);
+    setSelectedTheme(null);
     setSelectedBudget(null);
     setSelectedDestination(null);
     setSortBy("popular");
@@ -71,8 +87,18 @@ export default function TourPackagesContent() {
 
   const activeFiltersCount =
     (selectedTravelType ? 1 : 0) +
+    (selectedTheme ? 1 : 0) +
     (selectedBudget ? 1 : 0) +
     (selectedDestination ? 1 : 0);
+
+  const themeLabelMap: Record<string, string> = {
+    Beaches: "Beaches & Islands",
+    Hills: "Hills & Mountains",
+    Heritage: "Heritage & Palaces",
+    Nature: "Nature & Wildlife",
+    Honeymoon: "Romantic Escapes",
+    Adventure: "Snow & Adventure",
+  };
 
   const budgetLabelMap: Record<string, string> = {
     "0-20k": "₹0 - ₹20k",
@@ -141,6 +167,17 @@ export default function TourPackagesContent() {
               </button>
             )}
 
+            {selectedTheme && (
+              <button
+                type="button"
+                onClick={() => setSelectedTheme(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+              >
+                <span>Theme: {themeLabelMap[selectedTheme] || selectedTheme}</span>
+                <span className="text-sm font-bold">×</span>
+              </button>
+            )}
+
             {selectedBudget && (
               <button
                 type="button"
@@ -168,6 +205,8 @@ export default function TourPackagesContent() {
           <FilterSidebar
             selectedTravelType={selectedTravelType}
             onSelectTravelType={setSelectedTravelType}
+            selectedTheme={selectedTheme}
+            onSelectTheme={setSelectedTheme}
             selectedBudget={selectedBudget}
             onSelectBudget={setSelectedBudget}
             selectedDestination={selectedDestination}
