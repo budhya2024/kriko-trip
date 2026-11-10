@@ -65,10 +65,10 @@ export default function TravelThemesSection() {
   return (
     <section className="w-full bg-white py-8 md:py-16 relative overflow-hidden">
       <div className="container relative z-10">
-        
+
         {/* ─── Header: Using section-title class with normal font weight ─── */}
         <div className="mb-6 md:mb-8 text-left">
-          <h2 className="section-title !font-normal">
+          <h2 className="section-title">
             Choose Your Travel Theme
           </h2>
         </div>
