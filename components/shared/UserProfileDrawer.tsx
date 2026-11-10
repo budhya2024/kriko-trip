@@ -400,74 +400,82 @@ export default function UserProfileDrawer() {
               </form>
             )}
 
-            {/* ─── TAB 2: Trip History (No numbers in tab or headers, bg color per box, border not) ─── */}
+            {/* ─── TAB 2: Trip History (Recent & Past Bookings container uses drawer bg, inner cards use white, no large rounded) ─── */}
             {activeTab === "trips" && (
-              <div className="space-y-3 animate-in fade-in duration-200">
-                <div className="text-xs text-gray-700 font-semibold pb-0.5">
-                  Recent &amp; Past Bookings
+              <div className="p-3.5 sm:p-4 rounded-lg bg-gray-100/90 space-y-3 animate-in fade-in duration-200">
+                <div className="flex items-center justify-between pb-0.5">
+                  <span className="text-xs text-gray-800 font-bold tracking-tight">
+                    Recent &amp; Past Bookings
+                  </span>
+                  <span className="text-[11px] font-medium text-gray-500">
+                    {user.trips.length} {user.trips.length === 1 ? "Trip" : "Trips"}
+                  </span>
                 </div>
 
-                {user.trips.map((trip) => (
-                  <div
-                    key={trip.id}
-                    className="p-3.5 rounded-lg bg-gray-50 hover:bg-gray-100/80 transition-colors space-y-2.5"
-                  >
-                    <div className="flex items-start gap-3">
-                      {/* Trip Thumbnail */}
-                      <div className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-200 shrink-0">
-                        <Image
-                          src={trip.image}
-                          alt={trip.packageTitle}
-                          fill
-                          sizes="64px"
-                          className="object-cover"
-                        />
-                      </div>
+                <div className="space-y-2.5">
+                  {user.trips.map((trip) => (
+                    <div
+                      key={trip.id}
+                      className="p-3.5 rounded-lg bg-white shadow-2xs hover:shadow-xs transition-shadow space-y-2.5"
+                    >
+                      <div className="flex items-start gap-3">
+                        {/* Trip Thumbnail */}
+                        <div className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
+                          <Image
+                            src={trip.image}
+                            alt={trip.packageTitle}
+                            fill
+                            sizes="64px"
+                            className="object-cover"
+                          />
+                        </div>
 
-                      {/* Details */}
-                      <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-1">
-                          <span className="text-[10px] font-mono text-gray-400">
-                            #{trip.bookingId}
-                          </span>
-                          <span
-                            className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${trip.status === "Confirmed"
-                              ? "bg-emerald-100/80 text-emerald-800"
-                              : "bg-blue-100/80 text-blue-800"
+                        {/* Details */}
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center justify-between gap-1">
+                            <span className="text-[10px] font-mono text-gray-400">
+                              #{trip.bookingId}
+                            </span>
+                            <span
+                              className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
+                                trip.status === "Confirmed"
+                                  ? "bg-emerald-50 text-emerald-700"
+                                  : "bg-blue-50 text-blue-700"
                               }`}
-                          >
-                            {trip.status}
+                            >
+                              {trip.status}
+                            </span>
+                          </div>
+
+                          <h4 className="text-xs sm:text-sm font-bold text-gray-900 truncate mt-0.5">
+                            {trip.packageTitle}
+                          </h4>
+
+                          <div className="flex items-center gap-1.5 text-[11px] text-gray-500 mt-0.5">
+                            <MapPin className="w-3 h-3 text-[#1877F2] shrink-0" />
+                            <span className="truncate">{trip.destination}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Dates & Cost Footer */}
+                      <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-600">
+                        <div className="flex items-center gap-1 text-gray-500">
+                          <Calendar className="w-3 h-3 text-gray-400" />
+                          <span>{trip.dates}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-emerald-600 font-semibold">
+                            +{trip.pointsEarned} pts
+                          </span>
+                          <span className="font-bold text-gray-900">
+                            ₹{trip.amount.toLocaleString("en-IN")}
                           </span>
                         </div>
-
-                        <h4 className="text-xs sm:text-sm font-bold text-gray-900 truncate mt-0.5">
-                          {trip.packageTitle}
-                        </h4>
-
-                        <div className="flex items-center gap-1.5 text-[11px] text-gray-500 mt-0.5">
-                          <MapPin className="w-3 h-3 text-[#1877F2] shrink-0" />
-                          <span className="truncate">{trip.destination}</span>
-                        </div>
                       </div>
                     </div>
-
-                    {/* Dates & Cost Footer */}
-                    <div className="pt-2 flex items-center justify-between text-[11px] text-gray-600">
-                      <div className="flex items-center gap-1 text-gray-500">
-                        <Calendar className="w-3 h-3 text-gray-400" />
-                        <span>{trip.dates}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-emerald-600 font-semibold">
-                          +{trip.pointsEarned} pts
-                        </span>
-                        <span className="font-bold text-gray-900">
-                          ₹{trip.amount.toLocaleString("en-IN")}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </div>

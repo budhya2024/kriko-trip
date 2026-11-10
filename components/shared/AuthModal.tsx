@@ -298,15 +298,15 @@ export default function AuthModal({
               {step === "phone"
                 ? "Sign In to KrikoTrip"
                 : step === "otp"
-                ? "Enter Verification Code"
-                : "Complete Your Profile"}
+                  ? "Enter Verification Code"
+                  : "Complete Your Profile"}
             </h3>
             <p className="text-xs text-gray-500 font-normal mt-0.5">
               {step === "phone"
                 ? "Enter your mobile number to receive an OTP verification code."
                 : step === "otp"
-                ? `We've sent a 6-digit OTP to +91 ${phoneNumber}`
-                : "Please enter your name, email, and address to get started."}
+                  ? `We've sent a 6-digit OTP to +91 ${phoneNumber}`
+                  : "Please enter your name, email, and address to get started."}
             </p>
           </div>
 

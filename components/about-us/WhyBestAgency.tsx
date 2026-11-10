@@ -35,27 +35,7 @@ export default function WhyBestAgency() {
               </p>
             </div>
 
-            {/* Founder Signature & Info */}
-            <div className="flex items-center gap-5 sm:gap-6 mt-8 sm:mt-10 pt-2">
-              <div className="shrink-0">
-                <Image
-                  src="/assets/images/founder-signature.png"
-                  alt="Robert Harringson Signature"
-                  width={110}
-                  height={55}
-                  className="w-24 sm:w-28 h-auto object-contain mix-blend-multiply"
-                />
-              </div>
 
-              <div className="flex flex-col text-left">
-                <h4 className="text-[17px] font-bold text-gray-950 leading-tight">
-                  Robert Harringson
-                </h4>
-                <p className="text-sm font-medium text-gray-500 mt-1">
-                  Founder at KrikoTrip
-                </p>
-              </div>
-            </div>
 
           </div>
 
