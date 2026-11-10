@@ -743,35 +743,67 @@ export default function PackageDetailView({
                   </button>
                 </div>
 
-                {/* Deal & Price Box */}
-                <div className="rounded-lg bg-[#F0F5FF] p-4 mb-5 flex items-center justify-between border border-blue-100/70">
-                  {/* Left Side */}
-                  <div className="flex flex-col items-start">
-                    <span className="inline-block px-2 py-0.5 rounded-md bg-[#00285C] text-white text-[10px] font-semibold uppercase tracking-wider mb-1">
-                      DEAL {pkg.id.slice(0, 8).toUpperCase()}
-                    </span>
-                    <span className="block text-xs font-semibold text-[#1877F2] uppercase tracking-wider mb-1">
-                      BEST VALUE DEAL
-                    </span>
-                    <span className="flex items-center gap-1.5 text-xs font-medium text-[#00285C]">
-                      <Clock className="w-3.5 h-3.5 text-[#1877F2]" />
-                      <span>{pkg.duration}</span>
-                    </span>
-                  </div>
+                {/* Deal & Price Box (Matches Special Offer Reference Screenshot) */}
+                {savings > 0 ? (
+                  <div className="rounded-2xl border border-[#FDE68A] bg-[#FFFDF7] p-4 sm:p-5 mb-5 flex items-center justify-between shadow-2xs">
+                    {/* Left Side */}
+                    <div className="flex flex-col items-start">
+                      <span className="text-xs font-bold text-[#C2410C] uppercase tracking-wide mb-1">
+                        SPECIAL OFFER
+                      </span>
+                      <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#1E293B] mb-2.5">
+                        <Clock className="w-3.5 h-3.5 text-[#1E293B] stroke-[2.2]" />
+                        <span>
+                          {pkg.nights && pkg.days
+                            ? `${pkg.nights} Nights / ${pkg.days} Days`
+                            : pkg.duration}
+                        </span>
+                      </div>
+                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs">
+                        Save ₹{savings.toLocaleString("en-IN")}
+                      </span>
+                    </div>
 
-                  {/* Right Side */}
-                  <div className="flex flex-col text-right">
-                    <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wider">
-                      STARTING FROM
-                    </span>
-                    <span className="text-2xl sm:text-3xl font-bold text-[#00285C] leading-tight">
-                      ₹{pkg.price.toLocaleString("en-IN")}
-                    </span>
-                    <span className="text-xs text-gray-500 font-normal">
-                      per person
-                    </span>
+                    {/* Right Side */}
+                    <div className="flex flex-col text-right items-end">
+                      <div className="flex items-center justify-end gap-1.5 text-[11px] font-bold text-[#475569] uppercase tracking-wide">
+                        <span>STARTING FROM</span>
+                        <span className="line-through text-slate-400 font-semibold">
+                          ₹{originalPrice.toLocaleString("en-IN")}
+                        </span>
+                      </div>
+                      <span className="text-2xl sm:text-[30px] font-extrabold text-[#0F172A] leading-tight my-0.5">
+                        ₹{pkg.price.toLocaleString("en-IN")}
+                      </span>
+                      <span className="text-xs font-medium text-[#64748B]">
+                        per person
+                      </span>
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="rounded-2xl border border-gray-200 bg-gray-50/70 p-4 sm:p-5 mb-5 flex items-center justify-between shadow-2xs">
+                    <div className="flex flex-col items-start">
+                      <span className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">
+                        STANDARD RATE
+                      </span>
+                      <div className="flex items-center gap-1.5 text-xs sm:text-[13px] font-semibold text-[#1E293B]">
+                        <Clock className="w-3.5 h-3.5 text-[#1E293B] stroke-[2.2]" />
+                        <span>{pkg.duration}</span>
+                      </div>
+                    </div>
+                    <div className="flex flex-col text-right items-end">
+                      <span className="text-[11px] font-medium text-gray-500 uppercase tracking-wide">
+                        STARTING FROM
+                      </span>
+                      <span className="text-2xl sm:text-[30px] font-extrabold text-[#0F172A] leading-tight my-0.5">
+                        ₹{pkg.price.toLocaleString("en-IN")}
+                      </span>
+                      <span className="text-xs font-medium text-[#64748B]">
+                        per person
+                      </span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Form Subtitle */}
                 <p className="text-xs sm:text-sm font-medium text-gray-700 mb-3.5">
