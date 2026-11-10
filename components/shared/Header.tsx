@@ -183,6 +183,7 @@ export default function Header() {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isSupportDropdownOpen, setIsSupportDropdownOpen] = useState(false);
+  const [isMobileSupportOpen, setIsMobileSupportOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
@@ -803,31 +804,128 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Drawer Footer: WhatsApp + Login Button */}
+        {/* Drawer Footer: WhatsApp + Support Options */}
         <div className="p-5 pt-3 border-t border-gray-100 bg-white">
-          {/* WhatsApp Card */}
-          <div className="bg-[#f4f5f7]  p-3.5 flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-white shadow-xs border border-gray-100 flex items-center justify-center shrink-0">
-              <svg viewBox="0 0 24 24" fill="#25D366" className="w-5 h-5">
-                <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.15C10.56 20.15 9.11 19.75 7.85 19L7.55 18.82L4.43 19.64L5.26 16.59L5.07 16.29C4.24 14.97 3.81 13.46 3.81 11.91C3.81 7.37 7.5 3.69 12.05 3.69C14.25 3.69 16.32 4.55 17.88 6.11C19.44 7.67 20.3 9.74 20.3 11.94C20.3 16.48 16.6 20.15 12.05 20.15ZM16.57 14.33C16.32 14.2 15.1 13.6 14.87 13.52C14.65 13.43 14.48 13.39 14.32 13.64C14.15 13.89 13.68 14.45 13.53 14.62C13.39 14.78 13.24 14.81 12.99 14.68C12.74 14.56 11.94 14.29 10.99 13.44C10.25 12.78 9.75 11.96 9.61 11.71C9.46 11.46 9.59 11.33 9.72 11.2C9.83 11.09 9.97 10.91 10.09 10.76C10.22 10.62 10.26 10.51 10.34 10.35C10.42 10.18 10.38 10.04 10.32 9.91C10.26 9.79 9.77 8.58 9.56 8.08C9.36 7.59 9.16 7.66 9.01 7.65C8.87 7.64 8.71 7.64 8.54 7.64C8.38 7.64 8.11 7.7 7.89 7.95C7.66 8.19 7.03 8.78 7.03 9.99C7.03 11.2 7.91 12.37 8.03 12.53C8.16 12.7 9.76 15.17 12.22 16.23C12.8 16.48 13.26 16.63 13.61 16.74C14.2 16.93 14.74 16.9 15.16 16.84C15.63 16.77 16.61 16.25 16.81 15.68C17.02 15.11 17.02 14.62 16.96 14.52C16.89 14.41 16.74 14.34 16.57 14.22V14.33Z" />
-              </svg>
-            </div>
-            <div className="flex flex-col text-left">
-              <span className="text-[12px] font-medium text-gray-500 leading-none">
-                WhatsApp
-              </span>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <span className="text-[15px] font-bold text-gray-900 leading-tight">
-                  +91 8250338715
-                </span>
-                <svg viewBox="0 0 10 6" fill="currentColor" className="w-2.5 h-2.5 text-gray-900 ml-0.5">
-                  <path d="M0 0L5 6L10 0H0Z" />
+          {/* WhatsApp Card Toggle */}
+          <button
+            type="button"
+            onClick={() => setIsMobileSupportOpen(!isMobileSupportOpen)}
+            className="w-full bg-[#f4f5f7] p-3.5 flex items-center justify-between text-left cursor-pointer rounded-lg hover:bg-gray-100 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-white shadow-xs border border-gray-100 flex items-center justify-center shrink-0">
+                <svg viewBox="0 0 24 24" fill="#25D366" className="w-5 h-5">
+                  <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.15C10.56 20.15 9.11 19.75 7.85 19L7.55 18.82L4.43 19.64L5.26 16.59L5.07 16.29C4.24 14.97 3.81 13.46 3.81 11.91C3.81 7.37 7.5 3.69 12.05 3.69C14.25 3.69 16.32 4.55 17.88 6.11C19.44 7.67 20.3 9.74 20.3 11.94C20.3 16.48 16.6 20.15 12.05 20.15ZM16.57 14.33C16.32 14.2 15.1 13.6 14.87 13.52C14.65 13.43 14.48 13.39 14.32 13.64C14.15 13.89 13.68 14.45 13.53 14.62C13.39 14.78 13.24 14.81 12.99 14.68C12.74 14.56 11.94 14.29 10.99 13.44C10.25 12.78 9.75 11.96 9.61 11.71C9.46 11.46 9.59 11.33 9.72 11.2C9.83 11.09 9.97 10.91 10.09 10.76C10.22 10.62 10.26 10.51 10.34 10.35C10.42 10.18 10.38 10.04 10.32 9.91C10.26 9.79 9.77 8.58 9.56 8.08C9.36 7.59 9.16 7.66 9.01 7.65C8.87 7.64 8.71 7.64 8.54 7.64C8.38 7.64 8.11 7.7 7.89 7.95C7.66 8.19 7.03 8.78 7.03 9.99C7.03 11.2 7.91 12.37 8.03 12.53C8.16 12.7 9.76 15.17 12.22 16.23C12.8 16.48 13.26 16.63 13.61 16.74C14.2 16.93 14.74 16.9 15.16 16.84C15.63 16.77 16.61 16.25 16.81 15.68C17.02 15.11 17.02 14.62 16.96 14.52C16.89 14.41 16.74 14.34 16.57 14.22V14.33Z" />
                 </svg>
               </div>
+              <div className="flex flex-col text-left">
+                <span className="text-[12px] font-medium text-gray-500 leading-none">
+                  WhatsApp Support
+                </span>
+                <span className="text-[15px] font-bold text-gray-900 leading-tight mt-0.5">
+                  +91 8250338715
+                </span>
+              </div>
             </div>
-          </div>
+            <svg
+              viewBox="0 0 10 6"
+              fill="currentColor"
+              className={`w-2.5 h-2.5 text-gray-900 transition-transform duration-200 ml-1 shrink-0 ${
+                isMobileSupportOpen ? "rotate-180" : ""
+              }`}
+            >
+              <path d="M0 0L5 6L10 0H0Z" />
+            </svg>
+          </button>
 
+          {/* Expanded Dropdown Options with Smooth Animation */}
+          {isMobileSupportOpen && (
+            <div className="mt-2 bg-white rounded-lg border border-gray-100 p-2.5 space-y-1.5 shadow-sm animate-in fade-in duration-200">
+              {/* WhatsApp direct chat */}
+              <a
+                href="https://wa.me/918250338715"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsMobileDrawerOpen(false)}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-emerald-50/60 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-full bg-emerald-50 border border-emerald-100 flex items-center justify-center shrink-0">
+                  <svg viewBox="0 0 24 24" fill="#25D366" className="w-5 h-5">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2ZM12.05 20.15C10.56 20.15 9.11 19.75 7.85 19L7.55 18.82L4.43 19.64L5.26 16.59L5.07 16.29C4.24 14.97 3.81 13.46 3.81 11.91C3.81 7.37 7.5 3.69 12.05 3.69C14.25 3.69 16.32 4.55 17.88 6.11C19.44 7.67 20.3 9.74 20.3 11.94C20.3 16.48 16.6 20.15 12.05 20.15ZM16.57 14.33C16.32 14.2 15.1 13.6 14.87 13.52C14.65 13.43 14.48 13.39 14.32 13.64C14.15 13.89 13.68 14.45 13.53 14.62C13.39 14.78 13.24 14.81 12.99 14.68C12.74 14.56 11.94 14.29 10.99 13.44C10.25 12.78 9.75 11.96 9.61 11.71C9.46 11.46 9.59 11.33 9.72 11.2C9.83 11.09 9.97 10.91 10.09 10.76C10.22 10.62 10.26 10.51 10.34 10.35C10.42 10.18 10.38 10.04 10.32 9.91C10.26 9.79 9.77 8.58 9.56 8.08C9.36 7.59 9.16 7.66 9.01 7.65C8.87 7.64 8.71 7.64 8.54 7.64C8.38 7.64 8.11 7.7 7.89 7.95C7.66 8.19 7.03 8.78 7.03 9.99C7.03 11.2 7.91 12.37 8.03 12.53C8.16 12.7 9.76 15.17 12.22 16.23C12.8 16.48 13.26 16.63 13.61 16.74C14.2 16.93 14.74 16.9 15.16 16.84C15.63 16.77 16.61 16.25 16.81 15.68C17.02 15.11 17.02 14.62 16.96 14.52C16.89 14.41 16.74 14.34 16.57 14.22V14.33Z" />
+                  </svg>
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[11px] font-medium text-gray-500 leading-none">
+                    Start Chat
+                  </span>
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-emerald-600 transition-colors mt-0.5">
+                    WhatsApp Chat
+                  </span>
+                </div>
+              </a>
 
+              {/* Mail Support Option */}
+              <a
+                href="mailto:info@krikotrips.com"
+                onClick={() => setIsMobileDrawerOpen(false)}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-amber-50/60 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-full bg-white border border-gray-100 shadow-2xs flex items-center justify-center shrink-0">
+                  <svg viewBox="0 0 32 32" fill="none" className="w-5 h-5">
+                    <rect x="4" y="10" width="24" height="16" rx="2" fill="#FBBF24" stroke="#1F2937" strokeWidth="1.5" />
+                    <rect x="7" y="5" width="18" height="10" rx="1.5" fill="white" stroke="#1F2937" strokeWidth="1.5" />
+                    <path d="M10 8H22" stroke="#4B5563" strokeWidth="1.2" strokeLinecap="round" />
+                    <path d="M10 11H18" stroke="#4B5563" strokeWidth="1.2" strokeLinecap="round" />
+                    <path d="M4 12L16 20L28 12" stroke="#1F2937" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M4 25L12 18" stroke="#1F2937" strokeWidth="1.5" strokeLinecap="round" />
+                    <path d="M28 25L20 18" stroke="#1F2937" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[11px] font-medium text-gray-500 leading-none">
+                    Mail Support
+                  </span>
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors mt-0.5">
+                    info@krikotrips.com
+                  </span>
+                </div>
+              </a>
+
+              {/* More Inquiry / Call Option */}
+              <a
+                href="tel:+918250338715"
+                onClick={() => setIsMobileDrawerOpen(false)}
+                className="flex items-center gap-3 p-2 rounded-md hover:bg-red-50/60 transition-colors group"
+              >
+                <div className="w-9 h-9 rounded-full bg-white border border-gray-100 shadow-2xs flex items-center justify-center shrink-0">
+                  <svg viewBox="0 0 32 32" fill="none" className="w-5 h-5">
+                    <rect x="3" y="6" width="26" height="16" rx="3.5" fill="#EF4444" />
+                    <path d="M7 22L5 27L12 22H7Z" fill="#EF4444" />
+                    <text
+                      x="16"
+                      y="16.5"
+                      fill="white"
+                      fontSize="8"
+                      fontWeight="800"
+                      textAnchor="middle"
+                      fontFamily="sans-serif"
+                      letterSpacing="0.5"
+                    >
+                      LIVE
+                    </text>
+                  </svg>
+                </div>
+                <div className="flex flex-col text-left">
+                  <span className="text-[11px] font-medium text-gray-500 leading-none">
+                    More Inquiry
+                  </span>
+                  <span className="text-sm font-bold text-gray-900 group-hover:text-red-600 transition-colors mt-0.5">
+                    +91 8250338715
+                  </span>
+                </div>
+              </a>
+            </div>
+          )}
         </div>
       </aside>
 

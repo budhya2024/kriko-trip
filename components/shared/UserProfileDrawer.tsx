@@ -147,24 +147,21 @@ export default function UserProfileDrawer() {
 
   return (
     <div
-      className={`fixed inset-0 z-[160] transition-opacity duration-300 ease-in-out ${
-        isProfileDrawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-      }`}
+      className={`fixed inset-0 z-[160] transition-opacity duration-300 ease-in-out ${isProfileDrawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
     >
       {/* ─── Smooth Backdrop ─── */}
       <div
-        className={`fixed inset-0 bg-black/45 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${
-          isProfileDrawerOpen ? "opacity-100" : "opacity-0"
-        }`}
+        className={`fixed inset-0 bg-black/45 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${isProfileDrawerOpen ? "opacity-100" : "opacity-0"
+          }`}
         onClick={closeProfileDrawer}
       />
 
       {/* ─── Slide-Over Panel (Smooth ease-out translation, clean professional styling) ─── */}
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
         <div
-          className={`w-screen max-w-[460px] bg-white border-l border-gray-200 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${
-            isProfileDrawerOpen ? "translate-x-0" : "translate-x-full"
-          }`}
+          className={`w-screen max-w-[460px] bg-white border-l border-gray-200 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isProfileDrawerOpen ? "translate-x-0" : "translate-x-full"
+            }`}
         >
           {/* ─── Drawer Header ─── */}
           <div className="px-5 py-4 border-b border-gray-200 flex items-center justify-between bg-white shrink-0">
@@ -313,11 +310,10 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("profile")}
-                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
-                  activeTab === "profile"
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "profile"
                     ? "text-[#1877F2]"
                     : "text-gray-500 hover:text-gray-800"
-                }`}
+                  }`}
               >
                 <span>Profile Info</span>
                 {activeTab === "profile" && (
@@ -328,11 +324,10 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("trips")}
-                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
-                  activeTab === "trips"
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "trips"
                     ? "text-[#1877F2]"
                     : "text-gray-500 hover:text-gray-800"
-                }`}
+                  }`}
               >
                 <span>Bookings</span>
                 {activeTab === "trips" && (
@@ -343,11 +338,10 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("password")}
-                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
-                  activeTab === "password"
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "password"
                     ? "text-[#1877F2]"
                     : "text-gray-500 hover:text-gray-800"
-                }`}
+                  }`}
               >
                 <span>Password</span>
                 {activeTab === "password" && (
@@ -371,7 +365,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Full Name
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <User className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
@@ -389,7 +383,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Email Address
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <Mail className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="email"
@@ -407,7 +401,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Phone Number
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <Phone className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="tel"
@@ -425,7 +419,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     City / Location
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
+                  <div className="flex items-center gap-2 px-3 py-3 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
@@ -495,11 +489,10 @@ export default function UserProfileDrawer() {
                             #{trip.bookingId}
                           </span>
                           <span
-                            className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${
-                              trip.status === "Confirmed"
+                            className={`px-2 py-0.5 rounded-md text-[10px] font-bold ${trip.status === "Confirmed"
                                 ? "bg-emerald-100/80 text-emerald-800"
                                 : "bg-blue-100/80 text-blue-800"
-                            }`}
+                              }`}
                           >
                             {trip.status}
                           </span>
@@ -546,11 +539,10 @@ export default function UserProfileDrawer() {
 
                 {passwordMessage && (
                   <div
-                    className={`p-3 rounded-lg text-xs font-medium ${
-                      passwordMessage.type === "success"
+                    className={`p-3 rounded-lg text-xs font-medium ${passwordMessage.type === "success"
                         ? "bg-emerald-50 text-emerald-800"
                         : "bg-red-50 text-red-700"
-                    }`}
+                      }`}
                   >
                     {passwordMessage.text}
                   </div>
