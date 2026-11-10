@@ -20,6 +20,8 @@ export interface UserProfile {
   email: string;
   phone: string;
   avatar: string;
+  location?: string;
+  bio?: string;
   loyaltyPoints: number;
   tier: "Silver Explorer" | "Gold Explorer" | "Platinum Elite";
   trips: TripHistoryItem[];
@@ -31,6 +33,8 @@ export const DEFAULT_MOCK_USER: UserProfile = {
   phone: "+91 98765 43210",
   avatar:
     "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
+  location: "Kolkata, West Bengal",
+  bio: "Passionate traveler & nature lover. Exploring the world one trip at a time.",
   loyaltyPoints: 1450,
   tier: "Gold Explorer",
   trips: [

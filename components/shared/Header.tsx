@@ -238,7 +238,7 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Desktop Right Utilities (Need Help?, Login) */}
+          {/* Desktop Right Utilities (Need Help?, Login / Profile Avatar) */}
           <div className="hidden lg:flex items-center gap-5 shrink-0">
             {/* Need Help? link */}
             <Link
@@ -256,27 +256,23 @@ export default function Header() {
               <button
                 type="button"
                 onClick={openProfileDrawer}
-                className="flex items-center gap-2.5 bg-gray-50 hover:bg-blue-50/60 border border-gray-200 hover:border-blue-300 px-3 py-1.5 rounded-full transition-all duration-200 cursor-pointer group shadow-2xs"
-                title="View My Profile & Bookings"
+                className="w-10 h-10 rounded-full border-2 border-[#1877F2] hover:border-[#00285C] relative cursor-pointer shadow-xs hover:shadow-md transition-all active:scale-95 flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100/60"
+                title={`${user.name} - Open Profile`}
+                aria-label="Open profile drawer"
               >
-                <div className="relative w-7 h-7 rounded-full overflow-hidden border border-[#1877F2]/40 shrink-0">
+                {user.avatar ? (
                   <Image
                     src={user.avatar}
                     alt={user.name}
                     fill
-                    sizes="28px"
+                    sizes="40px"
                     className="object-cover"
                   />
-                </div>
-                <div className="flex flex-col text-left leading-none pr-0.5">
-                  <span className="text-xs font-bold text-gray-900 group-hover:text-[#1877F2] transition-colors">
-                    {user.name.split(" ")[0]}
+                ) : (
+                  <span className="font-bold text-sm text-[#1877F2] select-none">
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
                   </span>
-                  <span className="text-[10px] font-bold text-amber-600 mt-0.5">
-                    ★ {user.loyaltyPoints.toLocaleString("en-IN")} pts
-                  </span>
-                </div>
-                <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1877F2] transition-colors" />
+                )}
               </button>
             ) : (
               <button
@@ -300,16 +296,22 @@ export default function Header() {
               <button
                 type="button"
                 onClick={openProfileDrawer}
-                className="w-10 h-10 rounded-full border-2 border-[#1877F2] overflow-hidden relative cursor-pointer shadow-xs"
+                className="w-10 h-10 rounded-full border-2 border-[#1877F2] hover:border-[#00285C] relative cursor-pointer shadow-xs active:scale-95 flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100/60"
                 aria-label="Open profile drawer"
               >
-                <Image
-                  src={user.avatar}
-                  alt={user.name}
-                  fill
-                  sizes="40px"
-                  className="object-cover"
-                />
+                {user.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    alt={user.name}
+                    fill
+                    sizes="40px"
+                    className="object-cover"
+                  />
+                ) : (
+                  <span className="font-bold text-sm text-[#1877F2] select-none">
+                    {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                  </span>
+                )}
               </button>
             ) : (
               <button
