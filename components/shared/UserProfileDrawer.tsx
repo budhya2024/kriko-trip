@@ -569,9 +569,9 @@ export default function UserProfileDrawer() {
                         <span>Base Package Fare</span>
                         <span className="font-medium text-gray-700">
                           ₹{(
-                            selectedTrip.appliedCoupon
-                              ? selectedTrip.amount + selectedTrip.appliedCoupon.discountAmount
-                              : selectedTrip.amount
+                            selectedTrip.amount +
+                            (selectedTrip.appliedCoupon?.discountAmount || 0) +
+                            (selectedTrip.loyaltyRedeemed?.discountAmount || 0)
                           ).toLocaleString("en-IN")}
                         </span>
                       </div>
@@ -590,6 +590,19 @@ export default function UserProfileDrawer() {
                             </span>
                           </div>
                           <span>- ₹{selectedTrip.appliedCoupon.discountAmount.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+
+                      {/* Display Loyalty Points Redeemed if any */}
+                      {selectedTrip.loyaltyRedeemed && (
+                        <div className="flex items-center justify-between text-amber-800 font-semibold bg-amber-50 px-2.5 py-1.5 rounded-md border border-amber-200/80">
+                          <div className="flex items-center gap-1.5">
+                            <Crown className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                            <span>
+                              Loyalty Redeemed ({selectedTrip.loyaltyRedeemed.points.toLocaleString("en-IN")} pts)
+                            </span>
+                          </div>
+                          <span>- ₹{selectedTrip.loyaltyRedeemed.discountAmount.toLocaleString("en-IN")}</span>
                         </div>
                       )}
 
@@ -694,19 +707,33 @@ export default function UserProfileDrawer() {
                                 <span className="truncate">{trip.destination}</span>
                               </div>
 
-                              {/* Applied Coupon Badge */}
-                              {trip.appliedCoupon && (
-                                <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60 mt-1">
-                                  <Tag className="w-3 h-3 text-emerald-600 shrink-0" />
-                                  <span>
-                                    Coupon:{" "}
-                                    <strong className="font-mono text-emerald-950">
-                                      {trip.appliedCoupon.code}
-                                    </strong>{" "}
-                                    (-₹{trip.appliedCoupon.discountAmount.toLocaleString("en-IN")})
-                                  </span>
-                                </div>
-                              )}
+                              {/* Applied Badges (Coupon & Loyalty) */}
+                              <div className="flex items-center gap-1.5 flex-wrap mt-1">
+                                {trip.appliedCoupon && (
+                                  <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
+                                    <Tag className="w-3 h-3 text-emerald-600 shrink-0" />
+                                    <span>
+                                      Coupon:{" "}
+                                      <strong className="font-mono text-emerald-950">
+                                        {trip.appliedCoupon.code}
+                                      </strong>{" "}
+                                      (-₹{trip.appliedCoupon.discountAmount.toLocaleString("en-IN")})
+                                    </span>
+                                  </div>
+                                )}
+                                {trip.loyaltyRedeemed && (
+                                  <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
+                                    <Crown className="w-3 h-3 text-amber-600 shrink-0" />
+                                    <span>
+                                      Loyalty:{" "}
+                                      <strong>
+                                        {trip.loyaltyRedeemed.points.toLocaleString("en-IN")} pts
+                                      </strong>{" "}
+                                      (-₹{trip.loyaltyRedeemed.discountAmount.toLocaleString("en-IN")})
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           </div>
 

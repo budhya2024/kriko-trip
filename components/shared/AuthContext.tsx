@@ -23,6 +23,10 @@ export interface TripHistoryItem {
     code: string;
     discountAmount: number;
   };
+  loyaltyRedeemed?: {
+    points: number;
+    discountAmount: number;
+  };
 }
 
 export interface UserProfile {
@@ -68,6 +72,10 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       appliedCoupon: {
         code: "KRIKO10",
         discountAmount: 3200,
+      },
+      loyaltyRedeemed: {
+        points: 500,
+        discountAmount: 500,
       },
       inclusions: [
         "Private AC Sedan for all transfers",
@@ -125,6 +133,10 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       appliedCoupon: {
         code: "FESTIVE15",
         discountAmount: 5000,
+      },
+      loyaltyRedeemed: {
+        points: 1000,
+        discountAmount: 1000,
       },
       inclusions: [
         "1 Night Houseboat Stay with Shikara Ride",

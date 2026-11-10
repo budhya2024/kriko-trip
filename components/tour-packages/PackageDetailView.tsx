@@ -34,12 +34,14 @@ import {
   Activity,
   Ticket,
   Percent,
+  Crown,
 } from "lucide-react";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
 import BankingDatePicker from "@/components/shared/DateTimePicker";
 import RelevantPackagesSlider from "./RelevantPackagesSlider";
 import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
+import { useAuth } from "@/components/shared/AuthContext";
 
 interface PackageDetailViewProps {
   pkg: TourPackage & PackageDetailedInfo;
@@ -74,6 +76,10 @@ export default function PackageDetailView({
   const [minDate, setMinDate] = useState<string>("2026-11-01");
   const [mounted, setMounted] = useState(false);
 
+  // User Profile & Loyalty Rewards State
+  const { user, isLoggedIn, updateProfile } = useAuth();
+  const [applyLoyalty, setApplyLoyalty] = useState(false);
+
   // Professional Coupon Code State
   const [couponInput, setCouponInput] = useState("");
   const [couponError, setCouponError] = useState("");
@@ -82,6 +88,21 @@ export default function PackageDetailView({
     discountAmount: number;
     discountText: string;
   } | null>(null);
+
+  // Available loyalty points (actual user points or demo 1,450 points)
+  const availableLoyaltyPoints = user?.loyaltyPoints ?? 1450;
+
+  // Coupon calculations
+  const couponDiscount = appliedCoupon ? appliedCoupon.discountAmount : 0;
+  const priceAfterCoupon = Math.max(0, pkg.price - couponDiscount);
+
+  // Max points redeemable cannot exceed remaining package price (1 point = ₹1)
+  const redeemableLoyaltyPoints = Math.min(availableLoyaltyPoints, priceAfterCoupon);
+  const loyaltyDiscount = applyLoyalty ? redeemableLoyaltyPoints : 0;
+
+  // Total discount & final effective payable price
+  const totalSavings = couponDiscount + loyaltyDiscount;
+  const finalPrice = Math.max(0, pkg.price - totalSavings);
 
   const availableCoupons = [
     { code: "KRIKO10", discountPercent: 10, discountText: "10% OFF" },
@@ -140,6 +161,17 @@ export default function PackageDetailView({
     setMinDate(`${y}-${m}-${d}`);
   }, []);
 
+  // Auto-fill form details if user is logged in
+  useEffect(() => {
+    if (user && isLoggedIn) {
+      setSidebarForm((prev) => ({
+        ...prev,
+        name: prev.name || user.name || "",
+        email: prev.email || user.email || "",
+      }));
+    }
+  }, [user, isLoggedIn]);
+
   const originalPrice = pkg.originalPrice || Math.round(pkg.price * 1.25);
   const savings = originalPrice - pkg.price;
   const discountPercent = Math.round((savings / originalPrice) * 100);
@@ -196,8 +228,28 @@ export default function PackageDetailView({
     setIsQuoteSubmitted(true);
     setTimeout(() => {
       setIsQuoteSubmitted(false);
+
+      // If loyalty points were redeemed and user is logged in, deduct them
+      if (applyLoyalty && loyaltyDiscount > 0 && user && isLoggedIn) {
+        updateProfile({
+          loyaltyPoints: Math.max(0, user.loyaltyPoints - loyaltyDiscount),
+        });
+      }
+
+      let discountMsg = "";
+      if (totalSavings > 0) {
+        const parts = [];
+        if (couponDiscount > 0 && appliedCoupon) {
+          parts.push(`Coupon (${appliedCoupon.code}): -₹${couponDiscount.toLocaleString("en-IN")}`);
+        }
+        if (loyaltyDiscount > 0) {
+          parts.push(`Loyalty Points (${redeemableLoyaltyPoints} pts): -₹${loyaltyDiscount.toLocaleString("en-IN")}`);
+        }
+        discountMsg = ` Total savings applied: ₹${totalSavings.toLocaleString("en-IN")} (${parts.join(", ")}). Final payable: ₹${finalPrice.toLocaleString("en-IN")}.`;
+      }
+
       alert(
-        `Thank you ${sidebarForm.name || ""}! Your inquiry for "${pkg.title}" has been received. Our holiday specialist will call you on ${countryCode} ${sidebarForm.phone || ""} shortly.`
+        `Thank you ${sidebarForm.name || ""}! Your booking request for "${pkg.title}" has been received.${discountMsg} Our holiday specialist will call you on ${countryCode} ${sidebarForm.phone || ""} shortly.`
       );
       setSidebarForm({
         name: "",
@@ -207,6 +259,8 @@ export default function PackageDetailView({
         travellers: "1",
         message: "",
       });
+      setApplyLoyalty(false);
+      setAppliedCoupon(null);
     }, 1000);
   };
 
@@ -1080,8 +1134,85 @@ export default function PackageDetailView({
                     )}
                   </div>
 
-                  {/* Price Summary with Applied Discount */}
-                  {appliedCoupon && (
+                  {/* ─── Loyalty Points Redemption Section ─── */}
+                  <div>
+                    <div className="flex items-center justify-between mb-1">
+                      <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
+                        <Crown className="w-3.5 h-3.5 text-amber-500" />
+                        <span>Kriko Loyalty Points</span>
+                      </label>
+                      {applyLoyalty && loyaltyDiscount > 0 && (
+                        <span className="text-[11px] font-bold text-amber-700 flex items-center gap-1">
+                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                          Redeemed
+                        </span>
+                      )}
+                    </div>
+
+                    {!applyLoyalty ? (
+                      <div className="p-2.5 rounded-lg bg-amber-50/70 border border-amber-200/80 transition-all">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <div className="w-7 h-7 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                              <Crown className="w-3.5 h-3.5 stroke-[2.2]" />
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="text-xs font-bold text-gray-900">
+                                  {availableLoyaltyPoints.toLocaleString("en-IN")} Points
+                                </span>
+                                <span className="text-[10px] font-bold text-amber-800 bg-amber-200/80 px-1.5 py-0.2 rounded">
+                                  ₹{availableLoyaltyPoints.toLocaleString("en-IN")} OFF
+                                </span>
+                              </div>
+                              <p className="text-[10.5px] text-gray-500 truncate">
+                                1 pt = ₹1 instant discount on this booking
+                              </p>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setApplyLoyalty(true)}
+                            className="px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-bold transition-all cursor-pointer shrink-0 shadow-2xs"
+                          >
+                            Apply
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      /* Loyalty Applied Card */
+                      <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-300 flex items-center justify-between text-xs animate-in fade-in duration-200">
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-7 h-7 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center shrink-0">
+                            <Crown className="w-3.5 h-3.5 stroke-[2.2]" />
+                          </div>
+                          <div className="min-w-0">
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-bold text-amber-950 text-xs">
+                                {redeemableLoyaltyPoints.toLocaleString("en-IN")} Points Redeemed
+                              </span>
+                              <span className="text-[10px] font-bold text-amber-900 bg-amber-200 px-1.5 py-0.5 rounded">
+                                ₹{loyaltyDiscount.toLocaleString("en-IN")} OFF
+                              </span>
+                            </div>
+                            <span className="text-[11px] text-amber-800 font-medium block truncate">
+                              Instant loyalty cashback applied!
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => setApplyLoyalty(false)}
+                          className="text-[11px] font-semibold text-red-600 hover:text-red-700 hover:underline cursor-pointer shrink-0 ml-2"
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Combined Price Summary (Coupon + Loyalty) */}
+                  {(appliedCoupon || (applyLoyalty && loyaltyDiscount > 0)) && (
                     <div className="p-3 rounded-lg bg-gray-50 border border-gray-200/80 space-y-1.5 text-xs text-gray-700 animate-in fade-in duration-150">
                       <div className="flex items-center justify-between">
                         <span>Original Price</span>
@@ -1089,14 +1220,40 @@ export default function PackageDetailView({
                           ₹{pkg.price.toLocaleString("en-IN")}
                         </span>
                       </div>
-                      <div className="flex items-center justify-between text-emerald-700 font-semibold">
-                        <span>Coupon Savings ({appliedCoupon.code})</span>
-                        <span>- ₹{appliedCoupon.discountAmount.toLocaleString("en-IN")}</span>
-                      </div>
+
+                      {appliedCoupon && (
+                        <div className="flex items-center justify-between text-emerald-700 font-semibold">
+                          <span className="flex items-center gap-1">
+                            <Tag className="w-3 h-3 text-emerald-600" />
+                            Coupon Savings ({appliedCoupon.code})
+                          </span>
+                          <span>- ₹{appliedCoupon.discountAmount.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+
+                      {applyLoyalty && loyaltyDiscount > 0 && (
+                        <div className="flex items-center justify-between text-amber-800 font-semibold">
+                          <span className="flex items-center gap-1">
+                            <Crown className="w-3.5 h-3.5 text-amber-600" />
+                            Loyalty Redeemed ({redeemableLoyaltyPoints.toLocaleString("en-IN")} pts)
+                          </span>
+                          <span>- ₹{loyaltyDiscount.toLocaleString("en-IN")}</span>
+                        </div>
+                      )}
+
+                      {appliedCoupon && applyLoyalty && loyaltyDiscount > 0 && (
+                        <div className="flex items-center justify-between text-gray-600 text-[11px] pt-0.5">
+                          <span>Total Savings</span>
+                          <span className="font-bold text-emerald-700">
+                            - ₹{totalSavings.toLocaleString("en-IN")}
+                          </span>
+                        </div>
+                      )}
+
                       <div className="flex items-center justify-between pt-1.5 border-t border-gray-200 font-bold text-gray-900 text-sm">
                         <span>Effective Price</span>
                         <span className="text-[#1877F2] font-extrabold text-base">
-                          ₹{(pkg.price - appliedCoupon.discountAmount).toLocaleString("en-IN")}
+                          ₹{finalPrice.toLocaleString("en-IN")}
                         </span>
                       </div>
                     </div>
@@ -1129,7 +1286,11 @@ export default function PackageDetailView({
                   >
                     <Send className="w-4 h-4 text-white relative z-10" />
                     <span className="relative z-10">
-                      {isQuoteSubmitted ? "Submitting Request..." : "Get Best Quote"}
+                      {isQuoteSubmitted
+                        ? "Submitting Request..."
+                        : totalSavings > 0
+                        ? `Book Now • ₹${finalPrice.toLocaleString("en-IN")} (Save ₹${totalSavings.toLocaleString("en-IN")})`
+                        : "Get Best Quote"}
                     </span>
                   </button>
                 </form>
