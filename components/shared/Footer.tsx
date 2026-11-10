@@ -67,6 +67,16 @@ export default function Footer() {
         />
       </div>
 
+      {/* Light Color Indian Map Visible Background Illustration */}
+      <div className="absolute -right-12 sm:right-6 lg:right-16 top-1/2 -translate-y-1/2 w-[340px] sm:w-[500px] lg:w-[620px] h-[340px] sm:h-[500px] lg:h-[620px] pointer-events-none z-0 opacity-60 sm:opacity-75">
+        <Image
+          src="/assets/images/india-map.svg"
+          alt="India Map Vector Illustration"
+          fill
+          className="object-contain object-center"
+        />
+      </div>
+
       <div className="container relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-8">
 

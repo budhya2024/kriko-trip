@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Search, Check } from "lucide-react";
 import { FaSuitcaseRolling, FaBed, FaPassport } from "react-icons/fa";
+import BankingDatePicker from "@/components/shared/BankingDatePicker";
 
 export default function HeroSearchForm() {
   const [activeTab, setActiveTab] = useState<"tours" | "hotels" | "visa" | "experience">("tours");
@@ -19,6 +20,7 @@ export default function HeroSearchForm() {
     year: "Date",
     raw: "",
   });
+  const [isDateOpen, setIsDateOpen] = useState(false);
   const [selectedTourType, setSelectedTourType] = useState<string>("Select");
   const [isTourTypeOpen, setIsTourTypeOpen] = useState(false);
   const [minDate, setMinDate] = useState<string>("2026-11-01");
@@ -51,6 +53,7 @@ export default function HeroSearchForm() {
   ];
 
   const destinationRef = useRef<HTMLDivElement>(null);
+  const dateRef = useRef<HTMLDivElement>(null);
   const tourTypeRef = useRef<HTMLDivElement>(null);
 
   // Click / Touch outside handler to dismiss any open dropdown
@@ -61,6 +64,12 @@ export default function HeroSearchForm() {
         !destinationRef.current.contains(e.target as Node)
       ) {
         setIsDestinationOpen(false);
+      }
+      if (
+        dateRef.current &&
+        !dateRef.current.contains(e.target as Node)
+      ) {
+        setIsDateOpen(false);
       }
       if (
         tourTypeRef.current &&
@@ -86,11 +95,10 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("tours")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${
-            activeTab === "tours"
-              ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
-              : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-          }`}
+          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "tours"
+            ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
+            : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
+            }`}
         >
           <FaSuitcaseRolling className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span>Tours</span>
@@ -100,39 +108,25 @@ export default function HeroSearchForm() {
         <button
           type="button"
           onClick={() => setActiveTab("hotels")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${
-            activeTab === "hotels"
-              ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
-              : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-          }`}
+          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "hotels"
+            ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
+            : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
+            }`}
         >
           <FaBed className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5943A]" />
           <span>Hotels</span>
         </button>
 
-        {/* Visa Tab */}
-        <button
-          type="button"
-          onClick={() => setActiveTab("visa")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${
-            activeTab === "visa"
-              ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
-              : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-          }`}
-        >
-          <FaPassport className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1877F2]" />
-          <span>Visa</span>
-        </button>
+
 
         {/* Experience Tab */}
         <button
           type="button"
           onClick={() => setActiveTab("experience")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${
-            activeTab === "experience"
-              ? "bg-brand-primary text-white shadow-md shadow-blue-500/20"
-              : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-          }`}
+          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "experience"
+            ? "bg-brand-primary text-white shadow-md shadow-blue-500/20"
+            : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
+            }`}
         >
           {/* Deep Red Badge with Wave/Activity */}
           <span className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-deep-red flex items-center justify-center text-white shrink-0 shadow-xs">
@@ -219,9 +213,17 @@ export default function HeroSearchForm() {
             )}
           </div>
 
-          {/* Field 2: Date (Clean Standard Picker) */}
-          <div className="relative md:col-span-3">
-            <div className="relative w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus-within:border-[#1877F2] bg-white transition-all text-left group cursor-pointer">
+          {/* Field 2: Date (Slice & Axis Banking Style) */}
+          <div ref={dateRef} className="relative md:col-span-3">
+            <button
+              type="button"
+              onClick={() => {
+                setIsDateOpen(!isDateOpen);
+                setIsDestinationOpen(false);
+                setIsTourTypeOpen(false);
+              }}
+              className="w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
+            >
               {/* Calendar with "8" inside icon */}
               <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors pointer-events-none">
                 <svg
@@ -252,7 +254,7 @@ export default function HeroSearchForm() {
                 </svg>
               </div>
 
-              <div className="flex-1 min-w-0 pointer-events-none">
+              <div className="flex-1 min-w-0">
                 <div className="text-[16px] font-semibold text-gray-900 truncate leading-snug">
                   {selectedDate.day}
                 </div>
@@ -260,40 +262,46 @@ export default function HeroSearchForm() {
                   {selectedDate.year}
                 </div>
               </div>
+            </button>
 
-              {/* Standard date picker overlay (clicking anywhere triggers browser date picker cleanly with 0 glitches) */}
-              <input
-                type="date"
-                min={minDate}
-                value={selectedDate.raw}
-                onChange={(e) => {
-                  if (e.target.value) {
-                    const parts = e.target.value.split("-");
-                    const d = new Date(
-                      parseInt(parts[0]),
-                      parseInt(parts[1]) - 1,
-                      parseInt(parts[2])
-                    );
-                    setSelectedDate({
-                      day: d.toLocaleDateString("en-US", {
-                        day: "numeric",
-                        month: "short",
-                        year: "numeric",
-                      }),
-                      year: "Date",
-                      raw: e.target.value,
-                    });
-                  } else {
-                    setSelectedDate({
-                      day: "Select Date",
-                      year: "Date",
-                      raw: "",
-                    });
-                  }
-                }}
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-              />
-            </div>
+            {/* Calendar Popover */}
+            {isDateOpen && (
+              <div className="fixed sm:absolute inset-x-4 sm:inset-x-auto sm:left-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+8px)] z-[150] w-[calc(100%-32px)] max-w-[330px] sm:w-[320px] mx-auto sm:mx-0 animate-in fade-in zoom-in-95 duration-150">
+                <div className="bg-white rounded-2xl shadow-2xl border border-gray-200/90 overflow-hidden">
+                  <BankingDatePicker
+                    inline={true}
+                    value={selectedDate.raw}
+                    onChange={(val) => {
+                      if (val) {
+                        const parts = val.split("-");
+                        const d = new Date(
+                          parseInt(parts[0]),
+                          parseInt(parts[1]) - 1,
+                          parseInt(parts[2])
+                        );
+                        setSelectedDate({
+                          day: d.toLocaleDateString("en-US", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          }),
+                          year: "Date",
+                          raw: val,
+                        });
+                      } else {
+                        setSelectedDate({
+                          day: "Select Date",
+                          year: "Date",
+                          raw: "",
+                        });
+                      }
+                      setIsDateOpen(false);
+                    }}
+                    onClose={() => setIsDateOpen(false)}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Field 3: Tour Types */}

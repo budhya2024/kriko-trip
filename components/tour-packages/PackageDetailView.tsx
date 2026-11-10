@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
+import BankingDatePicker from "@/components/shared/BankingDatePicker";
 
 const countryOptions = [
   { code: "+91", flag: "🇮🇳", label: "+91" },
@@ -908,49 +909,13 @@ export default function PackageDetailView({
                       <label className="block text-xs font-medium text-gray-700 mb-1">
                         Travel Date
                       </label>
-                      <div className="relative flex items-center justify-between px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs group cursor-pointer">
-                        <div className="flex items-center gap-2 min-w-0 pointer-events-none">
-                          <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
-                          <span
-                            className={`text-xs sm:text-sm truncate select-none ${
-                              sidebarForm.travelDate
-                                ? "text-gray-900 font-medium"
-                                : "text-gray-400 font-normal"
-                            }`}
-                          >
-                            {sidebarForm.travelDate
-                              ? (() => {
-                                  const parts = sidebarForm.travelDate.split("-");
-                                  if (parts.length === 3) {
-                                    const d = new Date(
-                                      parseInt(parts[0]),
-                                      parseInt(parts[1]) - 1,
-                                      parseInt(parts[2])
-                                    );
-                                    return d.toLocaleDateString("en-IN", {
-                                      day: "numeric",
-                                      month: "short",
-                                      year: "numeric",
-                                    });
-                                  }
-                                  return sidebarForm.travelDate;
-                                })()
-                              : "Select Travel Date"}
-                          </span>
-                        </div>
-                        <input
-                          type="date"
-                          min={minDate}
-                          value={sidebarForm.travelDate}
-                          onChange={(e) =>
-                            setSidebarForm({
-                              ...sidebarForm,
-                              travelDate: e.target.value,
-                            })
-                          }
-                          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                        />
-                      </div>
+                      <BankingDatePicker
+                        value={sidebarForm.travelDate}
+                        onChange={(dateStr) =>
+                          setSidebarForm({ ...sidebarForm, travelDate: dateStr })
+                        }
+                        placeholder="Select Travel Date"
+                      />
                     </div>
 
                     {/* No. of Travellers */}

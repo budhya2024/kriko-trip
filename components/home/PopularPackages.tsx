@@ -148,7 +148,8 @@ export default function PopularPackages() {
                 },
                 1280: {
                   slidesPerView: 3.4,
-                  spaceBetween: 26,
+                  spaceBetween: 24,
+
                 },
               }}
               className="w-full"

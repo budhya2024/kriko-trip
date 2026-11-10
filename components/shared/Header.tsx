@@ -709,38 +709,7 @@ export default function Header() {
             )}
           </div>
 
-          {/* Visa */}
-          <div className="py-2.5 border-b border-gray-50">
-            <button
-              type="button"
-              onClick={() =>
-                setOpenMobileSection(openMobileSection === "Visa" ? null : "Visa")
-              }
-              className={`w-full flex items-center justify-between text-[16px] font-bold text-left ${openMobileSection === "Visa" ? "text-[#0284c7]" : "text-gray-900"
-                }`}
-            >
-              <span>Visa</span>
-              {openMobileSection === "Visa" ? (
-                <Minus className="w-4 h-4 text-[#0284c7] stroke-[2.5]" />
-              ) : (
-                <Plus className="w-4 h-4 text-gray-900 stroke-[2.5]" />
-              )}
-            </button>
-            {openMobileSection === "Visa" && (
-              <div className="mt-2 pl-3 space-y-2 pt-1">
-                {["Tourist Visa", "Business Visa", "Visa Processing", "Embassy Guide"].map((v) => (
-                  <Link
-                    key={v}
-                    href="#"
-                    onClick={() => setIsMobileDrawerOpen(false)}
-                    className="block text-sm font-medium text-gray-600 hover:text-blue-600 py-1"
-                  >
-                    {v}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
+
 
           {/* Pages */}
           <div className="py-2.5 border-b border-gray-50">

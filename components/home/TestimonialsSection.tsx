@@ -173,8 +173,17 @@ function TestimonialCard({ item }: { item: Testimonial }) {
 
 export default function TestimonialsSection() {
   return (
-    <section className="w-full bg-[#f6f9fd]  py-8  md:py-16  relative overflow-hidden">
-
+    <section className="w-full bg-[#f6f9fd] py-8 md:py-16 relative overflow-hidden">
+      {/* Testimonials Background Image */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <Image
+          src="/assets/images/home1-testimonial-bg.png"
+          alt="Testimonials background"
+          fill
+          sizes="100vw"
+          className="object-cover object-center opacity-85"
+        />
+      </div>
 
       <div className="container relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-12 items-center">
