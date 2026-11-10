@@ -237,7 +237,7 @@ export default function PackageDetailView({
               {/* ─── 1. PHOTO GALLERY COLLAGE (Always shows all 4 photos side-by-side) ─── */}
               <div className="grid grid-cols-2 gap-2 sm:gap-3.5 h-[220px] xs:h-[270px] sm:h-[380px] md:h-[430px]">
                 {/* Left Tall Vertical Photo */}
-                <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
+                <div className="relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                   <Image
                     src={galleryImages[0]}
                     alt={`${pkg.title} - Main Feature`}
@@ -251,7 +251,7 @@ export default function PackageDetailView({
                 {/* Right 3 Photos (1 Wide Top, 2 Half-width Bottom in a 2x2 grid) */}
                 <div className="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-3.5 h-full">
                   {/* Top Wide Photo (Spans 2 columns across Row 1) */}
-                  <div className="col-span-2 relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
+                  <div className="col-span-2 relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[1]}
                       alt={`${pkg.title} - Landmark`}
@@ -263,7 +263,7 @@ export default function PackageDetailView({
                   </div>
 
                   {/* Bottom Left Photo (Row 2 Col 1) */}
-                  <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
+                  <div className="relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[2]}
                       alt={`${pkg.title} - Experience 1`}
@@ -275,7 +275,7 @@ export default function PackageDetailView({
                   </div>
 
                   {/* Bottom Right Photo (Row 2 Col 2) */}
-                  <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden bg-gray-100 group">
+                  <div className="relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[3]}
                       alt={`${pkg.title} - Experience 2`}

@@ -28,13 +28,13 @@ export default function GallerySection() {
               experiences that match your dreams!
             </p>
 
-            {/* Desktop View: Follow Gallery Button with Liquid Water Fill Effect */}
+            {/* Desktop View: Follow Gallery Button with Normal Classic Styling and Blue Hover */}
             <Link
               href="/gallery"
-              className="btn-water-fill hidden lg:inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#1877F2] text-white text-[15px] font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
+              className="hidden lg:inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#111827] hover:bg-[#1877F2] text-white text-[15px] font-semibold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group"
             >
-              <span className="relative z-10">Follow Gallery</span>
-              <ArrowUpRight className="w-4 h-4 relative z-10 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              <span>Follow Gallery</span>
+              <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
@@ -211,10 +211,10 @@ export default function GallerySection() {
             <div className="mt-6 flex justify-center lg:hidden w-full">
               <Link
                 href="/gallery"
-                className="btn-water-fill inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#1877F2] text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer group"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#111827] hover:bg-[#1877F2] text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer group"
               >
-                <span className="relative z-10">Follow Gallery</span>
-                <ArrowUpRight className="w-4 h-4 relative z-10 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                <span>Follow Gallery</span>
+                <ArrowUpRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </Link>
             </div>
           </div>

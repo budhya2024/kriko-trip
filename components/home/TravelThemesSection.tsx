@@ -45,7 +45,7 @@ const themes: ThemeItem[] = [
     id: "hill-stations",
     name: "Hill Stations",
     image:
-      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80",
+      "https://images.unsplash.com/photo-1426604966848-d7adac402bff?auto=format&fit=crop&w=900&q=80",
     href: "/tour-packages?theme=hills",
     colSpan: "lg:col-span-4",
     heightClass: "h-[220px] sm:h-[260px] lg:h-[300px]",
@@ -73,13 +73,13 @@ export default function TravelThemesSection() {
           </h2>
         </div>
 
-        {/* ─── Bento Grid Layout with standard subtle rounded corners (no large rounded box) ─── */}
+        {/* ─── Bento Grid Layout Matching Reference Design ─── */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3.5 sm:gap-5">
           {themes.map((theme) => (
             <Link
               key={theme.id}
               href={theme.href}
-              className={`group relative rounded-lg sm:rounded-xl overflow-hidden bg-gray-100 ${theme.colSpan} ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
+              className={`group relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gray-100 ${theme.colSpan} ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
             >
               {/* Background Photo */}
               <Image
@@ -91,11 +91,11 @@ export default function TravelThemesSection() {
               />
 
               {/* Gradient Shade for High Legibility */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent group-hover:from-black/85 transition-colors duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent group-hover:from-black/85 transition-colors duration-300" />
 
-              {/* Bottom Left Title with Normal Font Weight */}
-              <div className="absolute bottom-4 sm:bottom-5 left-4 sm:left-5 z-10">
-                <span className="text-lg sm:text-xl lg:text-2xl font-normal text-white tracking-normal drop-shadow-xs">
+              {/* Bottom Left Title Matching Reference */}
+              <div className="absolute bottom-4 sm:bottom-6 left-5 sm:left-6 z-10">
+                <span className="text-xl sm:text-2xl lg:text-[26px] font-bold text-white tracking-tight drop-shadow-sm">
                   {theme.name}
                 </span>
               </div>
