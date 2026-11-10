@@ -12,20 +12,7 @@ import {
   MapPin,
   ExternalLink,
 } from "lucide-react";
-
-const countryOptions = [
-  { code: "+91", flag: "🇮🇳", label: "India (+91)" },
-  { code: "+1", flag: "🇺🇸", label: "USA / Canada (+1)" },
-  { code: "+44", flag: "🇬🇧", label: "UK (+44)" },
-  { code: "+971", flag: "🇦🇪", label: "UAE (+971)" },
-  { code: "+61", flag: "🇦🇺", label: "Australia (+61)" },
-  { code: "+65", flag: "🇸🇬", label: "Singapore (+65)" },
-  { code: "+60", flag: "🇲🇾", label: "Malaysia (+60)" },
-  { code: "+66", flag: "🇹🇭", label: "Thailand (+66)" },
-  { code: "+49", flag: "🇩🇪", label: "Germany (+49)" },
-  { code: "+33", flag: "🇫🇷", label: "France (+33)" },
-  { code: "+81", flag: "🇯🇵", label: "Japan (+81)" },
-];
+import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 
 export default function ContactFormSection() {
   const [countryCode, setCountryCode] = useState("+91");
@@ -149,19 +136,13 @@ export default function ContactFormSection() {
                       <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Phone Number <span className="text-red-500">*</span>
                       </label>
-                      <div className="flex items-center rounded-md border border-gray-200 bg-gray-50/50 focus-within:border-[#03ADFF] focus-within:bg-white transition-colors overflow-hidden">
-                        {/* Country Dropdown */}
-                        <select
+                      <div className="relative flex items-center rounded-md border border-gray-200 bg-gray-50/50 focus-within:border-[#03ADFF] focus-within:bg-white transition-colors">
+                        {/* Country Dropdown with Search & Flags */}
+                        <CountryPhoneSelect
                           value={countryCode}
-                          onChange={(e) => setCountryCode(e.target.value)}
-                          className="h-full py-3 pl-2.5 pr-1 bg-transparent text-xs sm:text-sm font-semibold text-gray-800 border-r border-gray-200 outline-none focus:outline-none cursor-pointer shrink-0"
-                        >
-                          {countryOptions.map((c) => (
-                            <option key={c.code} value={c.code}>
-                              {c.flag} {c.code}
-                            </option>
-                          ))}
-                        </select>
+                          onChange={(code) => setCountryCode(code)}
+                          buttonClassName="rounded-l-md"
+                        />
 
                         {/* Phone Input */}
                         <input
@@ -172,7 +153,7 @@ export default function ContactFormSection() {
                             setFormData({ ...formData, phone: e.target.value })
                           }
                           placeholder="Enter your phone number"
-                          className="w-full px-3 py-3 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:outline-none font-normal border-0"
+                          className="w-full px-3 py-3 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:outline-none font-normal border-0 min-w-0"
                         />
                       </div>
                     </div>

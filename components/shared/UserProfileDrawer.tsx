@@ -137,9 +137,9 @@ export default function UserProfileDrawer() {
           {/* ─── Drawer Header ─── */}
           <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50/60">
             <div className="flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+
               <h2 className="text-base font-bold text-gray-900 tracking-tight">
-                My Traveler Account
+                My Account
               </h2>
             </div>
             <button
@@ -260,11 +260,10 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("trips")}
-                className={`flex-1 py-2.5 text-xs sm:text-[13px] font-bold text-center border-b-2 transition-all cursor-pointer ${
-                  activeTab === "trips"
-                    ? "border-[#1877F2] text-[#1877F2]"
-                    : "border-transparent text-gray-500 hover:text-gray-900"
-                }`}
+                className={`flex-1 py-2.5 text-xs sm:text-[13px] font-bold text-center border-b-2 transition-all cursor-pointer ${activeTab === "trips"
+                  ? "border-[#1877F2] text-[#1877F2]"
+                  : "border-transparent text-gray-500 hover:text-gray-900"
+                  }`}
               >
                 Trip History ({user.trips.length})
               </button>
@@ -272,11 +271,10 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("password")}
-                className={`flex-1 py-2.5 text-xs sm:text-[13px] font-bold text-center border-b-2 transition-all cursor-pointer ${
-                  activeTab === "password"
-                    ? "border-[#1877F2] text-[#1877F2]"
-                    : "border-transparent text-gray-500 hover:text-gray-900"
-                }`}
+                className={`flex-1 py-2.5 text-xs sm:text-[13px] font-bold text-center border-b-2 transition-all cursor-pointer ${activeTab === "password"
+                  ? "border-[#1877F2] text-[#1877F2]"
+                  : "border-transparent text-gray-500 hover:text-gray-900"
+                  }`}
               >
                 Change Password
               </button>
@@ -284,11 +282,10 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("profile")}
-                className={`flex-1 py-2.5 text-xs sm:text-[13px] font-bold text-center border-b-2 transition-all cursor-pointer ${
-                  activeTab === "profile"
-                    ? "border-[#1877F2] text-[#1877F2]"
-                    : "border-transparent text-gray-500 hover:text-gray-900"
-                }`}
+                className={`flex-1 py-2.5 text-xs sm:text-[13px] font-bold text-center border-b-2 transition-all cursor-pointer ${activeTab === "profile"
+                  ? "border-[#1877F2] text-[#1877F2]"
+                  : "border-transparent text-gray-500 hover:text-gray-900"
+                  }`}
               >
                 Edit Profile
               </button>
@@ -326,11 +323,10 @@ export default function UserProfileDrawer() {
                             #{trip.bookingId}
                           </span>
                           <span
-                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                              trip.status === "Confirmed"
-                                ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
-                                : "bg-blue-50 text-blue-700 border border-blue-200"
-                            }`}
+                            className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${trip.status === "Confirmed"
+                              ? "bg-emerald-50 text-emerald-700 border border-emerald-200"
+                              : "bg-blue-50 text-blue-700 border border-blue-200"
+                              }`}
                           >
                             {trip.status}
                           </span>
@@ -377,11 +373,10 @@ export default function UserProfileDrawer() {
 
                 {passwordMessage && (
                   <div
-                    className={`p-3 rounded-lg text-xs font-medium ${
-                      passwordMessage.type === "success"
-                        ? "bg-emerald-50 border border-emerald-200 text-emerald-800"
-                        : "bg-red-50 border border-red-200 text-red-700"
-                    }`}
+                    className={`p-3 rounded-lg text-xs font-medium ${passwordMessage.type === "success"
+                      ? "bg-emerald-50 border border-emerald-200 text-emerald-800"
+                      : "bg-red-50 border border-red-200 text-red-700"
+                      }`}
                   >
                     {passwordMessage.text}
                   </div>
@@ -554,3 +549,4 @@ export default function UserProfileDrawer() {
     </div>
   );
 }
+

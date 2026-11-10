@@ -230,7 +230,7 @@ export default function PopularPackages() {
                               Starting From
                             </span>
                             {pkg.originalPrice > pkg.price && (
-                              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-bold leading-none">
+                              <span className="badge-shine relative overflow-hidden inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-bold leading-none">
                                 <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
                                 Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
                               </span>

@@ -37,19 +37,7 @@ import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
 import BankingDatePicker from "@/components/shared/BankingDatePicker";
 import RelevantPackagesSlider from "./RelevantPackagesSlider";
-
-const countryOptions = [
-  { code: "+91", flag: "🇮🇳", label: "+91" },
-  { code: "+1", flag: "🇺🇸", label: "+1" },
-  { code: "+44", flag: "🇬🇧", label: "+44" },
-  { code: "+971", flag: "🇦🇪", label: "+971" },
-  { code: "+61", flag: "🇦🇺", label: "+61" },
-  { code: "+65", flag: "🇸🇬", label: "+65" },
-  { code: "+60", flag: "🇲🇾", label: "+60" },
-  { code: "+66", flag: "🇹🇭", label: "+66" },
-  { code: "+49", flag: "🇩🇪", label: "+49" },
-  { code: "+33", flag: "🇫🇷", label: "+33" },
-];
+import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 
 interface PackageDetailViewProps {
   pkg: TourPackage & PackageDetailedInfo;
@@ -773,7 +761,7 @@ export default function PackageDetailView({
                             : pkg.duration}
                         </span>
                       </div>
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs">
+                      <span className="badge-shine relative overflow-hidden inline-flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs rounded-md">
                         <Tag className="w-3.5 h-3.5 stroke-[2.2]" />
                         Save ₹{savings.toLocaleString("en-IN")}
                       </span>
@@ -852,26 +840,16 @@ export default function PackageDetailView({
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Phone Number <span className="text-red-500">*</span>
                     </label>
-                    <div className="flex items-center rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs overflow-hidden">
-                      {/* Country Code Dropdown */}
-                      <div className="relative border-r border-gray-200 bg-gray-50 shrink-0">
-                        <select
-                          value={countryCode}
-                          onChange={(e) => setCountryCode(e.target.value)}
-                          aria-label="Country Code"
-                          className="appearance-none pl-2.5 pr-6 py-3 bg-transparent text-xs sm:text-sm font-medium text-gray-700 outline-none cursor-pointer"
-                        >
-                          {countryOptions.map((c) => (
-                            <option key={c.code} value={c.code}>
-                              {c.flag} {c.label}
-                            </option>
-                          ))}
-                        </select>
-                        <ChevronDown className="w-3 h-3 text-gray-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                      </div>
+                    <div className="relative flex items-center rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
+                      {/* Country Code Dropdown with Map/Flag, Name & Search */}
+                      <CountryPhoneSelect
+                        value={countryCode}
+                        onChange={(code) => setCountryCode(code)}
+                        buttonClassName="rounded-l-lg"
+                      />
 
                       {/* Phone Input */}
-                      <div className="flex items-center gap-2 px-3 py-3 flex-1">
+                      <div className="flex items-center gap-2 px-3 py-3 flex-1 min-w-0">
                         <Phone className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                         <input
                           type="tel"
@@ -881,7 +859,7 @@ export default function PackageDetailView({
                           onChange={(e) =>
                             setSidebarForm({ ...sidebarForm, phone: e.target.value })
                           }
-                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-normal"
+                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-normal min-w-0"
                         />
                       </div>
                     </div>
@@ -910,7 +888,7 @@ export default function PackageDetailView({
                   {/* Travel Date & No. of Travellers (Always 1 Row on Mobile and Desktop) */}
                   <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
                     {/* Travel Date */}
-                    <div className="min-w-0">
+                    <div className="min-w-0 w-full">
                       <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
                         Travel Date
                       </label>
@@ -920,15 +898,17 @@ export default function PackageDetailView({
                           setSidebarForm({ ...sidebarForm, travelDate: dateStr })
                         }
                         placeholder="Select Date"
+                        className="w-full"
+                        align="right"
                       />
                     </div>
 
                     {/* No. of Travellers */}
-                    <div className="min-w-0">
+                    <div className="min-w-0 w-full">
                       <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
                         Travellers
                       </label>
-                      <div className="flex items-center gap-2 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
+                      <div className="flex items-center gap-2 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs w-full min-w-0">
                         <Users className="w-4 h-4 text-gray-400 shrink-0" />
                         <input
                           type="number"
@@ -939,7 +919,7 @@ export default function PackageDetailView({
                           onChange={(e) =>
                             setSidebarForm({ ...sidebarForm, travellers: e.target.value })
                           }
-                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-normal"
+                          className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent font-normal min-w-0"
                         />
                       </div>
                     </div>
