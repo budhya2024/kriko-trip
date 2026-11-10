@@ -33,14 +33,10 @@ import {
   MessageSquare,
   Activity,
 } from "lucide-react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, Pagination, Navigation as SwiperNavigation } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
 import BankingDatePicker from "@/components/shared/BankingDatePicker";
+import RelevantPackagesSlider from "./RelevantPackagesSlider";
 
 const countryOptions = [
   { code: "+91", flag: "🇮🇳", label: "+91" },
@@ -686,7 +682,7 @@ export default function PackageDetailView({
                       <div
                         key={idx}
                         className={`rounded-xl transition-all duration-300 overflow-hidden ${isOpen
-                          ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-5 sm:p-6 border border-gray-100"
+                          ? "bg-white shadow-[0_8px_25px_rgba(0,0,0,0.06)] p-5 sm:p-6 "
                           : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-5 sm:p-6"
                           }`}
                       >
@@ -986,232 +982,8 @@ export default function PackageDetailView({
         </div>
       </section>
 
-      {/* ─── BOTTOM SECTION: RELEVANT PACKAGE (Working Swiper Slider) ─── */}
-      {relatedPackages && relatedPackages.length > 0 && (
-        <section className="bg-white py-8 sm:py-16">
-          <div className="container">
-            {/* Header with Navigation Chevrons */}
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
-              <div className="text-center sm:text-left max-w-2xl">
-                <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-                  Relevant Package
-                </h2>
-                <p className="text-xs sm:text-sm text-gray-500 mt-2 font-normal">
-                  A curated list of inspiration the most tour & travel based on different destinations.
-                </p>
-              </div>
-
-              {/* Slider Next/Prev Arrows on Desktop */}
-              {relatedPackages.length > 3 && (
-                <div className="hidden sm:flex items-center gap-2 shrink-0">
-                  <button
-                    type="button"
-                    className="relevant-prev w-9 h-9 rounded-full border border-gray-200 bg-white hover:bg-blue-50 hover:border-blue-300 text-gray-700 hover:text-[#1877F2] flex items-center justify-center transition-colors cursor-pointer"
-                    aria-label="Previous relevant packages"
-                  >
-                    <ChevronLeft className="w-4 h-4 stroke-[2.2]" />
-                  </button>
-                  <button
-                    type="button"
-                    className="relevant-next w-9 h-9 rounded-full border border-gray-200 bg-white hover:bg-blue-50 hover:border-blue-300 text-gray-700 hover:text-[#1877F2] flex items-center justify-center transition-colors cursor-pointer"
-                    aria-label="Next relevant packages"
-                  >
-                    <ChevronRight className="w-4 h-4 stroke-[2.2]" />
-                  </button>
-                </div>
-              )}
-            </div>
-
-            {/* Swiper Slider / Fallback */}
-            {mounted ? (
-              <div className="relative">
-                <Swiper
-                  modules={[Autoplay, Pagination, SwiperNavigation]}
-                  navigation={{
-                    prevEl: ".relevant-prev",
-                    nextEl: ".relevant-next",
-                  }}
-                  pagination={{
-                    clickable: true,
-                    el: ".relevant-packages-pagination",
-                  }}
-                  autoplay={{
-                    delay: 4500,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-                  loop={relatedPackages.length > 3}
-                  grabCursor={true}
-                  breakpoints={{
-                    320: {
-                      slidesPerView: 1.15,
-                      spaceBetween: 16,
-                    },
-                    640: {
-                      slidesPerView: 2.15,
-                      spaceBetween: 20,
-                    },
-                    1024: {
-                      slidesPerView: 3,
-                      spaceBetween: 24,
-                    },
-                  }}
-                  className="w-full !pb-2"
-                >
-                  {relatedPackages.map((rPkg) => (
-                    <SwiperSlide key={rPkg.id} className="h-auto">
-                      <RelevantPackageCardItem rPkg={rPkg} />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-
-                {/* Working Swiper Dynamic Pagination Dots */}
-                <div className="relevant-packages-pagination mt-6 sm:mt-8" />
-              </div>
-            ) : (
-              /* SSR Initial Fallback Grid */
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-                {relatedPackages.slice(0, 3).map((rPkg) => (
-                  <RelevantPackageCardItem key={rPkg.id} rPkg={rPkg} />
-                ))}
-              </div>
-            )}
-          </div>
-        </section>
-      )}
-    </div>
-  );
-}
-
-// ─── Individual Relevant Package Card with Multiple Image Navigation ───
-function RelevantPackageCardItem({ rPkg }: { rPkg: TourPackage }) {
-  const images = rPkg.images && rPkg.images.length > 0 ? rPkg.images : [rPkg.image];
-  const [activeImg, setActiveImg] = useState(0);
-
-  const rOriginalPrice =
-    rPkg.originalPrice && rPkg.originalPrice > rPkg.price
-      ? rPkg.originalPrice
-      : Math.round(rPkg.price * 1.25);
-  const rSavings = rOriginalPrice - rPkg.price;
-  const rDiscount = Math.round((rSavings / rOriginalPrice) * 100);
-
-  return (
-    <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full">
-      {/* Photo with Discount Tag on Top Right & Travel Type on Bottom Left */}
-      <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100 select-none">
-        <Link
-          href={`/tour-packages/${rPkg.id}`}
-          className="absolute inset-0 z-10 cursor-pointer"
-          aria-label={rPkg.title}
-        >
-          <Image
-            src={images[activeImg] || rPkg.image}
-            alt={rPkg.title}
-            fill
-            sizes="(max-width: 768px) 100vw, 380px"
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        </Link>
-
-        {/* Yellow Discount Tag */}
-        <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-md bg-[#FACC15] text-gray-950 text-[11px] font-semibold shadow-xs pointer-events-none">
-          -{rDiscount}% OFF
-        </div>
-
-        {/* Travel Type Badge */}
-        <div className="absolute bottom-3 left-3 z-20 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-normal pointer-events-none">
-          {rPkg.travelType}
-        </div>
-
-        {/* Navigation Arrows on Card Image for cycling photos */}
-        {images.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setActiveImg((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-              }}
-              className="absolute left-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity cursor-pointer shadow-xs"
-              aria-label="Previous photo"
-            >
-              <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
-            </button>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setActiveImg((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-              }}
-              className="absolute right-2 top-1/2 -translate-y-1/2 z-30 w-7 h-7 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity cursor-pointer shadow-xs"
-              aria-label="Next photo"
-            >
-              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-            </button>
-
-            {/* Bottom Dots Indicator for Card Photos */}
-            <div className="absolute bottom-3 right-3 z-20 flex items-center gap-1 pointer-events-none">
-              {images.map((_, idx) => (
-                <span
-                  key={idx}
-                  className={`h-1.5 rounded-full transition-all duration-300 ${
-                    activeImg === idx ? "w-3.5 bg-[#1877F2]" : "w-1.5 bg-white/70"
-                  }`}
-                />
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Card Body */}
-      <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between text-left">
-        <div>
-          <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1.5">
-            <MapPin className="w-3.5 h-3.5 text-[#1877F2] shrink-0" />
-            <span className="font-normal truncate">
-              {rPkg.location}, {rPkg.destination}
-            </span>
-          </div>
-          <h3 className="text-sm sm:text-base font-semibold text-gray-900 group-hover:text-[#1877F2] transition-colors line-clamp-2 leading-snug">
-            <Link href={`/tour-packages/${rPkg.id}`}>
-              {rPkg.title}
-            </Link>
-          </h3>
-          <p className="text-xs text-gray-500 mt-1 font-normal">
-            Duration: {rPkg.duration}
-          </p>
-        </div>
-
-        {/* Card Footer: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
-        <div className="pt-3.5 mt-3 border-t border-gray-100 flex items-center justify-between gap-2 min-w-0">
-          {/* Book Now Button: Smooth Hover */}
-          <Link
-            href={`/tour-packages/${rPkg.id}`}
-            className="inline-flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[10.5px] sm:text-[11px] font-semibold shadow-2xs hover:shadow-xs transition-colors active:scale-95 cursor-pointer shrink-0"
-          >
-            <span>Book Now</span>
-            <ArrowUpRight className="w-3 h-3 stroke-[2.2] text-white" />
-          </Link>
-
-          {/* Starting From & Prices */}
-          <div className="flex flex-col text-right items-end shrink-0 min-w-0">
-            <span className="text-[9px] text-gray-400 font-normal leading-none mb-0.5">
-              Starting From
-            </span>
-            <div className="flex items-baseline justify-end gap-1 leading-none">
-              <span className="text-[10px] text-gray-400 line-through font-normal">
-                ₹{rOriginalPrice.toLocaleString("en-IN")}
-              </span>
-              <span className="text-[12.5px] sm:text-[13px] font-bold text-gray-900 leading-tight">
-                ₹{rPkg.price.toLocaleString("en-IN")}
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* ─── BOTTOM SECTION: RELEVANT PACKAGE SLIDER COMPONENT ─── */}
+      <RelevantPackagesSlider packages={relatedPackages} />
     </div>
   );
 }
