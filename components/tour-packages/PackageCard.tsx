@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Clock, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, Clock, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Tag } from "lucide-react";
 import { TourPackage } from "./types";
 
 interface PackageCardProps {
@@ -37,12 +37,13 @@ export default function PackageCard({ pkg }: PackageCardProps) {
     <div className="bg-white rounded-xl overflow-hidden border border-gray-200/90 shadow-xs hover:shadow-lg transition-all duration-300 flex flex-col group h-full">
       {/* ─── Card Image Slider with Multiple Images & Indicator Dots ─── */}
       <div className="relative w-full h-52 sm:h-56 overflow-hidden bg-gray-100 select-none image-shine">
-        {/* Top Badges: Travel Type & Discount Percent OFF */}
+        {/* Top Badges: Travel Type & Discount Percent OFF with Tag Icon */}
         <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20 pointer-events-none">
           <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-medium drop-shadow-sm">
             {pkg.travelType}
           </span>
-          <span className="px-2.5 py-1 rounded-full bg-deep-red text-white text-[11px] font-bold shadow-sm tracking-wide">
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-deep-red text-white text-[11px] font-bold shadow-sm tracking-wide">
+            <Tag className="w-3 h-3 stroke-[2.2]" />
             {discountPercent}% OFF
           </span>
         </div>
@@ -164,11 +165,19 @@ export default function PackageCard({ pkg }: PackageCardProps) {
             <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white" />
           </Link>
 
-          {/* Starting From & Prices Matching Clean, Non-Overlapping Format */}
+          {/* Starting From & Prices with Save Tag Badge */}
           <div className="flex flex-col text-right items-end shrink-0 min-w-0">
-            <span className="text-[10px] text-gray-400 font-normal leading-none mb-1">
-              Starting From
-            </span>
+            <div className="flex items-center gap-1.5 leading-none mb-1">
+              <span className="text-[10px] text-gray-400 font-normal">
+                Starting From
+              </span>
+              {savings > 0 && (
+                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-bold leading-none">
+                  <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
+                  Save ₹{savings.toLocaleString("en-IN")}
+                </span>
+              )}
+            </div>
             <div className="flex items-baseline justify-end gap-1.5 leading-none">
               <span className="text-[11px] text-gray-400 line-through font-normal">
                 ₹{originalPrice.toLocaleString("en-IN")}

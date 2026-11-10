@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { ArrowUpRight, MapPin, MoveHorizontal } from "lucide-react";
+import { ArrowUpRight, MapPin, MoveHorizontal, Tag } from "lucide-react";
 
 import "swiper/css";
 
@@ -174,7 +174,8 @@ export default function PopularPackages() {
                         <span className="bg-[#FFDE14] text-gray-950 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
                           {pkg.badge}
                         </span>
-                        <span className="bg-deep-red text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-sm tracking-wide">
+                        <span className="bg-deep-red text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm tracking-wide inline-flex items-center gap-1">
+                          <Tag className="w-3 h-3 stroke-[2.2]" />
                           {Math.round(((pkg.originalPrice - pkg.price) / pkg.originalPrice) * 100)}% OFF
                         </span>
                       </div>
@@ -224,9 +225,17 @@ export default function PopularPackages() {
 
                         {/* Starting From, Original Price & Sales Price */}
                         <div className="flex flex-col text-right items-end shrink-0 min-w-0">
-                          <span className="text-[10px] text-gray-400 font-normal leading-none mb-1">
-                            Starting From
-                          </span>
+                          <div className="flex items-center gap-1.5 leading-none mb-1">
+                            <span className="text-[10px] text-gray-400 font-normal">
+                              Starting From
+                            </span>
+                            {pkg.originalPrice > pkg.price && (
+                              <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-bold leading-none">
+                                <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
+                                Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
+                              </span>
+                            )}
+                          </div>
                           <div className="flex items-baseline justify-end gap-1.5 leading-none">
                             <span className="text-[11px] text-gray-400 line-through font-normal">
                               ₹{pkg.originalPrice.toLocaleString("en-IN")}

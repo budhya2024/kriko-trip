@@ -759,7 +759,8 @@ export default function PackageDetailView({
                             : pkg.duration}
                         </span>
                       </div>
-                      <span className="inline-flex items-center px-3 py-1 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-bold shadow-2xs">
+                        <Tag className="w-3.5 h-3.5 stroke-[2.2]" />
                         Save ₹{savings.toLocaleString("en-IN")}
                       </span>
                     </div>
