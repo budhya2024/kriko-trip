@@ -113,8 +113,8 @@ export default function ContactFormSection() {
                           onChange={(e) =>
                             setFormData({ ...formData, name: e.target.value })
                           }
-                          placeholder="e.g. John Doe"
-                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          placeholder="Enter your name"
+                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-normal"
                         />
                       </div>
                     </div>
@@ -135,8 +135,8 @@ export default function ContactFormSection() {
                           onChange={(e) =>
                             setFormData({ ...formData, email: e.target.value })
                           }
-                          placeholder="e.g. john@example.com"
-                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          placeholder="Enter your email"
+                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-normal"
                         />
                       </div>
                     </div>
@@ -170,8 +170,8 @@ export default function ContactFormSection() {
                           onChange={(e) =>
                             setFormData({ ...formData, phone: e.target.value })
                           }
-                          placeholder="98765 43210"
-                          className="w-full px-3 py-3 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none font-medium border-0"
+                          placeholder="Enter your phone number"
+                          className="w-full px-3 py-3 bg-transparent text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:outline-none font-normal border-0"
                         />
                       </div>
                     </div>
@@ -192,8 +192,8 @@ export default function ContactFormSection() {
                           onChange={(e) =>
                             setFormData({ ...formData, subject: e.target.value })
                           }
-                          placeholder="e.g. Tour Package Inquiry"
-                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium"
+                          placeholder="Enter subject"
+                          className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-normal"
                         />
                       </div>
                     </div>
@@ -215,8 +215,8 @@ export default function ContactFormSection() {
                         onChange={(e) =>
                           setFormData({ ...formData, message: e.target.value })
                         }
-                        placeholder="Tell us about your desired destinations, travel dates, budget, or specific inquiries..."
-                        className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-medium resize-none"
+                        placeholder="Enter your message..."
+                        className="w-full pl-10 pr-3.5 py-3 rounded-md border border-gray-200 bg-gray-50/50 text-sm text-gray-900 placeholder:text-gray-400 placeholder:font-normal outline-none focus:outline-none focus:border-[#03ADFF] focus:bg-white transition-colors font-normal resize-none"
                       />
                     </div>
                   </div>
