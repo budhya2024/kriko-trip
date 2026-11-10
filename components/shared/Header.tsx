@@ -558,34 +558,13 @@ export default function Header() {
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-1">
           {/* Home */}
           <div className="py-2.5 border-b border-gray-50">
-            <button
-              type="button"
-              onClick={() =>
-                setOpenMobileSection(openMobileSection === "Home" ? null : "Home")
-              }
-              className="w-full flex items-center justify-between text-[16px] font-bold text-[#0284c7] text-left"
+            <Link
+              href="/"
+              onClick={() => setIsMobileDrawerOpen(false)}
+              className="block text-[16px] font-bold text-[#0284c7] hover:text-blue-600"
             >
-              <span>Home</span>
-              {openMobileSection === "Home" ? (
-                <Minus className="w-4 h-4 text-[#0284c7] stroke-[2.5]" />
-              ) : (
-                <Plus className="w-4 h-4 text-[#0284c7] stroke-[2.5]" />
-              )}
-            </button>
-            {openMobileSection === "Home" && (
-              <div className="mt-2 pl-3 space-y-2 pt-1">
-                {["Home Style 1", "Home Style 2", "Home Style 3"].map((h) => (
-                  <Link
-                    key={h}
-                    href="#"
-                    onClick={() => setIsMobileDrawerOpen(false)}
-                    className="block text-sm font-medium text-gray-600 hover:text-blue-600"
-                  >
-                    {h}
-                  </Link>
-                ))}
-              </div>
-            )}
+              Home
+            </Link>
           </div>
 
           {/* Destinations */}
