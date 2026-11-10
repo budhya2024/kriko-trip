@@ -706,34 +706,6 @@ export default function UserProfileDrawer() {
                                 <MapPin className="w-3 h-3 text-[#1877F2] shrink-0" />
                                 <span className="truncate">{trip.destination}</span>
                               </div>
-
-                              {/* Applied Badges (Coupon & Loyalty) */}
-                              <div className="flex items-center gap-1.5 flex-wrap mt-1">
-                                {trip.appliedCoupon && (
-                                  <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/60">
-                                    <Tag className="w-3 h-3 text-emerald-600 shrink-0" />
-                                    <span>
-                                      Coupon:{" "}
-                                      <strong className="font-mono text-emerald-950">
-                                        {trip.appliedCoupon.code}
-                                      </strong>{" "}
-                                      (-₹{trip.appliedCoupon.discountAmount.toLocaleString("en-IN")})
-                                    </span>
-                                  </div>
-                                )}
-                                {trip.loyaltyRedeemed && (
-                                  <div className="inline-flex items-center gap-1.5 text-[10.5px] font-semibold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200/60">
-                                    <Crown className="w-3 h-3 text-amber-600 shrink-0" />
-                                    <span>
-                                      Loyalty:{" "}
-                                      <strong>
-                                        {trip.loyaltyRedeemed.points.toLocaleString("en-IN")} pts
-                                      </strong>{" "}
-                                      (-₹{trip.loyaltyRedeemed.discountAmount.toLocaleString("en-IN")})
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
                             </div>
                           </div>
 
