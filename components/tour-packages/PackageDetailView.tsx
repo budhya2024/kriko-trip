@@ -427,20 +427,20 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* ─── Mobile Quick Booking Bar (Right below photos for mobile visitors) ─── */}
-              <div className="lg:hidden p-4 rounded-xl bg-gradient-to-r from-blue-50/90 via-sky-50/50 to-white border border-blue-100 flex items-center justify-between shadow-2xs">
+              {/* ─── Mobile Quick Booking Bar (Refined, professional typography without heavy bold) ─── */}
+              <div className="lg:hidden p-3.5 rounded-xl bg-gray-50/90 border border-gray-200/80 flex items-center justify-between shadow-2xs">
                 <div>
-                  <span className="text-[10.5px] font-bold text-gray-500 uppercase tracking-wider block">
-                    Starting From
+                  <span className="text-[11px] font-normal text-gray-500 block mb-0.5">
+                    Starting from
                   </span>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-extrabold text-[#0F172A] leading-tight">
+                    <span className="text-xl font-semibold text-gray-900 leading-tight">
                       ₹{pkg.price.toLocaleString("en-IN")}
                     </span>
-                    <span className="text-xs text-gray-500 font-medium">/ person</span>
+                    <span className="text-[11px] text-gray-400 font-normal">/ person</span>
                   </div>
                   {savings > 0 && (
-                    <span className="inline-block text-[10px] font-bold text-amber-700 bg-amber-100/90 px-1.5 py-0.5 rounded mt-0.5">
+                    <span className="inline-block text-[10.5px] font-medium text-amber-800 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded mt-0.5">
                       Save ₹{savings.toLocaleString("en-IN")}
                     </span>
                   )}
@@ -448,10 +448,10 @@ export default function PackageDetailView({
                 <button
                   type="button"
                   onClick={scrollToBookingForm}
-                  className="px-5 py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-95 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-95 text-white font-medium text-xs sm:text-sm shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
                 >
                   <span>Book Now</span>
-                  <ArrowDown className="w-3.5 h-3.5" />
+                  <ArrowDown className="w-3.5 h-3.5 opacity-80" />
                 </button>
               </div>
 
@@ -1364,29 +1364,29 @@ export default function PackageDetailView({
       {/* ─── BOTTOM SECTION: RELEVANT PACKAGE SLIDER COMPONENT ─── */}
       <RelevantPackagesSlider packages={relatedPackages} />
 
-      {/* ─── MOBILE STICKY BOTTOM BAR (Visible on mobile visits; click scrolls smoothly to form) ─── */}
+      {/* ─── MOBILE STICKY BOTTOM BAR (Clean, professional typography without heavy bold) ─── */}
       <aside
         aria-label="Mobile booking action bar"
-        className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/90 shadow-[0_-4px_25px_rgba(0,0,0,0.12)] px-4 py-3 flex items-center justify-between transition-all duration-300 ${
+        className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/80 shadow-[0_-2px_15px_rgba(0,0,0,0.06)] px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${
           isFormInView ? "opacity-0 pointer-events-none translate-y-full" : "opacity-100 translate-y-0"
         }`}
       >
-        <div>
-          <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider block">
-            Starting From
+        <div className="flex flex-col">
+          <span className="text-[11px] font-normal text-gray-500 leading-none mb-1">
+            Starting from
           </span>
           <div className="flex items-baseline gap-1">
-            <span className="text-xl font-black text-gray-900 leading-tight">
+            <span className="text-lg font-semibold text-gray-900 leading-tight">
               ₹{(totalSavings > 0 ? finalPrice : pkg.price).toLocaleString("en-IN")}
             </span>
-            <span className="text-xs text-gray-500 font-medium">/ person</span>
+            <span className="text-[11px] text-gray-400 font-normal">/ person</span>
           </div>
           {totalSavings > 0 ? (
-            <span className="text-[10px] font-bold text-emerald-600 block">
-              ₹{totalSavings.toLocaleString("en-IN")} Discount Applied
+            <span className="text-[10px] font-medium text-emerald-600 mt-0.5">
+              ₹{totalSavings.toLocaleString("en-IN")} off applied
             </span>
           ) : savings > 0 ? (
-            <span className="text-[10px] font-bold text-amber-700 bg-amber-100 px-1 py-0.2 rounded inline-block">
+            <span className="inline-block text-[10px] font-medium text-amber-800 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded mt-0.5 w-fit">
               Save ₹{savings.toLocaleString("en-IN")}
             </span>
           ) : null}
@@ -1394,10 +1394,10 @@ export default function PackageDetailView({
         <button
           type="button"
           onClick={scrollToBookingForm}
-          className="px-6 py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-95 text-white font-bold text-xs sm:text-sm shadow-sm transition-all cursor-pointer flex items-center gap-1.5"
+          className="px-5 py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-95 text-white font-medium text-xs sm:text-sm shadow-xs transition-colors cursor-pointer flex items-center gap-1.5"
         >
           <span>Book Now</span>
-          <ArrowDown className="w-3.5 h-3.5" />
+          <ArrowDown className="w-3.5 h-3.5 opacity-80" />
         </button>
       </aside>
     </div>
