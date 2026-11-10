@@ -6,6 +6,7 @@ import {
   FeaturedDestinations,
   SpecialOffers,
   PopularPackages,
+  TravelThemesSection,
   GallerySection,
   TravelInspirations,
   TestimonialsSection,
@@ -31,7 +32,7 @@ export default function Home() {
 
         <FeaturedDestinations />
 
-
+        <TravelThemesSection />
 
         <Suspense fallback={null}>
           <PopularPackages />
