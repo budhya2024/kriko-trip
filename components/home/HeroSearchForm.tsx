@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Search, Check } from "lucide-react";
 import { FaSuitcaseRolling, FaBed, FaPassport } from "react-icons/fa";
 import BankingDatePicker from "@/components/shared/BankingDatePicker";
@@ -42,6 +42,41 @@ export default function HeroSearchForm() {
     "Luxury Cruise",
     "Wildlife Safari",
   ];
+
+  const destinationRef = useRef<HTMLDivElement>(null);
+  const dateRef = useRef<HTMLDivElement>(null);
+  const tourTypeRef = useRef<HTMLDivElement>(null);
+
+  // Click / Touch outside handler to dismiss any open dropdown
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent | TouchEvent) {
+      if (
+        destinationRef.current &&
+        !destinationRef.current.contains(e.target as Node)
+      ) {
+        setIsDestinationOpen(false);
+      }
+      if (
+        dateRef.current &&
+        !dateRef.current.contains(e.target as Node)
+      ) {
+        setIsDateOpen(false);
+      }
+      if (
+        tourTypeRef.current &&
+        !tourTypeRef.current.contains(e.target as Node)
+      ) {
+        setIsTourTypeOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="w-full max-w-[1280px] mx-auto">
@@ -122,7 +157,7 @@ export default function HeroSearchForm() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-3.5 items-center">
 
           {/* Field 1: Destination */}
-          <div className="relative md:col-span-4">
+          <div ref={destinationRef} className="relative md:col-span-4">
             <button
               type="button"
               onClick={() => {
@@ -186,29 +221,7 @@ export default function HeroSearchForm() {
           </div>
 
           {/* Field 2: Date */}
-          <div className="relative md:col-span-3">
-            {/* Native Mobile Date Input Overlay (Ensures immediate native picker & visible placeholder on mobile phones) */}
-            <input
-              type="date"
-              aria-label="Select Date"
-              value={selectedDate.raw}
-              onChange={(e) => {
-                if (e.target.value) {
-                  const d = new Date(e.target.value);
-                  setSelectedDate({
-                    day: d.toLocaleDateString("en-US", {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    }),
-                    year: "Date",
-                    raw: e.target.value,
-                  });
-                }
-              }}
-              className="md:hidden absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer"
-            />
-
+          <div ref={dateRef} className="relative md:col-span-3">
             <button
               type="button"
               onClick={() => {
@@ -258,42 +271,49 @@ export default function HeroSearchForm() {
               </div>
             </button>
 
-            {/* Slice & Axis Banking Style Date Picker Dropdown */}
+            {/* Slice & Axis Banking Style Date Picker (Modal on mobile, dropdown on desktop) */}
             {isDateOpen && (
-              <div className="absolute left-0 top-[calc(100%+6px)] w-[300px] sm:w-[320px] z-50">
-                <BankingDatePicker
-                  inline={true}
-                  value={selectedDate.raw}
-                  onChange={(val) => {
-                    if (val) {
-                      const parts = val.split("-");
-                      const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-                      setSelectedDate({
-                        day: d.toLocaleDateString("en-US", {
-                          day: "numeric",
-                          month: "short",
-                          year: "numeric",
-                        }),
-                        year: "Date",
-                        raw: val,
-                      });
-                    } else {
-                      setSelectedDate({
-                        day: "Select Date",
-                        year: "Date",
-                        raw: "",
-                      });
-                    }
-                    setIsDateOpen(false);
-                  }}
-                  onClose={() => setIsDateOpen(false)}
+              <div className="fixed sm:absolute inset-0 sm:inset-auto sm:left-0 sm:top-[calc(100%+6px)] z-[120] sm:z-50 flex items-center justify-center sm:block p-4 sm:p-0">
+                {/* Backdrop on mobile */}
+                <div
+                  className="fixed inset-0 bg-black/60 backdrop-blur-xs sm:hidden animate-in fade-in duration-200"
+                  onClick={() => setIsDateOpen(false)}
                 />
+                <div className="relative w-full max-w-[330px] sm:w-[320px] z-10 animate-in zoom-in-95 sm:zoom-in-100 duration-200">
+                  <BankingDatePicker
+                    inline={true}
+                    value={selectedDate.raw}
+                    onChange={(val) => {
+                      if (val) {
+                        const parts = val.split("-");
+                        const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+                        setSelectedDate({
+                          day: d.toLocaleDateString("en-US", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          }),
+                          year: "Date",
+                          raw: val,
+                        });
+                      } else {
+                        setSelectedDate({
+                          day: "Select Date",
+                          year: "Date",
+                          raw: "",
+                        });
+                      }
+                      setIsDateOpen(false);
+                    }}
+                    onClose={() => setIsDateOpen(false)}
+                  />
+                </div>
               </div>
             )}
           </div>
 
           {/* Field 3: Tour Types */}
-          <div className="relative md:col-span-3">
+          <div ref={tourTypeRef} className="relative md:col-span-3">
             <button
               type="button"
               onClick={() => {
