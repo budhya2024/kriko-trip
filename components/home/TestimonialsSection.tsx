@@ -1,8 +1,12 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Quote, CheckCircle2 } from "lucide-react";
+import { Quote } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+
+import "swiper/css";
 
 interface Testimonial {
   id: number;
@@ -117,15 +121,29 @@ const testimonialsRow2: Testimonial[] = [
   },
 ];
 
-function TestimonialCard({ item }: { item: Testimonial }) {
+const allMobileTestimonials: Testimonial[] = [
+  ...testimonialsRow1,
+  ...testimonialsRow2,
+];
+
+function TestimonialCard({
+  item,
+  isMobile = false,
+}: {
+  item: Testimonial;
+  isMobile?: boolean;
+}) {
   return (
     <div
-      className={`${item.width || "w-[340px] sm:w-[370px]"
-        } h-[265px] sm:h-[280px] shrink-0 bg-white rounded-2xl p-6 sm:p-7 border-0 flex flex-col justify-between select-none cursor-pointer`}
+      className={`${
+        isMobile
+          ? "w-full h-[255px] sm:h-[270px] shadow-xs"
+          : `${item.width || "w-[340px] sm:w-[370px]"} h-[265px] sm:h-[280px] shrink-0`
+      } bg-white rounded-2xl p-5 sm:p-7 border border-gray-150/70 flex flex-col justify-between select-none cursor-pointer`}
     >
       <div>
-        {/* Star Rating in Logo Color (No rounded box container) */}
-        <div className="flex items-center gap-1 mb-3.5 text-[#1877F2]">
+        {/* Star Rating in Logo Color */}
+        <div className="flex items-center gap-1 mb-3 text-[#1877F2]">
           {[...Array(item.rating)].map((_, i) => (
             <svg
               key={i}
@@ -137,20 +155,20 @@ function TestimonialCard({ item }: { item: Testimonial }) {
           ))}
         </div>
 
-        {/* Title (reduced font-weight) */}
-        <h4 className="text-[16px] font-semibold text-gray-900 mb-2">
+        {/* Title */}
+        <h4 className="text-[15px] sm:text-[16px] font-semibold text-gray-900 mb-1.5">
           {item.title}
         </h4>
 
         {/* Comment Text */}
-        <p className="text-[13.5px] sm:text-sm text-gray-500 font-normal leading-relaxed line-clamp-4">
+        <p className="text-[13px] sm:text-sm text-gray-500 font-normal leading-relaxed line-clamp-4">
           {item.comment}
         </p>
       </div>
 
       {/* Reviewer Info */}
-      <div className="flex items-center gap-3 mt-6 pt-4 border-t border-gray-100/80">
-        <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0 border border-gray-100">
+      <div className="flex items-center gap-3 mt-4 pt-3.5 border-t border-gray-100/90">
+        <div className="relative w-9.5 h-9.5 sm:w-10 sm:h-10 rounded-full overflow-hidden shrink-0 border border-gray-100">
           <Image
             src={item.avatar}
             alt={item.name}
@@ -159,10 +177,10 @@ function TestimonialCard({ item }: { item: Testimonial }) {
           />
         </div>
         <div className="flex flex-col text-left">
-          <span className="text-[14.5px] font-semibold text-gray-900 leading-tight">
+          <span className="text-[14px] font-semibold text-gray-900 leading-tight">
             {item.name}
           </span>
-          <span className="text-[12px] font-normal text-gray-400 mt-0.5">
+          <span className="text-[11.5px] font-normal text-gray-400 mt-0.5">
             {item.role}
           </span>
         </div>
@@ -172,6 +190,12 @@ function TestimonialCard({ item }: { item: Testimonial }) {
 }
 
 export default function TestimonialsSection() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <section className="w-full bg-[#f6f9fd] py-8 md:py-16 relative overflow-hidden">
       {/* Testimonials Background Image */}
@@ -186,10 +210,10 @@ export default function TestimonialsSection() {
       </div>
 
       <div className="container relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 xl:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center">
 
           {/* ─── Left Side: Header & Big Featured Testimonial Card ─── */}
-          <div className="lg:col-span-5 flex flex-col justify-center">
+          <div className="w-full lg:col-span-5 flex flex-col justify-center">
             <h2 className="section-title">
               Hear It from Travelers
             </h2>
@@ -199,14 +223,14 @@ export default function TestimonialsSection() {
             </p>
 
             {/* Big Featured Testimonial Card */}
-            <div className="bg-white rounded-2xl p-7 sm:p-8 border-0 relative mt-8 sm:mt-10">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-100/80 shadow-xs relative mt-6 sm:mt-10">
               {/* Decorative Large Quote Icon */}
               <div className="absolute top-6 right-6 text-blue-100 pointer-events-none">
-                <Quote className="w-12 h-12 rotate-180" />
+                <Quote className="w-10 h-10 sm:w-12 sm:h-12 rotate-180" />
               </div>
 
-              {/* 5 Rating Stars in Logo Color + Score */}
-              <div className="flex items-center gap-2 mb-4">
+              {/* 5 Rating Stars in Logo Color */}
+              <div className="flex items-center gap-2 mb-3.5">
                 <div className="flex items-center gap-1 text-[#1877F2]">
                   {[...Array(5)].map((_, i) => (
                     <svg
@@ -218,21 +242,15 @@ export default function TestimonialsSection() {
                     </svg>
                   ))}
                 </div>
-                {/* <span className="text-sm font-semibold text-gray-800 ml-1">
-                  5.0 / 5.0
-                </span> */}
-                {/* <span className="text-xs text-gray-500 font-normal">
-                  (4.9k+ Reviews)
-                </span> */}
               </div>
 
-              {/* Big Quote Headline (reduced from extrabold to bold/semibold) */}
-              <h3 className="text-xl sm:text-[22px] font-semibold text-gray-900 leading-snug mb-3">
+              {/* Big Quote Headline */}
+              <h3 className="text-lg sm:text-[22px] font-semibold text-gray-900 leading-snug mb-2.5">
                 &ldquo;The Best Travel Agency We Have Ever Booked With!&rdquo;
               </h3>
 
               {/* Long Review Paragraph */}
-              <p className="text-[14.5px] text-gray-500 leading-relaxed font-normal">
+              <p className="text-[13.5px] sm:text-[14.5px] text-gray-500 leading-relaxed font-normal">
                 &ldquo;From the moment we inquired to the day we returned home,
                 everything was handled with absolute perfection. The private guides,
                 luxury resort reservations, and custom itinerary exceeded all our
@@ -240,8 +258,8 @@ export default function TestimonialsSection() {
               </p>
 
               {/* Reviewer Profile */}
-              <div className="flex items-center gap-4 mt-6 pt-5 border-t border-gray-100">
-                <div className="relative w-13 h-13 rounded-full overflow-hidden shrink-0 ring-2 ring-[#1877F2]/20">
+              <div className="flex items-center gap-3.5 mt-5 pt-4 border-t border-gray-100">
+                <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-full overflow-hidden shrink-0 ring-2 ring-[#1877F2]/20">
                   <Image
                     src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80"
                     alt="Alexander Wright"
@@ -250,22 +268,74 @@ export default function TestimonialsSection() {
                   />
                 </div>
                 <div className="flex flex-col text-left">
-                  <div className="flex items-center gap-1.5">
-                    <span className="text-base font-semibold text-gray-900 leading-tight">
-                      Alexander Wright
-                    </span>
-
-                  </div>
-                  <span className="text-[12.5px] text-gray-400 font-normal mt-0.5">
+                  <span className="text-[14.5px] sm:text-base font-semibold text-gray-900 leading-tight">
+                    Alexander Wright
+                  </span>
+                  <span className="text-[11.5px] sm:text-[12.5px] text-gray-400 font-normal mt-0.5">
                     Verified KrikoTrip Traveler • Family Tour
                   </span>
                 </div>
               </div>
             </div>
+
+            {/* ─── Mobile View: Interactive Swipeable Reviews Carousel ─── */}
+            <div className="block lg:hidden w-full min-w-0 mt-8">
+              <div className="flex items-center justify-between mb-3 px-1">
+                <span className="text-xs font-semibold text-[#1877F2] tracking-wider uppercase">
+                  More Customer Reviews
+                </span>
+                <span className="text-[11px] text-gray-400 font-normal">
+                  Swipe to explore →
+                </span>
+              </div>
+
+              {mounted ? (
+                <Swiper
+                  modules={[Autoplay]}
+                  autoplay={{
+                    delay: 3500,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
+                  loop={true}
+                  grabCursor={true}
+                  slidesPerView={1.12}
+                  spaceBetween={14}
+                  breakpoints={{
+                    480: {
+                      slidesPerView: 1.3,
+                      spaceBetween: 16,
+                    },
+                    640: {
+                      slidesPerView: 1.8,
+                      spaceBetween: 18,
+                    },
+                  }}
+                  className="w-full !overflow-visible"
+                >
+                  {allMobileTestimonials.map((item) => (
+                    <SwiperSlide key={`mob-${item.id}`} className="h-auto">
+                      <TestimonialCard item={item} isMobile={true} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                <div className="flex gap-3.5 overflow-x-auto pb-4 scrollbar-none">
+                  {allMobileTestimonials.slice(0, 3).map((item) => (
+                    <div
+                      key={`ssr-${item.id}`}
+                      className="w-[85vw] max-w-[320px] shrink-0"
+                    >
+                      <TestimonialCard item={item} isMobile={true} />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* ─── Right Side: Two Rows of Opposite Infinite Marquee Cards ─── */}
-          <div className="lg:col-span-7 flex flex-col gap-5 sm:gap-6 overflow-hidden relative">
+          {/* ─── Desktop Right Side: Two Rows of Opposite Infinite Marquee Cards ─── */}
+          <div className="hidden lg:flex lg:col-span-7 flex-col gap-5 sm:gap-6 w-full min-w-0 overflow-hidden relative">
 
             {/* Fade edges gradient for seamless slide-in/slide-out */}
             <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-[#f6f9fd] to-transparent z-10 pointer-events-none" />
@@ -306,4 +376,3 @@ export default function TestimonialsSection() {
     </section>
   );
 }
-
