@@ -105,7 +105,7 @@ export default function PopularPackages() {
   }, []);
 
   return (
-    <section className="w-full bg-white py-8 md:py-16 relative overflow-hidden">
+    <section className="w-full bg-white pb-8 md:pb-16 relative overflow-hidden">
       {/* ─── Background Decorative Illustrations ─── */}
 
 

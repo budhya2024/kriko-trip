@@ -122,6 +122,18 @@ const testimonialsRow2: Testimonial[] = [
 ];
 
 const allMobileTestimonials: Testimonial[] = [
+  {
+    id: 0,
+    rating: 5,
+    title: "The Best Travel Agency We Have Ever Booked With!",
+    comment:
+      "From the moment we inquired to the day we returned home, everything was handled with absolute perfection. The private guides, luxury resort reservations, and custom itinerary exceeded all our expectations.",
+    name: "Alexander Wright",
+    role: "Verified KrikoTrip Traveler",
+    avatar:
+      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80",
+    width: "w-[330px] sm:w-[360px]",
+  },
   ...testimonialsRow1,
   ...testimonialsRow2,
 ];
@@ -222,8 +234,8 @@ export default function TestimonialsSection() {
               experiences that match your dreams!
             </p>
 
-            {/* Big Featured Testimonial Card */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border-0 shadow-xs relative mt-6 sm:mt-10">
+            {/* Big Featured Testimonial Card (Hidden on mobile, visible on desktop lg+) */}
+            <div className="hidden lg:block bg-white rounded-2xl p-6 sm:p-8 border-0 shadow-xs relative mt-6 sm:mt-10">
               {/* Decorative Large Quote Icon */}
               <div className="absolute top-6 right-6 text-blue-100 pointer-events-none">
                 <Quote className="w-10 h-10 sm:w-12 sm:h-12 rotate-180" />
@@ -279,10 +291,10 @@ export default function TestimonialsSection() {
             </div>
 
             {/* ─── Mobile View: Interactive Swipeable Reviews Carousel ─── */}
-            <div className="block lg:hidden w-full min-w-0 mt-8">
+            <div className="block lg:hidden w-full min-w-0 mt-6 sm:mt-8">
               <div className="flex items-center justify-between mb-3 px-1">
                 <span className="text-xs font-semibold text-[#1877F2] tracking-wider uppercase">
-                  More Customer Reviews
+                  Customer Reviews
                 </span>
                 <span className="text-[11px] text-gray-400 font-normal">
                   Swipe to explore →
