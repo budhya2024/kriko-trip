@@ -10,9 +10,14 @@ export default function HeroSearchForm() {
   // Field states
   const [selectedDestination, setSelectedDestination] = useState<string>("Select");
   const [isDestinationOpen, setIsDestinationOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState({
-    day: "5 November",
-    year: "Thursday 2026",
+  const [selectedDate, setSelectedDate] = useState<{
+    day: string;
+    year: string;
+    raw: string;
+  }>({
+    day: "Select Date",
+    year: "Date",
+    raw: "",
   });
   const [isDateOpen, setIsDateOpen] = useState(false);
   const [selectedTourType, setSelectedTourType] = useState<string>("Select");
@@ -181,6 +186,28 @@ export default function HeroSearchForm() {
 
           {/* Field 2: Date */}
           <div className="relative md:col-span-3">
+            {/* Native Mobile Date Input Overlay (Ensures immediate native picker & visible placeholder on mobile phones) */}
+            <input
+              type="date"
+              aria-label="Select Date"
+              value={selectedDate.raw}
+              onChange={(e) => {
+                if (e.target.value) {
+                  const d = new Date(e.target.value);
+                  setSelectedDate({
+                    day: d.toLocaleDateString("en-US", {
+                      day: "numeric",
+                      month: "short",
+                      year: "numeric",
+                    }),
+                    year: "Date",
+                    raw: e.target.value,
+                  });
+                }
+              }}
+              className="md:hidden absolute inset-0 w-full h-full opacity-0 z-20 cursor-pointer"
+            />
+
             <button
               type="button"
               onClick={() => {
@@ -230,33 +257,39 @@ export default function HeroSearchForm() {
               </div>
             </button>
 
-            {/* Date Picker Dropdown */}
+            {/* Desktop Date Picker Dropdown */}
             {isDateOpen && (
-              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-xl shadow-xl border border-gray-100 p-3 z-50 animate-in fade-in duration-150">
+              <div className="hidden md:block absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-xl shadow-xl border border-gray-100 p-3 z-50 animate-in fade-in duration-150">
                 <label className="text-[11px] font-semibold text-gray-400 uppercase tracking-wider block mb-1.5">
                   Pick a Travel Date
                 </label>
-                <input
-                  type="date"
-                  defaultValue="2026-11-05"
-                  onChange={(e) => {
-                    if (e.target.value) {
-                      const d = new Date(e.target.value);
-                      setSelectedDate({
-                        day: d.toLocaleDateString("en-US", {
-                          day: "numeric",
-                          month: "long",
-                        }),
-                        year: d.toLocaleDateString("en-US", {
-                          weekday: "long",
-                          year: "numeric",
-                        }),
-                      });
-                      setIsDateOpen(false);
-                    }
-                  }}
-                  className="w-full text-sm border border-gray-200 rounded-lg p-2 outline-none focus:border-[#1877F2]"
-                />
+                <div className="relative flex items-center">
+                  <input
+                    type="date"
+                    value={selectedDate.raw}
+                    onChange={(e) => {
+                      if (e.target.value) {
+                        const d = new Date(e.target.value);
+                        setSelectedDate({
+                          day: d.toLocaleDateString("en-US", {
+                            day: "numeric",
+                            month: "short",
+                            year: "numeric",
+                          }),
+                          year: "Date",
+                          raw: e.target.value,
+                        });
+                        setIsDateOpen(false);
+                      }
+                    }}
+                    className="w-full text-sm border border-gray-200 rounded-lg p-2 outline-none focus:border-[#1877F2] cursor-pointer"
+                  />
+                  {!selectedDate.raw && (
+                    <span className="absolute left-3 text-xs text-gray-400 pointer-events-none select-none">
+                      Select Date
+                    </span>
+                  )}
+                </div>
               </div>
             )}
           </div>

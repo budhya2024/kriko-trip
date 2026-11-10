@@ -195,14 +195,14 @@ export default function PackageDetailView({
           >
             <Link
               href="/"
-              className="hover:text-white transition-colors"
+              className="hover:text-white transition-colors whitespace-nowarp"
             >
               Home
             </Link>
             <span className="text-white/40">/</span>
             <Link
               href="/tour-packages"
-              className="hover:text-white transition-colors"
+              className="hover:text-white transition-colors whitespace-nowarp"
             >
               Tour Packages
             </Link>
@@ -899,7 +899,7 @@ export default function PackageDetailView({
                       <label className="block text-xs font-medium text-gray-700 mb-1">
                         Travel Date
                       </label>
-                      <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
+                      <div className="relative flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
                         <Calendar className="w-4 h-4 text-gray-400 shrink-0" />
                         <input
                           type="date"
@@ -907,8 +907,13 @@ export default function PackageDetailView({
                           onChange={(e) =>
                             setSidebarForm({ ...sidebarForm, travelDate: e.target.value })
                           }
-                          className="w-full text-xs text-gray-800 outline-none bg-transparent font-normal"
+                          className="w-full text-xs text-gray-800 outline-none bg-transparent font-normal cursor-pointer relative z-10"
                         />
+                        {!sidebarForm.travelDate && (
+                          <span className="absolute left-9 text-xs text-gray-400 pointer-events-none select-none z-0">
+                            Select Travel Date
+                          </span>
+                        )}
                       </div>
                     </div>
 

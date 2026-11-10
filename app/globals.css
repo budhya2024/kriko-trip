@@ -250,3 +250,16 @@ body {
   font-family: var(--font-poppins), sans-serif;
   overflow-x: hidden;
 }
+
+/* Mobile WebKit Date Input Placeholder Visibility Fix */
+input[type="date"] {
+  min-height: 1.5rem;
+}
+
+input[type="date"]::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+input[type="date"]:invalid::-webkit-datetime-edit {
+  color: #9ca3af;
+}

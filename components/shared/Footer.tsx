@@ -91,13 +91,13 @@ export default function Footer() {
               <p>Sonarpur, Kolkata - 700103</p>
               <p className="pt-1.5 flex items-center gap-2 text-white/90">
                 <span className="text-[#03ADFF]">📞</span>
-                <a href="tel:+918250338715" className="hover:text-white transition-colors">
+                <a href="tel:+918250338715" className="hover:text-white transition-colors whitespace-nowarp">
                   +91 8250338715
                 </a>
               </p>
               <p className="flex items-center gap-2 text-white/90">
                 <span className="text-[#03ADFF]">✉️</span>
-                <a href="mailto:info@krikotrips.com" className="hover:text-white transition-colors">
+                <a href="mailto:info@krikotrips.com" className="hover:text-white transition-colors whitespace-nowarp">
                   info@krikotrips.com
                 </a>
               </p>
@@ -136,7 +136,7 @@ export default function Footer() {
                 <li key={item}>
                   <Link
                     href={`#${item.toLowerCase().replace(/[\s(),]+/g, "-")}`}
-                    className="text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block "
+                    className="text-sm font-medium text-white/80 hover:text-white transition-colors whitespace-nowarp duration-150 inline-block "
                   >
                     {item}
                   </Link>
@@ -155,7 +155,7 @@ export default function Footer() {
                 <li key={item}>
                   <Link
                     href={`#${item.toLowerCase().replace(/[\s&]+/g, "-")}`}
-                    className="text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block "
+                    className="text-sm font-medium text-white/80 hover:text-white transition-colors whitespace-nowarp duration-150 inline-block "
                   >
                     {item}
                   </Link>
@@ -181,7 +181,7 @@ export default function Footer() {
                   <li key={item}>
                     <Link
                       href={getHref()}
-                      className="text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block "
+                      className="text-sm font-medium text-white/80 hover:text-white transition-colors whitespace-nowarp duration-150 inline-block "
                     >
                       {item}
                     </Link>
@@ -199,13 +199,13 @@ export default function Footer() {
             © 2026 KrikoTrip Travel Agency. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <Link href="#privacy" className="hover:text-white transition-colors">
+            <Link href="#privacy" className="hover:text-white transition-colors whitespace-nowarp">
               Privacy Policy
             </Link>
-            <Link href="#terms" className="hover:text-white transition-colors">
+            <Link href="#terms" className="hover:text-white transition-colors whitespace-nowarp">
               Terms of Service
             </Link>
-            <Link href="#cookies" className="hover:text-white transition-colors">
+            <Link href="#cookies" className="hover:text-white transition-colors whitespace-nowarp">
               Cookie Settings
             </Link>
           </div>

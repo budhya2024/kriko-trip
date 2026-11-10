@@ -108,14 +108,14 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 >
                   <Link
                     href="/"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors whitespace-nowarp"
                   >
                     Home
                   </Link>
                   <span className="text-white/40">/</span>
                   <Link
                     href="/blogs"
-                    className="hover:text-white transition-colors"
+                    className="hover:text-white transition-colors whitespace-nowarp"
                   >
                     Blogs
                   </Link>

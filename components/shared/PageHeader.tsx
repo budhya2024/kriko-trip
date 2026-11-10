@@ -58,7 +58,7 @@ export default function PageHeader({
         >
           <Link
             href="/"
-            className="text-white/80 hover:text-white transition-colors"
+            className="text-white/80 hover:text-white transition-colors whitespace-nowarp"
           >
             Home
           </Link>
