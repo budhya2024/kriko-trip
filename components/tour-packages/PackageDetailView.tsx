@@ -980,27 +980,27 @@ export default function PackageDetailView({
                       </div>
 
                       {/* Card Footer: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
-                      <div className="pt-4 mt-4 border-t border-gray-100 flex items-center justify-between gap-3">
+                      <div className="pt-3.5 mt-3 border-t border-gray-100 flex items-center justify-between gap-2 min-w-0">
                         {/* Book Now Button: Fully Rounded with White Text */}
                         <Link
                           href={`/tour-packages/${rPkg.id}`}
-                          className="inline-flex items-center gap-1.5 px-4.5 sm:px-5 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-[13px] font-semibold transition-all duration-200 shadow-xs hover:shadow-md active:scale-95 cursor-pointer shrink-0"
+                          className="inline-flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-medium transition-all duration-200 shadow-2xs hover:shadow-xs active:scale-95 cursor-pointer shrink-0"
                           style={{ backgroundColor: "#1877F2", color: "#ffffff" }}
                         >
                           <span>Book Now</span>
-                          <ArrowUpRight className="w-4 h-4 stroke-[2.2] text-white" />
+                          <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white" />
                         </Link>
 
-                        {/* Starting From & Prices Matching Screenshot format */}
-                        <div className="flex flex-col text-right items-end">
-                          <span className="text-[11px] sm:text-xs text-gray-500 font-normal leading-none mb-1">
+                        {/* Starting From & Prices Matching Clean, Non-Overlapping Format */}
+                        <div className="flex flex-col text-right items-end shrink-0 min-w-0">
+                          <span className="text-[10px] text-gray-400 font-normal leading-none mb-1">
                             Starting From
                           </span>
-                          <div className="flex items-center justify-end gap-2 leading-none">
-                            <span className="text-sm sm:text-base text-gray-400 line-through font-normal">
+                          <div className="flex items-baseline justify-end gap-1.5 leading-none">
+                            <span className="text-[11px] text-gray-400 line-through font-normal">
                               ₹{rOriginalPrice.toLocaleString("en-IN")}
                             </span>
-                            <span className="text-xl sm:text-2xl font-bold text-[#110F0F] leading-tight">
+                            <span className="text-[14px] sm:text-[15px] font-semibold text-gray-900 leading-tight">
                               ₹{rPkg.price.toLocaleString("en-IN")}
                             </span>
                           </div>

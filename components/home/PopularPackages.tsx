@@ -188,19 +188,19 @@ export default function PopularPackages() {
                     </Link>
 
                     {/* Card Content Area */}
-                    <div className="pt-4 pb-2 px-1 flex-1 flex flex-col justify-between">
+                    <div className="pt-3.5 pb-2 px-1 flex-1 flex flex-col justify-between">
                       <div>
                         {/* Title */}
                         <Link href={pkg.href}>
-                          <h3 className="text-[17px] sm:text-[18px] font-bold text-gray-950 hover:text-[#1877F2] transition-colors line-clamp-1">
+                          <h3 className="text-[14px] sm:text-[15px] font-semibold text-gray-900 hover:text-[#1877F2] transition-colors line-clamp-1">
                             {pkg.title}
                           </h3>
                         </Link>
 
                         {/* Location & Duration Meta */}
-                        <div className="flex items-center gap-2 mt-2 text-[13px] text-gray-500">
-                          <span className="flex items-center gap-1 font-medium text-gray-600">
-                            <MapPin className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+                        <div className="flex items-center gap-2 mt-1.5 text-xs text-gray-500">
+                          <span className="flex items-center gap-1 font-normal text-gray-600">
+                            <MapPin className="w-3 h-3 text-gray-400 shrink-0" />
                             {pkg.destination}
                           </span>
                           <span className="text-gray-300">↔</span>
@@ -211,27 +211,27 @@ export default function PopularPackages() {
                       </div>
 
                       {/* Bottom Footer Row: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
-                      <div className="flex items-center justify-between pt-4 mt-3 border-t border-gray-100/90 gap-2">
+                      <div className="flex items-center justify-between pt-3.5 mt-3 border-t border-gray-100 gap-2 min-w-0">
                         {/* Book Now Button: Fully Rounded with White Text */}
                         <Link
                           href={pkg.href}
-                          className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[13px] font-bold shadow-xs hover:shadow-md transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
+                          className="inline-flex items-center gap-1 px-3 sm:px-3.5 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-medium shadow-2xs hover:shadow-xs transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
                           style={{ backgroundColor: "#1877F2", color: "#ffffff" }}
                         >
                           <span>Book Now</span>
-                          <ArrowUpRight className="w-4 h-4 stroke-[2.5] text-white" />
+                          <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white" />
                         </Link>
 
                         {/* Starting From, Original Price & Sales Price */}
-                        <div className="flex flex-col text-right items-end">
-                          <span className="text-[11px] sm:text-xs text-gray-500 font-medium leading-none mb-1">
+                        <div className="flex flex-col text-right items-end shrink-0 min-w-0">
+                          <span className="text-[10px] text-gray-400 font-normal leading-none mb-1">
                             Starting From
                           </span>
-                          <div className="flex items-center justify-end gap-2 leading-none">
-                            <span className="text-xs sm:text-sm text-gray-400 line-through font-semibold">
+                          <div className="flex items-baseline justify-end gap-1.5 leading-none">
+                            <span className="text-[11px] text-gray-400 line-through font-normal">
                               ₹{pkg.originalPrice.toLocaleString("en-IN")}
                             </span>
-                            <span className="text-xl sm:text-2xl font-bold text-[#110F0F] leading-tight">
+                            <span className="text-[14px] sm:text-[15px] font-semibold text-gray-900 leading-tight">
                               ₹{pkg.price.toLocaleString("en-IN")}
                             </span>
                           </div>
