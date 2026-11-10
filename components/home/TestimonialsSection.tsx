@@ -139,7 +139,7 @@ function TestimonialCard({
         isMobile
           ? "w-full h-[255px] sm:h-[270px] shadow-xs"
           : `${item.width || "w-[340px] sm:w-[370px]"} h-[265px] sm:h-[280px] shrink-0`
-      } bg-white rounded-2xl p-5 sm:p-7 border border-gray-150/70 flex flex-col justify-between select-none cursor-pointer`}
+      } bg-white rounded-2xl p-5 sm:p-7 border-0 flex flex-col justify-between select-none cursor-pointer`}
     >
       <div>
         {/* Star Rating in Logo Color */}
@@ -223,7 +223,7 @@ export default function TestimonialsSection() {
             </p>
 
             {/* Big Featured Testimonial Card */}
-            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-gray-100/80 shadow-xs relative mt-6 sm:mt-10">
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border-0 shadow-xs relative mt-6 sm:mt-10">
               {/* Decorative Large Quote Icon */}
               <div className="absolute top-6 right-6 text-blue-100 pointer-events-none">
                 <Quote className="w-10 h-10 sm:w-12 sm:h-12 rotate-180" />
