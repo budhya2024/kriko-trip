@@ -84,9 +84,9 @@ export default function BankingDatePicker({
   // Effective min date
   const effectiveMinDate = minDate
     ? (() => {
-        const parts = minDate.split("-");
-        return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-      })()
+      const parts = minDate.split("-");
+      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+    })()
     : today;
 
   // Sync viewDate if value changes externally
@@ -119,33 +119,33 @@ export default function BankingDatePicker({
   // Selected date objects
   const selectedStartObj = value
     ? (() => {
-        const parts = value.split("-");
-        if (parts.length === 3) {
-          const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-          d.setHours(0, 0, 0, 0);
-          return d;
-        }
-        return null;
-      })()
+      const parts = value.split("-");
+      if (parts.length === 3) {
+        const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        d.setHours(0, 0, 0, 0);
+        return d;
+      }
+      return null;
+    })()
     : null;
 
   const selectedEndObj = returnDate
     ? (() => {
-        const parts = returnDate.split("-");
-        if (parts.length === 3) {
-          const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-          d.setHours(0, 0, 0, 0);
-          return d;
-        }
-        return null;
-      })()
+      const parts = returnDate.split("-");
+      if (parts.length === 3) {
+        const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+        d.setHours(0, 0, 0, 0);
+        return d;
+      }
+      return null;
+    })()
     : null;
 
   // Navigation handlers
   const isPrevMonthDisabled = today
     ? viewDate.getFullYear() < today.getFullYear() ||
-      (viewDate.getFullYear() === today.getFullYear() &&
-        viewDate.getMonth() <= today.getMonth())
+    (viewDate.getFullYear() === today.getFullYear() &&
+      viewDate.getMonth() <= today.getMonth())
     : false;
 
   const handlePrevMonth = (e?: React.MouseEvent) => {
@@ -318,97 +318,7 @@ export default function BankingDatePicker({
                 : "fixed sm:absolute inset-x-2 sm:inset-x-auto sm:left-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-16px)] max-w-[420px] sm:w-[410px] bg-white rounded-lg border border-gray-200 p-3 sm:p-4 animate-in fade-in duration-150 max-h-[94vh] overflow-y-auto"
             }
           >
-            {/* ─── Top Bar: "Round trip ▾", "Reset", and Dual Date Input Boxes ─── */}
-            <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-gray-150">
-              {/* Left Side: "Round trip ▾" & "Reset" */}
-              <div className="flex items-center gap-3 sm:gap-4">
-                <button
-                  type="button"
-                  onClick={() =>
-                    setTripType((prev) =>
-                      prev === "Round trip" ? "One way" : "Round trip"
-                    )
-                  }
-                  className="flex items-center gap-1 text-xs sm:text-[13px] font-semibold text-[#1e293b] hover:text-[#1877F2] transition-colors cursor-pointer"
-                >
-                  <span>{tripType}</span>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400" />
-                </button>
 
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  className="text-xs sm:text-[13px] font-medium text-[#3b82f6] hover:underline cursor-pointer"
-                >
-                  Reset
-                </button>
-              </div>
-
-              {/* Right Side: Departure Box & Return Box */}
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                {/* Departure Box */}
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded border border-[#3b82f6] bg-[#f0f6ff]/40">
-                  <Calendar className="w-3.5 h-3.5 text-[#3b82f6] shrink-0" />
-                  <span className="text-xs sm:text-[12.5px] font-semibold text-[#1e293b]">
-                    {formatDatePill(selectedStartObj, "Select date")}
-                  </span>
-                  <div className="flex items-center gap-0.5 ml-0.5">
-                    <button
-                      type="button"
-                      disabled={isPrevMonthDisabled}
-                      onClick={() => handlePrevMonth()}
-                      className={`w-4 h-4 rounded-full flex items-center justify-center transition-colors ${
-                        isPrevMonthDisabled
-                          ? "text-gray-300 cursor-not-allowed"
-                          : "hover:bg-blue-100 text-[#3b82f6] cursor-pointer"
-                      }`}
-                      aria-label="Previous Month"
-                    >
-                      <ChevronLeft className="w-3 h-3 stroke-[2.5]" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleNextMonth()}
-                      className="w-4 h-4 rounded-full hover:bg-blue-100 flex items-center justify-center text-[#3b82f6] transition-colors cursor-pointer"
-                      aria-label="Next Month"
-                    >
-                      <ChevronRight className="w-3 h-3 stroke-[2.5]" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Return Box */}
-                <div
-                  onClick={() => setTripType("Round trip")}
-                  className={`flex items-center gap-1.5 px-2 py-1 rounded border transition-all cursor-pointer ${
-                    selectedEndObj
-                      ? "border-[#3b82f6] bg-[#f0f6ff]/40"
-                      : "border-gray-200 bg-white hover:border-gray-300"
-                  }`}
-                >
-                  <Calendar
-                    className={`w-3.5 h-3.5 shrink-0 ${
-                      selectedEndObj ? "text-[#3b82f6]" : "text-gray-400"
-                    }`}
-                  />
-                  <span
-                    className={`text-xs sm:text-[12.5px] font-semibold ${
-                      selectedEndObj ? "text-[#1e293b]" : "text-gray-400"
-                    }`}
-                  >
-                    {formatDatePill(selectedEndObj, "Return date")}
-                  </span>
-                  <div className="flex items-center gap-0.5 ml-0.5">
-                    <div className="w-4 h-4 flex items-center justify-center text-gray-300">
-                      <ChevronLeft className="w-3 h-3 stroke-[2.5]" />
-                    </div>
-                    <div className="w-4 h-4 flex items-center justify-center text-gray-300">
-                      <ChevronRight className="w-3 h-3 stroke-[2.5]" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             {/* ─── Single Month Calendar Body ─── */}
             <div className="relative">
@@ -432,11 +342,10 @@ export default function BankingDatePicker({
                     type="button"
                     disabled={isPrevMonthDisabled}
                     onClick={() => handlePrevMonth()}
-                    className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${
-                      isPrevMonthDisabled
-                        ? "text-gray-300 cursor-not-allowed"
-                        : "text-[#3b82f6] hover:bg-blue-50 cursor-pointer"
-                    }`}
+                    className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${isPrevMonthDisabled
+                      ? "text-gray-300 cursor-not-allowed"
+                      : "text-[#3b82f6] hover:bg-blue-50 cursor-pointer"
+                      }`}
                     aria-label="Previous Month"
                   >
                     <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
@@ -481,11 +390,10 @@ export default function BankingDatePicker({
                             setViewDate(new Date(year, idx, 1));
                             setIsMonthPickerOpen(false);
                           }}
-                          className={`py-1 px-1.5 rounded text-xs font-medium transition-colors ${
-                            idx === month
-                              ? "bg-[#1877F2] text-white font-semibold"
-                              : "text-gray-700 hover:bg-gray-100"
-                          }`}
+                          className={`py-1 px-1.5 rounded text-xs font-medium transition-colors ${idx === month
+                            ? "bg-[#1877F2] text-white font-semibold"
+                            : "text-gray-700 hover:bg-gray-100"
+                            }`}
                         >
                           {name.slice(0, 3)}
                         </button>
@@ -500,13 +408,12 @@ export default function BankingDatePicker({
                 {WEEK_DAYS.map((wd, idx) => (
                   <span
                     key={wd}
-                    className={`text-[11px] font-normal ${
-                      idx === 5
-                        ? "text-[#93c5fd]"
-                        : idx === 6
+                    className={`text-[11px] font-normal ${idx === 5
+                      ? "text-[#93c5fd]"
+                      : idx === 6
                         ? "text-[#f87171]"
                         : "text-gray-400"
-                    }`}
+                      }`}
                   >
                     {wd}
                   </span>
@@ -558,15 +465,14 @@ export default function BankingDatePicker({
                           onClick={() =>
                             handleSelectDay(year, month, cell.day!)
                           }
-                          className={`w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full flex items-center justify-center text-xs sm:text-[13px] font-medium transition-all cursor-pointer relative z-10 ${
-                            isHighlighted
-                              ? "bg-[#1877F2] text-white font-bold"
-                              : cell.isWeekendSun
+                          className={`w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full flex items-center justify-center text-xs sm:text-[13px] font-medium transition-all cursor-pointer relative z-10 ${isHighlighted
+                            ? "bg-[#1877F2] text-white font-bold"
+                            : cell.isWeekendSun
                               ? "text-[#ef4444] hover:bg-gray-100"
                               : cell.isWeekendSat
-                              ? "text-[#60a5fa] hover:bg-gray-100"
-                              : "text-[#1e293b] hover:bg-gray-100 active:scale-95"
-                          }`}
+                                ? "text-[#60a5fa] hover:bg-gray-100"
+                                : "text-[#1e293b] hover:bg-gray-100 active:scale-95"
+                            }`}
                         >
                           {cell.day}
                         </button>

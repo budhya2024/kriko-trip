@@ -166,22 +166,22 @@ export default function PackageCard({ pkg }: PackageCardProps) {
 
           {/* Starting From & Prices with Save Tag Badge */}
           <div className="flex flex-col text-right items-end shrink-0 min-w-0">
-            <div className="flex items-center gap-1.5 leading-none mb-1">
-              <span className="text-[10px] text-gray-400 font-normal">
+            <div className="flex items-center gap-1 leading-none mb-0.5">
+              <span className="text-[9px] text-gray-400 font-normal">
                 Starting From
               </span>
               {savings > 0 && (
-                <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-bold leading-none">
-                  <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
+                <span className="inline-flex items-center gap-0.5 px-1 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[9px] font-bold leading-none">
+                  <Tag className="w-2 h-2 stroke-[2.2]" />
                   Save ₹{savings.toLocaleString("en-IN")}
                 </span>
               )}
             </div>
-            <div className="flex items-baseline justify-end gap-1.5 leading-none">
-              <span className="text-[11px] text-gray-400 line-through font-normal">
+            <div className="flex items-baseline justify-end gap-1 leading-none">
+              <span className="text-[10px] text-gray-400 line-through font-normal">
                 ₹{originalPrice.toLocaleString("en-IN")}
               </span>
-              <span className="text-[14px] sm:text-[15px] font-semibold text-gray-900 leading-tight">
+              <span className="text-[12.5px] sm:text-[13px] font-bold text-gray-900 leading-tight">
                 ₹{pkg.price.toLocaleString("en-IN")}
               </span>
             </div>
