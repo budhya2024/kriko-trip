@@ -160,9 +160,8 @@ export default function CountryPhoneSelect({
           {selectedCountry.code}
         </span>
         <ChevronDown
-          className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${
-            isOpen ? "rotate-180 text-[#1877F2]" : ""
-          }`}
+          className={`w-3.5 h-3.5 text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180 text-[#1877F2]" : ""
+            }`}
         />
       </button>
 
@@ -179,7 +178,7 @@ export default function CountryPhoneSelect({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search country or code..."
-                className="w-full pl-8 pr-7 py-1.5 text-xs bg-white border border-gray-200 rounded-lg outline-none focus:border-[#1877F2] text-gray-800 placeholder:text-gray-400 font-normal"
+                className="w-full pl-8 pr-7 py-2 text-xs bg-white border border-gray-200 rounded-lg outline-none focus:border-[#1877F2] text-gray-800 placeholder:text-gray-400 font-normal"
               />
               {searchQuery && (
                 <button
@@ -205,11 +204,10 @@ export default function CountryPhoneSelect({
                     key={`${c.iso}-${c.code}`}
                     type="button"
                     onClick={() => handleSelect(c)}
-                    className={`w-full flex items-center justify-between px-2.5 py-2 text-left rounded-lg text-xs sm:text-[13px] transition-colors cursor-pointer group ${
-                      isSelected
-                        ? "bg-blue-50 text-[#1877F2] font-semibold"
-                        : "hover:bg-gray-100/80 text-gray-700"
-                    }`}
+                    className={`w-full flex items-center justify-between px-2.5 py-2 text-left rounded-lg text-xs sm:text-[13px] transition-colors cursor-pointer group ${isSelected
+                      ? "bg-blue-50 text-[#1877F2] font-semibold"
+                      : "hover:bg-gray-100/80 text-gray-700"
+                      }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
                       <span className="text-base shrink-0 leading-none">
@@ -221,9 +219,8 @@ export default function CountryPhoneSelect({
                     </div>
                     <div className="flex items-center gap-1.5 shrink-0 ml-2">
                       <span
-                        className={`text-xs font-semibold ${
-                          isSelected ? "text-[#1877F2]" : "text-gray-500"
-                        }`}
+                        className={`text-xs font-semibold ${isSelected ? "text-[#1877F2]" : "text-gray-500"
+                          }`}
                       >
                         {c.code}
                       </span>

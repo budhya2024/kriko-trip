@@ -5,7 +5,7 @@ import Image from "next/image";
 import {
   X,
   Camera,
-  Award,
+  Crown,
   Calendar,
   MapPin,
   Eye,
@@ -179,7 +179,7 @@ export default function UserProfileDrawer() {
             <button
               type="button"
               onClick={closeProfileDrawer}
-              className="w-8 h-8 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-md bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-900 flex items-center justify-center transition-colors cursor-pointer outline-none focus:outline-none"
               aria-label="Close drawer"
             >
               <X className="w-4 h-4 stroke-[2.2]" />
@@ -279,12 +279,12 @@ export default function UserProfileDrawer() {
               </div>
             )}
 
-            {/* ─── 2. Loyalty Points Summary Card (Bg color used per box, no border) ─── */}
+            {/* ─── 2. Loyalty Points Summary Card (Bg color used per box, no border, circle shape icon) ─── */}
             <div className="p-3.5 rounded-lg bg-amber-50 text-gray-900">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-md bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
-                    <Award className="w-4 h-4" />
+                  <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                    <Crown className="w-4 h-4 text-amber-700 stroke-[2.2]" />
                   </div>
                   <div>
                     <span className="text-[11px] font-semibold text-amber-900 uppercase tracking-wide block">
@@ -313,7 +313,7 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("profile")}
-                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   activeTab === "profile"
                     ? "text-[#1877F2]"
                     : "text-gray-500 hover:text-gray-800"
@@ -328,7 +328,7 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("trips")}
-                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   activeTab === "trips"
                     ? "text-[#1877F2]"
                     : "text-gray-500 hover:text-gray-800"
@@ -343,7 +343,7 @@ export default function UserProfileDrawer() {
               <button
                 type="button"
                 onClick={() => setActiveTab("password")}
-                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer ${
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${
                   activeTab === "password"
                     ? "text-[#1877F2]"
                     : "text-gray-500 hover:text-gray-800"
@@ -371,7 +371,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Full Name
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <User className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
@@ -379,7 +379,7 @@ export default function UserProfileDrawer() {
                       value={editName}
                       onChange={(e) => setEditName(e.target.value)}
                       placeholder="Enter full name"
-                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
                     />
                   </div>
                 </div>
@@ -389,7 +389,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Email Address
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <Mail className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="email"
@@ -397,7 +397,7 @@ export default function UserProfileDrawer() {
                       value={editEmail}
                       onChange={(e) => setEditEmail(e.target.value)}
                       placeholder="Enter email address"
-                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
                     />
                   </div>
                 </div>
@@ -407,7 +407,7 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Phone Number
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <Phone className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="tel"
@@ -415,7 +415,7 @@ export default function UserProfileDrawer() {
                       value={editPhone}
                       onChange={(e) => setEditPhone(e.target.value)}
                       placeholder="Enter phone number"
-                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
                     />
                   </div>
                 </div>
@@ -425,14 +425,14 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     City / Location
                   </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
                       value={editLocation}
                       onChange={(e) => setEditLocation(e.target.value)}
                       placeholder="e.g. Kolkata, West Bengal"
-                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
                     />
                   </div>
                 </div>
@@ -442,14 +442,14 @@ export default function UserProfileDrawer() {
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Travel Preferences / Bio
                   </label>
-                  <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors focus-within:ring-2 focus-within:ring-[#1877F2]/40">
+                  <div className="flex items-start gap-2 px-3 py-2 rounded-lg bg-gray-100/90 focus-within:bg-gray-100 transition-colors">
                     <FileText className="w-4 h-4 text-gray-400 shrink-0 mt-1" />
                     <textarea
                       rows={2}
                       value={editBio}
                       onChange={(e) => setEditBio(e.target.value)}
                       placeholder="Add personal travel preferences or bio notes"
-                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none font-normal resize-none"
+                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal resize-none"
                     />
                   </div>
                 </div>
@@ -457,7 +457,7 @@ export default function UserProfileDrawer() {
                 {/* Save Button */}
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer"
+                  className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer outline-none focus:outline-none"
                 >
                   Save Profile Changes
                 </button>
@@ -567,12 +567,12 @@ export default function UserProfileDrawer() {
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
                       placeholder="Enter current password"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 focus:ring-2 focus:ring-[#1877F2]/40 outline-none text-xs sm:text-sm text-gray-900 font-normal transition-colors"
+                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 outline-none focus:outline-none ring-0 focus:ring-0 text-xs sm:text-sm text-gray-900 font-normal transition-colors"
                     />
                     <button
                       type="button"
                       onClick={() => setShowCurrentPass(!showCurrentPass)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 outline-none focus:outline-none"
                     >
                       {showCurrentPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -590,12 +590,12 @@ export default function UserProfileDrawer() {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="Min. 6 characters"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 focus:ring-2 focus:ring-[#1877F2]/40 outline-none text-xs sm:text-sm text-gray-900 font-normal transition-colors"
+                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 outline-none focus:outline-none ring-0 focus:ring-0 text-xs sm:text-sm text-gray-900 font-normal transition-colors"
                     />
                     <button
                       type="button"
                       onClick={() => setShowNewPass(!showNewPass)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 outline-none focus:outline-none"
                     >
                       {showNewPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -613,12 +613,12 @@ export default function UserProfileDrawer() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       placeholder="Re-enter new password"
-                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 focus:ring-2 focus:ring-[#1877F2]/40 outline-none text-xs sm:text-sm text-gray-900 font-normal transition-colors"
+                      className="w-full px-3 py-2.5 pr-10 rounded-lg bg-gray-100/90 focus:bg-gray-100 outline-none focus:outline-none ring-0 focus:ring-0 text-xs sm:text-sm text-gray-900 font-normal transition-colors"
                     />
                     <button
                       type="button"
                       onClick={() => setShowConfirmPass(!showConfirmPass)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 outline-none focus:outline-none"
                     >
                       {showConfirmPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
@@ -627,7 +627,7 @@ export default function UserProfileDrawer() {
 
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer"
+                  className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer outline-none focus:outline-none"
                 >
                   Update Password
                 </button>
@@ -648,7 +648,7 @@ export default function UserProfileDrawer() {
             <button
               type="button"
               onClick={logout}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer shrink-0"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors cursor-pointer shrink-0 outline-none focus:outline-none"
             >
               <LogOut className="w-3.5 h-3.5" />
               <span>Sign Out</span>
