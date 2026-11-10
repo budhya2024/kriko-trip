@@ -11,6 +11,7 @@ import {
   X,
   Plus,
   Minus,
+  Menu,
 } from "lucide-react";
 
 // ─── Navigation & Mega Menu Data (Indian Destinations) ─────────────────────
@@ -337,15 +338,14 @@ export default function Header() {
               <Search className="w-4 h-4 stroke-[2]" />
             </button>
 
-            {/* Mobile 2-line Hamburger Menu Button */}
+            {/* Mobile 3-bar Hamburger Menu Button */}
             <button
               type="button"
               onClick={() => setIsMobileDrawerOpen(true)}
-              className="w-10 h-10 rounded-full border border-gray-200 flex flex-col items-center justify-center gap-[5px] bg-white hover:bg-gray-50 transition-colors focus:outline-none p-2"
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center bg-white hover:bg-gray-50 text-gray-900 transition-colors focus:outline-none cursor-pointer"
               aria-label="Open navigation menu"
             >
-              <span className="w-5 h-[2px] bg-gray-900 rounded-full" />
-              <span className="w-3.5 h-[2px] bg-gray-900 rounded-full self-start ml-0.5" />
+              <Menu className="w-5 h-5 stroke-[2.2]" />
             </button>
           </div>
 
