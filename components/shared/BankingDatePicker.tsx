@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Calendar, ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Calendar, ChevronLeft, ChevronRight, ChevronDown, X } from "lucide-react";
 
 interface BankingDatePickerProps {
   value: string; // YYYY-MM-DD
@@ -61,7 +61,7 @@ export default function BankingDatePicker({
 
   const [today, setToday] = useState<Date | null>(null);
 
-  // Initialize client-side current date inside useEffect to satisfy Next.js 16 prerender requirements
+  // Initialize client-side current date inside useEffect to satisfy Next.js prerender
   useEffect(() => {
     const now = new Date();
     now.setHours(0, 0, 0, 0);
@@ -117,7 +117,7 @@ export default function BankingDatePicker({
       })()
     : null;
 
-  // Check if previous month navigation is allowed (cannot navigate past current month)
+  // Check if previous month navigation is allowed
   const isPrevMonthDisabled = today
     ? viewDate.getFullYear() < today.getFullYear() ||
       (viewDate.getFullYear() === today.getFullYear() &&
@@ -138,10 +138,10 @@ export default function BankingDatePicker({
 
   // Day selection
   const handleSelectDay = (day: number) => {
-    const year = viewDate.getFullYear();
-    const month = String(viewDate.getMonth() + 1).padStart(2, "0");
+    const y = viewDate.getFullYear();
+    const m = String(viewDate.getMonth() + 1).padStart(2, "0");
     const d = String(day).padStart(2, "0");
-    const dateStr = `${year}-${month}-${d}`;
+    const dateStr = `${y}-${m}-${d}`;
     onChange(dateStr);
     handleClose();
   };
@@ -175,16 +175,9 @@ export default function BankingDatePicker({
     });
   };
 
-  // Header display (Slice / Axis Banking Style)
-  const formatHeaderDisplay = (dateObj: Date | null) => {
-    if (!dateObj) return "Select a Travel Date";
-    return dateObj.toLocaleDateString("en-IN", {
-      weekday: "short",
-      day: "numeric",
-      month: "short",
-      year: "numeric",
-    });
-  };
+  // Year options: from current year to +10 years
+  const currentYear = today ? today.getFullYear() : 2026;
+  const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear + i);
 
   // Build calendar matrix
   const year = viewDate.getFullYear();
@@ -226,7 +219,7 @@ export default function BankingDatePicker({
     });
   }
 
-  // Next month leading days to complete full grid
+  // Next month leading days to complete full grid (always 42 cells)
   const remainingCells = 42 - calendarCells.length;
   for (let i = 1; i <= remainingCells; i++) {
     calendarCells.push({
@@ -239,7 +232,7 @@ export default function BankingDatePicker({
 
   return (
     <div ref={containerRef} className={`relative w-full ${className}`}>
-      {/* ─── Clean Trigger Input (Eliminates Browser dd-mm-yyyy Overlap) ─── */}
+      {/* ─── Clean Trigger Input (when not inline) ─── */}
       {!inline && (
         <button
           type="button"
@@ -247,7 +240,7 @@ export default function BankingDatePicker({
           className="w-full flex items-center justify-between gap-2 px-3 py-2.5 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors shadow-2xs text-left cursor-pointer group"
         >
           <div className="flex items-center gap-2.5 min-w-0">
-            <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
+            <Calendar className="w-4 h-4 text-gray-500 group-hover:text-[#1877F2] transition-colors shrink-0" />
             {value ? (
               <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
                 {formatDisplay(selectedDateObj)}
@@ -258,107 +251,125 @@ export default function BankingDatePicker({
               </span>
             )}
           </div>
-
-          <Calendar className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 shrink-0 transition-colors" />
+          <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 shrink-0 transition-colors" />
         </button>
       )}
 
-      {/* ─── Slice & Axis Bank Style Date Picker Popover ─── */}
+      {/* ─── Professional Clean Calendar Modal / Dropdown ─── */}
       {(inline || isOpen) && (
         <>
-          {/* Mobile Dimmed Backdrop (closes on tap outside) */}
+          {/* Mobile Backdrop (when not inline) */}
           {!inline && (
             <div
-              className="sm:hidden fixed inset-0 z-[120] bg-black/60 backdrop-blur-xs animate-in fade-in duration-200"
+              className="sm:hidden fixed inset-0 z-[120] bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
               onClick={handleClose}
             />
           )}
 
-          {/* Calendar Card: Centered Modal on Mobile, Dropdown on Desktop */}
+          {/* Calendar Box: Professional, Clean White UI, No Gradients */}
           <div
             className={
               inline
-                ? "relative w-full bg-white rounded-2xl shadow-2xl border border-gray-200/90 overflow-hidden z-50 animate-in fade-in duration-200"
-                : "fixed sm:absolute inset-x-4 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:inset-x-auto sm:top-[calc(100%+8px)] sm:left-0 z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-32px)] max-w-[330px] sm:w-[310px] bg-white rounded-2xl shadow-2xl border border-gray-200/90 overflow-hidden animate-in fade-in zoom-in-95 sm:zoom-in-100 duration-200"
+                ? "relative w-full bg-white rounded-xl shadow-lg border border-gray-200 p-3.5 sm:p-4 z-50 animate-in fade-in duration-150"
+                : "fixed sm:absolute inset-x-4 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:inset-x-auto sm:top-[calc(100%+8px)] sm:left-0 z-[130] sm:z-50 mx-auto sm:mx-0 w-[calc(100%-32px)] max-w-[340px] sm:w-[320px] bg-white rounded-xl shadow-xl border border-gray-200 p-3.5 sm:p-4 animate-in fade-in zoom-in-95 sm:zoom-in-100 duration-150"
             }
           >
-            {/* Top Site Logo Navy & Sky Blue Brand Banner (Like Slice & Axis Banking) */}
-            <div className="relative bg-gradient-to-r from-[#00285C] via-[#0D4B9F] to-[#03ADFF] p-4 text-white">
-              <div className="flex items-center justify-between mb-1.5">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#03ADFF] animate-pulse" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-sky-200">
-                    TRAVEL DATE
-                  </span>
+            {/* ─── Header: Month Select + Year Select + Nav Arrows ─── */}
+            <div className="flex items-center justify-between gap-1.5 pb-3 mb-2 border-b border-gray-150">
+              <div className="flex items-center gap-1.5 min-w-0">
+                {/* Month Select Option */}
+                <div className="relative">
+                  <select
+                    value={month}
+                    onChange={(e) => {
+                      const newMonth = parseInt(e.target.value);
+                      setViewDate(new Date(year, newMonth, 1));
+                    }}
+                    className="appearance-none bg-gray-50 hover:bg-gray-100 focus:bg-white text-gray-900 text-xs sm:text-[13px] font-semibold pl-2.5 pr-6 py-1.5 rounded-lg border border-gray-200 outline-none focus:border-[#1877F2] transition-colors cursor-pointer"
+                    aria-label="Select month"
+                  >
+                    {MONTH_NAMES.map((name, idx) => (
+                      <option key={name} value={idx}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
-                <button
-                  type="button"
-                  onClick={handleClose}
-                  className="w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center text-white/80 hover:text-white transition-colors cursor-pointer"
-                  aria-label="Close date picker"
-                >
-                  <X className="w-3.5 h-3.5 stroke-[2.5]" />
-                </button>
+
+                {/* Year Select Option */}
+                <div className="relative">
+                  <select
+                    value={year}
+                    onChange={(e) => {
+                      const newYear = parseInt(e.target.value);
+                      setViewDate(new Date(newYear, month, 1));
+                    }}
+                    className="appearance-none bg-gray-50 hover:bg-gray-100 focus:bg-white text-gray-900 text-xs sm:text-[13px] font-semibold pl-2.5 pr-6 py-1.5 rounded-lg border border-gray-200 outline-none focus:border-[#1877F2] transition-colors cursor-pointer"
+                    aria-label="Select year"
+                  >
+                    {yearOptions.map((y) => (
+                      <option key={y} value={y}>
+                        {y}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
               </div>
 
-              {/* Selected Date Large Heading */}
-              <div className="text-base sm:text-lg font-bold tracking-tight text-white leading-tight">
-                {formatHeaderDisplay(selectedDateObj)}
+              {/* Prev / Next Month Nav Arrows */}
+              <div className="flex items-center gap-1 shrink-0">
+                <button
+                  type="button"
+                  disabled={isPrevMonthDisabled}
+                  onClick={handlePrevMonth}
+                  className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${
+                    isPrevMonthDisabled
+                      ? "text-gray-300 cursor-not-allowed opacity-40"
+                      : "hover:bg-gray-100 text-gray-600 hover:text-gray-900 cursor-pointer"
+                  }`}
+                  aria-label="Previous Month"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNextMonth}
+                  className="w-7 h-7 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
+                  aria-label="Next Month"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+
+                {!inline && (
+                  <button
+                    type="button"
+                    onClick={handleClose}
+                    className="w-7 h-7 ml-0.5 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition-colors cursor-pointer"
+                    aria-label="Close"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
               </div>
             </div>
 
-            {/* Calendar Body */}
-            <div className="p-3.5 bg-white">
-              {/* Month & Year Navigation Row */}
-              <div className="flex items-center justify-between mb-3 px-1">
-                <span className="text-xs sm:text-sm font-bold text-gray-900 tracking-tight">
-                  {MONTH_NAMES[month]} {year}
-                </span>
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    disabled={isPrevMonthDisabled}
-                    onClick={handlePrevMonth}
-                    className={`w-7 h-7 rounded-full flex items-center justify-center transition-colors ${
-                      isPrevMonthDisabled
-                        ? "text-gray-300 cursor-not-allowed opacity-40"
-                        : "hover:bg-gray-100 text-gray-600 hover:text-gray-900 cursor-pointer"
-                    }`}
-                    aria-label="Previous Month"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={handleNextMonth}
-                    className="w-7 h-7 rounded-full hover:bg-gray-100 flex items-center justify-center text-gray-600 hover:text-gray-900 transition-colors cursor-pointer"
-                    aria-label="Next Month"
-                  >
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                </div>
-              </div>
-
-            {/* Weekday Names Header */}
-            <div className="grid grid-cols-7 gap-1 text-center mb-1">
+            {/* ─── Weekday Header ─── */}
+            <div className="grid grid-cols-7 gap-1 text-center py-1 mb-1 text-gray-400 text-[11px] font-semibold uppercase tracking-wider select-none">
               {WEEK_DAYS.map((wd) => (
-                <span
-                  key={wd}
-                  className="text-[10px] sm:text-[11px] font-semibold text-gray-400 uppercase select-none"
-                >
-                  {wd}
-                </span>
+                <span key={wd}>{wd}</span>
               ))}
             </div>
 
-            {/* Days Grid */}
+            {/* ─── Days Grid ─── */}
             <div className="grid grid-cols-7 gap-1 text-center">
               {calendarCells.map((cell) => {
                 if (!cell.isCurrentMonth) {
                   return (
                     <span
                       key={cell.key}
-                      className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[11px] text-gray-300 font-normal select-none"
+                      className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs text-gray-300 font-normal select-none"
                     >
                       {cell.day}
                     </span>
@@ -369,7 +380,7 @@ export default function BankingDatePicker({
                   return (
                     <span
                       key={cell.key}
-                      className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center text-[11px] text-gray-300 font-normal select-none cursor-not-allowed"
+                      className="w-8 h-8 sm:w-9 sm:h-9 mx-auto flex items-center justify-center text-xs text-gray-300 font-normal select-none cursor-not-allowed"
                     >
                       {cell.day}
                     </span>
@@ -381,12 +392,12 @@ export default function BankingDatePicker({
                     key={cell.key}
                     type="button"
                     onClick={() => handleSelectDay(cell.day)}
-                    className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs transition-all cursor-pointer font-medium select-none ${
+                    className={`w-8 h-8 sm:w-9 sm:h-9 mx-auto rounded-lg flex items-center justify-center text-xs sm:text-[13px] transition-all cursor-pointer select-none ${
                       cell.isSelected
-                        ? "bg-[#1877F2] text-white font-bold shadow-md hover:bg-[#00285C]"
+                        ? "bg-[#1877F2] text-white font-semibold shadow-xs"
                         : cell.isToday
                         ? "border border-[#1877F2] text-[#1877F2] font-semibold hover:bg-blue-50"
-                        : "text-gray-800 hover:bg-gray-100"
+                        : "text-gray-800 font-medium hover:bg-gray-100 active:scale-95"
                     }`}
                   >
                     {cell.day}
@@ -395,27 +406,26 @@ export default function BankingDatePicker({
               })}
             </div>
 
-            {/* Footer Action Bar */}
-            <div className="mt-3.5 pt-2.5 border-t border-gray-100 flex items-center justify-between text-xs font-semibold">
+            {/* ─── Footer Action Bar ─── */}
+            <div className="mt-3 pt-2.5 border-t border-gray-100 flex items-center justify-between text-xs">
               <button
                 type="button"
                 onClick={handleClear}
-                className="text-gray-500 hover:text-red-500 transition-colors cursor-pointer"
+                className="text-gray-500 hover:text-red-500 font-medium transition-colors cursor-pointer px-2 py-1 rounded hover:bg-gray-50"
               >
                 Clear
               </button>
               <button
                 type="button"
                 onClick={handleToday}
-                className="text-[#1877F2] hover:text-[#00285C] transition-colors cursor-pointer"
+                className="text-[#1877F2] hover:text-[#00285C] font-semibold transition-colors cursor-pointer px-2.5 py-1 rounded hover:bg-blue-50"
               >
                 Today
               </button>
             </div>
           </div>
-        </div>
-      </>
-    )}
-  </div>
-);
+        </>
+      )}
+    </div>
+  );
 }
