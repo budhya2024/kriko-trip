@@ -271,7 +271,7 @@ export default function HeroSearchForm() {
                   className="sm:hidden fixed inset-0 z-[140] bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
                   onClick={() => setIsDateOpen(false)}
                 />
-                <div className="fixed sm:absolute inset-x-4 sm:inset-x-auto sm:left-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+8px)] z-[150] w-[calc(100%-32px)] max-w-[340px] sm:w-[330px] mx-auto sm:mx-0 animate-in fade-in zoom-in-95 duration-150">
+                <div className="fixed sm:absolute inset-x-2 sm:inset-x-auto sm:left-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+8px)] z-[150] w-[calc(100vw-24px)] max-w-[740px] md:w-[720px] mx-auto sm:mx-0 animate-in fade-in zoom-in-95 duration-150">
                   <BankingDatePicker
                     inline={true}
                     value={selectedDate.raw}
