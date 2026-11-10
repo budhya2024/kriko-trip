@@ -688,14 +688,19 @@ export default function Header() {
             </button>
             {openMobileSection === "Pages" && (
               <div className="mt-2 pl-3 space-y-2 pt-1">
-                {["About Us", "Our Team", "Pricing Plans", "FAQs", "Terms of Service"].map((p) => (
+                {[
+                  { name: "About Us", href: "/about-us" },
+                  { name: "Terms of Service", href: "/terms-of-service" },
+                  { name: "Privacy Policy", href: "/privacy-policy" },
+                  { name: "Contact Us", href: "/contact-us" },
+                ].map((item) => (
                   <Link
-                    key={p}
-                    href="#"
+                    key={item.name}
+                    href={item.href}
                     onClick={() => setIsMobileDrawerOpen(false)}
                     className="block text-sm font-medium text-gray-600 hover:text-blue-600 py-1"
                   >
-                    {p}
+                    {item.name}
                   </Link>
                 ))}
               </div>

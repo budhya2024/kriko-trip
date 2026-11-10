@@ -177,6 +177,7 @@ export default function Footer() {
                   if (item === "Travel Inspirations") return "/blogs";
                   if (item === "Travel Gallery") return "/gallery";
                   if (item === "About KrikoTrip") return "/about-us";
+                  if (item === "Terms & Condition") return "/terms-of-service";
                   return `#${item.toLowerCase().replace(/[\s&]+/g, "-")}`;
                 };
                 return (
@@ -201,10 +202,10 @@ export default function Footer() {
             © 2026 KrikoTrip Travel Agency. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
-            <Link href="#privacy" className="hover:text-white transition-colors">
+            <Link href="/privacy-policy" className="hover:text-white transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#terms" className="hover:text-white transition-colors">
+            <Link href="/terms-of-service" className="hover:text-white transition-colors">
               Terms of Service
             </Link>
             <Link href="#cookies" className="hover:text-white transition-colors">

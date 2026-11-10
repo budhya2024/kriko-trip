@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import {
   User,
   Mail,
@@ -235,7 +236,15 @@ export default function ContactFormSection() {
                       htmlFor="consentCheckbox"
                       className="text-xs text-gray-600 select-none cursor-pointer leading-tight"
                     >
-                      I agree to the terms & privacy policy and consent to be contacted regarding this inquiry.
+                      I agree to the{" "}
+                      <Link href="/terms-of-service" className="underline text-[#1877F2] hover:text-[#00285C]">
+                        terms
+                      </Link>{" "}
+                      &amp;{" "}
+                      <Link href="/privacy-policy" className="underline text-[#1877F2] hover:text-[#00285C]">
+                        privacy policy
+                      </Link>{" "}
+                      and consent to be contacted regarding this inquiry.
                     </label>
                   </div>
 
