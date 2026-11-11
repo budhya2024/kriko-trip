@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/shared/AuthContext";
+import RequestCallbackWidget from "@/components/shared/RequestCallbackWidget";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -26,7 +28,12 @@ export default function RootLayout({
       className={`${poppins.variable} ${poppins.className} h-full antialiased scroll-smooth`}
     >
       <body className={`${poppins.className} min-h-full flex flex-col font-sans antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {children}
+          <Suspense fallback={null}>
+            <RequestCallbackWidget />
+          </Suspense>
+        </AuthProvider>
       </body>
     </html>
   );
