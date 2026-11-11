@@ -283,24 +283,15 @@ export default function PackageReviewsSection({
                 </div>
               </div>
             ) : (
-              /* ─── Logged-In Review Form: Rating & Description Only ─── */
+              /* ─── Logged-In Review Form: Overall Rating & Your Review Only ─── */
               <form
                 onSubmit={handleReviewSubmit}
                 className="p-5 space-y-4 overflow-y-auto"
               >
-                {/* Logged-In Reviewer Identity Banner */}
-                <div className="flex items-center gap-2.5 px-3 py-2 rounded-lg bg-blue-50/70 border border-blue-100 text-xs text-gray-700">
-                  <CheckCircle2 className="w-4 h-4 text-[#1877F2] shrink-0" />
-                  <span className="truncate">
-                    Posting as <strong className="font-semibold text-gray-900">{user.name}</strong>
-                    {user.location ? ` • ${user.location}` : ""}
-                  </span>
-                </div>
-
-                {/* Star Rating Picker */}
+                {/* Overall Rating */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-[#F8FAFC] border border-gray-200/80">
                   <span className="text-xs sm:text-sm font-medium text-gray-700">
-                    Your Rating <span className="text-red-500">*</span>
+                    Overall Rating <span className="text-red-500">*</span>
                   </span>
                   <div className="flex items-center gap-1">
                     {[1, 2, 3, 4, 5].map((star) => (
@@ -323,10 +314,10 @@ export default function PackageReviewsSection({
                   </div>
                 </div>
 
-                {/* Review Description */}
+                {/* Your Review */}
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Description <span className="text-red-500">*</span>
+                  <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                    Your Review <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     rows={4}
