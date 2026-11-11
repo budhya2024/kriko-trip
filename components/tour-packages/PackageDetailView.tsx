@@ -41,6 +41,7 @@ import { TourPackage } from "./types";
 import { PackageDetailedInfo } from "./packageDetailData";
 import BankingDatePicker from "@/components/shared/DateTimePicker";
 import RelevantPackagesSlider from "./RelevantPackagesSlider";
+import PackageReviewsSection from "./PackageReviewsSection";
 import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 import { useAuth } from "@/components/shared/AuthContext";
 
@@ -866,6 +867,14 @@ export default function PackageDetailView({
                   })}
                 </div>
               </div>
+
+              {/* ─── 7. TRAVELER REVIEWS SECTION ─── */}
+              <PackageReviewsSection
+                packageTitle={mainTitle}
+                destination={pkg.destination || pkg.location}
+                rating={pkg.rating}
+                reviewsCount={pkg.reviewsCount}
+              />
             </div>
 
             {/* ════ RIGHT COLUMN: SIDEBAR FORM (Inside lg:col-span-4) ════ */}
