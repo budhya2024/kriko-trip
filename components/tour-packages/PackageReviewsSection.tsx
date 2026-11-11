@@ -234,7 +234,7 @@ export default function PackageReviewsSection({
                   Share Your Experience
                 </h3>
                 <p className="text-xs text-gray-500 truncate mt-0.5">
-                  {packageTitle}
+                  {destination}
                 </p>
               </div>
               <button
@@ -283,11 +283,24 @@ export default function PackageReviewsSection({
                 </div>
               </div>
             ) : (
-              /* ─── Logged-In Review Form: Overall Rating & Your Review Only ─── */
+              /* ─── Logged-In Review Form: Auto-Selected Package, Overall Rating & Your Review Only ─── */
               <form
                 onSubmit={handleReviewSubmit}
                 className="p-5 space-y-4 overflow-y-auto"
               >
+                {/* Auto-Selected Package */}
+                <div className="flex items-center justify-between gap-2.5 px-3 py-2.5 rounded-lg bg-blue-50/70 border border-blue-100">
+                  <div className="min-w-0">
+                    <span className="block text-[10px] uppercase tracking-wider text-gray-500 font-medium">
+                      Selected Package
+                    </span>
+                    <span className="block text-xs sm:text-sm font-medium text-[#00285C] truncate">
+                      {packageTitle}
+                    </span>
+                  </div>
+                  <CheckCircle2 className="w-4 h-4 text-[#1877F2] shrink-0" />
+                </div>
+
                 {/* Overall Rating */}
                 <div className="flex items-center justify-between p-3 rounded-lg bg-[#F8FAFC] border border-gray-200/80">
                   <span className="text-xs sm:text-sm font-medium text-gray-700">
