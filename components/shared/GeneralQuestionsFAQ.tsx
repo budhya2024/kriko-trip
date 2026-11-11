@@ -43,7 +43,7 @@ export default function GeneralQuestionsFAQ() {
   };
 
   return (
-    <section className="w-full py-14 sm:py-20 bg-white">
+    <section className="w-full py-8 md:py-16 bg-white">
       <div className="container max-w-4xl mx-auto px-4 sm:px-6">
         {/* Section Title & Details */}
         <div className="text-center mb-10 sm:mb-12">

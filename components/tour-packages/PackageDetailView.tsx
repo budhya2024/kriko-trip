@@ -317,7 +317,7 @@ export default function PackageDetailView({
   ];
 
   return (
-    <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827] pb-20 lg:pb-0 relative">
+    <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827] pb-0 relative">
       {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
       <section className="relative w-full overflow-hidden bg-black py-7 sm:py-9 flex items-center min-h-[160px] sm:min-h-[190px]">
         {/* Background Image with Black Layer Above */}
@@ -1228,9 +1228,9 @@ export default function PackageDetailView({
                               <span className="font-semibold text-amber-950 text-xs">
                                 {redeemableLoyaltyPoints.toLocaleString("en-IN")} Points Redeemed
                               </span>
-                              <span className="text-[10px] font-semibold text-amber-900 bg-amber-200 px-1.5 py-0.5 rounded">
+                              {/* <span className="text-[10px] font-semibold text-amber-900 bg-amber-200 px-1.5 py-0.5 rounded">
                                 ₹{loyaltyDiscount.toLocaleString("en-IN")} OFF
-                              </span>
+                              </span> */}
                             </div>
                             <span className="text-[11px] text-amber-800 font-medium block truncate">
                               Instant loyalty cashback applied!

@@ -48,7 +48,7 @@ export default function ContactFormSection() {
   };
 
   return (
-    <section className="w-full pt-8 lg:pt-14 pb-12 bg-white">
+    <section className="w-full pt-8 lg:pt-16 bg-white">
       <div className="container">
 
         {/* Equal Height Grid for Form and Map */}

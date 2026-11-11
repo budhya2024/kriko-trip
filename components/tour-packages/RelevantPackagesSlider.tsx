@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { MapPin, ArrowUpRight } from "lucide-react";
+import { MapPin, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { TourPackage } from "./types";
 
 import "swiper/css";
@@ -90,8 +90,23 @@ export default function RelevantPackagesSlider({
   );
 }
 
-// ─── Clean Card without any image navigation arrows or dots ───
+// ─── Relevant Package Card with Multiple Images Slider, Arrows & Indicator Dots ───
 function RelevantPackageCard({ pkg }: { pkg: TourPackage }) {
+  const images = pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image];
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  const handlePrev = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const handleNext = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentImageIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
+
   const originalPrice =
     pkg.originalPrice && pkg.originalPrice > pkg.price
       ? pkg.originalPrice
@@ -101,30 +116,97 @@ function RelevantPackageCard({ pkg }: { pkg: TourPackage }) {
 
   return (
     <div className="group bg-white rounded-2xl overflow-hidden border border-gray-200 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col justify-between h-full">
-      {/* Photo with Yellow Discount Tag on Top Right & Travel Type on Bottom Left (No arrows, no dots) */}
-      <Link
-        href={`/tour-packages/${pkg.id}`}
-        className="block relative w-full aspect-[16/10] overflow-hidden bg-gray-100 select-none cursor-pointer"
-        aria-label={pkg.title}
-      >
-        <Image
-          src={pkg.image}
-          alt={pkg.title}
-          fill
-          sizes="(max-width: 768px) 100vw, 380px"
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+      {/* Multi-Image Slider Container */}
+      <div className="relative w-full aspect-[16/10] overflow-hidden bg-gray-100 select-none">
+        {/* Clickable Link Overlay */}
+        <Link
+          href={`/tour-packages/${pkg.id}`}
+          className="absolute inset-0 z-10 cursor-pointer"
+          aria-label={pkg.title}
         />
 
+        {/* Sliding Images Track */}
+        <div
+          className="flex h-full w-full transition-transform duration-500 ease-out"
+          style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+        >
+          {images.map((imgSrc, idx) => (
+            <div key={idx} className="relative w-full h-full shrink-0">
+              <Image
+                src={imgSrc}
+                alt={`${pkg.title} - photo ${idx + 1}`}
+                fill
+                sizes="(max-width: 768px) 100vw, 380px"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                priority={idx === 0}
+              />
+            </div>
+          ))}
+        </div>
+
         {/* Yellow Discount Tag */}
-        <div className="absolute top-3 right-3 z-10 px-2.5 py-1 rounded-md bg-[#FACC15] text-gray-950 text-[11px] font-semibold shadow-xs pointer-events-none">
+        <div className="absolute top-3 right-3 z-20 px-2.5 py-1 rounded-md bg-[#FACC15] text-gray-950 text-[11px] font-semibold shadow-xs pointer-events-none">
           -{discountPercent}% OFF
         </div>
 
+        {/* Subtle Bottom Gradient for Badge & Dot Legibility */}
+        <div className="absolute inset-x-0 bottom-0 h-14 bg-gradient-to-t from-black/55 via-black/20 to-transparent pointer-events-none z-10" />
+
         {/* Travel Type Badge */}
-        <div className="absolute bottom-3 left-3 z-10 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-normal pointer-events-none">
+        <div className="absolute bottom-3 left-3 z-20 px-2.5 py-0.5 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-normal pointer-events-none">
           {pkg.travelType}
         </div>
-      </Link>
+
+        {/* Previous & Next Navigation Arrows (Visible on mobile, hover on desktop) */}
+        {images.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={handlePrev}
+              onTouchStart={(e) => e.stopPropagation()}
+              aria-label="Previous photo"
+              className="swiper-no-swiping absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/45 hover:bg-black/75 text-white flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-20 cursor-pointer shadow-sm active:scale-90"
+            >
+              <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              onTouchStart={(e) => e.stopPropagation()}
+              aria-label="Next photo"
+              className="swiper-no-swiping absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/45 hover:bg-black/75 text-white flex items-center justify-center opacity-90 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity z-20 cursor-pointer shadow-sm active:scale-90"
+            >
+              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
+            </button>
+          </>
+        )}
+
+        {/* Pagination Indicator Dots */}
+        {images.length > 1 && (
+          <div
+            onTouchStart={(e) => e.stopPropagation()}
+            className="swiper-no-swiping absolute bottom-3.5 right-3 flex items-center gap-1 z-20"
+          >
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setCurrentImageIndex(idx);
+                }}
+                aria-label={`Go to photo ${idx + 1}`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  currentImageIndex === idx
+                    ? "w-4 bg-white shadow-sm"
+                    : "w-1.5 bg-white/60 hover:bg-white/90"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
 
       {/* Card Body */}
       <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between text-left">
