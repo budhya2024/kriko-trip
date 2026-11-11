@@ -104,7 +104,6 @@ export default function PackageReviewsSection({
   );
 
   const [reviews, setReviews] = useState<PackageReview[]>(initialReviews);
-  const [selectedFilter, setSelectedFilter] = useState<"all" | 5 | 4>("all");
   const [helpfulClicked, setHelpfulClicked] = useState<Record<string, boolean>>({});
   const [showAllReviews, setShowAllReviews] = useState(false);
 
@@ -137,14 +136,7 @@ export default function PackageReviewsSection({
     };
   }, [isWritingReview]);
 
-  const filteredReviews = useMemo(() => {
-    if (selectedFilter === "all") return reviews;
-    return reviews.filter((r) => r.rating === selectedFilter);
-  }, [reviews, selectedFilter]);
-
-  const visibleReviews = showAllReviews
-    ? filteredReviews
-    : filteredReviews.slice(0, 3);
+  const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
   const totalDisplayedCount =
     reviewsCount + (reviews.length - initialReviews.length);
@@ -181,7 +173,6 @@ export default function PackageReviewsSection({
       title: "",
       comment: "",
     });
-    setSelectedFilter("all");
     setIsWritingReview(false);
     setReviewSubmittedNotice(true);
     setTimeout(() => setReviewSubmittedNotice(false), 4000);
@@ -461,45 +452,6 @@ export default function PackageReviewsSection({
         </div>
       </div>
 
-      {/* ─── Filter Pills ─── */}
-      <div className="flex items-center gap-2 flex-wrap mb-4">
-        <button
-          type="button"
-          onClick={() => setSelectedFilter("all")}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-            selectedFilter === "all"
-              ? "bg-[#1877F2] text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          All Reviews ({reviews.length})
-        </button>
-        <button
-          type="button"
-          onClick={() => setSelectedFilter(5)}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer inline-flex items-center gap-1 ${
-            selectedFilter === 5
-              ? "bg-[#1877F2] text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          <span>5 Stars</span>
-          <span>({reviews.filter((r) => r.rating === 5).length})</span>
-        </button>
-        <button
-          type="button"
-          onClick={() => setSelectedFilter(4)}
-          className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer inline-flex items-center gap-1 ${
-            selectedFilter === 4
-              ? "bg-[#1877F2] text-white"
-              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-          }`}
-        >
-          <span>4 Stars</span>
-          <span>({reviews.filter((r) => r.rating === 4).length})</span>
-        </button>
-      </div>
-
       {/* ─── Individual Review Cards ─── */}
       <div className="space-y-3.5">
         {visibleReviews.map((review) => {
@@ -579,7 +531,7 @@ export default function PackageReviewsSection({
       </div>
 
       {/* Show More / Show Less Button */}
-      {filteredReviews.length > 3 && (
+      {reviews.length > 3 && (
         <div className="mt-4 text-center">
           <button
             type="button"
@@ -588,7 +540,7 @@ export default function PackageReviewsSection({
           >
             {showAllReviews
               ? "Show Fewer Reviews"
-              : `Show All ${filteredReviews.length} Reviews`}
+              : `Show All ${reviews.length} Reviews`}
           </button>
         </div>
       )}
