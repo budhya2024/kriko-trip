@@ -2,9 +2,10 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Check } from "lucide-react";
+import { Search, Check, MapPin } from "lucide-react";
 import { FaSuitcaseRolling, FaBed, FaPassport } from "react-icons/fa";
 import BankingDatePicker from "@/components/shared/DateTimePicker";
+import { openCallbackModal } from "@/components/shared";
 
 export default function HeroSearchForm() {
   const router = useRouter();
@@ -12,6 +13,7 @@ export default function HeroSearchForm() {
 
   // Field states
   const [selectedDestination, setSelectedDestination] = useState<string>("Select");
+  const [destinationQuery, setDestinationQuery] = useState<string>("");
   const [isDestinationOpen, setIsDestinationOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<{
     day: string;
@@ -27,6 +29,8 @@ export default function HeroSearchForm() {
   const [isTourTypeOpen, setIsTourTypeOpen] = useState(false);
   const [minDate, setMinDate] = useState<string>("2026-11-01");
 
+  const destinationInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const today = new Date();
     const y = today.getFullYear();
@@ -35,37 +39,93 @@ export default function HeroSearchForm() {
     setMinDate(`${y}-${m}-${d}`);
   }, []);
 
-  const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (selectedDestination && selectedDestination !== "Select") {
-      const dest = selectedDestination.split(" ")[0].replace(/[^a-zA-Z]/g, "");
-      params.set("destination", dest);
+  useEffect(() => {
+    if (isDestinationOpen) {
+      setTimeout(() => destinationInputRef.current?.focus(), 40);
     }
-    if (selectedTourType && selectedTourType !== "Select") {
-      params.set("type", selectedTourType);
-    }
-    const query = params.toString();
-    router.push(query ? `/tour-packages?${query}` : "/tour-packages");
-  };
+  }, [isDestinationOpen]);
 
   const destinations = [
     "Andaman & Nicobar Islands",
     "Kashmir & Ladakh",
-    "Goa Coastal Beaches",
-    "Kerala Backwaters (Alleppey)",
-    "Rajasthan (Jaipur & Udaipur)",
-    "Himachal Pradesh (Manali & Shimla)",
+    "Gangtok & Sikkim",
     "Sundarban Tiger Reserve",
+    "Kerala Backwaters (Alleppey)",
+    "Lakshadweep Islands",
+    "Himachal Pradesh (Manali & Shimla)",
+    "Rajasthan (Jaipur & Udaipur)",
+    "Goa Coastal Beaches",
+    "Meghalaya (Shillong & Cherrapunji)",
   ];
 
-  const tourTypes = [
-    "Adventure & Trekking",
-    "Beach & Island Tour",
-    "Cultural & Historic",
-    "Honeymoon Special",
-    "Luxury Cruise",
-    "Wildlife Safari",
+  const tourTypes: { label: string; paramKey: "theme" | "type"; paramValue: string }[] = [
+    { label: "Adventure & Trekking", paramKey: "theme", paramValue: "Adventure" },
+    { label: "Beach & Island Tour", paramKey: "theme", paramValue: "Beaches" },
+    { label: "Hill Station Retreat", paramKey: "theme", paramValue: "Hills" },
+    { label: "Cultural & Historic", paramKey: "theme", paramValue: "Heritage" },
+    { label: "Nature & Wildlife", paramKey: "theme", paramValue: "Nature" },
+    { label: "Honeymoon Special", paramKey: "theme", paramValue: "Honeymoon" },
+    { label: "Family Packages", paramKey: "type", paramValue: "Family" },
+    { label: "Group Tours", paramKey: "type", paramValue: "Group" },
+    { label: "Solo Travel", paramKey: "type", paramValue: "Solo" },
   ];
+
+  const filteredDestinations = destinations.filter((dest) =>
+    dest.toLowerCase().includes(destinationQuery.trim().toLowerCase())
+  );
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    const activeDest =
+      selectedDestination && selectedDestination !== "Select"
+        ? selectedDestination
+        : destinationQuery.trim();
+
+    if (activeDest) {
+      const lower = activeDest.toLowerCase();
+      const knownKeywords = [
+        "kashmir",
+        "gangtok",
+        "sikkim",
+        "sundarban",
+        "kerala",
+        "alleppey",
+        "andaman",
+        "lakshadweep",
+        "manali",
+        "himachal",
+        "shimla",
+        "rajasthan",
+        "jaipur",
+        "udaipur",
+        "goa",
+        "meghalaya",
+        "shillong",
+      ];
+      if (knownKeywords.some((k) => lower.includes(k))) {
+        const dest = activeDest.split(" ")[0].replace(/[^a-zA-Z]/g, "");
+        params.set("destination", dest);
+      } else {
+        params.set("q", activeDest);
+      }
+    }
+
+    if (selectedTourType && selectedTourType !== "Select") {
+      const matchedType = tourTypes.find((t) => t.label === selectedTourType);
+      if (matchedType) {
+        params.set(matchedType.paramKey, matchedType.paramValue);
+      } else {
+        params.set("type", selectedTourType);
+      }
+    }
+
+    if (selectedDate.raw) {
+      params.set("date", selectedDate.raw);
+    }
+
+    const query = params.toString();
+    router.push(query ? `/tour-packages?${query}` : "/tour-packages");
+  };
 
   const destinationRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLDivElement>(null);
@@ -205,25 +265,77 @@ export default function HeroSearchForm() {
               </div>
             </button>
 
-            {/* Destination Dropdown Menu */}
+            {/* Destination Dropdown Menu with Custom Search */}
             {isDestinationOpen && (
-              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
-                {destinations.map((dest) => (
-                  <button
-                    key={dest}
-                    type="button"
-                    onClick={() => {
-                      setSelectedDestination(dest);
-                      setIsDestinationOpen(false);
-                    }}
-                    className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-between cursor-pointer"
-                  >
-                    <span>{dest}</span>
-                    {selectedDestination === dest && (
-                      <Check className="w-4 h-4 text-[#1877F2]" />
+              <div className="absolute left-0 top-[calc(100%+6px)] w-full sm:min-w-[300px] bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
+                <div className="px-3 pb-2 pt-1 border-b border-gray-100">
+                  <div className="relative flex items-center">
+                    <Search className="w-3.5 h-3.5 text-gray-400 absolute left-2.5 pointer-events-none" />
+                    <input
+                      ref={destinationInputRef}
+                      type="text"
+                      value={destinationQuery}
+                      onChange={(e) => setDestinationQuery(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && destinationQuery.trim()) {
+                          e.preventDefault();
+                          setSelectedDestination(destinationQuery.trim());
+                          setIsDestinationOpen(false);
+                        }
+                      }}
+                      placeholder="Search or type custom destination..."
+                      className="w-full pl-8 pr-3 py-1.5 text-xs sm:text-sm bg-gray-50 border border-gray-200 rounded-lg text-gray-800 placeholder:text-gray-400 focus:outline-none focus:border-[#1877F2] focus:bg-white transition-colors"
+                    />
+                  </div>
+                </div>
+
+                <div className="max-h-60 overflow-y-auto py-1">
+                  {filteredDestinations.map((dest) => (
+                    <button
+                      key={dest}
+                      type="button"
+                      onClick={() => {
+                        setSelectedDestination(dest);
+                        setDestinationQuery("");
+                        setIsDestinationOpen(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-between cursor-pointer"
+                    >
+                      <span className="truncate">{dest}</span>
+                      {selectedDestination === dest && (
+                        <Check className="w-4 h-4 text-[#1877F2] shrink-0" />
+                      )}
+                    </button>
+                  ))}
+
+                  {destinationQuery.trim() &&
+                    !filteredDestinations.some(
+                      (d) =>
+                        d.toLowerCase() ===
+                        destinationQuery.trim().toLowerCase()
+                    ) && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedDestination(destinationQuery.trim());
+                          setIsDestinationOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm font-medium text-[#1877F2] bg-blue-50/60 hover:bg-blue-50 transition-colors flex items-center gap-2 cursor-pointer border-t border-gray-100 mt-1"
+                      >
+                        <MapPin className="w-3.5 h-3.5 shrink-0" />
+                        <span className="truncate">
+                          Search &ldquo;{destinationQuery.trim()}&rdquo;
+                        </span>
+                      </button>
                     )}
-                  </button>
-                ))}
+
+                  {filteredDestinations.length === 0 &&
+                    !destinationQuery.trim() && (
+                      <div className="px-4 py-3 text-xs text-gray-400 text-center">
+                        No destinations found
+                      </div>
+                    )}
+                </div>
               </div>
             )}
           </div>
@@ -283,10 +395,10 @@ export default function HeroSearchForm() {
             {isDateOpen && (
               <>
                 <div
-                  className="sm:hidden fixed inset-0 z-[140] bg-black/40 backdrop-blur-xs animate-in fade-in duration-150"
+                  className="sm:hidden fixed inset-0 z-[140] bg-black/40 backdrop-blur-xs"
                   onClick={() => setIsDateOpen(false)}
                 />
-                <div className="fixed sm:absolute inset-x-2 sm:inset-x-auto sm:left-0 sm:translate-x-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[150] w-[calc(100vw-24px)] max-w-[430px] sm:w-[410px] mx-auto sm:mx-0 animate-in fade-in duration-150">
+                <div className="fixed sm:absolute inset-x-2 sm:inset-x-auto sm:left-0 sm:translate-x-0 top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[150] w-[calc(100vw-24px)] max-w-[430px] sm:w-[410px] mx-auto sm:mx-0">
                   <BankingDatePicker
                     inline={true}
                     value={selectedDate.raw}
@@ -365,19 +477,19 @@ export default function HeroSearchForm() {
 
             {/* Tour Types Dropdown Menu */}
             {isTourTypeOpen && (
-              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
+              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150 max-h-64 overflow-y-auto">
                 {tourTypes.map((type) => (
                   <button
-                    key={type}
+                    key={type.label}
                     type="button"
                     onClick={() => {
-                      setSelectedTourType(type);
+                      setSelectedTourType(type.label);
                       setIsTourTypeOpen(false);
                     }}
                     className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-between cursor-pointer"
                   >
-                    <span>{type}</span>
-                    {selectedTourType === type && (
+                    <span>{type.label}</span>
+                    {selectedTourType === type.label && (
                       <Check className="w-4 h-4 text-[#1877F2]" />
                     )}
                   </button>
@@ -404,12 +516,17 @@ export default function HeroSearchForm() {
         <div className="mt-4 pt-1 text-left">
           <p className="text-sm text-gray-600">
             Can&apos;t find what you&apos;re looking for? create your{" "}
-            <a
-              href="#custom-itinerary"
+            <button
+              type="button"
+              onClick={() =>
+                openCallbackModal(
+                  selectedDestination !== "Select" ? selectedDestination : ""
+                )
+              }
               className="text-[#1877F2] font-semibold hover:underline cursor-pointer"
             >
               Custom Itinerary
-            </a>
+            </button>
           </p>
         </div>
       </div>

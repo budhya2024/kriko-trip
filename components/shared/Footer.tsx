@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   FaFacebookF,
@@ -10,7 +10,7 @@ import {
 } from "react-icons/fa6";
 import Image from "next/image";
 import footerBg from "@/public/assets/images/footer-bg-1-2-2.webp";
-import { Phone, Mail } from "lucide-react";
+import { Phone, Mail, ChevronDown } from "lucide-react";
 
 const topDestinations = [
   "Andaman & Nicobar Tour",
@@ -53,8 +53,16 @@ const resources = [
 ];
 
 export default function Footer() {
+  const [openSection, setOpenSection] = useState<
+    "destinations" | "searches" | "resources" | null
+  >(null);
+
+  const toggleSection = (section: "destinations" | "searches" | "resources") => {
+    setOpenSection((prev) => (prev === section ? null : section));
+  };
+
   return (
-    <footer className="w-full bg-[#073571] text-white relative overflow-hidden pt-8 md:pt-16 pb-6 md:pb-12">
+    <footer className="w-full bg-[#073571] text-white relative overflow-hidden pt-8 md:pt-16 pb-6 md:pb-12 print:hidden">
       {/* Decorative Background Pattern */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <Image
@@ -128,70 +136,131 @@ export default function Footer() {
 
           </div>
 
-          {/* ─── Column 2: Top Destination ─── */}
-          <div className="lg:col-span-3 text-left">
-            <h3 className="text-white font-bold text-[17px] sm:text-[18px] mb-4 sm:mb-5 tracking-tight">
-              Top Destination
-            </h3>
-            <ul className="space-y-2.5 sm:space-y-3">
-              {topDestinations.map((item) => (
-                <li key={item}>
-                  <Link
-                    href={`#${item.toLowerCase().replace(/[\s(),]+/g, "-")}`}
-                    className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* ─── Column 2: Top Destination (Smooth Accordion Dropdown on Mobile) ─── */}
+          <div className="lg:col-span-3 text-left border-b border-white/10 pb-3 sm:border-b-0 sm:pb-0">
+            <button
+              type="button"
+              onClick={() => toggleSection("destinations")}
+              aria-expanded={openSection === "destinations"}
+              className="w-full flex items-center justify-between text-white font-semibold sm:font-bold text-[16px] sm:text-[18px] sm:mb-5 tracking-tight sm:pointer-events-none cursor-pointer sm:cursor-default"
+            >
+              <span>Top Destination</span>
+              <ChevronDown
+                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${
+                  openSection === "destinations" ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <div
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${
+                openSection === "destinations"
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <ul className="pt-3 sm:pt-0 space-y-2.5 sm:space-y-3">
+                  {topDestinations.map((item) => (
+                    <li key={item}>
+                      <Link
+                        href={`#${item.toLowerCase().replace(/[\s(),]+/g, "-")}`}
+                        className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
 
-          {/* ─── Column 3: Popular Search ─── */}
-          <div className="lg:col-span-3 text-left">
-            <h3 className="text-white font-bold text-[17px] sm:text-[18px] mb-4 sm:mb-5 tracking-tight">
-              Popular Search
-            </h3>
-            <ul className="space-y-2.5 sm:space-y-3">
-              {popularSearches.map((item) => (
-                <li key={item}>
-                  <Link
-                    href={`#${item.toLowerCase().replace(/[\s&]+/g, "-")}`}
-                    className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
-                  >
-                    {item}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          {/* ─── Column 3: Popular Search (Smooth Accordion Dropdown on Mobile) ─── */}
+          <div className="lg:col-span-3 text-left border-b border-white/10 pb-3 sm:border-b-0 sm:pb-0">
+            <button
+              type="button"
+              onClick={() => toggleSection("searches")}
+              aria-expanded={openSection === "searches"}
+              className="w-full flex items-center justify-between text-white font-semibold sm:font-bold text-[16px] sm:text-[18px] sm:mb-5 tracking-tight sm:pointer-events-none cursor-pointer sm:cursor-default"
+            >
+              <span>Popular Search</span>
+              <ChevronDown
+                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${
+                  openSection === "searches" ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <div
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${
+                openSection === "searches"
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <ul className="pt-3 sm:pt-0 space-y-2.5 sm:space-y-3">
+                  {popularSearches.map((item) => (
+                    <li key={item}>
+                      <Link
+                        href={`#${item.toLowerCase().replace(/[\s&]+/g, "-")}`}
+                        className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
+                      >
+                        {item}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
 
-          {/* ─── Column 4: Resources ─── */}
-          <div className="lg:col-span-2 text-left">
-            <h3 className="text-white font-bold text-[17px] sm:text-[18px] mb-4 sm:mb-5 tracking-tight">
-              Resources
-            </h3>
-            <ul className="space-y-2.5 sm:space-y-3">
-              {resources.map((item) => {
-                const getHref = () => {
-                  if (item === "Travel Inspirations") return "/blogs";
-                  if (item === "Travel Gallery") return "/gallery";
-                  if (item === "About KrikoTrip") return "/about-us";
-                  if (item === "Terms & Condition") return "/terms-of-service";
-                  return `#${item.toLowerCase().replace(/[\s&]+/g, "-")}`;
-                };
-                return (
-                  <li key={item}>
-                    <Link
-                      href={getHref()}
-                      className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
-                    >
-                      {item}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+          {/* ─── Column 4: Resources (Smooth Accordion Dropdown on Mobile) ─── */}
+          <div className="lg:col-span-2 text-left border-b border-white/10 pb-3 sm:border-b-0 sm:pb-0">
+            <button
+              type="button"
+              onClick={() => toggleSection("resources")}
+              aria-expanded={openSection === "resources"}
+              className="w-full flex items-center justify-between text-white font-semibold sm:font-bold text-[16px] sm:text-[18px] sm:mb-5 tracking-tight sm:pointer-events-none cursor-pointer sm:cursor-default"
+            >
+              <span>Resources</span>
+              <ChevronDown
+                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${
+                  openSection === "resources" ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+            <div
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${
+                openSection === "resources"
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <ul className="pt-3 sm:pt-0 space-y-2.5 sm:space-y-3">
+                  {resources.map((item) => {
+                    const getHref = () => {
+                      if (item === "Travel Inspirations") return "/blogs";
+                      if (item === "Travel Gallery") return "/gallery";
+                      if (item === "About KrikoTrip") return "/about-us";
+                      if (item === "Health & Safety Measure") return "/health-and-safety";
+                      if (item === "Terms & Condition") return "/terms-of-service";
+                      return `#${item.toLowerCase().replace(/[\s&]+/g, "-")}`;
+                    };
+                    return (
+                      <li key={item}>
+                        <Link
+                          href={getHref()}
+                          className="text-xs sm:text-sm font-medium text-white/80 hover:text-white transition-colors duration-150 inline-block"
+                        >
+                          {item}
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
           </div>
 
         </div>

@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/shared/AuthContext";
 import RequestCallbackWidget from "@/components/shared/RequestCallbackWidget";
+import TravelAssistantWidget from "@/components/shared/TravelAssistantWidget";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -32,6 +33,7 @@ export default function RootLayout({
           {children}
           <Suspense fallback={null}>
             <RequestCallbackWidget />
+            <TravelAssistantWidget />
           </Suspense>
         </AuthProvider>
       </body>

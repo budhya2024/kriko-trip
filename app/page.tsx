@@ -3,8 +3,9 @@ import { Header, Footer, GeneralQuestionsFAQ } from "@/components/shared";
 import {
   HeroSection,
   StatsBar,
-  FeaturedDestinations,
+  TopDestinations,
   SpecialOffers,
+  TrendingDealsVideoSlider,
   PopularPackages,
   TravelThemesSection,
   GallerySection,
@@ -30,7 +31,9 @@ export default function Home() {
           <SpecialOffers />
         </Suspense>
 
-        <FeaturedDestinations />
+        <TrendingDealsVideoSlider />
+
+        <TopDestinations />
 
         <TravelThemesSection />
 

@@ -3,7 +3,8 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { MapPin, Clock, ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight, Tag } from "lucide-react";
+import { MapPin, Clock, ArrowUpRight, ChevronLeft, ChevronRight, PhoneCall, Tag } from "lucide-react";
+import { openCallbackModal } from "@/components/shared";
 import { TourPackage } from "./types";
 
 interface PackageCardProps {
@@ -153,15 +154,15 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           </p>
         </div>
 
-        {/* ─── Card Footer: Book Now Button (Left) & Starting From, Original & Sales Price (Right) ─── */}
+        {/* ─── Card Footer: View Details Button (Left) & Starting From, Original & Sales Price (Right) ─── */}
         <div className="mt-3.5 pt-3 border-t border-gray-100 flex items-center justify-between gap-2 min-w-0">
-          {/* Book Now Button: Liquid Water Fill Effect */}
+          {/* View Details Button */}
           <Link
             href={`/tour-packages/${pkg.id}`}
-            className="btn-water-fill inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1877F2] text-white text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-md active:scale-95 shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full border border-[#1877F2] text-[#1877F2] hover:bg-[#1877F2] hover:text-white text-[11px] sm:text-xs font-medium transition-colors active:scale-95 shrink-0 cursor-pointer"
           >
-            <span className="relative z-10">Book Now</span>
-            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white relative z-10" />
+            <span>View Details</span>
+            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2]" />
           </Link>
 
           {/* Starting From & Prices with Save Tag Badge */}
@@ -171,7 +172,7 @@ export default function PackageCard({ pkg }: PackageCardProps) {
                 Starting From
               </span>
               {savings > 0 && (
-                <span className="badge-shine relative overflow-hidden inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[9px] font-bold leading-none">
+                <span className="badge-shine relative overflow-hidden inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[9px] font-medium leading-none">
                   <Tag className="w-2 h-2 stroke-[2.2]" />
                   Save ₹{savings.toLocaleString("en-IN")}
                 </span>
@@ -181,12 +182,22 @@ export default function PackageCard({ pkg }: PackageCardProps) {
               <span className="text-[10px] text-gray-400 line-through font-normal">
                 ₹{originalPrice.toLocaleString("en-IN")}
               </span>
-              <span className="text-[12.5px] sm:text-[13px] font-bold text-gray-900 leading-tight">
+              <span className="text-[12.5px] sm:text-[13px] font-semibold text-gray-900 leading-tight">
                 ₹{pkg.price.toLocaleString("en-IN")}
               </span>
             </div>
           </div>
         </div>
+
+        {/* Full-Width Bottom Request a Call Back Button */}
+        <button
+          type="button"
+          onClick={() => openCallbackModal(pkg.location)}
+          className="mt-3 w-full py-2.5 px-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-[13px] font-medium flex items-center justify-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
+        >
+          <PhoneCall className="w-3.5 h-3.5 shrink-0" />
+          <span>Request a Call Back</span>
+        </button>
       </div>
     </div>
   );

@@ -12,114 +12,14 @@ import {
   Plus,
   Minus,
   Menu,
+  Sparkles,
+  ArrowRight,
 } from "lucide-react";
 
-// ─── Navigation & Mega Menu Data (Indian Destinations) ─────────────────────
-const destinationColumns = [
-  {
-    continent: "North India",
-    countries: [
-      { name: "Kashmir Valley", code: "in" },
-      { name: "Leh Ladakh", code: "in" },
-      { name: "Manali & Kullu", code: "in" },
-      { name: "Shimla Hills", code: "in" },
-      { name: "Rishikesh & Haridwar", code: "in" },
-      { name: "Amritsar Heritage", code: "in" },
-    ],
-  },
-  {
-    continent: "South India",
-    countries: [
-      { name: "Kerala Backwaters", code: "in" },
-      { name: "Munnar Tea Hills", code: "in" },
-      { name: "Ooty & Nilgiris", code: "in" },
-      { name: "Coorg Coffee Hills", code: "in" },
-      { name: "Hampi Ruins", code: "in" },
-      { name: "Rameshwaram", code: "in" },
-    ],
-  },
-  {
-    continent: "East & Northeast",
-    countries: [
-      { name: "Sundarban Mangroves", code: "in" },
-      { name: "Darjeeling Queen", code: "in" },
-      { name: "Gangtok & Sikkim", code: "in" },
-      { name: "Shillong, Meghalaya", code: "in" },
-      { name: "Kaziranga Safari", code: "in" },
-      { name: "Puri, Odisha", code: "in" },
-    ],
-  },
-  {
-    continent: "West India",
-    countries: [
-      { name: "North & South Goa", code: "in" },
-      { name: "Jaipur Pink City", code: "in" },
-      { name: "Udaipur Lake Palace", code: "in" },
-      { name: "Jaisalmer Desert", code: "in" },
-      { name: "Rann of Kutch", code: "in" },
-      { name: "Mahabaleshwar", code: "in" },
-    ],
-  },
-  {
-    continent: "Central & Heritage",
-    countries: [
-      { name: "Varanasi Ghats", code: "in" },
-      { name: "Agra & Taj Mahal", code: "in" },
-      { name: "Khajuraho Temples", code: "in" },
-      { name: "Bandhavgarh Tiger", code: "in" },
-      { name: "Kanha National Park", code: "in" },
-    ],
-  },
-  {
-    continent: "Islands & Coastal",
-    countries: [
-      { name: "Andaman & Nicobar", code: "in" },
-      { name: "Havelock Island", code: "in" },
-      { name: "Neil Island", code: "in" },
-      { name: "Lakshadweep Islands", code: "in" },
-      { name: "Gokarna Coastal", code: "in" },
-    ],
-  },
-];
-
-function getDestinationUrl(name: string): string {
-  const lower = name.toLowerCase();
-  if (lower.includes("andaman")) return "/tour-packages?destination=Andaman";
-  if (lower.includes("kashmir")) return "/tour-packages?destination=Kashmir";
-  if (lower.includes("ladakh") || lower.includes("leh"))
-    return "/tour-packages?destination=Ladakh";
-  if (
-    lower.includes("kerala") ||
-    lower.includes("munnar") ||
-    lower.includes("alleppey") ||
-    lower.includes("ooty") ||
-    lower.includes("coorg")
-  )
-    return "/tour-packages?destination=Kerala";
-  if (
-    lower.includes("rajasthan") ||
-    lower.includes("jaipur") ||
-    lower.includes("jodhpur") ||
-    lower.includes("udaipur") ||
-    lower.includes("jaisalmer") ||
-    lower.includes("hampi") ||
-    lower.includes("khajuraho") ||
-    lower.includes("varanasi")
-  )
-    return "/tour-packages?destination=Rajasthan";
-  if (lower.includes("goa") || lower.includes("gokarna"))
-    return "/tour-packages?destination=Goa";
-  if (
-    lower.includes("himachal") ||
-    lower.includes("manali") ||
-    lower.includes("shimla") ||
-    lower.includes("kullu") ||
-    lower.includes("rishikesh")
-  )
-    return "/tour-packages?destination=Himachal";
-  if (lower.includes("sundarban")) return "/tour-packages?destination=Sundarban";
-  return `/tour-packages?destination=${encodeURIComponent(name.split(" ")[0])}`;
-}
+import DestinationsDropdown, {
+  destinationColumns,
+  getDestinationUrl,
+} from "./DestinationsDropdown";
 
 const travelPackageSubItems = [
   "Honeymoon Special",
@@ -139,7 +39,7 @@ const navItems = [
   },
   {
     name: "Destinations",
-    href: "/#featured-destinations",
+    href: "/#top-destinations",
     hasDropdown: true,
     isMegaMenu: true,
   },
@@ -172,10 +72,35 @@ const navItems = [
   },
 ];
 
+// ─── Announcement Offers Slider Data ────────────────────────────────────────
+const ANNOUNCEMENT_OFFERS = [
+  {
+    badge: "Upto 30% OFF",
+    text: "Kashmir & Manali Winter Deals Live Now",
+    href: "/tour-packages?destination=Kashmir",
+  },
+  {
+    badge: "Island Special",
+    text: "Flat Deals on Andaman & Lakshadweep Packages",
+    href: "/tour-packages?destination=Andaman",
+  },
+  {
+    badge: "25% OFF",
+    text: "Goa Beaches & Kerala Backwaters Holidays",
+    href: "/tour-packages?destination=Goa",
+  },
+  {
+    badge: "New Trips",
+    text: "Explore Gangtok, Meghalaya & Sundarban Tours",
+    href: "/tour-packages?destination=Gangtok",
+  },
+];
+
 // ─── Header Component ───────────────────────────────────────────────────────
 import AuthModal from "./AuthModal";
 import SearchModal from "./SearchModal";
 import UserProfileDrawer from "./UserProfileDrawer";
+import { useScrollLock } from "./useScrollLock";
 import { useAuth } from "./AuthContext";
 
 export default function Header() {
@@ -187,6 +112,17 @@ export default function Header() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
+  const [activeAnnouncementIdx, setActiveAnnouncementIdx] = useState(0);
+
+  // Auto-slide announcement offers every 3.5s
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveAnnouncementIdx(
+        (prev) => (prev + 1) % ANNOUNCEMENT_OFFERS.length
+      );
+    }, 3500);
+    return () => clearInterval(timer);
+  }, []);
 
   // Mobile Accordion state
   const [openMobileSection, setOpenMobileSection] = useState<string | null>("Destinations");
@@ -223,17 +159,8 @@ export default function Header() {
     };
   }, []);
 
-  // Lock body scroll when mobile drawer is open
-  useEffect(() => {
-    if (isMobileDrawerOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isMobileDrawerOpen]);
+  // Lock body & html scroll when mobile drawer is open
+  useScrollLock(isMobileDrawerOpen);
 
   const handleMouseEnter = (name: string) => {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -247,7 +174,35 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full bg-white relative z-50 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)]">
+    <>
+    <header className="w-full bg-white relative z-50 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07)] print:hidden">
+      {/* ─── Mobile Top Announcement Bar (Sliding Offers on Mobile Header Top) ─── */}
+      <div className="lg:hidden w-full bg-[#00285C] text-white px-3">
+        <div className="h-8 overflow-hidden relative">
+          <div
+            className="h-full transition-transform duration-500 ease-out"
+            style={{
+              transform: `translateY(-${activeAnnouncementIdx * 100}%)`,
+            }}
+          >
+            {ANNOUNCEMENT_OFFERS.map((offer) => (
+              <Link
+                key={offer.text}
+                href={offer.href}
+                className="h-8 flex items-center justify-center gap-2 text-[11px] sm:text-xs font-normal tracking-wide text-center"
+              >
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#EA580C] text-white text-[10px] font-medium shrink-0">
+                  <Sparkles className="w-2.5 h-2.5" />
+                  <span>{offer.badge}</span>
+                </span>
+                <span className="truncate text-white/95">{offer.text}</span>
+                <ArrowRight className="w-3 h-3 text-sky-300 shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* ─── Top Header Bar ──────────────────────────────────────────────── */}
       <div className="container">
         <div className="flex items-center justify-between h-20 gap-3">
@@ -262,25 +217,49 @@ export default function Header() {
             />
           </Link>
 
-          {/* Desktop Search Bar (Center) */}
-          <div className="hidden lg:flex flex-1 max-w-xl mx-4 lg:mx-8">
+          {/* Desktop Center Borderless Sliding Announcement Bar (Replaces Search Bar Slot) */}
+          <div className="hidden lg:flex flex-1 max-w-xl mx-4 lg:mx-8 justify-center">
+            <div className="w-full h-10 bg-[#f4f5f7] hover:bg-[#eceef2] rounded-full overflow-hidden transition-colors">
+              <div
+                className="h-full transition-transform duration-500 ease-out"
+                style={{
+                  transform: `translateY(-${activeAnnouncementIdx * 100}%)`,
+                }}
+              >
+                {ANNOUNCEMENT_OFFERS.map((offer) => (
+                  <Link
+                    key={offer.text}
+                    href={offer.href}
+                    className="group h-10 w-full px-3 flex items-center justify-between gap-2.5"
+                  >
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#EA580C] text-white text-[11px] font-medium shrink-0">
+                      <Sparkles className="w-3 h-3" />
+                      <span>{offer.badge}</span>
+                    </span>
+                    <span className="text-[13px] font-medium text-gray-700 group-hover:text-[#00285C] truncate">
+                      {offer.text}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-[#1877F2] shrink-0 pr-1">
+                      <span>Explore</span>
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop Right Utilities (Search Icon, Need Help?, Login / Profile Avatar) */}
+          <div className="hidden lg:flex items-center gap-4 shrink-0">
             <button
               type="button"
               onClick={() => setIsSearchModalOpen(true)}
-              className="relative w-full text-left cursor-pointer group"
+              className="w-9 h-9 rounded-full border border-gray-200 flex items-center justify-center text-gray-700 hover:text-[#1877F2] hover:border-blue-300 transition-colors cursor-pointer"
+              aria-label="Search tour packages"
             >
-              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400 group-hover:text-[#1877F2] transition-colors">
-                <Search className="w-[18px] h-[18px] stroke-[2]" />
-              </div>
-              <div className="w-full bg-[#f4f5f7] hover:bg-[#eceef2] text-gray-400 hover:text-gray-600 text-sm font-normal pl-11 pr-4 py-2.5 rounded-lg border border-transparent transition-all duration-200 flex items-center justify-between">
-                <span>Find Your Perfect Tour Package</span>
-
-              </div>
+              <Search className="w-4 h-4 stroke-[2]" />
             </button>
-          </div>
 
-          {/* Desktop Right Utilities (Need Help?, Login / Profile Avatar) */}
-          <div className="hidden lg:flex items-center gap-5 shrink-0">
             {/* Need Help? link */}
             <Link
               href="/contact-us"
@@ -568,58 +547,26 @@ export default function Header() {
         </div>
 
         {/* ─── Desktop Destinations Mega Menu ──────────────────────────────── */}
-        <div
+        <DestinationsDropdown
+          isOpen={activeDropdown === "Destinations"}
           onMouseEnter={() => handleMouseEnter("Destinations")}
           onMouseLeave={handleMouseLeave}
-          className={`absolute left-0 right-0 top-full bg-white border-t border-gray-100 shadow-[0_20px_45px_rgba(0,0,0,0.12)] transition-all duration-300 z-50 ${activeDropdown === "Destinations"
-            ? "opacity-100 visible translate-y-0"
-            : "opacity-0 invisible -translate-y-2 pointer-events-none"
-            }`}
-        >
-          <div className="container relative py-10 px-6 sm:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-8 gap-y-8">
-              {destinationColumns.map((col) => (
-                <div key={col.continent} className="flex flex-col">
-                  {/* Continent Header */}
-                  <h3 className="text-[17px] font-bold text-gray-950 mb-5 tracking-tight border-b border-gray-100 pb-2">
-                    {col.continent}
-                  </h3>
-
-                  {/* Countries List */}
-                  <ul className="flex flex-col space-y-3.5">
-                    {col.countries.map((country) => (
-                      <li key={country.name}>
-                        <Link
-                          href={getDestinationUrl(country.name)}
-                          className="flex items-center text-sm font-normal text-gray-700 hover:text-[#0284c7] transition-all group py-0.5"
-                        >
-                          {/* Country Name */}
-                          <span className="group-hover:translate-x-1 transition-transform duration-150">
-                            {country.name}
-                          </span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+        />
 
       </div>
+    </header>
 
       {/* ─── Mobile Sidebar Navigation Drawer (Built into Header) ─────────── */}
       {/* Backdrop */}
       <div
         onClick={() => setIsMobileDrawerOpen(false)}
-        className={`lg:hidden fixed inset-0 bg-black/50 backdrop-blur-xs z-50 transition-opacity duration-300 ${isMobileDrawerOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
+        className={`lg:hidden fixed inset-0 bg-black/50 backdrop-blur-xs z-[110] transition-opacity duration-300 ${isMobileDrawerOpen ? "opacity-100 visible" : "opacity-0 invisible pointer-events-none"
           }`}
       />
 
       {/* Drawer Aside */}
       <aside
-        className={`lg:hidden fixed top-0 left-0 bottom-0 w-[300px] sm:w-[330px] max-w-[85vw] bg-white z-50 shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out ${isMobileDrawerOpen ? "translate-x-0" : "-translate-x-full"
+        className={`lg:hidden fixed top-0 left-0 bottom-0 w-[300px] sm:w-[330px] max-w-[85vw] bg-white z-[110] shadow-2xl flex flex-col justify-between transition-transform duration-300 ease-in-out ${isMobileDrawerOpen ? "translate-x-0" : "-translate-x-full"
           }`}
       >
         {/* Drawer Header */}
@@ -943,6 +890,6 @@ export default function Header() {
 
       {/* Right Slide-Over Profile Drawer */}
       <UserProfileDrawer />
-    </header>
+    </>
   );
 }

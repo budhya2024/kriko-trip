@@ -1,5 +1,10 @@
 import React, { Suspense } from "react";
-import { Header, Footer, PageHeader } from "@/components/shared";
+import {
+  Header,
+  Footer,
+  PageHeader,
+  TourListFloatingCallbackButton,
+} from "@/components/shared";
 import { TourPackagesContent } from "@/components/tour-packages";
 
 export const metadata = {
@@ -34,6 +39,9 @@ export default function TourPackagesPage() {
           <TourPackagesContent />
         </Suspense>
       </main>
+
+      {/* Floating Callback CTA (Package List Page Only) */}
+      <TourListFloatingCallbackButton />
 
       {/* Global Footer */}
       <Footer />

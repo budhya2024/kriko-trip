@@ -23,9 +23,9 @@ import {
   Download,
   ShieldCheck,
   Check,
-  Tag,
 } from "lucide-react";
 import { useAuth, TripHistoryItem } from "./AuthContext";
+import { useScrollLock } from "./useScrollLock";
 
 export default function UserProfileDrawer() {
   const {
@@ -37,6 +37,8 @@ export default function UserProfileDrawer() {
     updateAvatar,
     updateProfile,
   } = useAuth();
+
+  useScrollLock(isProfileDrawerOpen);
 
   const [activeTab, setActiveTab] = useState<"profile" | "trips">("profile");
   const [selectedTrip, setSelectedTrip] = useState<TripHistoryItem | null>(null);
@@ -130,10 +132,10 @@ export default function UserProfileDrawer() {
         onClick={closeProfileDrawer}
       />
 
-      {/* ─── Slide-Over Panel (Smooth ease-out translation, clean professional styling) ─── */}
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
+      {/* ─── Slide-Over Panel (Full-screen on mobile, 460px drawer on sm+) ─── */}
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div
-          className={`w-screen max-w-[460px] bg-[#F8FAFC] border-l border-gray-200 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isProfileDrawerOpen ? "translate-x-0" : "translate-x-full"
+          className={`w-screen max-w-full sm:max-w-[460px] bg-[#F8FAFC] border-l-0 sm:border-l border-gray-200 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isProfileDrawerOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
           {/* ─── Drawer Header ─── */}
@@ -249,36 +251,7 @@ export default function UserProfileDrawer() {
               </div>
             )}
 
-            {/* ─── 2. Loyalty Points Summary Card (Bg color used per box, no border, circle shape icon) ─── */}
-            <div className="p-3.5 rounded-lg bg-amber-50 text-gray-900">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
-                    <Crown className="w-4 h-4 text-amber-700 stroke-[2.2]" />
-                  </div>
-                  <div>
-                    <span className="text-[11px] font-semibold text-amber-900 uppercase tracking-wide block">
-                      Loyalty Rewards
-                    </span>
-                    <span className="text-base font-extrabold text-gray-900 leading-none">
-                      {user.loyaltyPoints.toLocaleString("en-IN")}{" "}
-                      <span className="text-xs font-semibold text-amber-800">Points</span>
-                    </span>
-                  </div>
-                </div>
-
-                <div className="text-right">
-                  <span className="inline-block px-2.5 py-1 rounded-md bg-amber-200/80 text-amber-950 text-xs font-bold">
-                    ₹{user.loyaltyPoints.toLocaleString("en-IN")} Off
-                  </span>
-                  <span className="block text-[10px] text-gray-500 mt-0.5">
-                    Valid on all tours
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* ─── 3. Border-Bottom Smooth Tab Bar (Profile Info, Bookings, Password) ─── */}
+            {/* ─── 2. Border-Bottom Smooth Tab Bar (Profile Info, Bookings, Password) ─── */}
             <div className="flex items-center border-b border-gray-200">
               <button
                 type="button"
@@ -559,9 +532,9 @@ export default function UserProfileDrawer() {
                       </ul>
                     </div>
 
-                    {/* Payment & Rewards Breakdown with Applied Coupon */}
+                    {/* Payment & Rewards Breakdown */}
                     <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2 text-xs">
-                      <span className="text-xs font-bold text-gray-900 block">
+                      <span className="text-xs font-semibold text-gray-900 block">
                         Payment &amp; Rewards
                       </span>
 
@@ -570,28 +543,10 @@ export default function UserProfileDrawer() {
                         <span className="font-medium text-gray-700">
                           ₹{(
                             selectedTrip.amount +
-                            (selectedTrip.appliedCoupon?.discountAmount || 0) +
                             (selectedTrip.loyaltyRedeemed?.discountAmount || 0)
                           ).toLocaleString("en-IN")}
                         </span>
                       </div>
-
-                      {/* Display Applied Coupon code and discount amount */}
-                      {selectedTrip.appliedCoupon && (
-                        <div className="flex items-center justify-between text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-1.5 rounded-md border border-emerald-200/80">
-                          <div className="flex items-center gap-1.5">
-                            <Tag className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                            <span>
-                              Coupon Applied (
-                              <strong className="font-mono text-emerald-950">
-                                {selectedTrip.appliedCoupon.code}
-                              </strong>
-                              )
-                            </span>
-                          </div>
-                          <span>- ₹{selectedTrip.appliedCoupon.discountAmount.toLocaleString("en-IN")}</span>
-                        </div>
-                      )}
 
                       {/* Display Loyalty Points Redeemed if any */}
                       {selectedTrip.loyaltyRedeemed && (

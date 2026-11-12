@@ -5,7 +5,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
-import { MapPin, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { MapPin, ArrowUpRight, ChevronLeft, ChevronRight, PhoneCall } from "lucide-react";
+import { openCallbackModal } from "@/components/shared";
 import { TourPackage } from "./types";
 
 import "swiper/css";
@@ -30,11 +31,11 @@ export default function RelevantPackagesSlider({
   if (!packages || packages.length === 0) return null;
 
   return (
-    <section className="bg-white py-8 sm:py-16">
+    <section className="bg-white py-8 sm:py-16 print:hidden">
       <div className="container">
         {/* Centered Header (Clean & Minimalist, No Arrows) */}
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight">
             {title}
           </h2>
           {subtitle && (
@@ -197,11 +198,10 @@ function RelevantPackageCard({ pkg }: { pkg: TourPackage }) {
                   setCurrentImageIndex(idx);
                 }}
                 aria-label={`Go to photo ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                  currentImageIndex === idx
-                    ? "w-4 bg-white shadow-sm"
-                    : "w-1.5 bg-white/60 hover:bg-white/90"
-                }`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${currentImageIndex === idx
+                  ? "w-4 bg-white shadow-sm"
+                  : "w-1.5 bg-white/60 hover:bg-white/90"
+                  }`}
               />
             ))}
           </div>
@@ -227,15 +227,15 @@ function RelevantPackageCard({ pkg }: { pkg: TourPackage }) {
           </p>
         </div>
 
-        {/* Card Footer: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
+        {/* Card Footer: View Details Button (Left) & Starting From, Original & Sales Price (Right) */}
         <div className="pt-3.5 mt-3 border-t border-gray-100 flex items-center justify-between gap-2 min-w-0">
-          {/* Book Now Button */}
+          {/* View Details Button */}
           <Link
             href={`/tour-packages/${pkg.id}`}
-            className="inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-xs transition-colors active:scale-95 cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full border border-[#1877F2] text-[#1877F2] hover:bg-[#1877F2] hover:text-white text-[11px] sm:text-xs font-medium transition-colors active:scale-95 cursor-pointer shrink-0"
           >
-            <span>Book Now</span>
-            <ArrowUpRight className="w-3 h-3 stroke-[2.2] text-white" />
+            <span>View Details</span>
+            <ArrowUpRight className="w-3 h-3 stroke-[2]" />
           </Link>
 
           {/* Starting From & Prices */}
@@ -247,12 +247,22 @@ function RelevantPackageCard({ pkg }: { pkg: TourPackage }) {
               <span className="text-[10px] text-gray-400 line-through font-normal">
                 ₹{originalPrice.toLocaleString("en-IN")}
               </span>
-              <span className="text-[12.5px] sm:text-[13px] font-bold text-gray-900 leading-tight">
+              <span className="text-[12.5px] sm:text-[13px] font-semibold text-gray-900 leading-tight">
                 ₹{pkg.price.toLocaleString("en-IN")}
               </span>
             </div>
           </div>
         </div>
+
+        {/* Full-Width Bottom Request a Call Back Button */}
+        <button
+          type="button"
+          onClick={() => openCallbackModal(pkg.location)}
+          className="mt-3 w-full py-2.5 px-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-[13px] font-medium flex items-center justify-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
+        >
+          <PhoneCall className="w-3.5 h-3.5 shrink-0" />
+          <span>Request a Call Back</span>
+        </button>
       </div>
     </div>
   );

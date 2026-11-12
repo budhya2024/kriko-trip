@@ -5,5 +5,10 @@ export { default as AuthModal } from "./AuthModal";
 export { default as SearchModal } from "./SearchModal";
 export { default as GeneralQuestionsFAQ } from "./GeneralQuestionsFAQ";
 export { default as UserProfileDrawer } from "./UserProfileDrawer";
-export { default as RequestCallbackWidget } from "./RequestCallbackWidget";
+export {
+  default as RequestCallbackWidget,
+  TourListFloatingCallbackButton,
+  openCallbackModal,
+} from "./RequestCallbackWidget";
+export { default as TravelAssistantWidget } from "./TravelAssistantWidget";
 export { AuthProvider, useAuth } from "./AuthContext";

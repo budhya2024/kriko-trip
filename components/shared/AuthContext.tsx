@@ -19,10 +19,6 @@ export interface TripHistoryItem {
   pickupPoint?: string;
   inclusions?: string[];
   paymentMode?: string;
-  appliedCoupon?: {
-    code: string;
-    discountAmount: number;
-  };
   loyaltyRedeemed?: {
     points: number;
     discountAmount: number;
@@ -57,7 +53,7 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       bookingId: "KT-98214",
       packageTitle: "Andaman Wonders & Havelock Island",
       destination: "Andaman & Nicobar Islands",
-      duration: "6 Days / 5 Nights",
+      duration: "6D/5N",
       dates: "15 Dec - 20 Dec 2026",
       status: "Confirmed",
       amount: 28999,
@@ -69,10 +65,6 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       mealPlan: "Breakfast & Dinner Included (MAP Plan)",
       pickupPoint: "Veer Savarkar Airport (IXZ), Port Blair",
       paymentMode: "UPI / Net Banking (Paid in Full)",
-      appliedCoupon: {
-        code: "KRIKO10",
-        discountAmount: 3200,
-      },
       loyaltyRedeemed: {
         points: 500,
         discountAmount: 500,
@@ -90,7 +82,7 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       bookingId: "KT-84192",
       packageTitle: "Sundarban Luxury Eco Resort & Safari",
       destination: "Sundarban, West Bengal",
-      duration: "3 Days / 2 Nights",
+      duration: "3D/2N",
       dates: "10 Oct - 12 Oct 2026",
       status: "Completed",
       amount: 14500,
@@ -102,10 +94,6 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       mealPlan: "All Meals Included (Buffet Style)",
       pickupPoint: "Science City, Kolkata",
       paymentMode: "Credit Card (Paid in Full)",
-      appliedCoupon: {
-        code: "EXPLORE2000",
-        discountAmount: 2000,
-      },
       inclusions: [
         "Dedicated Motorized Safari Boat",
         "Sajnekhali & Sudhanyakhali Watch Tower Entry",
@@ -118,7 +106,7 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       bookingId: "KT-71043",
       packageTitle: "Kashmir Valley Paradise & Gulmarg Snow",
       destination: "Srinagar & Gulmarg, Kashmir",
-      duration: "6 Days / 5 Nights",
+      duration: "6D/5N",
       dates: "18 May - 23 May 2026",
       status: "Completed",
       amount: 32500,
@@ -130,10 +118,6 @@ export const DEFAULT_MOCK_USER: UserProfile = {
       mealPlan: "Daily Buffet Breakfast & Dinner",
       pickupPoint: "Sheikh ul-Alam Airport (SXR), Srinagar",
       paymentMode: "Net Banking (Paid in Full)",
-      appliedCoupon: {
-        code: "FESTIVE15",
-        discountAmount: 5000,
-      },
       loyaltyRedeemed: {
         points: 1000,
         discountAmount: 1000,

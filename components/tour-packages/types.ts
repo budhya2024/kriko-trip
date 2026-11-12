@@ -6,6 +6,7 @@ export interface ItineraryDay {
   meals?: string;
   stay?: string;
   activities?: string[];
+  images?: string[];
 }
 
 export interface TourPackage {
@@ -22,6 +23,7 @@ export interface TourPackage {
   originalPrice?: number;
   rating: number;
   reviewsCount: number;
+  bookedCount?: number;
   description: string;
   image: string;
   images: string[];

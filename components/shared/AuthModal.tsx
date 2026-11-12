@@ -17,6 +17,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useAuth } from "./AuthContext";
+import CountryPhoneSelect from "./CountryPhoneSelect";
+import { useScrollLock } from "./useScrollLock";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -62,6 +64,7 @@ export default function AuthModal({
   const { login } = useAuth();
   // Steps: "phone" (enter mobile) | "otp" (verify OTP) | "profile" (name, email, address form)
   const [step, setStep] = useState<"phone" | "otp" | "profile">("phone");
+  const [countryCode, setCountryCode] = useState("+91");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
@@ -76,6 +79,8 @@ export default function AuthModal({
   const [address, setAddress] = useState("");
 
   const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  useScrollLock(isOpen);
 
   // Reset modal state when opened/closed
   useEffect(() => {
@@ -247,7 +252,7 @@ export default function AuthModal({
       login({
         name: fullName.trim(),
         email: email.trim(),
-        phone: phoneNumber ? `+91 ${phoneNumber}` : "+91 98765 43210",
+        phone: phoneNumber ? `${countryCode} ${phoneNumber}` : `${countryCode} 98765 43210`,
         location: address.trim(),
       });
       setTimeout(() => {
@@ -265,10 +270,10 @@ export default function AuthModal({
       />
 
       {/* Modal Dialog Card (Flat border, zero heavy shadow, clean typography) */}
-      <div className="relative w-full max-w-[400px] bg-white rounded-xl border border-gray-200 overflow-hidden z-10 max-h-[92vh] flex flex-col animate-in fade-in duration-150">
+      <div className="relative w-full max-w-[400px] bg-white rounded-xl border border-gray-200 overflow-visible z-10 max-h-[92vh] flex flex-col animate-in fade-in duration-150">
 
         {/* Top Header */}
-        <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-gray-100 bg-gray-50/50">
+        <div className="px-5 pt-4 pb-3 flex items-center justify-between border-b border-gray-100 bg-gray-50/50 rounded-t-xl">
           <div className="flex items-center gap-2">
             <Image
               src={brandLogo}
@@ -290,7 +295,7 @@ export default function AuthModal({
         </div>
 
         {/* Modal Body */}
-        <div className="p-5 sm:p-6 overflow-y-auto space-y-4">
+        <div className={`p-5 sm:p-6 space-y-4 ${step === "profile" ? "overflow-y-auto" : "overflow-visible"}`}>
 
           {/* Title & Description */}
           <div>
@@ -305,7 +310,7 @@ export default function AuthModal({
               {step === "phone"
                 ? "Enter your mobile number to receive an OTP verification code."
                 : step === "otp"
-                  ? `We've sent a 6-digit OTP to +91 ${phoneNumber}`
+                  ? `We've sent a 6-digit OTP to ${countryCode} ${phoneNumber}`
                   : "Please enter your name, email, and address to get started."}
             </p>
           </div>
@@ -363,12 +368,13 @@ export default function AuthModal({
                 <label className="block text-xs font-normal text-gray-700 mb-1">
                   Mobile Number
                 </label>
-                <div className="relative flex items-center">
-                  {/* Country Prefix */}
-                  <div className="absolute left-3 flex items-center gap-1.5 text-xs text-gray-700 font-normal border-r border-gray-200 pr-2.5 pointer-events-none">
-                    <span className="text-sm">🇮🇳</span>
-                    <span>+91</span>
-                  </div>
+                <div className="relative flex items-center rounded-lg border border-gray-300 bg-white focus-within:border-[#1877F2] transition-colors">
+                  {/* Country Code Selector */}
+                  <CountryPhoneSelect
+                    value={countryCode}
+                    onChange={(code) => setCountryCode(code)}
+                    buttonClassName="rounded-l-lg"
+                  />
 
                   <input
                     type="tel"
@@ -376,7 +382,7 @@ export default function AuthModal({
                     value={phoneNumber}
                     onChange={handlePhoneChange}
                     placeholder="Enter 10-digit number"
-                    className="w-full pl-20 pr-3.5 py-3 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#1877F2] transition-colors font-normal tracking-wide"
+                    className="w-full px-3 py-3 bg-transparent text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none font-normal border-0 min-w-0 tracking-wide"
                     autoFocus
                   />
                 </div>
@@ -431,7 +437,7 @@ export default function AuthModal({
               <div className="flex items-center justify-between px-3 py-2 bg-gray-50 rounded-lg border border-gray-200 text-xs">
                 <div className="flex items-center gap-1.5 text-gray-700 font-normal">
                   <Phone className="w-3.5 h-3.5 text-gray-400" />
-                  <span>+91 {phoneNumber}</span>
+                  <span>{countryCode} {phoneNumber}</span>
                 </div>
                 <button
                   type="button"
@@ -517,7 +523,7 @@ export default function AuthModal({
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span className="text-xs font-semibold text-emerald-900">
-                    +91 {phoneNumber}
+                    {countryCode} {phoneNumber}
                   </span>
                 </div>
                 <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">

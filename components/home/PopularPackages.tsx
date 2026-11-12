@@ -10,8 +10,10 @@ import {
   ChevronLeft,
   ChevronRight,
   MapPin,
+  PhoneCall,
   Tag,
 } from "lucide-react";
+import { openCallbackModal } from "@/components/shared";
 
 import "swiper/css";
 
@@ -35,7 +37,7 @@ const packages: PackageCard[] = [
     badge: "Couple Tour",
     title: "Andaman Tropical Island Stay",
     destination: "Andaman, India",
-    duration: "5 Days/4 Nights",
+    duration: "5D/4N",
     price: 18500,
     originalPrice: 22000,
     image:
@@ -52,7 +54,7 @@ const packages: PackageCard[] = [
     badge: "Family Tour",
     title: "Andaman Wonders & Havelock",
     destination: "Andaman, India",
-    duration: "6 Days/5 Nights",
+    duration: "6D/5N",
     price: 28999,
     originalPrice: 34000,
     image:
@@ -69,7 +71,7 @@ const packages: PackageCard[] = [
     badge: "Group Tour",
     title: "Best of Andaman & Neil Island",
     destination: "Andaman, India",
-    duration: "7 Days/6 Nights",
+    duration: "7D/6N",
     price: 38500,
     originalPrice: 44000,
     image:
@@ -86,7 +88,7 @@ const packages: PackageCard[] = [
     badge: "Honeymoon Special",
     title: "Kashmir Paradise & Gulmarg Snow",
     destination: "Kashmir, India",
-    duration: "6 Days/5 Nights",
+    duration: "6D/5N",
     price: 32500,
     originalPrice: 39000,
     image:
@@ -103,7 +105,7 @@ const packages: PackageCard[] = [
     badge: "Heritage Tour",
     title: "Royal Rajasthan Forts & Palaces",
     destination: "Rajasthan, India",
-    duration: "7 Days/6 Nights",
+    duration: "7D/6N",
     price: 34999,
     originalPrice: 42000,
     image:
@@ -120,7 +122,7 @@ const packages: PackageCard[] = [
     badge: "Nature Tour",
     title: "Kerala Backwaters & Munnar Hills",
     destination: "Kerala, India",
-    duration: "6 Days/5 Nights",
+    duration: "6D/5N",
     price: 26999,
     originalPrice: 32000,
     image:
@@ -259,15 +261,15 @@ function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
           </div>
         </div>
 
-        {/* Bottom Footer Row: Book Now Button (Left) & Starting From, Original & Sales Price (Right) */}
+        {/* Bottom Footer Row: View Details Button (Left) & Starting From, Original & Sales Price (Right) */}
         <div className="flex items-center justify-between pt-3.5 mt-3 border-t border-gray-100 gap-2 min-w-0">
-          {/* Book Now Button */}
+          {/* View Details Button */}
           <Link
             href={pkg.href}
-            className="inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full bg-[#1877F2] hover:bg-[#00285C] text-white text-[11px] sm:text-xs font-semibold shadow-2xs hover:shadow-md transition-colors active:scale-95 cursor-pointer shrink-0"
+            className="inline-flex items-center gap-1 px-3.5 sm:px-4 py-1.5 rounded-full border border-[#1877F2] text-[#1877F2] hover:bg-[#1877F2] hover:text-white text-[11px] sm:text-xs font-medium transition-colors active:scale-95 cursor-pointer shrink-0"
           >
-            <span className="relative z-10">Book Now</span>
-            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2] text-white relative z-10" />
+            <span>View Details</span>
+            <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[2]" />
           </Link>
 
           {/* Starting From, Original Price & Sales Price */}
@@ -277,7 +279,7 @@ function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
                 Starting From
               </span>
               {pkg.originalPrice > pkg.price && (
-                <span className="badge-shine relative overflow-hidden inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-bold leading-none">
+                <span className="badge-shine relative overflow-hidden inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-medium leading-none">
                   <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
                   Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
                 </span>
@@ -293,6 +295,16 @@ function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
             </div>
           </div>
         </div>
+
+        {/* Full-Width Bottom Request a Call Back Button */}
+        <button
+          type="button"
+          onClick={() => openCallbackModal(pkg.destination)}
+          className="mt-3 w-full py-2.5 px-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-[13px] font-medium flex items-center justify-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
+        >
+          <PhoneCall className="w-3.5 h-3.5 shrink-0" />
+          <span>Request a Call Back</span>
+        </button>
       </div>
     </div>
   );

@@ -307,7 +307,7 @@ export default function BankingDatePicker({
           {/* Mobile Backdrop */}
           {!inline && (
             <div
-              className="sm:hidden fixed inset-0 z-[120] bg-black/35 backdrop-blur-xs animate-in fade-in duration-150"
+              className="sm:hidden fixed inset-0 z-[120] bg-black/35 backdrop-blur-xs"
               onClick={handleClose}
             />
           )}
@@ -316,11 +316,11 @@ export default function BankingDatePicker({
           <div
             className={
               inline
-                ? "relative w-full bg-white rounded-lg border border-gray-200 p-3 sm:p-4 z-50 animate-in fade-in duration-150"
+                ? "relative w-full bg-white rounded-lg border border-gray-200 p-3 sm:p-4 z-50"
                 : `fixed sm:absolute left-1/2 -translate-x-1/2 sm:translate-x-0 ${align === "right"
                   ? "sm:right-0 sm:left-auto"
                   : "sm:left-0 sm:right-auto"
-                } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 w-[80vw] max-w-[340px] sm:w-[360px] bg-white rounded-xl border border-gray-200/90 p-3.5 sm:p-4 shadow-xl sm:shadow-lg animate-in fade-in duration-150 max-h-[92vh] overflow-y-auto`
+                } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 w-[80vw] max-w-[340px] sm:w-[360px] bg-white rounded-xl border border-gray-200/90 p-3.5 sm:p-4 shadow-xl sm:shadow-lg max-h-[92vh] overflow-y-auto`
             }
           >
 
@@ -367,7 +367,7 @@ export default function BankingDatePicker({
 
                 {/* Quick Month & Year Picker Dropdown */}
                 {isMonthPickerOpen && (
-                  <div className="absolute top-7 left-0 z-30 bg-white rounded-lg border border-gray-200 p-2.5 w-[240px] animate-in fade-in duration-100">
+                  <div className="absolute top-7 left-0 z-30 bg-white rounded-lg border border-gray-200 p-2.5 w-[240px]">
                     <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-gray-100">
                       <span className="text-[11px] font-semibold text-gray-600">Month & Year</span>
                       <select

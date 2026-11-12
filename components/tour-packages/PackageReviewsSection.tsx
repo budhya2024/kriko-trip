@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/components/shared/AuthContext";
 import AuthModal from "@/components/shared/AuthModal";
+import { useScrollLock } from "@/components/shared/useScrollLock";
 
 export interface PackageReview {
   id: string;
@@ -128,14 +129,12 @@ export default function PackageReviewsSection({
       if (e.key === "Escape") setIsWritingReview(false);
     };
     window.addEventListener("keydown", handleKeyDown);
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = prevOverflow;
     };
   }, [isWritingReview]);
+
+  useScrollLock(isWritingReview);
 
   const visibleReviews = showAllReviews ? reviews : reviews.slice(0, 3);
 
@@ -182,7 +181,7 @@ export default function PackageReviewsSection({
       {/* Section Header */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-5">
         <div>
-          <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 tracking-tight">
+          <h2 className="text-[22px] sm:text-[26px] font-semibold text-gray-900 mb-4 tracking-tight">
             Traveler Reviews
           </h2>
           <p className="text-xs sm:text-sm text-gray-500 mt-0.5 font-normal">
@@ -211,7 +210,7 @@ export default function PackageReviewsSection({
       {/* ─── Share Your Experience Modal (Login Required; Rating + Description only) ─── */}
       {isWritingReview && (
         <div
-          className="fixed inset-0 z-[130] flex items-center justify-center p-4"
+          className="fixed inset-0 z-[140] flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
           aria-labelledby="share-experience-modal-title"
@@ -316,11 +315,10 @@ export default function PackageReviewsSection({
                         className="p-0.5 cursor-pointer transition-transform active:scale-90"
                       >
                         <Star
-                          className={`w-5 h-5 sm:w-5.5 sm:h-5.5 ${
-                            star <= reviewRating
+                          className={`w-5 h-5 sm:w-5.5 sm:h-5.5 ${star <= reviewRating
                               ? "text-[#F59E0B] fill-[#F59E0B]"
                               : "text-gray-300"
-                          }`}
+                            }`}
                         />
                       </button>
                     ))}
@@ -388,11 +386,10 @@ export default function PackageReviewsSection({
                 {[1, 2, 3, 4, 5].map((star) => (
                   <Star
                     key={star}
-                    className={`w-4 h-4 ${
-                      star <= Math.round(rating)
+                    className={`w-4 h-4 ${star <= Math.round(rating)
                         ? "text-[#F59E0B] fill-[#F59E0B]"
                         : "text-gray-300"
-                    }`}
+                      }`}
                   />
                 ))}
               </div>
@@ -500,11 +497,10 @@ export default function PackageReviewsSection({
                 <button
                   type="button"
                   onClick={() => handleToggleHelpful(review.id)}
-                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[11px] font-medium transition-colors cursor-pointer ${
-                    isHelpful
+                  className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[11px] font-medium transition-colors cursor-pointer ${isHelpful
                       ? "bg-blue-50 border-blue-200 text-[#1877F2]"
                       : "bg-white border-gray-200 text-gray-500 hover:text-gray-800 hover:bg-gray-50"
-                  }`}
+                    }`}
                 >
                   <ThumbsUp className="w-3 h-3" />
                   <span>Helpful ({displayHelpfulCount})</span>

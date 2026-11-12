@@ -18,6 +18,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useAuth } from "@/components/shared/AuthContext";
+import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 
 function GoogleIcon() {
   return (
@@ -53,6 +54,7 @@ function FacebookIcon() {
 export default function LoginPage() {
   const { login } = useAuth();
   const [step, setStep] = useState<"phone" | "otp" | "profile">("phone");
+  const [countryCode, setCountryCode] = useState("+91");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const [timer, setTimer] = useState(30);
@@ -213,7 +215,7 @@ export default function LoginPage() {
       login({
         name: fullName.trim(),
         email: email.trim(),
-        phone: phoneNumber ? `+91 ${phoneNumber}` : "+91 98765 43210",
+        phone: phoneNumber ? `${countryCode} ${phoneNumber}` : `${countryCode} 98765 43210`,
         location: address.trim(),
       });
       setTimeout(() => {
@@ -252,7 +254,7 @@ export default function LoginPage() {
               {step === "phone"
                 ? "Enter your mobile number to receive an OTP verification code."
                 : step === "otp"
-                ? `We've sent a 6-digit OTP to +91 ${phoneNumber}`
+                ? `We've sent a 6-digit OTP to ${countryCode} ${phoneNumber}`
                 : "Please enter your name, email, and address to get started."}
             </p>
           </div>
@@ -310,11 +312,12 @@ export default function LoginPage() {
                 <label className="block text-xs font-normal text-gray-700 mb-1">
                   Mobile Number
                 </label>
-                <div className="relative flex items-center">
-                  <div className="absolute left-3.5 flex items-center gap-1.5 text-xs text-gray-700 font-normal border-r border-gray-200 pr-2.5 pointer-events-none">
-                    <span className="text-sm">🇮🇳</span>
-                    <span>+91</span>
-                  </div>
+                <div className="relative flex items-center rounded-lg border border-gray-300 bg-white focus-within:border-[#1877F2] transition-colors">
+                  <CountryPhoneSelect
+                    value={countryCode}
+                    onChange={(code) => setCountryCode(code)}
+                    buttonClassName="rounded-l-lg"
+                  />
 
                   <input
                     type="tel"
@@ -322,7 +325,7 @@ export default function LoginPage() {
                     value={phoneNumber}
                     onChange={handlePhoneChange}
                     placeholder="Enter 10-digit number"
-                    className="w-full pl-22 pr-3.5 py-2.5 rounded-lg border border-gray-300 bg-white text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:border-[#1877F2] transition-colors font-normal tracking-wide"
+                    className="w-full px-3 py-2.5 bg-transparent text-xs sm:text-sm text-gray-900 placeholder:text-gray-400 outline-none focus:outline-none font-normal border-0 min-w-0 tracking-wide"
                     autoFocus
                   />
                 </div>
@@ -374,7 +377,7 @@ export default function LoginPage() {
               <div className="flex items-center justify-between px-3.5 py-2.5 bg-gray-50 rounded-lg border border-gray-200 text-xs">
                 <div className="flex items-center gap-1.5 text-gray-700 font-normal">
                   <Phone className="w-3.5 h-3.5 text-gray-400" />
-                  <span>+91 {phoneNumber}</span>
+                  <span>{countryCode} {phoneNumber}</span>
                 </div>
                 <button
                   type="button"
@@ -456,7 +459,7 @@ export default function LoginPage() {
                 <div className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span className="text-xs font-semibold text-emerald-900">
-                    +91 {phoneNumber}
+                    {countryCode} {phoneNumber}
                   </span>
                 </div>
                 <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">

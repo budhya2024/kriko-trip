@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Search, X, MapPin, Clock, ArrowRight, Compass, Sparkles } from "lucide-react";
 import { initialTourPackages } from "@/components/tour-packages/data";
 import { TourPackage } from "@/components/tour-packages/types";
+import { useScrollLock } from "./useScrollLock";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -28,20 +29,17 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [query, setQuery] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Auto-focus input and lock body scroll when modal opens
+  useScrollLock(isOpen);
+
+  // Auto-focus input when modal opens
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
       setTimeout(() => {
         inputRef.current?.focus();
       }, 100);
     } else {
-      document.body.style.overflow = "";
       setQuery("");
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [isOpen]);
 
   // Close on Escape key
@@ -78,7 +76,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col justify-start sm:items-center sm:justify-start sm:p-4 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-[140] flex flex-col justify-start sm:items-center sm:justify-start sm:p-4 bg-black/60 backdrop-blur-xs transition-opacity animate-in fade-in duration-150">
       {/* Background click to close */}
       <div
         className="fixed inset-0 z-0"
