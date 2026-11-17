@@ -71,34 +71,36 @@ export default function PackageDetailView({
             </span>
           </nav>
 
-          <h1 className="text-xl sm:text-2xl lg:text-[28px] font-semibold text-white tracking-tight leading-snug max-w-4xl">
+          <h1 className="text-xl sm:text-2xl lg:text-[28px] font-semibold text-white tracking-tight leading-snug max-w-4xl mt-4">
             {mainTitle}
           </h1>
 
-          {/* Rating & Total Booked Trips Row */}
-          <div className="mt-2.5 flex flex-wrap items-center gap-3 sm:gap-4 text-xs sm:text-[13px] text-white/90">
-            <span className="inline-flex items-center gap-1.5">
-              <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
-              <span className="font-medium text-white">
+          {/* Rating & Total Booked Trips Badges - Dark Pill Boxes Matching User Reference */}
+          <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-3">
+            {/* Rating Box */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#243342]/95 border border-slate-700/60 shadow-md backdrop-blur-sm">
+              <Star className="w-5 h-5 text-[#FACC15] fill-[#FACC15] shrink-0" />
+              <span className="font-bold text-white text-base sm:text-lg leading-none">
                 {pkg.rating.toFixed(1)}
               </span>
-              <span className="text-white/75 font-normal">
+              <span className="text-[#94A3B8] font-normal text-sm sm:text-base leading-none">
                 ({pkg.reviewsCount} Reviews)
               </span>
-            </span>
+            </div>
 
-            <span className="text-white/30">•</span>
-
-            <span className="inline-flex items-center gap-1.5">
-              <Users className="w-3.5 h-3.5 text-sky-300" />
-              <span className="font-medium text-white">
+            {/* Total Booked Trips Box */}
+            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#243342]/95 border border-slate-700/60 shadow-md backdrop-blur-sm">
+              <Users className="w-5 h-5 text-[#38BDF8] shrink-0" />
+              <span className="font-bold text-white text-base sm:text-lg leading-none">
                 {(
                   pkg.bookedCount ?? pkg.reviewsCount * 8 + pkg.days * 12
                 ).toLocaleString()}
                 +
               </span>
-              <span className="text-white/75 font-normal">Trips Booked</span>
-            </span>
+              <span className="text-[#94A3B8] font-normal text-sm sm:text-base leading-none">
+                Trips Booked
+              </span>
+            </div>
           </div>
         </div>
       </section>

@@ -180,7 +180,7 @@ export default function HeroSearchForm() {
         </button>
 
         {/* Hotels Tab */}
-        <button
+        {/* <button
           type="button"
           onClick={() => setActiveTab("hotels")}
           className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "hotels"
@@ -190,35 +190,10 @@ export default function HeroSearchForm() {
         >
           <FaBed className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5943A]" />
           <span>Hotels</span>
-        </button>
+        </button> */}
 
 
 
-        {/* Experience Tab */}
-        <button
-          type="button"
-          onClick={() => setActiveTab("experience")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "experience"
-            ? "bg-brand-primary text-white shadow-md shadow-blue-500/20"
-            : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
-        >
-          {/* Deep Red Badge with Wave/Activity */}
-          <span className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-deep-red flex items-center justify-center text-white shrink-0 shadow-xs">
-            <svg
-              className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
-            </svg>
-          </span>
-          <span>Experience</span>
-        </button>
       </div>
 
       {/* Main White Search Box Container */}

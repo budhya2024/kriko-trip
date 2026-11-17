@@ -23,7 +23,6 @@ const topDestinations = [
   "Sundarban Mangrove Tour",
   "Varanasi Heritage Tour",
   "Darjeeling & Sikkim Tour",
-  "Ooty & Nilgiris Tour",
 ];
 
 const popularSearches = [
@@ -33,10 +32,8 @@ const popularSearches = [
   "Flights And Hotels",
   "Honeymoon Trip",
   "Andaman Vacation Package",
-  "Thar Desert Safari",
-  "Last-Minute Deals",
   "Summer Vacation",
-  "Sundarban Wildlife Safari",
+  "Sundarban Group Tour",
   "Kashmir Luxury Tours",
 ];
 
@@ -44,7 +41,6 @@ const resources = [
   "About KrikoTrip",
   "Travel Gallery",
   "Health & Safety Measure",
-  "Visa Processing",
   "Customize Tour",
   "Travel Inspirations",
   "Traveler Reviews",
@@ -146,17 +142,15 @@ export default function Footer() {
             >
               <span>Top Destination</span>
               <ChevronDown
-                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${
-                  openSection === "destinations" ? "rotate-180" : ""
-                }`}
+                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${openSection === "destinations" ? "rotate-180" : ""
+                  }`}
               />
             </button>
             <div
-              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${
-                openSection === "destinations"
-                  ? "grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
-              }`}
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${openSection === "destinations"
+                ? "grid-rows-[1fr] opacity-100"
+                : "grid-rows-[0fr] opacity-0"
+                }`}
             >
               <div className="overflow-hidden">
                 <ul className="pt-3 sm:pt-0 space-y-2.5 sm:space-y-3">
@@ -185,17 +179,15 @@ export default function Footer() {
             >
               <span>Popular Search</span>
               <ChevronDown
-                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${
-                  openSection === "searches" ? "rotate-180" : ""
-                }`}
+                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${openSection === "searches" ? "rotate-180" : ""
+                  }`}
               />
             </button>
             <div
-              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${
-                openSection === "searches"
-                  ? "grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
-              }`}
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${openSection === "searches"
+                ? "grid-rows-[1fr] opacity-100"
+                : "grid-rows-[0fr] opacity-0"
+                }`}
             >
               <div className="overflow-hidden">
                 <ul className="pt-3 sm:pt-0 space-y-2.5 sm:space-y-3">
@@ -224,17 +216,15 @@ export default function Footer() {
             >
               <span>Resources</span>
               <ChevronDown
-                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${
-                  openSection === "resources" ? "rotate-180" : ""
-                }`}
+                className={`w-4 h-4 text-white/80 sm:hidden transition-transform duration-300 ease-out ${openSection === "resources" ? "rotate-180" : ""
+                  }`}
               />
             </button>
             <div
-              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${
-                openSection === "resources"
-                  ? "grid-rows-[1fr] opacity-100"
-                  : "grid-rows-[0fr] opacity-0"
-              }`}
+              className={`grid transition-[grid-template-rows,opacity] duration-300 ease-out sm:grid-rows-[1fr] sm:opacity-100 ${openSection === "resources"
+                ? "grid-rows-[1fr] opacity-100"
+                : "grid-rows-[0fr] opacity-0"
+                }`}
             >
               <div className="overflow-hidden">
                 <ul className="pt-3 sm:pt-0 space-y-2.5 sm:space-y-3">

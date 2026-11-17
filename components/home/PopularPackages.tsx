@@ -153,9 +153,9 @@ function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
   };
 
   return (
-    <div className="bg-white rounded-2xl p-3.5 sm:p-4 transition-all duration-300 border border-gray-100 flex flex-col h-full group ">
-      {/* ─── Image Container with Multiple Images Slider, Navigation Arrows & Dots ─── */}
-      <div className="relative w-full aspect-[4/3] rounded-lg overflow-hidden bg-gray-100 select-none">
+    <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-gray-100 flex flex-col h-full group hover:shadow-xl shadow-sm">
+      {/* ─── Image Container with Multiple Images Slider, Navigation Arrows & Dots: Full Width ─── */}
+      <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 select-none">
         {/* Clickable Overlay to Package Page */}
         <Link
           href={pkg.href}
@@ -238,12 +238,12 @@ function PopularPackageCardItem({ pkg }: { pkg: PackageCard }) {
         )}
       </div>
 
-      {/* Card Content Area */}
-      <div className="pt-3.5 pb-2 px-1 flex-1 flex flex-col justify-between">
+      {/* Card Content Area - Only under-content has padding */}
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Title */}
           <Link href={pkg.href}>
-            <h3 className="text-[14px] sm:text-[15px] font-semibold text-[#1877F2] hover:text-[#00285C] transition-colors line-clamp-1">
+            <h3 className="text-[14px] sm:text-[15px] font-semibold  text-black transition-colors line-clamp-1">
               {pkg.title}
             </h3>
           </Link>
@@ -318,7 +318,7 @@ export default function PopularPackages() {
   }, []);
 
   return (
-    <section className="w-full bg-white pb-8 md:pb-16 relative overflow-hidden">
+    <section className="w-full bg-white py-0 md:py-6 relative overflow-hidden">
       <div className="container relative z-20">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto pb-6 md:pb-8">
@@ -349,19 +349,19 @@ export default function PopularPackages() {
                   spaceBetween: 16,
                 },
                 640: {
-                  slidesPerView: 2.15,
-                  spaceBetween: 20,
+                  slidesPerView: 2,
+                  spaceBetween: 16,
                 },
                 1024: {
-                  slidesPerView: 3.2,
-                  spaceBetween: 24,
+                  slidesPerView: 3,
+                  spaceBetween: 16,
                 },
                 1280: {
-                  slidesPerView: 3.4,
-                  spaceBetween: 24,
+                  slidesPerView: 4,
+                  spaceBetween: 16,
                 },
               }}
-              className="w-full"
+              className="w-full pb-10!"
             >
               {packages.map((pkg) => (
                 <SwiperSlide key={pkg.id}>

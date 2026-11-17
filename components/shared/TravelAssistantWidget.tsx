@@ -346,7 +346,7 @@ export default function TravelAssistantWidget() {
                 onClick={handleReset}
                 title="Reset conversation"
                 aria-label="Reset conversation"
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>
@@ -354,7 +354,7 @@ export default function TravelAssistantWidget() {
                 type="button"
                 onClick={() => setIsOpen(false)}
                 aria-label="Close Travel Assistant"
-                className="w-8 h-8 rounded-lg flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
+                className="w-8 h-8 rounded-full flex items-center justify-center text-white/80 hover:text-white hover:bg-white/10 transition-colors cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>

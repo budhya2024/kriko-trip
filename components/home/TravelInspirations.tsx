@@ -54,7 +54,7 @@ export default function TravelInspirations() {
             {visiblePosts.map((post) => (
               <article
                 key={post.slug}
-                className="bg-white  border border-gray-200  transition-colors duration-200 overflow-hidden flex flex-col sm:flex-row group"
+                className="bg-white rounded-xl border border-gray-200  transition-colors duration-200 overflow-hidden flex flex-col sm:flex-row group"
               >
                 {/* Left: Card Image with Diagonal Shine Hover Layer */}
                 <div className="relative w-full sm:w-[45%] h-52 sm:h-72 md:h-80 overflow-hidden bg-gray-100 shrink-0 image-shine">

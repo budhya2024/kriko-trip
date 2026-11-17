@@ -6,6 +6,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronDown,
+  X,
 } from "lucide-react";
 
 interface BankingDatePickerProps {
@@ -16,7 +17,8 @@ interface BankingDatePickerProps {
   minDate?: string; // YYYY-MM-DD
   className?: string;
   inline?: boolean;
-  align?: "left" | "right";
+  align?: "left" | "right" | "center";
+  centerModal?: boolean;
   onClose?: () => void;
 }
 
@@ -46,6 +48,7 @@ export default function BankingDatePicker({
   className = "",
   inline = false,
   align = "left",
+  centerModal = false,
   onClose,
 }: BankingDatePickerProps) {
   const [isOpen, setIsOpen] = useState(inline);
@@ -304,23 +307,26 @@ export default function BankingDatePicker({
       {/* ─── Single Month Compact Reference Calendar (Zero Shadow, Reduced Height) ─── */}
       {(inline || isOpen) && (
         <>
-          {/* Mobile Backdrop */}
+          {/* Backdrop */}
           {!inline && (
             <div
-              className="sm:hidden fixed inset-0 z-[120] bg-black/35 backdrop-blur-xs"
+              className={`fixed inset-0 z-[130] bg-black/45 backdrop-blur-xs transition-opacity ${align === "center" || centerModal ? "block" : "sm:hidden block"
+                }`}
               onClick={handleClose}
             />
           )}
 
-          {/* Calendar Card: Single Month, 80% Width on Mobile Centered, Compact Height */}
+          {/* Calendar Card: Modal Centered when align === 'center' or centerModal */}
           <div
             className={
               inline
                 ? "relative w-full bg-white rounded-lg border border-gray-200 p-3 sm:p-4 z-50"
-                : `fixed sm:absolute left-1/2 -translate-x-1/2 sm:translate-x-0 ${align === "right"
-                  ? "sm:right-0 sm:left-auto"
-                  : "sm:left-0 sm:right-auto"
-                } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 w-[80vw] max-w-[340px] sm:w-[360px] bg-white rounded-xl border border-gray-200/90 p-3.5 sm:p-4 shadow-xl sm:shadow-lg max-h-[92vh] overflow-y-auto`
+                : align === "center" || centerModal
+                  ? "fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[140] w-[90vw] max-w-[360px] bg-white rounded-2xl border border-gray-200 p-4 shadow-2xl max-h-[92vh] overflow-y-auto"
+                  : `fixed sm:absolute left-1/2 -translate-x-1/2 sm:translate-x-0 ${align === "right"
+                    ? "sm:right-0 sm:left-auto"
+                    : "sm:left-0 sm:right-auto"
+                  } top-1/2 -translate-y-1/2 sm:translate-y-0 sm:top-[calc(100%+6px)] z-[130] sm:z-50 w-[80vw] max-w-[340px] sm:w-[360px] bg-white rounded-xl border border-gray-200/90 p-3.5 sm:p-4 shadow-xl sm:shadow-lg max-h-[92vh] overflow-y-auto`
             }
           >
 
@@ -328,7 +334,7 @@ export default function BankingDatePicker({
             {/* ─── Single Month Calendar Body ─── */}
             <div className="relative">
               {/* Month Title & Fast Nav */}
-              <div className="mb-2 px-1 flex items-center justify-between relative">
+              <div className="mb-4 px-1 flex items-center justify-between relative">
                 <button
                   type="button"
                   onClick={() => setIsMonthPickerOpen((prev) => !prev)}
@@ -341,7 +347,7 @@ export default function BankingDatePicker({
                   <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1877F2]" />
                 </button>
 
-                {/* Left & Right Nav Chevrons */}
+                {/* Left & Right Nav Chevrons + Close button */}
                 <div className="flex items-center gap-1">
                   <button
                     type="button"
@@ -363,6 +369,16 @@ export default function BankingDatePicker({
                   >
                     <ChevronRight className="w-4 h-4 stroke-[2.5]" />
                   </button>
+                  {!inline && (
+                    <button
+                      type="button"
+                      onClick={handleClose}
+                      className="w-6 h-6 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 flex items-center justify-center transition-colors cursor-pointer ml-1"
+                      aria-label="Close Calendar"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
                 </div>
 
                 {/* Quick Month & Year Picker Dropdown */}

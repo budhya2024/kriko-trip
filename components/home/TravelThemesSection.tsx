@@ -69,7 +69,7 @@ export default function TravelThemesSection() {
         {/* ─── Header: Using section-title class with normal font weight ─── */}
         <div className="mb-6 md:mb-8 text-left">
           <h2 className="section-title">
-            Choose Your Travel Theme
+            Kriko Trips Travel Theme
           </h2>
         </div>
 
@@ -79,9 +79,8 @@ export default function TravelThemesSection() {
             <Link
               key={theme.id}
               href={theme.href}
-              className={`group relative rounded-md overflow-hidden bg-gray-100 ${
-                index === themes.length - 1 ? "col-span-2 lg:col-span-4" : theme.colSpan
-              } ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
+              className={`group relative rounded-md overflow-hidden bg-gray-100 ${index === themes.length - 1 ? "col-span-2 lg:col-span-4" : theme.colSpan
+                } ${theme.heightClass} transition-all duration-300 transform active:scale-[0.99] cursor-pointer`}
             >
               {/* Background Photo */}
               <Image

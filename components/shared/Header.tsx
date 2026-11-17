@@ -26,9 +26,28 @@ const travelPackageSubItems = [
   "Family Vacation",
   "Adventure Trekking",
   "Luxury Cruise",
-  "Wildlife Safari",
+  "Group Tour",
   "Weekend Getaway",
 ];
+
+const getTravelPackageUrl = (item: string) => {
+  switch (item) {
+    case "Group Tour":
+      return "/tour-packages?type=Group";
+    case "Honeymoon Special":
+      return "/tour-packages?type=Honeymoon";
+    case "Family Vacation":
+      return "/tour-packages?type=Family";
+    case "Adventure Trekking":
+      return "/tour-packages?theme=Adventure";
+    case "Luxury Cruise":
+      return "/tour-packages?theme=Beaches";
+    case "Weekend Getaway":
+      return "/tour-packages?duration=3-4";
+    default:
+      return "/tour-packages";
+  }
+};
 
 const navItems = [
   {
@@ -415,7 +434,7 @@ export default function Header() {
                         {item.subItems.map((subItem) => (
                           <Link
                             key={subItem}
-                            href="/tour-packages"
+                            href={getTravelPackageUrl(subItem)}
                             className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
                           >
                             {subItem}
@@ -693,7 +712,7 @@ export default function Header() {
                 {travelPackageSubItems.map((pkg) => (
                   <Link
                     key={pkg}
-                    href="#"
+                    href={getTravelPackageUrl(pkg)}
                     onClick={() => setIsMobileDrawerOpen(false)}
                     className="block text-sm font-medium text-gray-600 hover:text-blue-600 py-1"
                   >

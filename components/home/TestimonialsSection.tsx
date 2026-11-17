@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { Quote } from "lucide-react";
+import { MdVerifiedUser } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 
@@ -150,7 +151,7 @@ function TestimonialCard({
       className={`${isMobile
         ? "w-full h-[255px] sm:h-[270px] shadow-xs"
         : `${item.width || "w-[340px] sm:w-[370px]"} h-[265px] sm:h-[280px] shrink-0`
-        } bg-white rounded-2xl p-5 sm:p-7 border-0 flex flex-col justify-between select-none cursor-pointer`}
+        } bg-white rounded-lg p-5 sm:p-7 border-0 flex flex-col justify-between select-none cursor-pointer`}
     >
       <div>
         {/* Star Rating in Logo Color */}
@@ -188,9 +189,12 @@ function TestimonialCard({
           />
         </div>
         <div className="flex flex-col text-left">
-          <span className="text-[14px] font-semibold text-gray-900 leading-tight">
-            {item.name}
-          </span>
+          <div className="flex items-center gap-1">
+            <span className="text-[14px] font-semibold text-gray-900 leading-tight">
+              {item.name}
+            </span>
+            <MdVerifiedUser className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+          </div>
           <span className="text-[11.5px] font-normal text-gray-400 mt-0.5">
             {item.role}
           </span>
@@ -234,7 +238,7 @@ export default function TestimonialsSection() {
             </p>
 
             {/* Big Featured Testimonial Card (Hidden on mobile, visible on desktop lg+) */}
-            <div className="hidden lg:block bg-white rounded-2xl p-6 sm:p-8 border-0 shadow-xs relative mt-6 sm:mt-10">
+            <div className="hidden lg:block bg-white rounded-lg p-6 sm:p-8 border-0 shadow-xs relative mt-6 sm:mt-10">
               {/* Decorative Large Quote Icon */}
               <div className="absolute top-6 right-6 text-blue-100 pointer-events-none">
                 <Quote className="w-10 h-10 sm:w-12 sm:h-12 rotate-180" />
@@ -282,7 +286,8 @@ export default function TestimonialsSection() {
                   <span className="text-[14.5px] sm:text-base font-semibold text-gray-900 leading-tight">
                     Alexander Wright
                   </span>
-                  <span className="text-[11.5px] sm:text-[12.5px] text-gray-400 font-normal mt-0.5">
+                  <span className="text-[11.5px] sm:text-[12.5px] text-gray-500 font-normal mt-0.5 inline-flex items-center gap-1">
+                    <MdVerifiedUser className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                     Verified KrikoTrip Traveler • Family Tour
                   </span>
                 </div>

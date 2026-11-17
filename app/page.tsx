@@ -8,6 +8,7 @@ import {
   TrendingDealsVideoSlider,
   PopularPackages,
   TravelThemesSection,
+  HoneymoonSpecialsSection,
   GallerySection,
   TravelInspirations,
   TestimonialsSection,
@@ -36,6 +37,8 @@ export default function Home() {
         <TopDestinations />
 
         <TravelThemesSection />
+
+        <HoneymoonSpecialsSection />
 
         <Suspense fallback={null}>
           <PopularPackages />

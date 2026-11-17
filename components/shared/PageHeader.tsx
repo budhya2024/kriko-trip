@@ -38,7 +38,7 @@ export default function PageHeader({
       {/* Content Container (Left-Aligned) */}
       <div className="container relative z-20 text-left px-6 sm:px-10 lg:px-12">
         {/* Page Title */}
-        <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-white tracking-tight leading-tight">
+        <h1 className="text-2xl sm:text-3xl lg:text-4xl  font-bold text-white tracking-wide leading-whide">
           {title}
         </h1>
 
@@ -61,7 +61,7 @@ export default function PageHeader({
             Home
           </Link>
           <ChevronRight className="w-3.5 h-3.5 text-white/50 shrink-0" />
-          <span className="text-sky-300 font-semibold">
+          <span className="text-white font-semibold">
             {currentBreadcrumb}
           </span>
         </nav>

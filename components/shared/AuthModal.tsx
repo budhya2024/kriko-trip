@@ -19,6 +19,7 @@ import {
 import { useAuth } from "./AuthContext";
 import CountryPhoneSelect from "./CountryPhoneSelect";
 import { useScrollLock } from "./useScrollLock";
+import { MdVerifiedUser } from "react-icons/md";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -526,8 +527,8 @@ export default function AuthModal({
                     {countryCode} {phoneNumber}
                   </span>
                 </div>
-                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
-                  <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600">
+                  <MdVerifiedUser className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                   Verified
                 </span>
               </div>

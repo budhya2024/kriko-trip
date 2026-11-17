@@ -116,15 +116,12 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                     Blogs
                   </Link>
                   <span className="text-white/40">/</span>
-                  <span className="text-sky-300 font-medium truncate max-w-xs sm:max-w-md">
+                  <span className="text-white font-medium truncate max-w-xs sm:max-w-md">
                     {post.title}
                   </span>
                 </nav>
 
-                {/* Hero Title */}
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white tracking-tight leading-snug">
-                  {post.title}
-                </h1>
+
               </div>
 
             </div>

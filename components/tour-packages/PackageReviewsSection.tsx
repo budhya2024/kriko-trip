@@ -15,6 +15,7 @@ import {
 import { useAuth } from "@/components/shared/AuthContext";
 import AuthModal from "@/components/shared/AuthModal";
 import { useScrollLock } from "@/components/shared/useScrollLock";
+import { MdVerifiedUser } from "react-icons/md";
 
 export interface PackageReview {
   id: string;
@@ -184,15 +185,16 @@ export default function PackageReviewsSection({
           <h2 className="text-[22px] sm:text-[26px] font-semibold text-gray-900 mb-4 tracking-tight">
             Traveler Reviews
           </h2>
-          <p className="text-xs sm:text-sm text-gray-500 mt-0.5 font-normal">
-            Verified experiences from travelers who booked {packageTitle}
+          <p className="text-xs sm:text-sm text-gray-500 mt-0.5 font-normal flex items-center gap-1.5">
+
+            <span>Verified experiences from travelers who booked {packageTitle}</span>
           </p>
         </div>
 
         <button
           type="button"
           onClick={() => setIsWritingReview(true)}
-          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-gray-200 hover:border-[#1877F2] bg-white hover:bg-blue-50/40 text-[#00285C] text-xs sm:text-sm font-medium shadow-2xs transition-colors cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-sm border border-gray-200 hover:border-[#1877F2] bg-white hover:bg-blue-50/40 text-[#00285C] text-xs sm:text-sm font-medium shadow-2xs transition-colors cursor-pointer"
         >
           <MessageSquarePlus className="w-4 h-4 text-[#1877F2]" />
           <span>Share Your Experience</span>
@@ -232,15 +234,13 @@ export default function PackageReviewsSection({
                 >
                   Share Your Experience
                 </h3>
-                <p className="text-xs text-gray-500 truncate mt-0.5">
-                  {destination}
-                </p>
+
               </div>
               <button
                 type="button"
                 onClick={() => setIsWritingReview(false)}
                 aria-label="Close modal"
-                className="w-8 h-8 rounded-lg hover:bg-gray-200/80 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                className="w-8 h-8 rounded-full hover:bg-gray-200/80 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -264,7 +264,7 @@ export default function PackageReviewsSection({
                   <button
                     type="button"
                     onClick={() => setIsWritingReview(false)}
-                    className="px-4 py-2.5 rounded-lg border border-gray-200 hover:bg-gray-50 text-xs sm:text-sm font-medium text-gray-700 transition-colors cursor-pointer"
+                    className="px-4 py-2.5 rounded-sm border border-gray-200 hover:bg-gray-50 text-xs sm:text-sm font-medium text-gray-700 transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -274,7 +274,7 @@ export default function PackageReviewsSection({
                       setIsWritingReview(false);
                       setIsAuthModalOpen(true);
                     }}
-                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-sm font-medium shadow-2xs transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-sm bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-sm font-medium shadow-2xs transition-colors cursor-pointer"
                   >
                     <LogIn className="w-4 h-4" />
                     <span>Sign In to Review</span>
@@ -288,7 +288,7 @@ export default function PackageReviewsSection({
                 className="p-5 space-y-4 overflow-y-auto"
               >
                 {/* Auto-Selected Package */}
-                <div className="flex items-center justify-between gap-2.5 px-3 py-2.5 rounded-lg bg-blue-50/70 border border-blue-100">
+                <div className="flex items-center justify-between gap-2.5 px-3 py-2.5 rounded-sm bg-blue-50/70 border border-blue-100">
                   <div className="min-w-0">
                     <span className="block text-[10px] uppercase tracking-wider text-gray-500 font-medium">
                       Selected Package
@@ -297,11 +297,11 @@ export default function PackageReviewsSection({
                       {packageTitle}
                     </span>
                   </div>
-                  <CheckCircle2 className="w-4 h-4 text-[#1877F2] shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-green-600 shrink-0" />
                 </div>
 
                 {/* Overall Rating */}
-                <div className="flex items-center justify-between p-3 rounded-lg bg-[#F8FAFC] border border-gray-200/80">
+                <div className="flex items-center justify-between p-3 rounded-sm bg-[#F8FAFC] border border-gray-200/80">
                   <span className="text-xs sm:text-sm font-medium text-gray-700">
                     Overall Rating <span className="text-red-500">*</span>
                   </span>
@@ -316,8 +316,8 @@ export default function PackageReviewsSection({
                       >
                         <Star
                           className={`w-5 h-5 sm:w-5.5 sm:h-5.5 ${star <= reviewRating
-                              ? "text-[#F59E0B] fill-[#F59E0B]"
-                              : "text-gray-300"
+                            ? "text-[#F59E0B] fill-[#F59E0B]"
+                            : "text-gray-300"
                             }`}
                         />
                       </button>
@@ -336,7 +336,7 @@ export default function PackageReviewsSection({
                     placeholder="Tell other travelers about your trip experience, hotels, transfers, and highlights..."
                     value={reviewDescription}
                     onChange={(e) => setReviewDescription(e.target.value)}
-                    className="w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:border-[#1877F2] bg-white text-xs sm:text-sm text-gray-800 outline-none resize-none"
+                    className="w-full px-3 py-2.5 rounded-sm border border-gray-300 focus:border-[#1877F2] bg-white text-xs sm:text-sm text-gray-800 outline-none resize-none"
                   />
                 </div>
 
@@ -345,13 +345,13 @@ export default function PackageReviewsSection({
                   <button
                     type="button"
                     onClick={() => setIsWritingReview(false)}
-                    className="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-xs sm:text-sm font-medium text-gray-700 transition-colors cursor-pointer"
+                    className="px-4 py-2 rounded-sm border border-gray-200 hover:bg-gray-50 text-xs sm:text-sm font-medium text-gray-700 transition-colors cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="inline-flex items-center gap-1.5 px-5 py-2 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-sm font-medium shadow-2xs transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 px-5 py-2 rounded-sm bg-[#1877F2] hover:bg-[#00285C] text-white text-xs sm:text-sm font-medium shadow-2xs transition-colors cursor-pointer"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>Submit Review</span>
@@ -387,16 +387,16 @@ export default function PackageReviewsSection({
                   <Star
                     key={star}
                     className={`w-4 h-4 ${star <= Math.round(rating)
-                        ? "text-[#F59E0B] fill-[#F59E0B]"
-                        : "text-gray-300"
+                      ? "text-[#F59E0B] fill-[#F59E0B]"
+                      : "text-gray-300"
                       }`}
                   />
                 ))}
               </div>
             </div>
             <div className="text-right sm:text-left">
-              <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-50 border border-emerald-200/70 px-2 py-0.5 rounded-md">
-                <UserCheck className="w-3 h-3" />
+              <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600">
+                <MdVerifiedUser className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                 Verified Ratings
               </span>
               <p className="text-[11px] sm:text-xs text-gray-500 mt-1">
@@ -451,9 +451,9 @@ export default function PackageReviewsSection({
                         {review.author}
                       </span>
                       {review.verified && (
-                        <span className="inline-flex items-center gap-0.5 text-[10.5px] font-medium text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
-                          <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                          Verified
+                        <span className="inline-flex items-center gap-1 text-[11px] font-medium text-emerald-600">
+                          <MdVerifiedUser className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                          <span>Verified</span>
                         </span>
                       )}
                     </div>
@@ -498,8 +498,8 @@ export default function PackageReviewsSection({
                   type="button"
                   onClick={() => handleToggleHelpful(review.id)}
                   className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border text-[11px] font-medium transition-colors cursor-pointer ${isHelpful
-                      ? "bg-blue-50 border-blue-200 text-[#1877F2]"
-                      : "bg-white border-gray-200 text-gray-500 hover:text-gray-800 hover:bg-gray-50"
+                    ? "bg-blue-50 border-blue-200 text-[#1877F2]"
+                    : "bg-white border-gray-200 text-gray-500 hover:text-gray-800 hover:bg-gray-50"
                     }`}
                 >
                   <ThumbsUp className="w-3 h-3" />
@@ -517,7 +517,7 @@ export default function PackageReviewsSection({
           <button
             type="button"
             onClick={() => setShowAllReviews((prev) => !prev)}
-            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 hover:border-[#1877F2] bg-white hover:bg-blue-50/40 text-xs sm:text-sm font-medium text-gray-700 hover:text-[#1877F2] transition-colors cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-4 py-2 rounded-sm border border-gray-200 hover:border-[#1877F2] bg-white hover:bg-blue-50/40 text-xs sm:text-sm font-medium text-gray-700 hover:text-[#1877F2] transition-colors cursor-pointer"
           >
             {showAllReviews
               ? "Show Fewer Reviews"

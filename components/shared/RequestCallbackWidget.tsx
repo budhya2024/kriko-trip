@@ -240,7 +240,7 @@ export default function RequestCallbackWidget() {
                 type="button"
                 onClick={handleCloseModal}
                 aria-label="Close modal"
-                className="w-8 h-8 rounded-lg hover:bg-gray-200/80 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                className="w-8 h-8 rounded-full hover:bg-gray-200/80 text-gray-500 hover:text-gray-800 flex items-center justify-center transition-colors cursor-pointer shrink-0"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -387,17 +387,16 @@ export default function RequestCallbackWidget() {
                 {/* Destination / Package Interest (Optional) */}
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
-                    Destination / Query <span className="text-gray-400 font-normal">(Optional)</span>
+                    Query <span className="text-gray-400 font-normal">(Optional)</span>
                   </label>
-                  <div className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <div className="flex items-center gap-2.5 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
                     <MapPin className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="text"
-                      placeholder="e.g. Andaman, Kashmir, Kerala..."
-                      value={formData.destination}
-                      onChange={(e) =>
-                        setFormData({ ...formData, destination: e.target.value })
-                      }
+                      placeholder="describe deatils"
+
+
+
                       className="w-full text-xs sm:text-sm text-gray-800 outline-none bg-transparent placeholder:text-gray-400 font-normal"
                     />
                   </div>

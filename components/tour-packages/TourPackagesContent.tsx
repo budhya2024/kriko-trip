@@ -198,7 +198,7 @@ export default function TourPackagesContent() {
   };
 
   return (
-    <section className="w-full bg-[#f8f9fb] py-10 sm:py-14 lg:py-16">
+    <section className="w-full bg-[#f8f9fb] py-8 md:py-16">
       <div className="container">
         {/* ─── Top Bar: Results Count & Mobile Filter Toggle (Sticky on Mobile) ─── */}
         <div className="sticky top-0 z-30 bg-[#f8f9fb]/95 backdrop-blur-sm -mx-4 px-4 py-3 border-b border-gray-200/70 mb-4 lg:static lg:z-auto lg:bg-transparent lg:backdrop-blur-none lg:mx-0 lg:px-0 lg:py-0 lg:border-b-0 lg:mb-6 flex items-center justify-between gap-4">
