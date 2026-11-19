@@ -26,6 +26,7 @@ import {
   RotateCcw,
   Plus,
   Minus,
+  Send,
 } from "lucide-react";
 import { MdVerifiedUser } from "react-icons/md";
 import CountryPhoneSelect from "./CountryPhoneSelect";
@@ -100,10 +101,10 @@ export function TourListFloatingCallbackButton() {
 }
 
 const DURATION_OPTIONS = [
-  { id: "3-5", label: "3-5 Days", subtext: "Quick Getaway" },
-  { id: "6-8", label: "6-8 Days", subtext: "Popular Choice" },
-  { id: "9-12", label: "9-12 Days", subtext: "Extended Holiday" },
-  { id: "13+", label: "13+ Days", subtext: "Grand Tour" },
+  { id: "3-4", label: "3-4 Days" },
+  { id: "5-6", label: "5-6 Days", isRecommended: true },
+  { id: "7-8", label: "7-8 Days" },
+  { id: "8-10", label: "8-10 Days" },
 ];
 
 const PREFERRED_TRAVEL_OPTIONS = [
@@ -128,6 +129,18 @@ const SERVICE_OPTIONS = [
   { id: "insurance", label: "Travel Insurance", icon: ShieldCheck },
   { id: "esim", label: "eSIM", icon: Smartphone },
 ];
+
+const isEmailValid = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+};
+
+const isPhoneValid = (phone: string, code: string) => {
+  const digits = phone.replace(/[^0-9]/g, "");
+  if (code === "+91") {
+    return digits.length === 10;
+  }
+  return digits.length >= 7 && digits.length <= 15;
+};
 
 /**
  * Global Request a Call Back modal powered by the unified 5-step enquiry form.
@@ -267,8 +280,8 @@ export default function RequestCallbackWidget() {
     );
   };
 
-  const handleFinalSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleFinalSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (currentStep < 5) {
       handleNext();
       return;
@@ -444,7 +457,12 @@ export default function RequestCallbackWidget() {
               ) : (
                 /* ═══ 5-STEP FORM (Fixed 420px Height Layout) ═══ */
                 <form
-                  onSubmit={handleFinalSubmit}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (currentStep < 5) {
+                      handleNext();
+                    }
+                  }}
                   className="flex flex-col justify-between h-[420px] max-h-[420px]"
                 >
                   {/* Step Header & Progress Bar */}
@@ -515,19 +533,28 @@ export default function RequestCallbackWidget() {
                             <div className="h-5 w-[1px] bg-gray-200 shrink-0" />
                             <input
                               type="tel"
+                              maxLength={countryCode === "+91" ? 10 : 15}
                               placeholder="9876543210"
                               value={formData.phone}
                               onChange={(e) => {
-                                setFormData({
-                                  ...formData,
-                                  phone: e.target.value.replace(/[^0-9]/g, ""),
-                                });
+                                const maxLen = countryCode === "+91" ? 10 : 15;
+                                const clean = e.target.value.replace(/[^0-9]/g, "").slice(0, maxLen);
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  phone: clean,
+                                }));
                                 if (step1Errors.phone) {
                                   setStep1Errors((prev) => ({ ...prev, phone: "" }));
                                 }
                               }}
-                              className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal"
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") e.preventDefault();
+                              }}
+                              className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal min-w-0"
                             />
+                            {isPhoneValid(formData.phone, countryCode) && (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 animate-in zoom-in-75 duration-200" />
+                            )}
                           </div>
                           {step1Errors.phone && (
                             <p className="text-[11px] text-red-500 mt-1">
@@ -548,13 +575,19 @@ export default function RequestCallbackWidget() {
                               placeholder="you@example.com"
                               value={formData.email}
                               onChange={(e) => {
-                                setFormData({ ...formData, email: e.target.value });
+                                setFormData((prev) => ({ ...prev, email: e.target.value }));
                                 if (step1Errors.email) {
                                   setStep1Errors((prev) => ({ ...prev, email: "" }));
                                 }
                               }}
-                              className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal"
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter") e.preventDefault();
+                              }}
+                              className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal min-w-0"
                             />
+                            {isEmailValid(formData.email) && (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 animate-in zoom-in-75 duration-200" />
+                            )}
                           </div>
                           {step1Errors.email && (
                             <p className="text-[11px] text-red-500 mt-1">
@@ -639,14 +672,14 @@ export default function RequestCallbackWidget() {
                       </div>
                     )}
 
-                    {/* ═══ STEP 2: DURATION ═══ */}
+                    {/* ═══ STEP 2: DURATION (Show one by one) ═══ */}
                     {currentStep === 2 && (
                       <div className="space-y-3">
                         <div>
-                          <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">
+                          <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-2">
                             How long are you planning to travel for?
                           </h4>
-                          <div className="grid grid-cols-2 gap-2">
+                          <div className="space-y-2">
                             {DURATION_OPTIONS.map((opt) => {
                               const isSelected = selectedDuration === opt.label;
                               return (
@@ -654,13 +687,13 @@ export default function RequestCallbackWidget() {
                                   key={opt.id}
                                   type="button"
                                   onClick={() => setSelectedDuration(opt.label)}
-                                  className={`py-2 px-2.5 rounded-lg border text-left flex items-center justify-between transition-colors cursor-pointer outline-none focus:outline-none ${
+                                  className={`w-full py-2.5 px-3 rounded-lg border text-left flex items-center justify-between transition-colors cursor-pointer outline-none focus:outline-none ${
                                     isSelected
                                       ? "border-[#1877F2] bg-blue-50/20"
                                       : "border-gray-200 hover:border-gray-300 bg-white"
                                   }`}
                                 >
-                                  <div className="flex items-center gap-2 min-w-0">
+                                  <div className="flex items-center gap-2.5 min-w-0">
                                     <div
                                       className={`w-4.5 h-4.5 rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-all ${
                                         isSelected
@@ -672,10 +705,16 @@ export default function RequestCallbackWidget() {
                                         <div className="w-2 h-2 rounded-full bg-[#1877F2]" />
                                       )}
                                     </div>
-                                    <span className="text-xs sm:text-sm text-gray-800 font-normal truncate">
+                                    <span className="text-xs sm:text-sm text-gray-800 font-normal">
                                       {opt.label}
                                     </span>
                                   </div>
+
+                                  {opt.isRecommended && (
+                                    <span className="text-[9.5px] font-bold text-emerald-700 uppercase tracking-wider shrink-0 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
+                                      Suggested
+                                    </span>
+                                  )}
                                 </button>
                               );
                             })}
@@ -903,33 +942,56 @@ export default function RequestCallbackWidget() {
                       </button>
                     )}
 
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="flex-1 py-2.5 px-4 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer outline-none focus:outline-none shadow-xs disabled:opacity-70"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                          <span>Submitting...</span>
-                        </>
-                      ) : currentStep < 5 ? (
-                        <>
-                          <span>
-                            {currentStep === 1
-                              ? "Next: Trip Duration"
-                              : currentStep === 2
-                              ? "Next: Travel Mode"
-                              : currentStep === 3
-                              ? "Next: Accommodation"
-                              : "Next: Review & Submit"}
-                          </span>
-                          <ChevronRight className="w-3.5 h-3.5" />
-                        </>
-                      ) : (
-                        <span>Submit Callback Request</span>
-                      )}
-                    </button>
+                    {currentStep < 5 ? (
+                      <button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="flex-1 py-2.5 px-4 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer outline-none focus:outline-none shadow-xs disabled:opacity-70"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span>Submitting...</span>
+                          </>
+                        ) : currentStep === 1 ? (
+                          <>
+                            <Send className="w-3.5 h-3.5" />
+                            <span>Send Enquiry</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>
+                              {currentStep === 2
+                                ? "Next: Travel Mode"
+                                : currentStep === 3
+                                ? "Next: Accommodation"
+                                : "Next: Review & Submit"}
+                            </span>
+                            <ChevronRight className="w-3.5 h-3.5" />
+                          </>
+                        )}
+                      </button>
+                    ) : (
+                      /* Step 5: Manual submit click only */
+                      <button
+                        type="button"
+                        onClick={() => handleFinalSubmit()}
+                        disabled={isSubmitting}
+                        className="flex-1 py-2.5 px-4 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-sm font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer outline-none focus:outline-none shadow-xs disabled:opacity-70"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                            <span>Submitting...</span>
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-3.5 h-3.5" />
+                            <span>Submit Details</span>
+                          </>
+                        )}
+                      </button>
+                    )}
                   </div>
                 </form>
               )}

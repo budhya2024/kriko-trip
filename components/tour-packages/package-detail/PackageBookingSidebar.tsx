@@ -12,6 +12,7 @@ import {
   Phone,
   Mail,
   Check,
+  CheckCircle2,
   ChevronLeft,
   ArrowRight,
   Plus,
@@ -97,6 +98,18 @@ const SERVICE_OPTIONS = [
   { id: "esim", label: "eSIM", icon: Smartphone },
 ];
 
+const isEmailValid = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+};
+
+const isPhoneValid = (phone: string, code: string) => {
+  const digits = phone.replace(/[^0-9]/g, "");
+  if (code === "+91") {
+    return digits.length === 10;
+  }
+  return digits.length >= 7 && digits.length <= 15;
+};
+
 /**
  * Renders the package booking sidebar card with a self-contained multi-step flow.
  * Consistent input font sizes, no outline halos, no travel date dropdown.
@@ -167,13 +180,8 @@ export default function PackageBookingSidebar({
   const [mounted, setMounted] = useState<boolean>(false);
   const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
-  // Automatically open the booking enquiry modal after 5 seconds on the travel details page
   useEffect(() => {
     setMounted(true);
-    const timer = setTimeout(() => {
-      setIsPopupOpen(true);
-    }, 5000);
-    return () => clearTimeout(timer);
   }, []);
 
   const handleClosePopup = () => {
@@ -198,26 +206,29 @@ export default function PackageBookingSidebar({
   }, []);
 
   const scrollToBookingForm = () => {
-    // If mobile viewport (< 1024px), open the popup modal directly
-    if (typeof window !== "undefined" && window.innerWidth < 1024) {
-      setIsPopupOpen(true);
-      return;
-    }
-    if (bookingFormRef.current) {
-      bookingFormRef.current.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-      const firstInput =
-        bookingFormRef.current.querySelector<HTMLInputElement>("input");
+    const el = bookingFormRef.current || document.getElementById("booking-form");
+    if (el) {
+      const yOffset = -85; // offset for sticky header
+      const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+
+      const firstInput = el.querySelector<HTMLInputElement>("input");
       if (firstInput) {
-        setTimeout(() => firstInput.focus({ preventScroll: true }), 450);
+        setTimeout(() => firstInput.focus({ preventScroll: true }), 500);
       }
-    } else {
-      const el = document.getElementById("booking-form");
-      el?.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  useEffect(() => {
+    const handleScrollEvent = () => scrollToBookingForm();
+    window.addEventListener("krikotrip:scroll-to-booking", handleScrollEvent);
+    if (typeof window !== "undefined" && window.location.hash === "#booking-form") {
+      setTimeout(scrollToBookingForm, 350);
+    }
+    return () => {
+      window.removeEventListener("krikotrip:scroll-to-booking", handleScrollEvent);
+    };
+  }, []);
 
   const handleShare = () => {
     if (typeof window !== "undefined") {
@@ -266,7 +277,7 @@ export default function PackageBookingSidebar({
       if (!validateStep1()) return;
     }
     if (currentStep === 3 && totalTravellers === 0) return;
-    if (currentStep < 5) {
+    if (currentStep < 4) {
       setCurrentStep((prev) => prev + 1);
     }
   };
@@ -289,9 +300,9 @@ export default function PackageBookingSidebar({
     );
   };
 
-  const handleFinalSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (currentStep < 5) {
+  const handleFinalSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (currentStep < 4) {
       handleNext();
       return;
     }
@@ -363,26 +374,10 @@ export default function PackageBookingSidebar({
               {preferredTravel === "flights" ? "Flight" : "Train"}
             </span>
           </div>
-          <div className="flex justify-between py-0.5 border-b border-gray-200/60">
-            <span className="text-gray-500">Meal Plan:</span>
-            <span className="font-semibold text-gray-900">
-              {selectedMeal === "all_meals"
-                ? "Include all meals"
-                : "Only breakfast"}
-            </span>
-          </div>
           <div className="flex justify-between py-0.5">
-            <span className="text-gray-500">Services:</span>
+            <span className="text-gray-500">Itinerary Style:</span>
             <span className="font-semibold text-gray-900 capitalize">
-              {selectedServices.length > 0
-                ? selectedServices
-                  .map(
-                    (id) =>
-                      SERVICE_OPTIONS.find((s) => s.id === id)?.label ||
-                      id
-                  )
-                  .join(", ")
-                : "Standard"}
+              {ITINERARY_OPTIONS.find((i) => i.id === selectedItinerary)?.title || "Standard"}
             </span>
           </div>
         </div>
@@ -409,86 +404,93 @@ export default function PackageBookingSidebar({
       </div>
     ) : (
       <form
-        onSubmit={handleFinalSubmit}
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (currentStep < 4) {
+            handleNext();
+          }
+        }}
         className="flex flex-col justify-between h-[420px] max-h-[420px]"
       >
         {/* Step Header & Progress Bar */}
         <div className="pb-1.5 border-b border-gray-100 shrink-0">
           <div className="flex items-center justify-between mb-1">
             <span className="text-xs font-semibold text-[#1877F2]">
-              Step {currentStep} of 5
+              Step {currentStep} of 4
             </span>
             <span className="text-xs text-gray-400">
               {currentStep === 1 && "Contact Details"}
               {currentStep === 2 && "Duration"}
               {currentStep === 3 && "Travellers"}
               {currentStep === 4 && "Itinerary"}
-              {currentStep === 5 && "Meals & Services"}
             </span>
           </div>
           {/* Clean Progress Bar (no outline) */}
           <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
             <div
               className="h-full bg-[#1877F2] rounded-full transition-all duration-300 ease-out"
-              style={{ width: `${(currentStep / 5) * 100}%` }}
+              style={{ width: `${(currentStep / 4) * 100}%` }}
             />
           </div>
         </div>
 
         {/* ─── Scrollable Step Body with Fixed/Consistent Height ─── */}
         <div className="flex-1 py-2 overflow-y-auto min-h-0 pr-0.5">
-          {/* ═══ STEP 1: CONTACT DETAILS (No travel date dropdown) ═══ */}
+          {/* ═══ STEP 1: CONTACT DETAILS (Same form field structure as Callback Modal) ═══ */}
           {currentStep === 1 && (
-          <div className="space-y-3">
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Your Name <span className="text-red-500">*</span>
-              </label>
-              <div className="flex items-center gap-2 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
-                <User className="w-4 h-4 text-gray-400 shrink-0" />
-                <input
-                  type="text"
-                  placeholder="Enter your name"
-                  value={sidebarForm.name}
-                  onChange={(e) => {
-                    setSidebarForm({
-                      ...sidebarForm,
-                      name: e.target.value,
-                    });
-                    if (step1Errors.name) {
-                      setStep1Errors((prev) => ({ ...prev, name: "" }));
-                    }
-                  }}
-                  className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal"
-                />
-              </div>
-              {step1Errors.name && (
-                <p className="text-[11px] text-red-500 mt-1">
-                  {step1Errors.name}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Phone Number <span className="text-red-500">*</span>
-              </label>
-              <div className="relative flex items-center rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
-                <CountryPhoneSelect
-                  value={countryCode}
-                  onChange={(code) => setCountryCode(code)}
-                  buttonClassName="rounded-l-lg py-3 border-none outline-none focus:outline-none"
-                />
-                <div className="flex items-center gap-2 px-3 py-2 flex-1 min-w-0">
-                  <Phone className="w-3.5 h-3.5 text-gray-400 shrink-0" />
+            <div className="space-y-3">
+              {/* Name */}
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  Your Name <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-2 px-3 h-[46px] rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <User className="w-4 h-4 text-gray-400 shrink-0" />
                   <input
-                    type="tel"
-                    placeholder="Enter your number"
-                    value={sidebarForm.phone}
+                    type="text"
+                    placeholder="e.g. Rahul Sharma"
+                    value={sidebarForm.name}
                     onChange={(e) => {
                       setSidebarForm({
                         ...sidebarForm,
-                        phone: e.target.value,
+                        name: e.target.value,
+                      });
+                      if (step1Errors.name) {
+                        setStep1Errors((prev) => ({ ...prev, name: "" }));
+                      }
+                    }}
+                    className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal"
+                  />
+                </div>
+                {step1Errors.name && (
+                  <p className="text-[11px] text-red-500 mt-1">
+                    {step1Errors.name}
+                  </p>
+                )}
+              </div>
+
+              {/* Phone Number */}
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-2 px-3 h-[46px] rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <CountryPhoneSelect
+                    value={countryCode}
+                    onChange={(code) => setCountryCode(code)}
+                  />
+                  <div className="h-5 w-[1px] bg-gray-200 shrink-0" />
+                  <input
+                    type="tel"
+                    maxLength={countryCode === "+91" ? 10 : 15}
+                    placeholder="9876543210"
+                    value={sidebarForm.phone}
+                    onChange={(e) => {
+                      const maxLen = countryCode === "+91" ? 10 : 15;
+                      const clean = e.target.value.replace(/[^0-9]/g, "").slice(0, maxLen);
+                      setSidebarForm({
+                        ...sidebarForm,
+                        phone: clean,
                       });
                       if (step1Errors.phone) {
                         setStep1Errors((prev) => ({
@@ -497,434 +499,398 @@ export default function PackageBookingSidebar({
                         }));
                       }
                     }}
-                    className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal min-w-0"
-                  />
-                </div>
-              </div>
-              {step1Errors.phone && (
-                <p className="text-[11px] text-red-500 mt-1">
-                  {step1Errors.phone}
-                </p>
-              )}
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1">
-                Email Address <span className="text-red-500">*</span>
-              </label>
-              <div className="flex items-center gap-2 px-3 py-3 rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
-                <Mail className="w-4 h-4 text-gray-400 shrink-0" />
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={sidebarForm.email}
-                  onChange={(e) => {
-                    setSidebarForm({
-                      ...sidebarForm,
-                      email: e.target.value,
-                    });
-                    if (step1Errors.email) {
-                      setStep1Errors((prev) => ({
-                        ...prev,
-                        email: "",
-                      }));
-                    }
-                  }}
-                  className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal"
-                />
-              </div>
-              {step1Errors.email && (
-                <p className="text-[11px] text-red-500 mt-1">
-                  {step1Errors.email}
-                </p>
-              )}
-            </div>
-
-            {/* Travel Date & Guest Number Row */}
-            <div className="grid grid-cols-2 gap-2">
-              {/* Travel Date */}
-              <div className="min-w-0">
-                <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
-                  Travel Date <span className="text-red-500">*</span>
-                </label>
-                <BankingDatePicker
-                  value={sidebarForm.travelDate}
-                  onChange={(dateStr) => {
-                    setSidebarForm((prev) => ({
-                      ...prev,
-                      travelDate: dateStr,
-                    }));
-                    if (step1Errors.travelDate) {
-                      setStep1Errors((prev) => ({
-                        ...prev,
-                        travelDate: "",
-                      }));
-                    }
-                  }}
-                  placeholder="Select Date"
-                  className="w-full"
-                  align="center"
-                  centerModal={true}
-                />
-                {step1Errors.travelDate && (
-                  <p className="text-[11px] text-red-500 mt-1">
-                    {step1Errors.travelDate}
-                  </p>
-                )}
-              </div>
-
-              {/* Guest Number */}
-              <div className="min-w-0">
-                <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
-                  Number of Guests <span className="text-red-500">*</span>
-                </label>
-                <div className="flex items-center gap-2 px-3 h-[46px] rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
-                  <Users className="w-4 h-4 text-gray-400 shrink-0" />
-                  <input
-                    type="number"
-                    min="1"
-                    max="99"
-                    placeholder="e.g. 2"
-                    value={sidebarForm.guests || ""}
-                    onChange={(e) => {
-                      const val = e.target.value === "" ? 0 : parseInt(e.target.value);
-                      setSidebarForm((prev) => ({
-                        ...prev,
-                        guests: val,
-                      }));
-                      if (val > 0) {
-                        setAdults(val);
-                      }
-                      if (step1Errors.guests) {
-                        setStep1Errors((prev) => ({
-                          ...prev,
-                          guests: "",
-                        }));
-                      }
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.preventDefault();
                     }}
                     className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal min-w-0"
                   />
+                  {isPhoneValid(sidebarForm.phone, countryCode) && (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 animate-in zoom-in-75 duration-200" />
+                  )}
                 </div>
-                {step1Errors.guests && (
+                {step1Errors.phone && (
                   <p className="text-[11px] text-red-500 mt-1">
-                    {step1Errors.guests}
+                    {step1Errors.phone}
                   </p>
                 )}
               </div>
-            </div>
-          </div>
-        )}
 
-        {/* ═══ STEP 2: DURATION ═══ */}
-        {currentStep === 2 && (
-          <div className="space-y-3">
-            {/* Duration Selection */}
-            <div>
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">
-                How long are you planning to travel for?
-              </h4>
+              {/* Email Address */}
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1">
+                  Email Address <span className="text-red-500">*</span>
+                </label>
+                <div className="flex items-center gap-2 px-3 h-[46px] rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                  <Mail className="w-4 h-4 text-gray-400 shrink-0" />
+                  <input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={sidebarForm.email}
+                    onChange={(e) => {
+                      setSidebarForm({
+                        ...sidebarForm,
+                        email: e.target.value,
+                      });
+                      if (step1Errors.email) {
+                        setStep1Errors((prev) => ({
+                          ...prev,
+                          email: "",
+                        }));
+                      }
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") e.preventDefault();
+                    }}
+                    className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal min-w-0"
+                  />
+                  {isEmailValid(sidebarForm.email) && (
+                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 animate-in zoom-in-75 duration-200" />
+                  )}
+                </div>
+                {step1Errors.email && (
+                  <p className="text-[11px] text-red-500 mt-1">
+                    {step1Errors.email}
+                  </p>
+                )}
+              </div>
+
+              {/* Travel Date & Guest Number Row */}
               <div className="grid grid-cols-2 gap-2">
-                {DURATION_OPTIONS.map((opt) => {
-                  const isSelected = selectedDuration === opt.label;
-                  return (
-                    <button
-                      key={opt.id}
-                      type="button"
-                      onClick={() => setSelectedDuration(opt.label)}
-                      className={`py-2 px-2.5 rounded-lg border text-left flex items-center justify-between transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
-                        ? "border-[#1877F2] bg-blue-50/20"
-                        : "border-gray-200 hover:border-gray-300 bg-white"
-                        }`}
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <div
-                          className={`w-4.5 h-4.5 rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-all ${isSelected
-                            ? "border-[#1877F2] bg-white shadow-2xs"
-                            : "border-gray-300 bg-white hover:border-gray-400"
-                            }`}
-                        >
-                          {isSelected && (
-                            <div className="w-2 h-2 rounded-full bg-[#1877F2]" />
-                          )}
-                        </div>
-                        <span className="text-xs sm:text-sm text-gray-800 font-normal truncate">
-                          {opt.label}
-                        </span>
-                      </div>
+                {/* Travel Date */}
+                <div className="min-w-0">
+                  <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
+                    Travel Date <span className="text-red-500">*</span>
+                  </label>
+                  <BankingDatePicker
+                    value={sidebarForm.travelDate}
+                    onChange={(dateStr) => {
+                      setSidebarForm((prev) => ({
+                        ...prev,
+                        travelDate: dateStr,
+                      }));
+                      if (step1Errors.travelDate) {
+                        setStep1Errors((prev) => ({
+                          ...prev,
+                          travelDate: "",
+                        }));
+                      }
+                    }}
+                    placeholder="Select Date"
+                    className="w-full"
+                    align="center"
+                    centerModal={true}
+                  />
+                  {step1Errors.travelDate && (
+                    <p className="text-[11px] text-red-500 mt-1">
+                      {step1Errors.travelDate}
+                    </p>
+                  )}
+                </div>
 
-                      {opt.isRecommended && (
-                        <span className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider shrink-0">
-                          sugested
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
+                {/* Guest Number */}
+                <div className="min-w-0">
+                  <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
+                    Guests <span className="text-red-500">*</span>
+                  </label>
+                  <div className="flex items-center gap-2 px-3 h-[46px] rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors">
+                    <Users className="w-4 h-4 text-gray-400 shrink-0" />
+                    <input
+                      type="number"
+                      min="1"
+                      max="99"
+                      placeholder="e.g. 2"
+                      value={sidebarForm.guests || ""}
+                      onChange={(e) => {
+                        const val = e.target.value === "" ? 0 : parseInt(e.target.value);
+                        setSidebarForm((prev) => ({
+                          ...prev,
+                          guests: val,
+                        }));
+                        if (val > 0) {
+                          setAdults(val);
+                        }
+                        if (step1Errors.guests) {
+                          setStep1Errors((prev) => ({
+                            ...prev,
+                            guests: "",
+                          }));
+                        }
+                      }}
+                      className="w-full text-xs sm:text-sm text-gray-800 outline-none focus:outline-none border-none bg-transparent placeholder:text-gray-400 font-normal min-w-0"
+                    />
+                  </div>
+                  {step1Errors.guests && (
+                    <p className="text-[11px] text-red-500 mt-1">
+                      {step1Errors.guests}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* ═══ STEP 3: TRAVEL MODE & TRAVELLERS ═══ */}
-        {currentStep === 3 && (
-          <div className="space-y-3">
-            {/* Preferred Travel Mode Selection */}
-            <div>
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">
-                Which travel mode do you prefer?
-              </h4>
-              <div className="grid grid-cols-2 gap-2">
-                {TRANSPORT_OPTIONS.map((tr) => {
-                  const isSelected = preferredTravel === tr.id;
-                  const IconComp = tr.icon;
-                  return (
-                    <button
-                      key={tr.id}
-                      type="button"
-                      onClick={() => setPreferredTravel(tr.id)}
-                      className={`py-2 px-2.5 rounded-lg border text-left flex items-center justify-between transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
-                        ? "border-[#1877F2] bg-blue-50/20"
-                        : "border-gray-200 hover:border-gray-300 bg-white"
-                        }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <div
-                          className={`w-4.5 h-4.5 rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-all ${isSelected
-                            ? "border-[#1877F2] bg-white shadow-2xs"
-                            : "border-gray-300 bg-white hover:border-gray-400"
-                            }`}
-                        >
-                          {isSelected && (
-                            <div className="w-2 h-2 rounded-full bg-[#1877F2]" />
-                          )}
-                        </div>
-                        <span className="text-xs sm:text-sm font-normal text-gray-800">
-                          {tr.label}
-                        </span>
-                      </div>
-                      <IconComp className="w-4 h-4 text-gray-400" />
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            <div>
-              <div className="mb-1">
-                <h4 className="text-xs sm:text-sm font-semibold text-gray-800">
-                  Who are you planning this vacation with?
+          {/* ═══ STEP 2: DURATION (Show one by one) ═══ */}
+          {currentStep === 2 && (
+            <div className="space-y-3">
+              <div>
+                <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-2">
+                  How long are you planning to travel for?
                 </h4>
-                {totalTravellers === 0 && (
-                  <p className="text-[11px] text-red-500 font-medium mt-0.5">
-                    Please select at least one traveller.
-                  </p>
-                )}
+                <div className="space-y-2">
+                  {DURATION_OPTIONS.map((opt) => {
+                    const isSelected = selectedDuration === opt.label;
+                    return (
+                      <button
+                        key={opt.id}
+                        type="button"
+                        onClick={() => setSelectedDuration(opt.label)}
+                        className={`w-full py-2.5 px-3 rounded-lg border text-left flex items-center justify-between transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
+                          ? "border-[#1877F2] bg-blue-50/20"
+                          : "border-gray-200 hover:border-gray-300 bg-white"
+                          }`}
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div
+                            className={`w-4.5 h-4.5 rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-all ${isSelected
+                              ? "border-[#1877F2] bg-white shadow-2xs"
+                              : "border-gray-300 bg-white hover:border-gray-400"
+                              }`}
+                          >
+                            {isSelected && (
+                              <div className="w-2 h-2 rounded-full bg-[#1877F2]" />
+                            )}
+                          </div>
+                          <span className="text-xs sm:text-sm text-gray-800 font-normal">
+                            {opt.label}
+                          </span>
+                        </div>
+
+                        {opt.isRecommended && (
+                          <span className="text-[9.5px] font-bold text-emerald-700 uppercase tracking-wider shrink-0 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">
+                            Suggested
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
+            </div>
+          )}
+
+          {/* ═══ STEP 3: TRAVEL MODE & TRAVELLERS ═══ */}
+          {currentStep === 3 && (
+            <div className="space-y-3">
+              {/* Preferred Travel Mode Selection */}
+              <div>
+                <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">
+                  Which travel mode do you prefer?
+                </h4>
+                <div className="grid grid-cols-2 gap-2">
+                  {TRANSPORT_OPTIONS.map((tr) => {
+                    const isSelected = preferredTravel === tr.id;
+                    const IconComp = tr.icon;
+                    return (
+                      <button
+                        key={tr.id}
+                        type="button"
+                        onClick={() => setPreferredTravel(tr.id)}
+                        className={`py-2 px-2.5 rounded-lg border text-left flex items-center justify-between transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
+                          ? "border-[#1877F2] bg-blue-50/20"
+                          : "border-gray-200 hover:border-gray-300 bg-white"
+                          }`}
+                      >
+                        <div className="flex items-center gap-2">
+                          <div
+                            className={`w-4.5 h-4.5 rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-all ${isSelected
+                              ? "border-[#1877F2] bg-white shadow-2xs"
+                              : "border-gray-300 bg-white hover:border-gray-400"
+                              }`}
+                          >
+                            {isSelected && (
+                              <div className="w-2 h-2 rounded-full bg-[#1877F2]" />
+                            )}
+                          </div>
+                          <span className="text-xs sm:text-sm font-normal text-gray-800">
+                            {tr.label}
+                          </span>
+                        </div>
+                        <IconComp className="w-4 h-4 text-gray-400" />
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-1">
+                  <h4 className="text-xs sm:text-sm font-semibold text-gray-800">
+                    Who are you planning this vacation with?
+                  </h4>
+                  {totalTravellers === 0 && (
+                    <p className="text-[11px] text-red-500 font-medium mt-0.5">
+                      Please select at least one traveller.
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  {/* Adults */}
+                  <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
+                    <div>
+                      <span className="text-xs sm:text-sm font-medium text-gray-800 block">
+                        Adults
+                      </span>
+                      <span className="text-[11px] text-gray-400 block">
+                        18-60 years
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setAdults((c) => Math.max(0, c - 1))}
+                        disabled={adults <= 0}
+                        className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
+                        {adults}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setAdults((c) => c + 1)}
+                        className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Plus className="w-3 h-3 stroke-[2.5]" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Children */}
+                  <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
+                    <div>
+                      <span className="text-xs sm:text-sm font-medium text-gray-800 block">
+                        Children
+                      </span>
+                      <span className="text-[11px] text-gray-400 block">
+                        5-18 years
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setChildren((c) => Math.max(0, c - 1))
+                        }
+                        disabled={children <= 0}
+                        className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
+                        {children}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setChildren((c) => c + 1)}
+                        className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Plus className="w-3 h-3 stroke-[2.5]" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Infants */}
+                  <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
+                    <div>
+                      <span className="text-xs sm:text-sm font-medium text-gray-800 block">
+                        Infants or Toddlers
+                      </span>
+                      <span className="text-[11px] text-gray-400 block">
+                        0-5 years
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setInfants((c) => Math.max(0, c - 1))}
+                        disabled={infants <= 0}
+                        className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
+                        {infants}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setInfants((c) => c + 1)}
+                        className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Plus className="w-3 h-3 stroke-[2.5]" />
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Senior Citizens */}
+                  <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
+                    <div>
+                      <span className="text-xs sm:text-sm font-medium text-gray-800 block">
+                        Senior Citizens
+                      </span>
+                      <span className="text-[11px] text-gray-400 block">
+                        60+ years
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setSeniors((c) => Math.max(0, c - 1))}
+                        disabled={seniors <= 0}
+                        className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Minus className="w-3 h-3" />
+                      </button>
+                      <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
+                        {seniors}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setSeniors((c) => c + 1)}
+                        className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
+                      >
+                        <Plus className="w-3 h-3 stroke-[2.5]" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ═══ STEP 4: ITINERARY STYLE ═══ */}
+          {currentStep === 4 && (
+            <div className="space-y-2">
+              <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1">
+                How do you want your itinerary?
+              </h4>
 
               <div className="space-y-2">
-                {/* Adults */}
-                <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
-                  <div>
-                    <span className="text-xs sm:text-sm font-medium text-gray-800 block">
-                      Adults
-                    </span>
-                    <span className="text-[11px] text-gray-400 block">
-                      18-60 years
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setAdults((c) => Math.max(0, c - 1))}
-                      disabled={adults <= 0}
-                      className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
-                      {adults}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setAdults((c) => c + 1)}
-                      className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Plus className="w-3 h-3 stroke-[2.5]" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Children */}
-                <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
-                  <div>
-                    <span className="text-xs sm:text-sm font-medium text-gray-800 block">
-                      Children
-                    </span>
-                    <span className="text-[11px] text-gray-400 block">
-                      5-18 years
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setChildren((c) => Math.max(0, c - 1))
-                      }
-                      disabled={children <= 0}
-                      className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
-                      {children}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setChildren((c) => c + 1)}
-                      className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Plus className="w-3 h-3 stroke-[2.5]" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Infants */}
-                <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
-                  <div>
-                    <span className="text-xs sm:text-sm font-medium text-gray-800 block">
-                      Infants or Toddlers
-                    </span>
-                    <span className="text-[11px] text-gray-400 block">
-                      0-5 years
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setInfants((c) => Math.max(0, c - 1))}
-                      disabled={infants <= 0}
-                      className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
-                      {infants}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setInfants((c) => c + 1)}
-                      className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Plus className="w-3 h-3 stroke-[2.5]" />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Senior Citizens */}
-                <div className="py-2 px-3 rounded-lg border border-gray-200 bg-white flex items-center justify-between">
-                  <div>
-                    <span className="text-xs sm:text-sm font-medium text-gray-800 block">
-                      Senior Citizens
-                    </span>
-                    <span className="text-[11px] text-gray-400 block">
-                      60+ years
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setSeniors((c) => Math.max(0, c - 1))}
-                      disabled={seniors <= 0}
-                      className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 disabled:opacity-40 flex items-center justify-center text-gray-700 cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Minus className="w-3 h-3" />
-                    </button>
-                    <span className="w-5 text-center text-xs sm:text-sm font-semibold text-gray-900">
-                      {seniors}
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setSeniors((c) => c + 1)}
-                      className="w-7 h-7 rounded-full bg-blue-50 hover:bg-blue-100 text-[#1877F2] flex items-center justify-center cursor-pointer outline-none focus:outline-none"
-                    >
-                      <Plus className="w-3 h-3 stroke-[2.5]" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ═══ STEP 4: ITINERARY STYLE ═══ */}
-        {currentStep === 4 && (
-          <div className="space-y-2">
-            <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1">
-              How do you want your itinerary?
-            </h4>
-
-            <div className="space-y-2">
-              {ITINERARY_OPTIONS.map((item) => {
-                const isSelected = selectedItinerary === item.id;
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    onClick={() => setSelectedItinerary(item.id)}
-                    className={`w-full py-2.5 px-3 rounded-lg border text-left flex items-start gap-2.5 transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
-                      ? "border-[#1877F2] bg-blue-50/20"
-                      : "border-gray-200 hover:border-gray-300 bg-white"
-                      }`}
-                  >
-                    <div
-                      className={`w-4.5 h-4.5 rounded-full border-[1.5px] flex items-center justify-center mt-0.5 shrink-0 transition-all ${isSelected
-                        ? "border-[#1877F2] bg-white shadow-2xs"
-                        : "border-gray-300 bg-white hover:border-gray-400"
-                        }`}
-                    >
-                      {isSelected && (
-                        <div className="w-2 h-2 rounded-full bg-[#1877F2]" />
-                      )}
-                    </div>
-
-                    <div className="flex-1 min-w-0">
-                      <span className="text-xs sm:text-sm font-medium text-gray-800 block">
-                        {item.title}
-                      </span>
-                      <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
-                        {item.desc}
-                      </p>
-                    </div>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* ═══ STEP 5: MEAL PLAN & SERVICES ═══ */}
-        {currentStep === 5 && (
-          <div className="space-y-3">
-            {/* Meal Plan */}
-            <div>
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">
-                What kind of meal plan would you prefer?
-              </h4>
-              <div className="grid grid-cols-2 gap-2">
-                {MEAL_OPTIONS.map((opt) => {
-                  const isSelected = selectedMeal === opt.id;
+                {ITINERARY_OPTIONS.map((item) => {
+                  const isSelected = selectedItinerary === item.id;
                   return (
                     <button
-                      key={opt.id}
+                      key={item.id}
                       type="button"
-                      onClick={() => setSelectedMeal(opt.id)}
-                      className={`py-2 px-2.5 rounded-lg border text-left flex items-center gap-2 transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
+                      onClick={() => setSelectedItinerary(item.id)}
+                      className={`w-full py-2.5 px-3 rounded-lg border text-left flex items-start gap-2.5 transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
                         ? "border-[#1877F2] bg-blue-50/20"
                         : "border-gray-200 hover:border-gray-300 bg-white"
                         }`}
                     >
                       <div
-                        className={`w-4 h-4 rounded-full border-[1.5px] flex items-center justify-center shrink-0 transition-all ${isSelected
+                        className={`w-4.5 h-4.5 rounded-full border-[1.5px] flex items-center justify-center mt-0.5 shrink-0 transition-all ${isSelected
                           ? "border-[#1877F2] bg-white shadow-2xs"
                           : "border-gray-300 bg-white hover:border-gray-400"
                           }`}
@@ -933,55 +899,21 @@ export default function PackageBookingSidebar({
                           <div className="w-2 h-2 rounded-full bg-[#1877F2]" />
                         )}
                       </div>
-                      <span className="text-xs sm:text-sm font-normal text-gray-800 truncate">
-                        {opt.label}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
 
-            {/* Additional Services */}
-            <div>
-              <h4 className="text-xs sm:text-sm font-semibold text-gray-800 mb-1.5">
-                What all services you need?
-              </h4>
-              <div className="grid grid-cols-3 gap-1.5">
-                {SERVICE_OPTIONS.map((srv) => {
-                  const isSelected = selectedServices.includes(srv.id);
-                  const IconComp = srv.icon;
-                  return (
-                    <button
-                      key={srv.id}
-                      type="button"
-                      onClick={() => toggleService(srv.id)}
-                      className={`py-2 px-2 rounded-lg border text-left flex items-center justify-between transition-colors cursor-pointer outline-none focus:outline-none ${isSelected
-                        ? "border-[#1877F2] bg-blue-50/20"
-                        : "border-gray-200 hover:border-gray-300 bg-white"
-                        }`}
-                    >
-                      <div className="flex items-center gap-1 min-w-0">
-                        <div
-                          className={`w-3 h-3 rounded-xs border flex items-center justify-center shrink-0 ${isSelected
-                            ? "border-[#1877F2] bg-[#1877F2] text-white"
-                            : "border-gray-300 bg-white text-transparent"
-                            }`}
-                        >
-                          <Check className="w-2 h-2 stroke-[3]" />
-                        </div>
-                        <span className="text-[11px] sm:text-xs font-normal text-gray-800 truncate">
-                          {srv.label}
+                      <div className="flex-1 min-w-0">
+                        <span className="text-xs sm:text-sm font-medium text-gray-800 block">
+                          {item.title}
                         </span>
+                        <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
+                          {item.desc}
+                        </p>
                       </div>
-                      <IconComp className="w-3 h-3 text-gray-400 shrink-0 ml-0.5" />
                     </button>
                   );
                 })}
               </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
 
         {/* ─── Navigation Buttons (Pinned at Bottom) ─── */}
@@ -1006,7 +938,7 @@ export default function PackageBookingSidebar({
               <Send className="w-3.5 h-3.5" />
               <span>Send Enquiry</span>
             </button>
-          ) : currentStep < 5 ? (
+          ) : currentStep < 4 ? (
             <button
               type="button"
               onClick={handleNext}
@@ -1017,13 +949,24 @@ export default function PackageBookingSidebar({
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           ) : (
+            /* Step 4: Final Step - Manual submit click only */
             <button
-              type="submit"
+              type="button"
+              onClick={() => handleFinalSubmit()}
               disabled={isSubmitting}
               className="flex-1 py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] disabled:opacity-50 text-white font-medium text-xs sm:text-sm transition-colors cursor-pointer flex items-center justify-center gap-1.5 outline-none focus:outline-none shadow-xs"
             >
-              <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-              <span>{isSubmitting ? "Submitting..." : "Submit"}</span>
+              {isSubmitting ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Submitting...</span>
+                </>
+              ) : (
+                <>
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Submit Details</span>
+                </>
+              )}
             </button>
           )}
         </div>
