@@ -151,7 +151,7 @@ export default function DestinationsDropdown({
                   <li key={country.name}>
                     <Link
                       href={getDestinationUrl(country.name)}
-                      className="flex items-center text-sm font-normal text-gray-700 hover:text-[#0284c7] transition-all group py-0.5"
+                      className="flex items-center text-sm font-normal text-gray-700 hover:text-[#1877F2] transition-all group py-0.5"
                     >
                       <span className="group-hover:translate-x-1 transition-transform duration-150">
                         {country.name}

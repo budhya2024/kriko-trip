@@ -207,9 +207,7 @@ export default function UserProfileDrawer() {
                     <h3 className="text-base font-bold text-white truncate">
                       {user.name}
                     </h3>
-                    <span className="px-2 py-0.5 rounded-md bg-amber-400 text-gray-950 text-[10px] font-bold tracking-wide">
-                      {user.tier}
-                    </span>
+
                   </div>
                   <p className="text-xs text-gray-300 truncate mt-0.5 font-normal">
                     {user.email}
@@ -575,10 +573,7 @@ export default function UserProfileDrawer() {
                         </span>
                       </div>
 
-                      <div className="flex items-center justify-between pt-1.5 border-t border-gray-100 text-emerald-700 font-semibold">
-                        <span>Rewards Points Earned</span>
-                        <span>+{selectedTrip.pointsEarned} Points</span>
-                      </div>
+
                     </div>
 
                     {/* Action Buttons */}

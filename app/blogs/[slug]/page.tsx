@@ -468,7 +468,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
           <div className="container">
             {/* Header: Subtitle & Title */}
             <div className="mb-8 text-left">
-              <h2 className="text-2xl sm:text-3xl font-bold text-[#00285C] mt-2 tracking-tight">
+              <h2 className="section-title">
                 Related Blog Posts
               </h2>
             </div>

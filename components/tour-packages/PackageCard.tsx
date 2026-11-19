@@ -189,14 +189,22 @@ export default function PackageCard({ pkg }: PackageCardProps) {
           </div>
         </div>
 
-        {/* Full-Width Bottom Request a Call Back Button */}
+        {/* Full-Width Bottom Get Offer Button */}
         <button
           type="button"
-          onClick={() => openCallbackModal(pkg.location)}
+          onClick={() =>
+            openCallbackModal({
+              destination: pkg.location,
+              title: pkg.title,
+              price: pkg.price,
+              originalPrice: pkg.originalPrice,
+              savings: (pkg.originalPrice || 0) - pkg.price,
+            })
+          }
           className="mt-3 w-full py-2.5 px-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-[13px] font-medium flex items-center justify-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
         >
-          <PhoneCall className="w-3.5 h-3.5 shrink-0" />
-          <span>Request a Call Back</span>
+          <Tag className="w-3.5 h-3.5 shrink-0" />
+          <span>Get Offer</span>
         </button>
       </div>
     </div>

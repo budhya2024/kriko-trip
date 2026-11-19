@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { Header, Footer, PageHeader } from "@/components/shared";
 import { useScrollLock } from "@/components/shared/useScrollLock";
@@ -171,10 +172,15 @@ const INITIAL_BATCH_SIZE = 8;
 const BATCH_STEP = 4;
 
 export default function GalleryPage() {
+  const [mounted, setMounted] = useState(false);
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(INITIAL_BATCH_SIZE);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const visiblePhotos = galleryData.slice(0, visibleCount);
   const hasMore = visibleCount < galleryData.length;
@@ -300,69 +306,72 @@ export default function GalleryPage() {
         </section>
       </main>
 
-      {/* ─── Interactive Lightbox Modal ─── */}
-      {activePhoto && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          className="fixed inset-0 z-[140] bg-black/95 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6"
-          onClick={() => setActivePhotoIndex(null)}
-        >
-          {/* Close Button */}
-          <button
-            type="button"
-            onClick={() => setActivePhotoIndex(null)}
-            aria-label="Close Lightbox"
-            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
-          >
-            <X className="w-5 h-5" />
-          </button>
-
-          {/* Previous Button */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePrevPhoto();
-            }}
-            aria-label="Previous Photo"
-            className="absolute left-2 sm:left-6 z-50 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
-          >
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-
-          {/* Next Button */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleNextPhoto();
-            }}
-            aria-label="Next Photo"
-            className="absolute right-2 sm:right-6 z-50 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
-          >
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          {/* Main Modal Content Card (Photo Only) */}
+      {/* ─── Interactive Lightbox Modal (Portaled to document.body) ─── */}
+      {mounted &&
+        activePhoto &&
+        createPortal(
           <div
-            className="relative max-w-4xl w-full max-h-[90vh] flex flex-col bg-black rounded-2xl overflow-hidden border border-white/15 shadow-2xl"
-            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            className="fixed inset-0 z-[200] w-screen h-screen h-[100dvh] bg-black/95 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 select-none print:hidden overflow-hidden"
+            onClick={() => setActivePhotoIndex(null)}
           >
-            {/* Modal Image Box */}
-            <div className="relative w-full h-[65vh] sm:h-[75vh] bg-black">
-              <Image
-                src={activePhoto.image}
-                alt={activePhoto.title}
-                fill
-                priority
-                sizes="(max-width: 1024px) 100vw, 900px"
-                className="object-contain"
-              />
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setActivePhotoIndex(null)}
+              aria-label="Close Lightbox"
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Previous Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevPhoto();
+              }}
+              aria-label="Previous Photo"
+              className="absolute left-2 sm:left-6 z-50 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+
+            {/* Next Button */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextPhoto();
+              }}
+              aria-label="Next Photo"
+              className="absolute right-2 sm:right-6 z-50 w-11 h-11 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+
+            {/* Main Modal Content Card (Photo Only) */}
+            <div
+              className="relative max-w-4xl w-full max-h-[90vh] flex flex-col bg-black rounded-2xl overflow-hidden border border-white/15 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Modal Image Box */}
+              <div className="relative w-full h-[65vh] sm:h-[75vh] bg-black">
+                <Image
+                  src={activePhoto.image}
+                  alt={activePhoto.title}
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 900px"
+                  className="object-contain"
+                />
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
 
       {/* Global Footer */}
       <Footer />

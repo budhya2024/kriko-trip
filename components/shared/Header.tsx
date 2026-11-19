@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import brandLogo from "@/public/assets/images/brand-logo.png";
 import {
   Search,
@@ -53,7 +54,6 @@ const navItems = [
   {
     name: "Home",
     href: "/",
-    isActive: true,
     hasDropdown: false,
   },
   {
@@ -123,6 +123,7 @@ import { useScrollLock } from "./useScrollLock";
 import { useAuth } from "./AuthContext";
 
 export default function Header() {
+  const pathname = usePathname();
   const { user, isLoggedIn, openProfileDrawer } = useAuth();
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -132,6 +133,16 @@ export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState<"login" | "register">("login");
   const [activeAnnouncementIdx, setActiveAnnouncementIdx] = useState(0);
+
+  const isRouteActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    if (href.startsWith("/#")) {
+      return false;
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   // Auto-slide announcement offers every 3.5s
   useEffect(() => {
@@ -282,7 +293,11 @@ export default function Header() {
             {/* Need Help? link */}
             <Link
               href="/contact-us"
-              className="text-sm font-semibold text-[#0284c7] hover:text-[#0369a1] transition-colors"
+              className={`text-sm font-semibold transition-colors ${
+                pathname === "/contact-us"
+                  ? "text-[#1877F2]"
+                  : "text-gray-700 hover:text-[#1877F2]"
+              }`}
             >
               Need Help?
             </Link>
@@ -397,54 +412,64 @@ export default function Header() {
 
             {/* Nav Menu Links */}
             <nav className="flex items-center gap-7">
-              {navItems.map((item) => (
-                <div
-                  key={item.name}
-                  className="relative"
-                  onMouseEnter={() => item.hasDropdown && handleMouseEnter(item.name)}
-                  onMouseLeave={() => item.hasDropdown && handleMouseLeave()}
-                >
-                  <Link
-                    href={item.href}
-                    className={`flex items-center gap-1.5 text-[15px] font-semibold tracking-tight transition-colors py-4 ${item.isActive
-                      ? "text-[#0284c7]"
-                      : "text-gray-800 hover:text-[#0284c7]"
-                      }`}
+              {navItems.map((item) => {
+                const isActive = isRouteActive(item.href);
+                return (
+                  <div
+                    key={item.name}
+                    className="relative"
+                    onMouseEnter={() => item.hasDropdown && handleMouseEnter(item.name)}
+                    onMouseLeave={() => item.hasDropdown && handleMouseLeave()}
                   >
-                    <span>{item.name}</span>
-                    {item.hasDropdown && (
-                      <ChevronDown
-                        className={`w-3.5 h-3.5 transition-transform duration-200 ${activeDropdown === item.name ? "rotate-180 text-[#0284c7]" : "text-gray-600"
-                          }`}
-                      />
-                    )}
-                  </Link>
-
-                  {/* Standard Dropdown for Travel Package */}
-                  {item.hasDropdown && !item.isMegaMenu && item.subItems && (
-                    <div
-                      onMouseEnter={() => handleMouseEnter(item.name)}
-                      onMouseLeave={handleMouseLeave}
-                      className={`absolute left-0 top-full pt-1 transition-all duration-200 ${activeDropdown === item.name
-                        ? "opacity-100 visible translate-y-0"
-                        : "opacity-0 invisible -translate-y-2 pointer-events-none"
-                        }`}
+                    <Link
+                      href={item.href}
+                      className={`flex items-center gap-1.5 text-[15px] font-semibold tracking-tight transition-colors py-4 ${
+                        isActive
+                          ? "text-[#1877F2]"
+                          : "text-gray-800 hover:text-[#1877F2]"
+                      }`}
                     >
-                      <div className="w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
-                        {item.subItems.map((subItem) => (
-                          <Link
-                            key={subItem}
-                            href={getTravelPackageUrl(subItem)}
-                            className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                          >
-                            {subItem}
-                          </Link>
-                        ))}
+                      <span>{item.name}</span>
+                      {item.hasDropdown && (
+                        <ChevronDown
+                          className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                            activeDropdown === item.name
+                              ? "rotate-180 text-[#1877F2]"
+                              : isActive
+                              ? "text-[#1877F2]"
+                              : "text-gray-500"
+                          }`}
+                        />
+                      )}
+                    </Link>
+
+                    {/* Standard Dropdown for Travel Package */}
+                    {item.hasDropdown && !item.isMegaMenu && item.subItems && (
+                      <div
+                        onMouseEnter={() => handleMouseEnter(item.name)}
+                        onMouseLeave={handleMouseLeave}
+                        className={`absolute left-0 top-full pt-1 transition-all duration-200 ${
+                          activeDropdown === item.name
+                            ? "opacity-100 visible translate-y-0"
+                            : "opacity-0 invisible -translate-y-2 pointer-events-none"
+                        }`}
+                      >
+                        <div className="w-52 bg-white rounded-xl shadow-xl border border-gray-100 py-2 overflow-hidden">
+                          {item.subItems.map((subItem) => (
+                            <Link
+                              key={subItem}
+                              href={getTravelPackageUrl(subItem)}
+                              className="block px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-[#1877F2] transition-colors"
+                            >
+                              {subItem}
+                            </Link>
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+                    )}
+                  </div>
+                );
+              })}
             </nav>
 
             {/* Right Support Widget & Dropdown */}
@@ -617,7 +642,11 @@ export default function Header() {
             <Link
               href="/"
               onClick={() => setIsMobileDrawerOpen(false)}
-              className="block text-[16px] font-bold text-[#0284c7] hover:text-blue-600"
+              className={`block text-[16px] font-bold transition-colors ${
+                pathname === "/"
+                  ? "text-[#1877F2]"
+                  : "text-gray-900 hover:text-[#1877F2]"
+              }`}
             >
               Home
             </Link>
@@ -632,12 +661,13 @@ export default function Header() {
                   openMobileSection === "Destinations" ? null : "Destinations"
                 )
               }
-              className={`w-full flex items-center justify-between text-[16px] font-bold text-left transition-colors ${openMobileSection === "Destinations" ? "text-[#0284c7]" : "text-gray-900"
-                }`}
+              className={`w-full flex items-center justify-between text-[16px] font-bold text-left transition-colors ${
+                openMobileSection === "Destinations" ? "text-[#1877F2]" : "text-gray-900"
+              }`}
             >
               <span>Destinations</span>
               {openMobileSection === "Destinations" ? (
-                <Minus className="w-4 h-4 text-[#0284c7] stroke-[2.5]" />
+                <Minus className="w-4 h-4 text-[#1877F2] stroke-[2.5]" />
               ) : (
                 <Plus className="w-4 h-4 text-gray-900 stroke-[2.5]" />
               )}
@@ -674,7 +704,7 @@ export default function Header() {
                               key={country.name}
                               href={getDestinationUrl(country.name)}
                               onClick={() => setIsMobileDrawerOpen(false)}
-                              className="flex items-center py-2 border-b border-gray-100 text-sm font-normal text-gray-700 hover:text-blue-600 transition-colors"
+                              className="flex items-center py-2 border-b border-gray-100 text-sm font-normal text-gray-700 hover:text-[#1877F2] transition-colors"
                             >
                               <span>{country.name}</span>
                             </Link>
@@ -697,12 +727,15 @@ export default function Header() {
                   openMobileSection === "Travel Package" ? null : "Travel Package"
                 )
               }
-              className={`w-full flex items-center justify-between text-[16px] font-bold text-left ${openMobileSection === "Travel Package" ? "text-[#0284c7]" : "text-gray-900"
-                }`}
+              className={`w-full flex items-center justify-between text-[16px] font-bold text-left transition-colors ${
+                openMobileSection === "Travel Package" || isRouteActive("/tour-packages")
+                  ? "text-[#1877F2]"
+                  : "text-gray-900"
+              }`}
             >
               <span>Travel Package</span>
               {openMobileSection === "Travel Package" ? (
-                <Minus className="w-4 h-4 text-[#0284c7] stroke-[2.5]" />
+                <Minus className="w-4 h-4 text-[#1877F2] stroke-[2.5]" />
               ) : (
                 <Plus className="w-4 h-4 text-gray-900 stroke-[2.5]" />
               )}
@@ -714,7 +747,7 @@ export default function Header() {
                     key={pkg}
                     href={getTravelPackageUrl(pkg)}
                     onClick={() => setIsMobileDrawerOpen(false)}
-                    className="block text-sm font-medium text-gray-600 hover:text-blue-600 py-1"
+                    className="block text-sm font-medium text-gray-600 hover:text-[#1877F2] py-1"
                   >
                     {pkg}
                   </Link>
@@ -723,14 +756,16 @@ export default function Header() {
             )}
           </div>
 
-
-
           {/* Gallery */}
           <div className="py-2.5 border-b border-gray-50">
             <Link
               href="/gallery"
               onClick={() => setIsMobileDrawerOpen(false)}
-              className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
+              className={`block text-[16px] font-bold transition-colors ${
+                isRouteActive("/gallery")
+                  ? "text-[#1877F2]"
+                  : "text-gray-900 hover:text-[#1877F2]"
+              }`}
             >
               Gallery
             </Link>
@@ -741,7 +776,11 @@ export default function Header() {
             <Link
               href="/blogs"
               onClick={() => setIsMobileDrawerOpen(false)}
-              className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
+              className={`block text-[16px] font-bold transition-colors ${
+                isRouteActive("/blogs")
+                  ? "text-[#1877F2]"
+                  : "text-gray-900 hover:text-[#1877F2]"
+              }`}
             >
               Blogs &amp; Stories
             </Link>
@@ -752,7 +791,11 @@ export default function Header() {
             <Link
               href="/about-us"
               onClick={() => setIsMobileDrawerOpen(false)}
-              className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
+              className={`block text-[16px] font-bold transition-colors ${
+                isRouteActive("/about-us")
+                  ? "text-[#1877F2]"
+                  : "text-gray-900 hover:text-[#1877F2]"
+              }`}
             >
               About Us
             </Link>
@@ -763,7 +806,11 @@ export default function Header() {
             <Link
               href="/contact-us"
               onClick={() => setIsMobileDrawerOpen(false)}
-              className="block text-[16px] font-bold text-gray-900 hover:text-blue-600"
+              className={`block text-[16px] font-bold transition-colors ${
+                isRouteActive("/contact-us")
+                  ? "text-[#1877F2]"
+                  : "text-gray-900 hover:text-[#1877F2]"
+              }`}
             >
               Contact Us
             </Link>

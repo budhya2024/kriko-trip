@@ -205,18 +205,22 @@ function TrendingDealVideoCard({ deal }: { deal: TrendingDealVideo }) {
           </p>
         </Link>
 
-        {/* Bottom CTA: Get a Call Back */}
+        {/* Bottom CTA: Get Offer */}
         <button
           type="button"
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            openCallbackModal(deal.location);
+            openCallbackModal({
+              destination: deal.location,
+              title: deal.title,
+              price: deal.price,
+            });
           }}
           className="pointer-events-auto w-full py-2.5 px-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.98] text-white text-xs sm:text-[13px] font-medium flex items-center justify-center gap-1.5 shadow-md transition-colors cursor-pointer"
         >
-          <PhoneCall className="w-3.5 h-3.5 shrink-0" />
-          <span>Get a Call Back</span>
+          <Tag className="w-3.5 h-3.5 shrink-0" />
+          <span>Get Offer</span>
         </button>
       </div>
     </div>
@@ -237,7 +241,7 @@ export default function TrendingDealsVideoSlider() {
   return (
     <section
       id="top-trending-deals"
-      className="w-full bg-white py-8 md:py-16 border-t border-gray-100"
+      className="w-full bg-white pb-8 md:pb-16"
     >
       <div className="container">
         {/* Centered Section Header */}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, X, Images } from "lucide-react";
 import { useScrollLock } from "@/components/shared/useScrollLock";
@@ -32,6 +33,11 @@ export default function PackageGallerySection({
   images,
 }: PackageGallerySectionProps) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const allGalleryImages = useMemo(
     () =>
@@ -155,117 +161,121 @@ export default function PackageGallerySection({
         </div>
       </div>
 
-      {/* ─── Fullscreen Photo Gallery Lightbox Modal ─── */}
-      {lightboxIndex !== null && allGalleryImages.length > 0 && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label="Package photo gallery"
-          onClick={() => setLightboxIndex(null)}
-          className="fixed inset-0 z-[140] bg-black/95 backdrop-blur-sm flex flex-col justify-between p-4 sm:p-6 select-none print:hidden"
-        >
-          {/* Top bar: counter & close button */}
+      {/* ─── Fullscreen Photo Gallery Lightbox Modal (Portaled to document.body) ─── */}
+      {mounted &&
+        lightboxIndex !== null &&
+        allGalleryImages.length > 0 &&
+        createPortal(
           <div
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center justify-between text-white/90 z-10"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Package photo gallery"
+            onClick={() => setLightboxIndex(null)}
+            className="fixed inset-0 z-[200] w-screen h-screen h-[100dvh] bg-black/95 backdrop-blur-sm flex flex-col justify-between p-4 sm:p-6 select-none print:hidden overflow-hidden"
           >
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 rounded-full bg-white/10 text-xs sm:text-sm font-medium tracking-wide">
-                {lightboxIndex + 1} / {allGalleryImages.length}
-              </span>
-              <span className="hidden sm:inline text-sm font-medium text-white/75 truncate max-w-md">
-                {title}
-              </span>
-            </div>
-            <button
-              type="button"
-              onClick={() => setLightboxIndex(null)}
-              aria-label="Close gallery"
-              className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Main image stage with prev/next arrows */}
-          <div className="relative flex-1 flex items-center justify-center my-3 sm:my-4 min-h-0">
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxIndex((prev) =>
-                  prev === null
-                    ? 0
-                    : (prev - 1 + allGalleryImages.length) % allGalleryImages.length
-                );
-              }}
-              aria-label="Previous photo"
-              className="absolute left-1 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <ChevronLeft className="w-6 h-6" />
-            </button>
-
+            {/* Top bar: counter & close button */}
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-5xl h-[65vh] sm:h-[75vh]"
+              className="flex items-center justify-between text-white/90 z-10 shrink-0"
             >
-              <Image
-                src={allGalleryImages[lightboxIndex]}
-                alt={`${title} - Photo ${lightboxIndex + 1}`}
-                fill
-                sizes="100vw"
-                className="object-contain"
-                priority
-              />
+              <div className="flex items-center gap-3">
+                <span className="px-3 py-1 rounded-full bg-white/10 text-xs sm:text-sm font-medium tracking-wide">
+                  {lightboxIndex + 1} / {allGalleryImages.length}
+                </span>
+                <span className="hidden sm:inline text-sm font-medium text-white/75 truncate max-w-md">
+                  {title}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setLightboxIndex(null)}
+                aria-label="Close gallery"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setLightboxIndex((prev) =>
-                  prev === null ? 0 : (prev + 1) % allGalleryImages.length
-                );
-              }}
-              aria-label="Next photo"
-              className="absolute right-1 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <ChevronRight className="w-6 h-6" />
-            </button>
-          </div>
+            {/* Main image stage with prev/next arrows */}
+            <div className="relative flex-1 flex items-center justify-center my-2 sm:my-3 min-h-0">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIndex((prev) =>
+                    prev === null
+                      ? 0
+                      : (prev - 1 + allGalleryImages.length) % allGalleryImages.length
+                  );
+                }}
+                aria-label="Previous photo"
+                className="absolute left-1 sm:left-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
 
-          {/* Bottom thumbnail strip */}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-1 max-w-full"
-          >
-            {allGalleryImages.map((imgUrl, idx) => {
-              const isActive = idx === lightboxIndex;
-              return (
-                <button
-                  key={`${imgUrl}-${idx}`}
-                  type="button"
-                  onClick={() => setLightboxIndex(idx)}
-                  aria-label={`View photo ${idx + 1}`}
-                  className={`relative w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden shrink-0 transition-all cursor-pointer border-2 ${
-                    isActive
-                      ? "border-white scale-105 opacity-100"
-                      : "border-transparent opacity-50 hover:opacity-85"
-                  }`}
-                >
-                  <Image
-                    src={imgUrl}
-                    alt={`${title} thumbnail ${idx + 1}`}
-                    fill
-                    sizes="80px"
-                    className="object-cover"
-                  />
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="relative w-full max-w-5xl h-[62vh] sm:h-[70vh]"
+              >
+                <Image
+                  src={allGalleryImages[lightboxIndex]}
+                  alt={`${title} - Photo ${lightboxIndex + 1}`}
+                  fill
+                  sizes="100vw"
+                  className="object-contain"
+                  priority
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setLightboxIndex((prev) =>
+                    prev === null ? 0 : (prev + 1) % allGalleryImages.length
+                  );
+                }}
+                aria-label="Next photo"
+                className="absolute right-1 sm:right-4 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Bottom thumbnail strip */}
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center justify-start sm:justify-center gap-2 overflow-x-auto pb-1 max-w-full shrink-0"
+            >
+              {allGalleryImages.map((imgUrl, idx) => {
+                const isActive = idx === lightboxIndex;
+                return (
+                  <button
+                    key={`${imgUrl}-${idx}`}
+                    type="button"
+                    onClick={() => setLightboxIndex(idx)}
+                    aria-label={`View photo ${idx + 1}`}
+                    className={`relative w-16 h-12 sm:w-20 sm:h-14 rounded-lg overflow-hidden shrink-0 transition-all cursor-pointer border-2 ${
+                      isActive
+                        ? "border-white scale-105 opacity-100"
+                        : "border-transparent opacity-50 hover:opacity-85"
+                    }`}
+                  >
+                    <Image
+                      src={imgUrl}
+                      alt={`${title} thumbnail ${idx + 1}`}
+                      fill
+                      sizes="80px"
+                      className="object-cover"
+                    />
+                  </button>
+                );
+              })}
+            </div>
+          </div>,
+          document.body
+        )}
     </>
   );
 }

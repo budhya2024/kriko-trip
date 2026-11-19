@@ -75,29 +75,29 @@ export default function PackageDetailView({
             {mainTitle}
           </h1>
 
-          {/* Rating & Total Booked Trips Badges - Dark Pill Boxes Matching User Reference */}
-          <div className="mt-4 sm:mt-6 flex flex-wrap items-center gap-3">
+          {/* Rating & Total Booked Trips Badges - Compact White Pill Boxes */}
+          <div className="mt-3 sm:mt-4 flex flex-wrap items-center gap-2 sm:gap-2.5">
             {/* Rating Box */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#243342]/95 border border-slate-700/60 shadow-md backdrop-blur-sm">
-              <Star className="w-5 h-5 text-[#FACC15] fill-[#FACC15] shrink-0" />
-              <span className="font-bold text-white text-base sm:text-lg leading-none">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-white border border-gray-100 shadow-sm">
+              <Star className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-400 fill-amber-400 shrink-0" />
+              <span className="font-bold text-gray-900 text-xs sm:text-sm leading-none">
                 {pkg.rating.toFixed(1)}
               </span>
-              <span className="text-[#94A3B8] font-normal text-sm sm:text-base leading-none">
+              <span className="text-gray-500 font-normal text-xs sm:text-[13px] leading-none">
                 ({pkg.reviewsCount} Reviews)
               </span>
             </div>
 
             {/* Total Booked Trips Box */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-[#243342]/95 border border-slate-700/60 shadow-md backdrop-blur-sm">
-              <Users className="w-5 h-5 text-[#38BDF8] shrink-0" />
-              <span className="font-bold text-white text-base sm:text-lg leading-none">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1.5 sm:px-3 sm:py-1.5 rounded-lg bg-white border border-gray-100 shadow-sm">
+              <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 shrink-0" />
+              <span className="font-bold text-gray-900 text-xs sm:text-sm leading-none">
                 {(
                   pkg.bookedCount ?? pkg.reviewsCount * 8 + pkg.days * 12
                 ).toLocaleString()}
                 +
               </span>
-              <span className="text-[#94A3B8] font-normal text-sm sm:text-base leading-none">
+              <span className="text-gray-500 font-normal text-xs sm:text-[13px] leading-none">
                 Trips Booked
               </span>
             </div>

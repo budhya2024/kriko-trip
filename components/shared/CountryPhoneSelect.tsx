@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useMemo } from "react";
+import Image from "next/image";
 import { Search, ChevronDown, Check, X } from "lucide-react";
 
 export interface CountryOption {
@@ -221,6 +222,43 @@ interface CountryPhoneSelectProps {
   buttonClassName?: string;
 }
 
+/**
+ * Renders an image flag from flagcdn with graceful Unicode emoji fallback.
+ * Fixes desktop browsers (especially Windows) which do not render country flag emojis.
+ */
+function CountryFlag({
+  country,
+  className = "w-5 h-3.5",
+}: {
+  country: CountryOption;
+  className?: string;
+}) {
+  const [hasError, setHasError] = useState(false);
+  const isoLower = country.iso.toLowerCase();
+
+  if (hasError) {
+    return (
+      <span className="text-sm leading-none select-none shrink-0" aria-hidden="true">
+        {country.flag}
+      </span>
+    );
+  }
+
+  return (
+    <span className={`relative inline-flex items-center justify-center shrink-0 ${className} rounded-[2px] overflow-hidden shadow-2xs border border-black/10 bg-gray-100`}>
+      <Image
+        src={`https://flagcdn.com/w40/${isoLower}.png`}
+        alt={`${country.name} flag`}
+        width={20}
+        height={14}
+        unoptimized
+        onError={() => setHasError(true)}
+        className="w-full h-full object-cover"
+      />
+    </span>
+  );
+}
+
 export default function CountryPhoneSelect({
   value,
   onChange,
@@ -306,9 +344,7 @@ export default function CountryPhoneSelect({
         aria-expanded={isOpen}
         className={`flex items-center gap-1.5 px-2.5 py-3 bg-gray-50 hover:bg-gray-100 text-xs sm:text-sm font-medium text-gray-800 transition-colors cursor-pointer border-r border-gray-200 select-none ${buttonClassName}`}
       >
-        <span className="text-base leading-none select-none">
-          {selectedCountry.flag}
-        </span>
+        <CountryFlag country={selectedCountry} />
         <span className="font-medium text-gray-800 tracking-tight">
           {selectedCountry.code}
         </span>
@@ -361,9 +397,7 @@ export default function CountryPhoneSelect({
                       }`}
                   >
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <span className="text-base shrink-0 leading-none">
-                        {c.flag}
-                      </span>
+                      <CountryFlag country={c} />
                       <span className="truncate group-hover:text-gray-900">
                         {c.name}
                       </span>

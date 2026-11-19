@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useMemo } from "react";
 import {
   Calendar,
   ChevronLeft,
   ChevronRight,
-  ChevronDown,
   X,
 } from "lucide-react";
 
@@ -54,12 +53,10 @@ export default function BankingDatePicker({
   const [isOpen, setIsOpen] = useState(inline);
   const [tripType, setTripType] = useState<"Round trip" | "One way">("Round trip");
   const [returnDate, setReturnDate] = useState<string>("");
-  const [isMonthPickerOpen, setIsMonthPickerOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleClose = () => {
     setIsOpen(false);
-    setIsMonthPickerOpen(false);
     if (onClose) onClose();
   };
 
@@ -86,13 +83,24 @@ export default function BankingDatePicker({
     }
   }, [value]);
 
-  // Effective min date
-  const effectiveMinDate = minDate
-    ? (() => {
+  // Effective min date: provided minDate or today (past dates and past months cannot be selected)
+  const effectiveMinDate = useMemo(() => {
+    if (minDate) {
       const parts = minDate.split("-");
-      return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
-    })()
-    : today;
+      const d = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+    return today;
+  }, [minDate, today]);
+
+  // Max selectable date: only upcoming year allowed (12 months from today, next 2+ years disabled)
+  const maxDate = useMemo(() => {
+    if (!today) return null;
+    const max = new Date(today.getFullYear() + 1, today.getMonth(), today.getDate());
+    max.setHours(23, 59, 59, 999);
+    return max;
+  }, [today]);
 
   // Sync viewDate if value changes externally
   useEffect(() => {
@@ -146,12 +154,26 @@ export default function BankingDatePicker({
     })()
     : null;
 
-  // Navigation handlers
-  const isPrevMonthDisabled = today
-    ? viewDate.getFullYear() < today.getFullYear() ||
-    (viewDate.getFullYear() === today.getFullYear() &&
-      viewDate.getMonth() <= today.getMonth())
-    : false;
+  // Previous month navigation: disabled when at or before current month (no past months)
+  const isPrevMonthDisabled = useMemo(() => {
+    const minD = effectiveMinDate || today;
+    if (!minD) return false;
+    return (
+      viewDate.getFullYear() < minD.getFullYear() ||
+      (viewDate.getFullYear() === minD.getFullYear() &&
+        viewDate.getMonth() <= minD.getMonth())
+    );
+  }, [viewDate, effectiveMinDate, today]);
+
+  // Next month navigation: disabled when at or beyond max upcoming year
+  const isNextMonthDisabled = useMemo(() => {
+    if (!maxDate) return false;
+    return (
+      viewDate.getFullYear() > maxDate.getFullYear() ||
+      (viewDate.getFullYear() === maxDate.getFullYear() &&
+        viewDate.getMonth() >= maxDate.getMonth())
+    );
+  }, [viewDate, maxDate]);
 
   const handlePrevMonth = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
@@ -161,6 +183,7 @@ export default function BankingDatePicker({
 
   const handleNextMonth = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
+    if (isNextMonthDisabled) return;
     setViewDate(new Date(viewDate.getFullYear(), viewDate.getMonth() + 1, 1));
   };
 
@@ -217,10 +240,6 @@ export default function BankingDatePicker({
     });
   };
 
-  // Year options list
-  const currentYear = today ? today.getFullYear() : 2026;
-  const yearOptions = Array.from({ length: 11 }, (_, i) => currentYear + i);
-
   // Single Month Calculation
   const year = viewDate.getFullYear();
   const month = viewDate.getMonth();
@@ -254,7 +273,9 @@ export default function BankingDatePicker({
     const isWeekendSat = dayOfWeek === 5;
     const isWeekendSun = dayOfWeek === 6;
 
-    const isDisabled = effectiveMinDate ? cellDate < effectiveMinDate : false;
+    const isPast = effectiveMinDate ? cellDate < effectiveMinDate : false;
+    const isTooFarFuture = maxDate ? cellDate > maxDate : false;
+    const isDisabled = isPast || isTooFarFuture;
 
     const isStart =
       selectedStartObj && cellDate.getTime() === selectedStartObj.getTime();
@@ -286,21 +307,18 @@ export default function BankingDatePicker({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full h-[46px] flex items-center justify-between gap-1.5 px-3 py-2.5 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors text-left cursor-pointer group min-w-0"
+          className="w-full h-[46px] flex items-center gap-2 px-3 py-2.5 rounded-lg border border-gray-300 hover:border-gray-400 focus:border-[#1877F2] bg-white transition-colors text-left cursor-pointer group min-w-0"
         >
-          <div className="flex items-center gap-2 min-w-0 flex-1 overflow-hidden">
-            <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
-            {value ? (
-              <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
-                {formatTriggerDisplay(selectedStartObj)}
-              </span>
-            ) : (
-              <span className="text-xs sm:text-sm font-normal text-gray-400 select-none truncate">
-                {placeholder}
-              </span>
-            )}
-          </div>
-          <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-gray-600 shrink-0 transition-transform duration-200" />
+          <Calendar className="w-4 h-4 text-[#1877F2] shrink-0" />
+          {value ? (
+            <span className="text-xs sm:text-sm font-medium text-gray-900 truncate">
+              {formatTriggerDisplay(selectedStartObj)}
+            </span>
+          ) : (
+            <span className="text-xs sm:text-sm font-normal text-gray-400 select-none truncate">
+              {placeholder}
+            </span>
+          )}
         </button>
       )}
 
@@ -335,17 +353,12 @@ export default function BankingDatePicker({
             <div className="relative">
               {/* Month Title & Fast Nav */}
               <div className="mb-4 px-1 flex items-center justify-between relative">
-                <button
-                  type="button"
-                  onClick={() => setIsMonthPickerOpen((prev) => !prev)}
-                  className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-[#0F172A] hover:text-[#1877F2] transition-colors cursor-pointer group"
-                >
+                <div className="flex items-center gap-1.5 text-sm sm:text-base font-bold text-[#0F172A] select-none">
                   <span>{MONTH_NAMES[month]}</span>
-                  <span className="text-xs font-normal text-gray-400 group-hover:text-gray-600">
+                  <span className="text-xs font-normal text-gray-500">
                     {year}
                   </span>
-                  <ChevronDown className="w-3.5 h-3.5 text-gray-400 group-hover:text-[#1877F2]" />
-                </button>
+                </div>
 
                 {/* Left & Right Nav Chevrons + Close button */}
                 <div className="flex items-center gap-1">
@@ -363,8 +376,12 @@ export default function BankingDatePicker({
                   </button>
                   <button
                     type="button"
+                    disabled={isNextMonthDisabled}
                     onClick={() => handleNextMonth()}
-                    className="w-6 h-6 rounded-md flex items-center justify-center text-[#3b82f6] hover:bg-blue-50 transition-colors cursor-pointer"
+                    className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${isNextMonthDisabled
+                      ? "text-gray-300 cursor-not-allowed"
+                      : "text-[#3b82f6] hover:bg-blue-50 cursor-pointer"
+                      }`}
                     aria-label="Next Month"
                   >
                     <ChevronRight className="w-4 h-4 stroke-[2.5]" />
@@ -380,48 +397,6 @@ export default function BankingDatePicker({
                     </button>
                   )}
                 </div>
-
-                {/* Quick Month & Year Picker Dropdown */}
-                {isMonthPickerOpen && (
-                  <div className="absolute top-7 left-0 z-30 bg-white rounded-lg border border-gray-200 p-2.5 w-[240px]">
-                    <div className="flex items-center justify-between pb-1.5 mb-1.5 border-b border-gray-100">
-                      <span className="text-[11px] font-semibold text-gray-600">Month & Year</span>
-                      <select
-                        value={year}
-                        onChange={(e) => {
-                          const newY = parseInt(e.target.value);
-                          setViewDate(new Date(newY, month, 1));
-                        }}
-                        className="text-xs font-bold text-[#1877F2] bg-blue-50 px-1.5 py-0.5 rounded cursor-pointer border-none outline-none"
-                      >
-                        {yearOptions.map((y) => (
-                          <option key={y} value={y}>
-                            {y}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="grid grid-cols-3 gap-1">
-                      {MONTH_NAMES.map((name, idx) => (
-                        <button
-                          key={name}
-                          type="button"
-                          onClick={() => {
-                            setViewDate(new Date(year, idx, 1));
-                            setIsMonthPickerOpen(false);
-                          }}
-                          className={`py-1 px-1.5 rounded text-xs font-medium transition-colors ${idx === month
-                            ? "bg-[#1877F2] text-white font-semibold"
-                            : "text-gray-700 hover:bg-gray-100"
-                            }`}
-                        >
-                          {name.slice(0, 3)}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
               </div>
 
               {/* Weekday Row: Mon-Fri gray, Sat blue, Sun red */}

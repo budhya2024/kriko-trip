@@ -9,6 +9,7 @@ import {
   ArrowUpRight,
   ChevronLeft,
   ChevronRight,
+  Clock,
   MapPin,
   PhoneCall,
   Tag,
@@ -25,6 +26,7 @@ interface HoneymoonPackage {
   duration: string;
   price: number;
   originalPrice: number;
+  description?: string;
   image: string;
   images: string[];
   href: string;
@@ -138,9 +140,8 @@ const honeymoonPackages: HoneymoonPackage[] = [
 function HoneymoonPackageCardItem({ pkg }: { pkg: HoneymoonPackage }) {
   const [activeImg, setActiveImg] = useState(0);
   const images = pkg.images && pkg.images.length > 0 ? pkg.images : [pkg.image];
-  const discountPercent = Math.round(
-    ((pkg.originalPrice - pkg.price) / pkg.originalPrice) * 100
-  );
+  const savings = pkg.originalPrice - pkg.price;
+  const discountPercent = Math.round((savings / pkg.originalPrice) * 100);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -156,8 +157,19 @@ function HoneymoonPackageCardItem({ pkg }: { pkg: HoneymoonPackage }) {
 
   return (
     <div className="bg-white rounded-2xl overflow-hidden transition-all duration-300 border border-gray-100 flex flex-col h-full group hover:shadow-xl shadow-sm">
-      {/* ─── Image Container: 100% Full Width (Edge-to-Edge), Slider, Arrows & Dots ─── */}
-      <div className="relative w-full aspect-[4/3] overflow-hidden bg-gray-100 select-none">
+      {/* ─── Image Container with Multiple Images Slider, Navigation Arrows & Dots: Full Width ─── */}
+      <div className="relative w-full aspect-[4/3] sm:h-56 overflow-hidden bg-gray-100 select-none image-shine">
+        {/* Top Badges: Tour Type on Left + Percent OFF on Right */}
+        <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between z-20 pointer-events-none">
+          <span className="px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-xs text-white text-[11px] font-medium drop-shadow-sm">
+            {pkg.badge.replace(" Tour", "").replace(" Special", "")}
+          </span>
+          <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#DE1D26] text-white text-[11px] font-bold shadow-sm tracking-wide">
+            <Tag className="w-3 h-3 stroke-[2.2]" />
+            {discountPercent}% OFF
+          </span>
+        </div>
+
         {/* Clickable Overlay to Package Page */}
         <Link
           href={pkg.href}
@@ -184,25 +196,14 @@ function HoneymoonPackageCardItem({ pkg }: { pkg: HoneymoonPackage }) {
           ))}
         </div>
 
-        {/* Top Badges: Tour Type on Left + Percent OFF on Right */}
-        <div className="absolute top-3 inset-x-3 flex items-center justify-between z-20 pointer-events-none">
-          <span className="bg-[#FFDE14] text-gray-950 text-xs font-bold px-3 py-1 rounded-full shadow-sm">
-            {pkg.badge}
-          </span>
-          <span className="bg-[#DE1D26] text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-sm tracking-wide inline-flex items-center gap-1">
-            <Tag className="w-3 h-3 stroke-[2.2]" />
-            {discountPercent}% OFF
-          </span>
-        </div>
-
-        {/* Previous & Next Navigation Arrows */}
+        {/* Previous & Next Navigation Arrows (Visible on hover or mobile) */}
         {images.length > 1 && (
           <>
             <button
               type="button"
               onClick={handlePrev}
               aria-label="Previous image"
-              className="absolute left-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center transition-all z-20 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100 shadow-xs active:scale-90"
+              className="absolute left-2.5 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/45 hover:bg-black/75 text-white flex items-center justify-center transition-all z-20 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100 shadow-sm active:scale-90"
             >
               <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
             </button>
@@ -210,16 +211,19 @@ function HoneymoonPackageCardItem({ pkg }: { pkg: HoneymoonPackage }) {
               type="button"
               onClick={handleNext}
               aria-label="Next image"
-              className="absolute right-2 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-white/90 hover:bg-white text-gray-800 flex items-center justify-center transition-all z-20 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100 shadow-xs active:scale-90"
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-black/45 hover:bg-black/75 text-white flex items-center justify-center transition-all z-20 cursor-pointer opacity-90 sm:opacity-0 sm:group-hover:opacity-100 shadow-sm active:scale-90"
             >
               <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
             </button>
           </>
         )}
 
+        {/* Subtle Dark Gradient at bottom of image for badge legibility */}
+        <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/85 via-black/45 to-transparent pointer-events-none z-10" />
+
         {/* Dynamic Indicator Dots matching Active Image */}
         {images.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
+          <div className="absolute bottom-9 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
             {images.map((_, idx) => (
               <button
                 key={idx}
@@ -230,36 +234,30 @@ function HoneymoonPackageCardItem({ pkg }: { pkg: HoneymoonPackage }) {
                   setActiveImg(idx);
                 }}
                 aria-label={`Go to photo ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${activeImg === idx
-                  ? "w-4 bg-white shadow-sm"
-                  : "w-1.5 bg-white/60 hover:bg-white/90"
-                  }`}
+                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  activeImg === idx
+                    ? "w-4 bg-white shadow-sm"
+                    : "w-1.5 bg-white/60 hover:bg-white/90"
+                }`}
               />
             ))}
           </div>
         )}
 
-        {/* Dynamic Indicator Dots matching Active Image */}
-        {images.length > 1 && (
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-20">
-            {images.map((_, idx) => (
-              <button
-                key={idx}
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setActiveImg(idx);
-                }}
-                aria-label={`Go to photo ${idx + 1}`}
-                className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${activeImg === idx
-                  ? "w-4 bg-white shadow-sm"
-                  : "w-1.5 bg-white/60 hover:bg-white/90"
-                  }`}
-              />
-            ))}
+        {/* Location & Duration Badges at the bottom edge */}
+        <div className="absolute inset-x-0 bottom-2.5 px-3.5 flex items-center justify-between text-white text-[13px] sm:text-[14px] font-semibold select-none z-20">
+          {/* Location */}
+          <div className="flex items-center gap-1.5 drop-shadow-sm">
+            <MapPin className="w-4 h-4 shrink-0 text-white" strokeWidth={2.2} />
+            <span className="truncate max-w-[130px]">{pkg.destination.split(",")[0]}</span>
           </div>
-        )}
+
+          {/* Duration */}
+          <div className="flex items-center gap-1.5 drop-shadow-sm">
+            <Clock className="w-4 h-4 shrink-0 text-white" strokeWidth={2.2} />
+            <span className="whitespace-nowrap">{pkg.duration}</span>
+          </div>
+        </div>
       </div>
 
       {/* Card Content Area - Only under-content has padding */}
@@ -267,24 +265,19 @@ function HoneymoonPackageCardItem({ pkg }: { pkg: HoneymoonPackage }) {
         <div>
           {/* Title */}
           <Link href={pkg.href}>
-            <h3 className="text-[14px] sm:text-[15px] font-semibold text-[#1877F2] hover:text-[#00285C] transition-colors line-clamp-1">
+            <h3 className="text-[14px] sm:text-[15px] font-semibold text-[#1877F2] hover:text-[#00285C] leading-snug line-clamp-2 transition-colors">
               {pkg.title}
             </h3>
           </Link>
 
-          {/* Location & Duration Meta */}
-          <div className="flex items-center gap-2 mt-1.5 text-xs text-gray-500">
-            <span className="flex items-center gap-1 font-normal text-gray-600">
-              <MapPin className="w-3 h-3 text-gray-400 shrink-0" />
-              {pkg.destination}
-            </span>
-            <span className="text-gray-300">↔</span>
-            <span className="font-normal text-gray-500">{pkg.duration}</span>
-          </div>
+          {/* Short Excerpt */}
+          <p className="text-xs text-gray-500 mt-1.5 leading-relaxed line-clamp-2 font-normal">
+            {pkg.description || `Discover the perfect ${pkg.destination.split(",")[0]} Tour package, with curated stays, romantic candlelight dinners, and sightseeing.`}
+          </p>
         </div>
 
         {/* Bottom Footer Row: View Details Button & Starting From, Original & Sales Price */}
-        <div className="flex items-center justify-between pt-3.5 mt-3 border-t border-gray-100 gap-2 min-w-0">
+        <div className="mt-3.5 pt-3 border-t border-gray-100 flex items-center justify-between gap-2 min-w-0">
           {/* View Details Button */}
           <Link
             href={pkg.href}
@@ -296,36 +289,44 @@ function HoneymoonPackageCardItem({ pkg }: { pkg: HoneymoonPackage }) {
 
           {/* Starting From, Original Price & Sales Price */}
           <div className="flex flex-col text-right items-end shrink-0 min-w-0">
-            <div className="flex items-center gap-1.5 leading-none mb-1">
-              <span className="text-[10px] text-gray-400 font-normal">
+            <div className="flex items-center gap-1 leading-none mb-0.5">
+              <span className="text-[9px] text-gray-400 font-normal">
                 Starting From
               </span>
-              {pkg.originalPrice > pkg.price && (
-                <span className="badge-shine relative overflow-hidden inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[10px] font-medium leading-none">
-                  <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
-                  Save ₹{(pkg.originalPrice - pkg.price).toLocaleString("en-IN")}
+              {savings > 0 && (
+                <span className="badge-shine relative overflow-hidden inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-[#C2410C] text-[9px] font-medium leading-none">
+                  <Tag className="w-2 h-2 stroke-[2.2]" />
+                  Save ₹{savings.toLocaleString("en-IN")}
                 </span>
               )}
             </div>
-            <div className="flex items-baseline justify-end gap-1.5 leading-none">
-              <span className="text-[11px] text-gray-400 line-through font-normal">
+            <div className="flex items-baseline justify-end gap-1 leading-none">
+              <span className="text-[10px] text-gray-400 line-through font-normal">
                 ₹{pkg.originalPrice.toLocaleString("en-IN")}
               </span>
-              <span className="text-[14px] sm:text-[15px] font-semibold text-gray-900 leading-tight">
+              <span className="text-[14px] sm:text-[15px] font-bold text-gray-900 leading-tight">
                 ₹{pkg.price.toLocaleString("en-IN")}
               </span>
             </div>
           </div>
         </div>
 
-        {/* Full-Width Bottom Request a Call Back Button */}
+        {/* Full-Width Bottom Get Offer Button */}
         <button
           type="button"
-          onClick={() => openCallbackModal(pkg.destination)}
+          onClick={() =>
+            openCallbackModal({
+              destination: pkg.destination,
+              title: pkg.title,
+              price: pkg.price,
+              originalPrice: pkg.originalPrice,
+              savings: (pkg.originalPrice || 0) - pkg.price,
+            })
+          }
           className="mt-3 w-full py-2.5 px-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-[13px] font-medium flex items-center justify-center gap-1.5 shadow-2xs transition-colors cursor-pointer"
         >
-          <PhoneCall className="w-3.5 h-3.5 shrink-0" />
-          <span>Request a Call Back</span>
+          <Tag className="w-3.5 h-3.5 shrink-0" />
+          <span>Get Offer</span>
         </button>
       </div>
     </div>
@@ -368,7 +369,7 @@ export default function HoneymoonSpecialsSection() {
               <div className="mt-5 sm:mt-6">
                 <Link
                   href="/tour-packages?theme=Honeymoon"
-                  className="inline-flex items-center gap-2 bg-primary hover:bg-[#c2410c] text-white font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all shadow-sm hover:shadow-md active:scale-95"
+                  className="inline-flex items-center gap-2 bg-primary  text-white font-semibold text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all shadow-sm hover:shadow-md active:scale-95"
                 >
                   <span>Explore honeymoon packages</span>
 

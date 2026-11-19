@@ -56,7 +56,7 @@ const destinations: DestinationItem[] = [
   },
   {
     id: "sundarban",
-    name: "Sundarban Mangroves",
+    name: "Sundarban",
     toursAvailable: "04 Tours Available",
     image:
       "https://images.unsplash.com/photo-1484406566174-9da000fda645?auto=format&fit=crop&w=600&q=80",

@@ -1044,9 +1044,6 @@ export default function PackageBookingSidebar({
           {savings > 0 ? (
             <div className="rounded-xl border border-[#FDE68A] bg-[#FFFDF7] p-3.5 mb-4 flex items-center justify-between">
               <div className="flex flex-col items-start">
-                <span className="text-xs font-semibold text-[#C2410C] uppercase tracking-wide mb-1">
-                  SPECIAL OFFER
-                </span>
                 <div className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[#1E293B] mb-2">
                   <Clock className="w-3.5 h-3.5 text-[#1E293B] stroke-[2.2]" />
                   <span>
@@ -1055,9 +1052,9 @@ export default function PackageBookingSidebar({
                       : duration}
                   </span>
                 </div>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gradient-to-r from-[#F59E0B] to-[#F97316] text-white text-xs font-semibold rounded-sm">
+                <span className="badge-shine relative overflow-hidden inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-gradient-to-r from-[#F59E0B] to-[#EA580C] text-white text-xs font-semibold rounded-full shadow-2xs">
                   <Tag className="w-3.5 h-3.5 stroke-[2.2]" />
-                  Save ₹{savings.toLocaleString("en-IN")}
+                  <span>Save ₹{savings.toLocaleString("en-IN")}</span>
                 </span>
               </div>
 
@@ -1133,11 +1130,16 @@ export default function PackageBookingSidebar({
               <X className="w-4 h-4" />
             </button>
 
-            {/* Modal Header */}
+            {/* Modal Header - Orange Shine Save Badge (Special Offer hidden) */}
             <div className="mb-3 pr-8">
-              <span className="text-[10.5px] font-bold text-[#1877F2] uppercase tracking-wider block mb-0.5">
-                {savings > 0 ? `Special Offer • Save ₹${savings.toLocaleString("en-IN")}` : "Instant Tour Enquiry"}
-              </span>
+              {savings > 0 && (
+                <div className="mb-1.5">
+                  <span className="badge-shine relative overflow-hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#EA580C] text-white text-[10.5px] font-semibold shadow-2xs">
+                    <Tag className="w-2.5 h-2.5 stroke-[2.2]" />
+                    <span>Save ₹{savings.toLocaleString("en-IN")}</span>
+                  </span>
+                </div>
+              )}
               <h3 className="text-sm sm:text-base font-semibold text-gray-900 leading-snug line-clamp-2">
                 {title}
               </h3>

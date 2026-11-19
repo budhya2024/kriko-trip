@@ -40,7 +40,7 @@ export default function GallerySection() {
 
           {/* ─── Right Collage Block (Reduced Inner Gaps) ─── */}
           <div className="w-full lg:w-[68%] xl:w-[70%] relative">
-            <div className="flex gap-1.5 sm:gap-2.5 items-start relative">
+            <div className="flex gap-1.5 sm:gap-2.5 items-stretch relative">
 
               {/* ── Left Sub-Cluster (64% of collage width) ── */}
               <div className="w-[64%] sm:w-[65%] flex flex-col gap-1.5 sm:gap-2.5">
@@ -121,10 +121,10 @@ export default function GallerySection() {
 
               </div>
 
-              {/* ── Right Sub-Cluster (36% of collage width) ── */}
-              <div className="w-[36%] sm:w-[35%] flex flex-col gap-1.5 sm:gap-2.5">
+              {/* ── Right Sub-Cluster (36% of collage width, stretches to match left cluster height) ── */}
+              <div className="w-[36%] sm:w-[35%] flex flex-col gap-1.5 sm:gap-2.5 h-full">
                 {/* Top: gallery5 Group Selfie */}
-                <div className="w-full overflow-hidden shadow-xs mt-3 sm:mt-6 lg:mt-8 group">
+                <div className="w-full overflow-hidden shadow-xs mt-3 sm:mt-6 lg:mt-8 group shrink-0">
                   <Image
                     src={gallery5}
                     alt="Travelers group selfie"
@@ -133,12 +133,14 @@ export default function GallerySection() {
                   />
                 </div>
 
-                {/* Bottom: gallery6 Indian Heritage Monument */}
-                <div className="w-full overflow-hidden shadow-xs group flex-1">
+                {/* Bottom: gallery6 Bali Temple Gate (Increased Height, fills remaining vertical height to bottom) */}
+                <div className="w-full overflow-hidden shadow-xs group flex-1 relative min-h-[260px] xs:min-h-[300px] sm:min-h-[360px] md:min-h-[420px]">
                   <Image
                     src={gallery6}
-                    alt="Indian Heritage Monument"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    alt="Bali Temple Gate"
+                    fill
+                    sizes="(max-width: 1024px) 40vw, 30vw"
+                    className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                     priority
                   />
                 </div>
