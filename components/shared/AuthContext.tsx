@@ -1,264 +1,321 @@
-"use client";
+'use client'
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+import {
+  fetchMyProfile,
+  updateMyProfile,
+  type CustomerProfileData,
+  type UpdateCustomerProfilePayload,
+} from '@/lib/api/customer'
+import { authClient, clearAccessToken } from '@/lib/auth/client'
 
 export interface TripHistoryItem {
-  id: string;
-  bookingId: string;
-  packageTitle: string;
-  destination: string;
-  duration: string;
-  dates: string;
-  status: "Confirmed" | "Completed" | "Cancelled";
-  amount: number;
-  pointsEarned: number;
-  image: string;
-  travellers?: string;
-  hotelCategory?: string;
-  mealPlan?: string;
-  pickupPoint?: string;
-  inclusions?: string[];
-  paymentMode?: string;
+  id: string
+  bookingId: string
+  packageTitle: string
+  destination: string
+  duration: string
+  dates: string
+  status: 'Confirmed' | 'Completed' | 'Cancelled'
+  amount: number
+  pointsEarned: number
+  image: string
+  travellers?: string
+  hotelCategory?: string
+  mealPlan?: string
+  pickupPoint?: string
+  inclusions?: string[]
+  paymentMode?: string
   appliedCoupon?: {
-    code: string;
-    discountAmount: number;
-  };
+    code: string
+    discountAmount: number
+  }
   loyaltyRedeemed?: {
-    points: number;
-    discountAmount: number;
-  };
+    points: number
+    discountAmount: number
+  }
 }
 
 export interface UserProfile {
-  name: string;
-  email: string;
-  phone: string;
-  avatar: string;
-  location?: string;
-  bio?: string;
-  loyaltyPoints: number;
-  tier: "Silver Explorer" | "Gold Explorer" | "Platinum Elite";
-  trips: TripHistoryItem[];
+  name: string
+  email: string
+  phone: string
+  avatar: string
+  location?: string
+  bio?: string
+  loyaltyPoints: number
+  tier: 'Silver Explorer' | 'Gold Explorer' | 'Platinum Elite'
+  trips: TripHistoryItem[]
 }
 
-export const DEFAULT_MOCK_USER: UserProfile = {
-  name: "Rahul Sharma",
-  email: "rahul.sharma@gmail.com",
-  phone: "+91 98765 43210",
-  avatar:
-    "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=400&q=80",
-  location: "Kolkata, West Bengal",
-  bio: "Passionate traveler & nature lover. Exploring the world one trip at a time.",
-  loyaltyPoints: 1450,
-  tier: "Gold Explorer",
-  trips: [
-    {
-      id: "trip-1",
-      bookingId: "KT-98214",
-      packageTitle: "Andaman Wonders & Havelock Island",
-      destination: "Andaman & Nicobar Islands",
-      duration: "6 Days / 5 Nights",
-      dates: "15 Dec - 20 Dec 2026",
-      status: "Confirmed",
-      amount: 28999,
-      pointsEarned: 290,
-      image:
-        "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=600&q=80",
-      travellers: "2 Adults (Double Sharing)",
-      hotelCategory: "4-Star Beachfront Luxury Resort",
-      mealPlan: "Breakfast & Dinner Included (MAP Plan)",
-      pickupPoint: "Veer Savarkar Airport (IXZ), Port Blair",
-      paymentMode: "UPI / Net Banking (Paid in Full)",
-      appliedCoupon: {
-        code: "KRIKO10",
-        discountAmount: 3200,
-      },
-      loyaltyRedeemed: {
-        points: 500,
-        discountAmount: 500,
-      },
-      inclusions: [
-        "Private AC Sedan for all transfers",
-        "Inter-Island Luxury Ferry (Makruzz / Nautika)",
-        "Radhanagar Beach & Elephant Beach Excursions",
-        "Complimentary Snorkeling Session",
-        "24/7 Dedicated Holiday Concierge",
-      ],
-    },
-    {
-      id: "trip-2",
-      bookingId: "KT-84192",
-      packageTitle: "Sundarban Luxury Eco Resort & Safari",
-      destination: "Sundarban, West Bengal",
-      duration: "3 Days / 2 Nights",
-      dates: "10 Oct - 12 Oct 2026",
-      status: "Completed",
-      amount: 14500,
-      pointsEarned: 145,
-      image:
-        "https://images.unsplash.com/photo-1544644181-1484b3fdfc62?auto=format&fit=crop&w=600&q=80",
-      travellers: "2 Adults, 1 Child",
-      hotelCategory: "Luxury Riverfront Eco Cottage",
-      mealPlan: "All Meals Included (Buffet Style)",
-      pickupPoint: "Science City, Kolkata",
-      paymentMode: "Credit Card (Paid in Full)",
-      appliedCoupon: {
-        code: "EXPLORE2000",
-        discountAmount: 2000,
-      },
-      inclusions: [
-        "Dedicated Motorized Safari Boat",
-        "Sajnekhali & Sudhanyakhali Watch Tower Entry",
-        "Govt. Forest Guide & Permits",
-        "Local Baul Folk Music Evening",
-      ],
-    },
-    {
-      id: "trip-3",
-      bookingId: "KT-71043",
-      packageTitle: "Kashmir Valley Paradise & Gulmarg Snow",
-      destination: "Srinagar & Gulmarg, Kashmir",
-      duration: "6 Days / 5 Nights",
-      dates: "18 May - 23 May 2026",
-      status: "Completed",
-      amount: 32500,
-      pointsEarned: 325,
-      image:
-        "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=600&q=80",
-      travellers: "2 Adults",
-      hotelCategory: "Dal Lake Heritage Houseboat & 4-Star Hotel",
-      mealPlan: "Daily Buffet Breakfast & Dinner",
-      pickupPoint: "Sheikh ul-Alam Airport (SXR), Srinagar",
-      paymentMode: "Net Banking (Paid in Full)",
-      appliedCoupon: {
-        code: "FESTIVE15",
-        discountAmount: 5000,
-      },
-      loyaltyRedeemed: {
-        points: 1000,
-        discountAmount: 1000,
-      },
-      inclusions: [
-        "1 Night Houseboat Stay with Shikara Ride",
-        "Gulmarg Gondola Phase 1 Cable Car Tickets",
-        "Pahalgam Betaab Valley Sightseeing",
-        "Heated AC Vehicle with Chauffeur",
-      ],
-    },
-  ],
-};
+interface CompleteProfileInput {
+  name: string
+  phoneCountryCode: string
+  phone: string
+  location?: string
+}
+
+interface AuthResult {
+  success: boolean
+  error?: string
+}
+
+interface VerifyOtpResult extends AuthResult {
+  profileComplete?: boolean
+}
 
 interface AuthContextType {
-  user: UserProfile | null;
-  isLoggedIn: boolean;
-  isProfileDrawerOpen: boolean;
-  openProfileDrawer: () => void;
-  closeProfileDrawer: () => void;
-  login: (customData?: Partial<UserProfile>) => void;
-  logout: () => void;
-  updateAvatar: (avatarDataUrl: string) => void;
-  updateProfile: (updates: Partial<UserProfile>) => void;
+  user: UserProfile | null
+  isLoggedIn: boolean
+  isAuthLoading: boolean
+  profileComplete: boolean
+  isProfileDrawerOpen: boolean
+  openProfileDrawer: () => void
+  closeProfileDrawer: () => void
+  sendEmailOtp: (email: string) => Promise<AuthResult>
+  verifyEmailOtp: (email: string, otp: string) => Promise<VerifyOtpResult>
+  signInWithGoogle: (callbackPath?: string) => Promise<void>
+  completeProfile: (input: CompleteProfileInput) => Promise<AuthResult>
+  updateProfile: (updates: Partial<UserProfile>) => Promise<void>
+  updateAvatar: (avatarDataUrl: string) => void
+  logout: () => Promise<void>
+  refreshMe: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-const LOCAL_STORAGE_KEY = "krikotrip_user_profile";
-const LOCAL_STORAGE_LOGGED_IN = "krikotrip_is_logged_in";
+function formatTier(
+  tier: 'silver_explorer' | 'gold_explorer' | 'platinum_elite',
+): 'Silver Explorer' | 'Gold Explorer' | 'Platinum Elite' {
+  switch (tier) {
+    case 'platinum_elite':
+      return 'Platinum Elite'
+    case 'gold_explorer':
+      return 'Gold Explorer'
+    default:
+      return 'Silver Explorer'
+  }
+}
+
+function mapProfileToUser(data: CustomerProfileData): UserProfile {
+  const fullPhone = [data.phoneCountryCode, data.phone].filter(Boolean).join(' ')
+  return {
+    name: data.name,
+    email: data.email,
+    phone: fullPhone,
+    avatar: data.avatarUrl || '',
+    location: data.location || '',
+    bio: data.bio || '',
+    loyaltyPoints: data.loyalty.pointsBalance,
+    tier: formatTier(data.loyalty.tier),
+    trips: [],
+  }
+}
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<UserProfile | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
+  const [user, setUser] = useState<UserProfile | null>(null)
+  const [profileComplete, setProfileComplete] = useState(false)
+  const [isAuthLoading, setIsAuthLoading] = useState(true)
+  const [isProfileDrawerOpen, setIsProfileDrawerOpen] = useState(false)
+  const isFetchingProfileRef = useRef(false)
 
-  // Initialize from localStorage on client side
+  const session = authClient.useSession()
+
   useEffect(() => {
     try {
-      const savedLoggedIn = localStorage.getItem(LOCAL_STORAGE_LOGGED_IN);
-      const savedUserStr = localStorage.getItem(LOCAL_STORAGE_KEY);
-
-      if (savedLoggedIn === "true") {
-        setIsLoggedIn(true);
-        if (savedUserStr) {
-          setUser(JSON.parse(savedUserStr));
-        } else {
-          setUser(DEFAULT_MOCK_USER);
-        }
-      }
+      localStorage.removeItem('krikotrip_user_profile')
+      localStorage.removeItem('krikotrip_is_logged_in')
     } catch {
-      // Fallback
+    }
+  }, [])
+
+  const loadProfile = useCallback(async () => {
+    if (isFetchingProfileRef.current) {
+      return
+    }
+    isFetchingProfileRef.current = true
+    try {
+      const data = await fetchMyProfile()
+      setUser(mapProfileToUser(data))
+      setProfileComplete(data.profileComplete)
+    } catch {
+      setUser(null)
+      setProfileComplete(false)
     } finally {
-      setIsInitialized(true);
+      isFetchingProfileRef.current = false
+      setIsAuthLoading(false)
     }
-  }, []);
+  }, [])
 
-  // Save changes to localStorage
   useEffect(() => {
-    if (!isInitialized) return;
-    try {
-      if (isLoggedIn && user) {
-        localStorage.setItem(LOCAL_STORAGE_LOGGED_IN, "true");
-        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(user));
-      } else {
-        localStorage.removeItem(LOCAL_STORAGE_LOGGED_IN);
-        localStorage.removeItem(LOCAL_STORAGE_KEY);
-      }
-    } catch {
-      // Ignore
+    if (session.isPending) {
+      return
     }
-  }, [user, isLoggedIn, isInitialized]);
 
-  const openProfileDrawer = () => setIsProfileDrawerOpen(true);
-  const closeProfileDrawer = () => setIsProfileDrawerOpen(false);
+    if (session.data?.user) {
+      void loadProfile()
+    } else {
+      setUser(null)
+      setProfileComplete(false)
+      setIsAuthLoading(false)
+    }
+  }, [session.isPending, session.data?.user, loadProfile])
 
-  const login = (customData?: Partial<UserProfile>) => {
-    const newUser: UserProfile = {
-      ...DEFAULT_MOCK_USER,
-      ...customData,
-    };
-    setUser(newUser);
-    setIsLoggedIn(true);
-    setIsProfileDrawerOpen(true); // Automatically open the profile right bar after fake login!
-  };
+  const openProfileDrawer = useCallback(() => setIsProfileDrawerOpen(true), [])
+  const closeProfileDrawer = useCallback(() => setIsProfileDrawerOpen(false), [])
 
-  const logout = () => {
-    setUser(null);
-    setIsLoggedIn(false);
-    setIsProfileDrawerOpen(false);
-  };
+  const sendEmailOtp = useCallback(async (email: string): Promise<AuthResult> => {
+    try {
+      const res = await authClient.emailOtp.sendVerificationOtp({
+        email,
+        type: 'sign-in',
+      })
+      if (res?.error) {
+        return { success: false, error: res.error.message || 'Failed to send verification code.' }
+      }
+      return { success: true }
+    } catch {
+      return { success: false, error: 'Failed to send verification code. Please check your connection.' }
+    }
+  }, [])
 
-  const updateAvatar = (avatarDataUrl: string) => {
-    setUser((prev) => (prev ? { ...prev, avatar: avatarDataUrl } : null));
-  };
+  const verifyEmailOtp = useCallback(
+    async (email: string, otp: string): Promise<VerifyOtpResult> => {
+      try {
+        const res = await authClient.signIn.emailOtp({ email, otp })
+        if (res?.error) {
+          const msg = res.error.message?.toLowerCase() ?? ''
+          if (msg.includes('invalid') || msg.includes('otp') || msg.includes('code')) {
+            return { success: false, error: 'Invalid or expired verification code.' }
+          }
+          if (msg.includes('rate limit') || msg.includes('too many')) {
+            return { success: false, error: 'Too many attempts. Please try again later.' }
+          }
+          return { success: false, error: res.error.message || 'Verification failed.' }
+        }
 
-  const updateProfile = (updates: Partial<UserProfile>) => {
-    setUser((prev) => (prev ? { ...prev, ...updates } : null));
-  };
+        try {
+          const profileData = await fetchMyProfile()
+          setUser(mapProfileToUser(profileData))
+          setProfileComplete(profileData.profileComplete)
+          return { success: true, profileComplete: profileData.profileComplete }
+        } catch {
+          return { success: true, profileComplete: false }
+        }
+      } catch {
+        return { success: false, error: 'Verification failed. Please try again.' }
+      }
+    },
+    [],
+  )
+
+  const signInWithGoogle = useCallback(async (callbackPath = '/'): Promise<void> => {
+    const origin = typeof window !== 'undefined' ? window.location.origin : ''
+    const callbackURL = `${origin}${callbackPath.startsWith('/') ? callbackPath : `/${callbackPath}`}`
+    await authClient.signIn.social({
+      provider: 'google',
+      callbackURL,
+    })
+  }, [])
+
+  const completeProfile = useCallback(
+    async (input: CompleteProfileInput): Promise<AuthResult> => {
+      try {
+        const payload: UpdateCustomerProfilePayload = {
+          name: input.name,
+          phoneCountryCode: input.phoneCountryCode,
+          phone: input.phone,
+          location: input.location || null,
+        }
+        const updated = await updateMyProfile(payload)
+        setUser(mapProfileToUser(updated))
+        setProfileComplete(updated.profileComplete)
+        return { success: true }
+      } catch {
+        return { success: false, error: 'Failed to save profile. Please try again.' }
+      }
+    },
+    [],
+  )
+
+  const updateProfile = useCallback(async (updates: Partial<UserProfile>): Promise<void> => {
+    try {
+      const payload: UpdateCustomerProfilePayload = {}
+      if (updates.name !== undefined) {
+        payload.name = updates.name
+      }
+      if (updates.location !== undefined) {
+        payload.location = updates.location
+      }
+      if (updates.bio !== undefined) {
+        payload.bio = updates.bio
+      }
+      const updated = await updateMyProfile(payload)
+      setUser(mapProfileToUser(updated))
+      setProfileComplete(updated.profileComplete)
+    } catch (err: unknown) {
+      throw err
+    }
+  }, [])
+
+  const updateAvatar = useCallback((avatarDataUrl: string) => {
+    setUser((prev) => (prev ? { ...prev, avatar: avatarDataUrl } : null))
+  }, [])
+
+  const logout = useCallback(async (): Promise<void> => {
+    try {
+      await authClient.signOut()
+    } catch {
+    } finally {
+      clearAccessToken()
+      setUser(null)
+      setProfileComplete(false)
+      setIsProfileDrawerOpen(false)
+    }
+  }, [])
+
+  const refreshMe = useCallback(async (): Promise<void> => {
+    await loadProfile()
+  }, [loadProfile])
+
+  const isLoggedIn = user !== null && !isAuthLoading
 
   return (
     <AuthContext.Provider
       value={{
         user,
         isLoggedIn,
+        isAuthLoading,
+        profileComplete,
         isProfileDrawerOpen,
         openProfileDrawer,
         closeProfileDrawer,
-        login,
-        logout,
-        updateAvatar,
+        sendEmailOtp,
+        verifyEmailOtp,
+        signInWithGoogle,
+        completeProfile,
         updateProfile,
+        updateAvatar,
+        logout,
+        refreshMe,
       }}
     >
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
-export function useAuth() {
-  const context = useContext(AuthContext);
+export function useAuth(): AuthContextType {
+  const context = useContext(AuthContext)
   if (!context) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider')
   }
-  return context;
+  return context
 }
-

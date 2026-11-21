@@ -1,4 +1,5 @@
 import { env } from '../env'
+import { clearAccessToken, getAccessToken } from '../auth/client'
 import { ApiError } from './errors'
 
 const getBaseUrl = (): string => {
@@ -24,7 +25,16 @@ const parseResponse = async <T>(response: Response): Promise<T> => {
 
   if (!response.ok) {
     if (isJson && body && typeof body === 'object' && 'error' in body) {
-      const errorObj = (body as { error?: { code?: string; message?: string; details?: unknown; requestId?: string } }).error
+      const errorObj = (
+        body as {
+          error?: {
+            code?: string
+            message?: string
+            details?: unknown
+            requestId?: string
+          }
+        }
+      ).error
       throw new ApiError(response.status, {
         code: errorObj?.code ?? 'UNKNOWN_ERROR',
         message: errorObj?.message ?? response.statusText,
@@ -50,15 +60,39 @@ export const apiGet = async <T>(path: string, options?: RequestInit): Promise<T>
   const cleanPath = path.startsWith('/') ? path : `/${path}`
   const targetUrl = `${baseUrl}${cleanPath}`
 
-  const response = await fetch(targetUrl, {
+  const headers = new Headers(options?.headers)
+  if (!headers.has('Accept')) {
+    headers.set('Accept', 'application/json')
+  }
+
+  if (typeof window !== 'undefined' && !headers.has('Authorization')) {
+    const token = await getAccessToken()
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+  }
+
+  let response = await fetch(targetUrl, {
     ...options,
     method: 'GET',
-    headers: {
-      Accept: 'application/json',
-      ...options?.headers,
-    },
+    headers,
     signal: options?.signal ?? AbortSignal.timeout(15_000),
   })
+
+  if (response.status === 401 && typeof window !== 'undefined') {
+    const freshToken = await getAccessToken(true)
+    if (freshToken) {
+      headers.set('Authorization', `Bearer ${freshToken}`)
+      response = await fetch(targetUrl, {
+        ...options,
+        method: 'GET',
+        headers,
+        signal: options?.signal ?? AbortSignal.timeout(15_000),
+      })
+    } else {
+      clearAccessToken()
+    }
+  }
 
   return parseResponse<T>(response)
 }
@@ -74,19 +108,48 @@ export const apiSend = async <T>(
   const targetUrl = `${baseUrl}${cleanPath}`
 
   const isFormData = typeof FormData !== 'undefined' && body instanceof FormData
-  const headers: HeadersInit = {
-    Accept: 'application/json',
-    ...(!isFormData && body !== undefined ? { 'Content-Type': 'application/json' } : {}),
-    ...options?.headers,
+  const headers = new Headers(options?.headers)
+  if (!headers.has('Accept')) {
+    headers.set('Accept', 'application/json')
+  }
+  if (!isFormData && body !== undefined && !headers.has('Content-Type')) {
+    headers.set('Content-Type', 'application/json')
   }
 
-  const response = await fetch(targetUrl, {
+  if (typeof window !== 'undefined' && !headers.has('Authorization')) {
+    const token = await getAccessToken()
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+  }
+
+  let response = await fetch(targetUrl, {
     ...options,
     method,
     headers,
     body: isFormData ? (body as FormData) : body !== undefined ? JSON.stringify(body) : undefined,
     signal: options?.signal ?? AbortSignal.timeout(15_000),
   })
+
+  if (response.status === 401 && typeof window !== 'undefined') {
+    const freshToken = await getAccessToken(true)
+    if (freshToken) {
+      headers.set('Authorization', `Bearer ${freshToken}`)
+      response = await fetch(targetUrl, {
+        ...options,
+        method,
+        headers,
+        body: isFormData
+          ? (body as FormData)
+          : body !== undefined
+            ? JSON.stringify(body)
+            : undefined,
+        signal: options?.signal ?? AbortSignal.timeout(15_000),
+      })
+    } else {
+      clearAccessToken()
+    }
+  }
 
   return parseResponse<T>(response)
 }
