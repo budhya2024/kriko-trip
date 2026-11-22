@@ -48,7 +48,9 @@ export default function Home() {
 
         <GeneralQuestionsFAQ />
 
-        <TravelInspirations />
+        <Suspense fallback={null}>
+          <TravelInspirations />
+        </Suspense>
       </main>
 
       <Footer />
