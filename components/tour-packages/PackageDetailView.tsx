@@ -38,7 +38,8 @@ import {
   Crown,
 } from "lucide-react";
 import { TourPackage } from "./types";
-import { PackageDetailedInfo } from "./packageDetailData";
+import { getPricingDisplay } from "@/lib/pricing-display";
+import { toPaise } from "@/lib/format";
 import BankingDatePicker from "@/components/shared/DateTimePicker";
 import RelevantPackagesSlider from "./RelevantPackagesSlider";
 import PackageReviewsSection from "./PackageReviewsSection";
@@ -46,7 +47,7 @@ import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 import { useAuth } from "@/components/shared/AuthContext";
 
 interface PackageDetailViewProps {
-  pkg: TourPackage & PackageDetailedInfo;
+  pkg: TourPackage;
   relatedPackages: TourPackage[];
 }
 
@@ -54,18 +55,14 @@ export default function PackageDetailView({
   pkg,
   relatedPackages,
 }: PackageDetailViewProps) {
-  // Itinerary accordion state (Day 1 expanded by default)
   const [openDays, setOpenDays] = useState<number[]>([1]);
   const [isSaved, setIsSaved] = useState(false);
   const [copiedShare, setCopiedShare] = useState(false);
 
-  // FAQ accordion state (FAQ 0 expanded by default)
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  // Country code state for phone field
   const [countryCode, setCountryCode] = useState("+91");
 
-  // Sidebar Quote Form State (Matches reference screenshot)
   const [sidebarForm, setSidebarForm] = useState({
     name: "",
     phone: "",
@@ -78,11 +75,9 @@ export default function PackageDetailView({
   const [minDate, setMinDate] = useState<string>("2026-11-01");
   const [mounted, setMounted] = useState(false);
 
-  // User Profile & Loyalty Rewards State
   const { user, isLoggedIn, updateProfile } = useAuth();
   const [applyLoyalty, setApplyLoyalty] = useState(false);
 
-  // Professional Coupon Code State
   const [couponInput, setCouponInput] = useState("");
   const [couponError, setCouponError] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{
@@ -91,18 +86,14 @@ export default function PackageDetailView({
     discountText: string;
   } | null>(null);
 
-  // Available loyalty points (actual user points or demo 1,450 points)
   const availableLoyaltyPoints = user?.loyaltyPoints ?? 1450;
 
-  // Coupon calculations
   const couponDiscount = appliedCoupon ? appliedCoupon.discountAmount : 0;
   const priceAfterCoupon = Math.max(0, pkg.price - couponDiscount);
 
-  // Max points redeemable cannot exceed remaining package price (1 point = ₹1)
   const redeemableLoyaltyPoints = Math.min(availableLoyaltyPoints, priceAfterCoupon);
   const loyaltyDiscount = applyLoyalty ? redeemableLoyaltyPoints : 0;
 
-  // Total discount & final effective payable price
   const totalSavings = couponDiscount + loyaltyDiscount;
   const finalPrice = Math.max(0, pkg.price - totalSavings);
 
@@ -163,7 +154,6 @@ export default function PackageDetailView({
     setMinDate(`${y}-${m}-${d}`);
   }, []);
 
-  // Auto-fill form details if user is logged in
   useEffect(() => {
     if (user && isLoggedIn) {
       setSidebarForm((prev) => ({
@@ -174,7 +164,6 @@ export default function PackageDetailView({
     }
   }, [user, isLoggedIn]);
 
-  // Mobile Scroll & Form Visibility Tracking
   const bookingFormRef = useRef<HTMLDivElement>(null);
   const [isFormInView, setIsFormInView] = useState(false);
 
@@ -206,11 +195,16 @@ export default function PackageDetailView({
     }
   };
 
-  const originalPrice = pkg.originalPrice || Math.round(pkg.price * 1.25);
-  const savings = originalPrice - pkg.price;
-  const discountPercent = Math.round((savings / originalPrice) * 100);
+  const pricePaise = pkg.pricePaise || toPaise(pkg.price);
+  const origPaise =
+    pkg.originalPricePaise ?? (pkg.originalPrice ? toPaise(pkg.originalPrice) : null);
+  const pricing = getPricingDisplay(pricePaise, origPaise);
+  const originalPrice = pricing.originalPricePaise
+    ? Math.round(pricing.originalPricePaise / 100)
+    : 0;
+  const savings = pricing.savePaise ? Math.round(pricing.savePaise / 100) : 0;
+  const discountPercent = pricing.discountPercent;
 
-  // Split title if it contains parenthesis route details (e.g. "Kerala Backwaters (2 nts Munnar + ...)")
   const parenMatch = pkg.title.match(/^(.*?)\s*\((.*?)\)\s*$/);
   const mainTitle = parenMatch ? parenMatch[1].trim() : pkg.title;
 
@@ -221,7 +215,6 @@ export default function PackageDetailView({
     "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80",
   ];
 
-  // 4 high-res gallery photos for the collage matching Screenshot 1
   const galleryImages = [
     pkg.images?.[0] || pkg.image || fallbackImages[0],
     pkg.images?.[1] || fallbackImages[1],
@@ -236,7 +229,7 @@ export default function PackageDetailView({
   };
 
   const expandAllDays = () => {
-    setOpenDays(pkg.itinerary.map((d) => d.day));
+    setOpenDays((pkg.itinerary || []).map((d) => d.day));
   };
 
   const collapseAllDays = () => {
@@ -263,7 +256,6 @@ export default function PackageDetailView({
     setTimeout(() => {
       setIsQuoteSubmitted(false);
 
-      // If loyalty points were redeemed and user is logged in, deduct them
       if (applyLoyalty && loyaltyDiscount > 0 && user && isLoggedIn) {
         updateProfile({
           loyaltyPoints: Math.max(0, user.loyaltyPoints - loyaltyDiscount),
@@ -298,30 +290,31 @@ export default function PackageDetailView({
     }, 1000);
   };
 
-  const faqs = [
-    {
-      q: `What are the must-visit places in ${pkg.location}?`,
-      a: `In ${pkg.location}, must-visit attractions include iconic historical landmarks, pristine beaches, scenic view points, and local cultural markets—all covered in our curated itinerary.`,
-    },
-    {
-      q: "Do tour packages include entrance fees?",
-      a: "Yes! All standard monument tickets, national park permits, and entry passes mentioned in the itinerary are included in the package price.",
-    },
-    {
-      q: "What type of accommodation is included?",
-      a: `We provide verified luxury accommodations (${pkg.hotelStars || 5}-Star Resorts / Luxury Hotels) with daily breakfast, private bathrooms, Wi-Fi, and 24-hour front desk support.`,
-    },
-    {
-      q: "Will I get a full refund if I cancel my trip?",
-      a: "Yes, free cancellation is available up to 7 days prior to departure for a 100% full refund minus minimal banking gateway fees.",
-    },
-  ];
+  const faqs =
+    pkg.faqs && pkg.faqs.length > 0
+      ? pkg.faqs.map((f) => ({ q: f.question, a: f.answer }))
+      : [
+          {
+            q: `What are the must-visit places in ${pkg.location}?`,
+            a: `In ${pkg.location}, must-visit attractions include iconic historical landmarks, pristine beaches, scenic view points, and local cultural markets—all covered in our curated itinerary.`,
+          },
+          {
+            q: "Do tour packages include entrance fees?",
+            a: "Yes! All standard monument tickets, national park permits, and entry passes mentioned in the itinerary are included in the package price.",
+          },
+          {
+            q: "What type of accommodation is included?",
+            a: `We provide verified luxury accommodations (${pkg.hotel?.stars || pkg.hotelStars || 5}-Star Resorts / Luxury Hotels) with daily breakfast, private bathrooms, Wi-Fi, and 24-hour front desk support.`,
+          },
+          {
+            q: "Will I get a full refund if I cancel my trip?",
+            a: "Yes, free cancellation is available up to 7 days prior to departure for a 100% full refund minus minimal banking gateway fees.",
+          },
+        ];
 
   return (
     <div className="w-full bg-[#FFFFFF] font-sans antialiased text-[#111827] pb-0 relative">
-      {/* ─── TOP HERO BANNER WITH SCENIC BACKGROUND & BREADCRUMB ─── */}
       <section className="relative w-full overflow-hidden bg-black py-7 sm:py-9 flex items-center min-h-[160px] sm:min-h-[190px]">
-        {/* Background Image with Black Layer Above */}
         <div className="absolute inset-0 z-0">
           <Image
             src={pkg.image}
@@ -331,13 +324,10 @@ export default function PackageDetailView({
             sizes="100vw"
             className="object-cover object-center scale-105"
           />
-          {/* Black Layer Above Image */}
           <div className="absolute inset-0 bg-black/65" />
         </div>
 
-        {/* Content Container with Generous Left Spacing for Main Heading */}
         <div className="container relative z-10 text-left px-6 sm:px-10 lg:px-12">
-          {/* Breadcrumb Navigation on Top with Background */}
           <nav
             aria-label="Breadcrumb"
             className="flex items-center gap-2 text-xs sm:text-[13px] text-white/80 mb-2.5 font-normal"
@@ -361,22 +351,17 @@ export default function PackageDetailView({
             </span>
           </nav>
 
-          {/* Package Heading: Refined, Elegant Typography */}
           <h1 className="text-xl sm:text-2xl lg:text-[28px] font-semibold text-white tracking-tight leading-snug max-w-4xl">
             {mainTitle}
           </h1>
         </div>
       </section>
 
-      {/* ─── MAIN 2-COLUMN SECTION: LEFT HAS ALL CONTENT, RIGHT ONLY HAS THE FORM ─── */}
       <section className="py-8 sm:py-10 lg:py-12">
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
-            {/* ════ LEFT COLUMN: ALL TOUR DETAILS (lg:col-span-8) ════ */}
             <div className="lg:col-span-8 space-y-10 sm:space-y-12">
-              {/* ─── 1. PHOTO GALLERY COLLAGE (Always shows all 4 photos side-by-side) ─── */}
               <div className="grid grid-cols-2 gap-2 sm:gap-3.5 h-[220px] xs:h-[270px] sm:h-[380px] md:h-[430px]">
-                {/* Left Tall Vertical Photo */}
                 <div className="relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                   <Image
                     src={galleryImages[0]}
@@ -388,9 +373,7 @@ export default function PackageDetailView({
                   />
                 </div>
 
-                {/* Right 3 Photos (1 Wide Top, 2 Half-width Bottom in a 2x2 grid) */}
                 <div className="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-3.5 h-full">
-                  {/* Top Wide Photo (Spans 2 columns across Row 1) */}
                   <div className="col-span-2 relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[1]}
@@ -402,7 +385,6 @@ export default function PackageDetailView({
                     />
                   </div>
 
-                  {/* Bottom Left Photo (Row 2 Col 1) */}
                   <div className="relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[2]}
@@ -414,7 +396,6 @@ export default function PackageDetailView({
                     />
                   </div>
 
-                  {/* Bottom Right Photo (Row 2 Col 2) */}
                   <div className="relative w-full h-full rounded-md overflow-hidden bg-gray-100 group">
                     <Image
                       src={galleryImages[3]}
@@ -428,7 +409,6 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* ─── 2. ABOUT TOUR PACKAGE ─── */}
               <div className="mt-6 md:mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-3 tracking-tight">
                   About Tour Package
@@ -437,23 +417,20 @@ export default function PackageDetailView({
                   {pkg.overview || pkg.description}
                 </p>
 
-                {/* 9-Item Specs Box in Clean Rounded Border Card */}
                 <div className="rounded-2xl border border-gray-200/90 bg-white p-4 sm:p-8 shadow-xs">
                   <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-y-5 sm:gap-y-7 gap-x-4 sm:gap-x-8">
-                    {/* Accomodation */}
                     <div className="flex items-center gap-3.5">
                       <Building className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
                         <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
-                          Accomodation
+                          Accommodation
                         </span>
                         <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          {pkg.hotelStars || 5} Star Hotel
+                          {pkg.hotel?.stars ? `${pkg.hotel.stars} Star Hotel` : pkg.hotelStars ? `${pkg.hotelStars} Star Hotel` : pkg.hotel?.name || pkg.hotelName || "Luxury Hotel"}
                         </span>
                       </div>
                     </div>
 
-                    {/* Meals */}
                     <div className="flex items-center gap-3.5">
                       <Utensils className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
@@ -466,7 +443,6 @@ export default function PackageDetailView({
                       </div>
                     </div>
 
-                    {/* Transportation */}
                     <div className="flex items-center gap-3.5">
                       <Car className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
@@ -474,95 +450,123 @@ export default function PackageDetailView({
                           Transportation
                         </span>
                         <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          Taxi,Car
+                          Private AC Vehicle
                         </span>
                       </div>
                     </div>
 
-                    {/* Group Size */}
                     <div className="flex items-center gap-3.5">
-                      <Users className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                      <Clock className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
                         <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
-                          Group Size
+                          Duration
                         </span>
                         <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          10-20
+                          {pkg.duration}
                         </span>
                       </div>
                     </div>
 
-                    {/* Language */}
                     <div className="flex items-center gap-3.5">
-                      <Languages className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                      <Navigation className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
                       <div>
                         <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
-                          Language
+                          Travel Type
                         </span>
-                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          English, Spanish
+                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900 capitalize">
+                          {pkg.travelType}
                         </span>
                       </div>
                     </div>
 
-                    {/* Animal */}
-                    <div className="flex items-center gap-3.5">
-                      <PawPrint className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
-                      <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
-                          Animal
-                        </span>
-                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          Cat, Pet only
-                        </span>
+                    {pkg.category && (
+                      <div className="flex items-center gap-3.5">
+                        <Tag className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                        <div>
+                          <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
+                            Category
+                          </span>
+                          <span className="text-sm sm:text-[15px] font-semibold text-gray-900 capitalize">
+                            {pkg.category}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Age Range */}
-                    <div className="flex items-center gap-3.5">
-                      <Calendar className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
-                      <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
-                          Age Range
-                        </span>
-                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          18-45 (Year)
-                        </span>
+                    {pkg.tripFacts?.groupSize && (
+                      <div className="flex items-center gap-3.5">
+                        <Users className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                        <div>
+                          <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
+                            Group Size
+                          </span>
+                          <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
+                            {pkg.tripFacts.groupSize}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Season */}
-                    <div className="flex items-center gap-3.5">
-                      <Leaf className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
-                      <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
-                          Season
-                        </span>
-                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          Winter Season
-                        </span>
+                    {pkg.tripFacts?.languages && (
+                      <div className="flex items-center gap-3.5">
+                        <Languages className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                        <div>
+                          <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
+                            Language
+                          </span>
+                          <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
+                            {pkg.tripFacts.languages}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    )}
 
-                    {/* Category */}
-                    <div className="flex items-center gap-3.5">
-                      <Tag className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
-                      <div>
-                        <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
-                          Category
-                        </span>
-                        <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
-                          Adventure
-                        </span>
+                    {pkg.tripFacts?.bestSeason && (
+                      <div className="flex items-center gap-3.5">
+                        <Leaf className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                        <div>
+                          <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
+                            Best Season
+                          </span>
+                          <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
+                            {pkg.tripFacts.bestSeason}
+                          </span>
+                        </div>
                       </div>
-                    </div>
+                    )}
+
+                    {pkg.tripFacts?.startingPoint && (
+                      <div className="flex items-center gap-3.5">
+                        <Compass className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                        <div>
+                          <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
+                            Starting Point
+                          </span>
+                          <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
+                            {pkg.tripFacts.startingPoint}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+
+                    {pkg.tripFacts?.endingPoint && (
+                      <div className="flex items-center gap-3.5">
+                        <Compass className="w-5 h-5 text-gray-500 shrink-0 stroke-[1.6]" />
+                        <div>
+                          <span className="block text-xs sm:text-[13px] text-gray-500 font-normal">
+                            Ending Point
+                          </span>
+                          <span className="text-sm sm:text-[15px] font-semibold text-gray-900">
+                            {pkg.tripFacts.endingPoint}
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
 
-              {/* ─── 3. TOUR ITINERARY ─── */}
               <div className="mt-10">
-                {/* Header with Title & Expand / Collapse */}
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 tracking-tight">
                     Tour Itinerary
@@ -586,7 +590,6 @@ export default function PackageDetailView({
                   </div>
                 </div>
 
-                {/* Sub-header with Blue Navigation Icon & Departure Time */}
                 <div className="flex items-center gap-2.5 mb-5">
                   <div className="w-6 h-6 rounded-full bg-[#1877F2] text-white flex items-center justify-center shrink-0 shadow-xs">
                     <Navigation className="w-3 h-3 fill-white text-white" />
@@ -599,9 +602,8 @@ export default function PackageDetailView({
                   </div>
                 </div>
 
-                {/* Itinerary Card with Dividers, Pin Icons & Spacing Matching Screenshot */}
                 <div className="rounded-2xl border border-gray-200 bg-white px-6 sm:px-8 py-2 shadow-xs">
-                  {pkg.itinerary.map((dayItem) => {
+                  {(pkg.itinerary || []).map((dayItem) => {
                     const isOpen = openDays.includes(dayItem.day);
                     const dayPadded =
                       dayItem.day < 10 ? `0${dayItem.day}` : dayItem.day;
@@ -614,19 +616,15 @@ export default function PackageDetailView({
                           className="w-full flex items-center justify-between text-left cursor-pointer group"
                         >
                           <div className="flex items-center pr-4 flex-1">
-                            {/* Pin Icon */}
                             <MapPin className="w-4 h-4 text-black shrink-0 stroke-[2.2]" />
-                            {/* Day Number */}
                             <span className="font-semibold text-gray-950 text-sm sm:text-base shrink-0 mx-2.5">
                               Day-{dayPadded}
                             </span>
-                            {/* Main Heading with Left Side Space */}
                             <span className="text-sm sm:text-base font-normal text-gray-800 group-hover:text-[#1877F2] transition-colors ml-6 sm:ml-10 line-clamp-1">
                               {dayItem.title}
                             </span>
                           </div>
 
-                          {/* Caret Down Icon matching screenshot */}
                           <div className="shrink-0 text-gray-500 pl-2">
                             <svg
                               className={`w-3.5 h-3.5 fill-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""
@@ -638,7 +636,6 @@ export default function PackageDetailView({
                           </div>
                         </button>
 
-                        {/* Expandable Day Details (Matching Reference Screenshot Structure with Smooth Dropdown) */}
                         <div
                           className={`grid transition-all duration-300 ease-in-out ${isOpen
                             ? "grid-rows-[1fr] opacity-100 mt-4 pt-1"
@@ -647,14 +644,11 @@ export default function PackageDetailView({
                         >
                           <div className="overflow-hidden">
                             <div className="text-sm sm:text-[15px] text-gray-700 space-y-4 pl-0 sm:pl-2">
-                              {/* Description Paragraph */}
                               <p className="leading-relaxed font-normal text-gray-600">
                                 {dayItem.description}
                               </p>
 
-                              {/* 4 Details Rows with Blue Icons and Exact Colon Alignment */}
                               <div className="space-y-3 pt-2">
-                                {/* Transport */}
                                 <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
                                   <svg className="w-4 h-4 text-[#1877F2] fill-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24">
                                     <path d="M12 2L2 12l10 10 10-10L12 2zm0 5.5l4.5 4.5-4.5 4.5-4.5-4.5 4.5-4.5z" />
@@ -668,7 +662,6 @@ export default function PackageDetailView({
                                   </span>
                                 </div>
 
-                                {/* Activities */}
                                 <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
                                   <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none">
                                     <circle cx="12" cy="12" r="9" fill="#1877F2" />
@@ -685,7 +678,6 @@ export default function PackageDetailView({
                                   </span>
                                 </div>
 
-                                {/* Meals */}
                                 <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
                                   <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
                                     <circle cx="12" cy="12" r="9" />
@@ -700,7 +692,6 @@ export default function PackageDetailView({
                                   </span>
                                 </div>
 
-                                {/* Accomodation */}
                                 <div className="flex items-start sm:items-center gap-2.5 text-xs sm:text-sm">
                                   <svg className="w-4 h-4 text-[#1877F2] shrink-0 mt-0.5 sm:mt-0" viewBox="0 0 24 24" fill="none" stroke="#1877F2" strokeWidth="2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -723,19 +714,17 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* ─── 4. PACKAGE FEATURES LIST ─── */}
               <div className="mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-6 tracking-tight">
                   Package Features List
                 </h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  {/* Include Features Column */}
                   <div>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
                       Include Features
                     </h3>
                     <ul className="space-y-3.5">
-                      {pkg.inclusions.map((item, idx) => (
+                      {(pkg.inclusions || []).map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2.5">
                           <CheckCircle2
                             className="w-4.5 h-4.5 text-[#1877F2] shrink-0 mt-0.5"
@@ -749,13 +738,12 @@ export default function PackageDetailView({
                     </ul>
                   </div>
 
-                  {/* Exclude Features Column */}
                   <div>
                     <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">
                       Exclude Features
                     </h3>
                     <ul className="space-y-3.5">
-                      {pkg.exclusions.map((item, idx) => (
+                      {(pkg.exclusions || []).map((item, idx) => (
                         <li key={idx} className="flex items-start gap-2.5">
                           <XCircle
                             className="w-4.5 h-4.5 text-[#EF4444] shrink-0 mt-0.5"
@@ -771,7 +759,6 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* ─── 5. ADDITIONAL INFO ─── */}
               <div className="mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-4 tracking-tight">
                   Additional Info
@@ -805,7 +792,6 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* ─── 6. FREQUENTLY ASKED & QUESTION ─── */}
               <div className="mt-10">
                 <h2 className="text-2xl sm:text-[26px] font-semibold text-gray-900 mb-4 tracking-tight">
                   Frequently Asked & Question
@@ -821,7 +807,6 @@ export default function PackageDetailView({
                           : "bg-[#F3F4F6] hover:bg-[#EBEEF2] p-5 sm:p-6"
                           }`}
                       >
-                        {/* Accordion Header */}
                         <button
                           type="button"
                           onClick={() => setOpenFaq(isOpen ? null : idx)}
@@ -834,7 +819,6 @@ export default function PackageDetailView({
                             {faq.q}
                           </span>
 
-                          {/* Smooth Rotating Triangle Arrow Like Home Page */}
                           <div className="shrink-0 ml-2">
                             <svg
                               viewBox="0 0 10 6"
@@ -849,7 +833,6 @@ export default function PackageDetailView({
                           </div>
                         </button>
 
-                        {/* Smooth Animated Opening & Closing Dropdown */}
                         <div
                           className={`grid transition-all duration-300 ease-in-out ${isOpen
                             ? "grid-rows-[1fr] opacity-100 mt-3 pt-1"
@@ -868,7 +851,6 @@ export default function PackageDetailView({
                 </div>
               </div>
 
-              {/* ─── 7. TRAVELER REVIEWS SECTION ─── */}
               <PackageReviewsSection
                 packageTitle={mainTitle}
                 destination={pkg.destination || pkg.location}
@@ -877,14 +859,12 @@ export default function PackageDetailView({
               />
             </div>
 
-            {/* ════ RIGHT COLUMN: SIDEBAR FORM (Inside lg:col-span-4) ════ */}
             <div
               id="booking-form"
               ref={bookingFormRef}
               className="lg:col-span-4 lg:sticky lg:top-24 scroll-mt-24"
             >
               <div className="bg-white rounded-xl border border-gray-200/90 shadow-sm p-5 sm:p-6 relative">
-                {/* Top Row: Download Brochure & Share */}
                 <div className="flex items-center gap-2.5 mb-5">
                   <button
                     type="button"
@@ -904,10 +884,8 @@ export default function PackageDetailView({
                   </button>
                 </div>
 
-                {/* Deal & Price Box (Matches Special Offer Reference Screenshot) */}
                 {savings > 0 ? (
                   <div className="rounded-xl border border-[#FDE68A] bg-[#FFFDF7] p-4 sm:p-5 mb-5 flex items-center justify-between shadow-2xs">
-                    {/* Left Side */}
                     <div className="flex flex-col items-start">
                       <span className="text-xs font-semibold text-[#C2410C] uppercase tracking-wide mb-1">
                         SPECIAL OFFER
@@ -926,7 +904,6 @@ export default function PackageDetailView({
                       </span>
                     </div>
 
-                    {/* Right Side */}
                     <div className="flex flex-col text-right items-end">
                       <div className="flex items-center justify-end gap-1.5 text-[11px] font-semibold text-[#475569] uppercase tracking-wide">
                         <span>STARTING FROM</span>
@@ -967,14 +944,11 @@ export default function PackageDetailView({
                   </div>
                 )}
 
-                {/* Form Subtitle */}
                 <p className="text-xs sm:text-sm font-medium text-gray-700 mb-3.5">
                   Share your details and we&apos;ll contact you shortly.
                 </p>
 
-                {/* Form with Normal Rounded Inputs, Country Dropdown & Normal Placeholders */}
                 <form onSubmit={handleQuoteSubmit} className="space-y-3">
-                  {/* Name */}
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Your Name <span className="text-red-500">*</span>
@@ -994,20 +968,17 @@ export default function PackageDetailView({
                     </div>
                   </div>
 
-                  {/* Phone with Country Dropdown */}
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Phone Number <span className="text-red-500">*</span>
                     </label>
                     <div className="relative flex items-center rounded-lg border border-gray-300 focus-within:border-[#1877F2] bg-white transition-colors shadow-2xs">
-                      {/* Country Code Dropdown with Map/Flag, Name & Search */}
                       <CountryPhoneSelect
                         value={countryCode}
                         onChange={(code) => setCountryCode(code)}
                         buttonClassName="rounded-l-lg"
                       />
 
-                      {/* Phone Input */}
                       <div className="flex items-center gap-2 px-3 py-3 flex-1 min-w-0">
                         <Phone className="w-3.5 h-3.5 text-gray-400 shrink-0" />
                         <input
@@ -1024,7 +995,6 @@ export default function PackageDetailView({
                     </div>
                   </div>
 
-                  {/* Email */}
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Email Address <span className="text-red-500">*</span>
@@ -1044,9 +1014,7 @@ export default function PackageDetailView({
                     </div>
                   </div>
 
-                  {/* Travel Date & No. of Travellers (Always 1 Row on Mobile and Desktop) */}
                   <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
-                    {/* Travel Date */}
                     <div className="min-w-0 w-full">
                       <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
                         Travel Date
@@ -1062,7 +1030,6 @@ export default function PackageDetailView({
                       />
                     </div>
 
-                    {/* No. of Travellers */}
                     <div className="min-w-0 w-full">
                       <label className="block text-xs font-medium text-gray-700 mb-1 truncate">
                         Travellers
@@ -1084,7 +1051,6 @@ export default function PackageDetailView({
                     </div>
                   </div>
 
-                  {/* ─── Professional Coupon Code Apply Section ─── */}
                   <div>
                     <div className="flex items-center justify-between mb-1">
                       <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
@@ -1132,7 +1098,6 @@ export default function PackageDetailView({
                           </p>
                         )}
 
-                        {/* Suggested Quick Apply Badges */}
                         <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
                           <span className="text-[10px] text-gray-400 font-medium">Offers:</span>
                           {availableCoupons.map((c) => (
@@ -1149,7 +1114,6 @@ export default function PackageDetailView({
                         </div>
                       </div>
                     ) : (
-                      /* Applied State Card */
                       <div className="p-2.5 rounded-lg bg-emerald-50/90 border border-emerald-200 flex items-center justify-between text-xs animate-in fade-in duration-200">
                         <div className="flex items-center gap-2 min-w-0">
                           <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
@@ -1180,7 +1144,6 @@ export default function PackageDetailView({
                     )}
                   </div>
 
-                  {/* ─── Loyalty Points Redemption Section ─── */}
                   <div>
                     <div className="flex items-center justify-between mb-1">
                       <label className="text-xs font-medium text-gray-700 flex items-center gap-1.5">
@@ -1226,7 +1189,6 @@ export default function PackageDetailView({
                         </div>
                       </div>
                     ) : (
-                      /* Loyalty Applied Card */
                       <div className="p-2.5 rounded-lg bg-amber-50 border border-amber-300 flex items-center justify-between text-xs animate-in fade-in duration-200">
                         <div className="flex items-center gap-2.5 min-w-0">
                           <div className="w-7 h-7 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center shrink-0">
@@ -1237,9 +1199,6 @@ export default function PackageDetailView({
                               <span className="font-semibold text-amber-950 text-xs">
                                 {redeemableLoyaltyPoints.toLocaleString("en-IN")} Points Redeemed
                               </span>
-                              {/* <span className="text-[10px] font-semibold text-amber-900 bg-amber-200 px-1.5 py-0.5 rounded">
-                                ₹{loyaltyDiscount.toLocaleString("en-IN")} OFF
-                              </span> */}
                             </div>
                             <span className="text-[11px] text-amber-800 font-medium block truncate">
                               Instant loyalty cashback applied!
@@ -1257,7 +1216,6 @@ export default function PackageDetailView({
                     )}
                   </div>
 
-                  {/* Combined Price Summary (Coupon + Loyalty) */}
                   {(appliedCoupon || (applyLoyalty && loyaltyDiscount > 0)) && (
                     <div className="p-3 rounded-lg bg-gray-50 border border-gray-200/80 space-y-1.5 text-xs text-gray-700 animate-in fade-in duration-150">
                       <div className="flex items-center justify-between">
@@ -1305,7 +1263,6 @@ export default function PackageDetailView({
                     </div>
                   )}
 
-                  {/* Message (Optional) */}
                   <div>
                     <label className="block text-xs font-medium text-gray-700 mb-1">
                       Message (Optional)
@@ -1324,7 +1281,6 @@ export default function PackageDetailView({
                     </div>
                   </div>
 
-                  {/* Submit Button (Price not shown in button) */}
                   <button
                     type="submit"
                     disabled={isQuoteSubmitted}
@@ -1342,10 +1298,8 @@ export default function PackageDetailView({
         </div>
       </section>
 
-      {/* ─── BOTTOM SECTION: RELEVANT PACKAGE SLIDER COMPONENT ─── */}
       <RelevantPackagesSlider packages={relatedPackages} />
 
-      {/* ─── MOBILE STICKY BOTTOM BAR (With badge-shine save tag and original + discount price) ─── */}
       <aside
         aria-label="Mobile booking action bar"
         className={`lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-gray-200/90 shadow-[0_-2px_15px_rgba(0,0,0,0.08)] px-4 py-2.5 flex items-center justify-between transition-all duration-300 ${isFormInView ? "opacity-0 pointer-events-none translate-y-full" : "opacity-100 translate-y-0"

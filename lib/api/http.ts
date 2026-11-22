@@ -14,6 +14,19 @@ interface Envelope<T> {
   meta?: unknown
 }
 
+export interface PaginatedMeta {
+  page: number
+  limit: number
+  total: number
+  totalPages: number
+  facets?: unknown
+}
+
+export interface ApiResponseEnvelope<T, M = PaginatedMeta> {
+  data: T
+  meta?: M
+}
+
 const parseResponse = async <T>(response: Response): Promise<T> => {
   if (response.status === 204) {
     return undefined as unknown as T
@@ -95,6 +108,80 @@ export const apiGet = async <T>(path: string, options?: RequestInit): Promise<T>
   }
 
   return parseResponse<T>(response)
+}
+
+export const apiGetEnvelope = async <T, M = PaginatedMeta>(
+  path: string,
+  options?: RequestInit
+): Promise<ApiResponseEnvelope<T, M>> => {
+  const baseUrl = getBaseUrl()
+  const cleanPath = path.startsWith('/') ? path : `/${path}`
+  const targetUrl = `${baseUrl}${cleanPath}`
+
+  const headers = new Headers(options?.headers)
+  if (!headers.has('Accept')) {
+    headers.set('Accept', 'application/json')
+  }
+
+  if (typeof window !== 'undefined' && !headers.has('Authorization')) {
+    const token = await getAccessToken()
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+  }
+
+  let response = await fetch(targetUrl, {
+    ...options,
+    method: 'GET',
+    headers,
+    signal: options?.signal ?? AbortSignal.timeout(15_000),
+  })
+
+  if (response.status === 401 && typeof window !== 'undefined') {
+    const freshToken = await getAccessToken(true)
+    if (freshToken) {
+      headers.set('Authorization', `Bearer ${freshToken}`)
+      response = await fetch(targetUrl, {
+        ...options,
+        method: 'GET',
+        headers,
+        signal: options?.signal ?? AbortSignal.timeout(15_000),
+      })
+    } else {
+      clearAccessToken()
+    }
+  }
+
+  if (!response.ok) {
+    const contentType = response.headers.get('content-type')
+    const isJson = contentType && contentType.includes('application/json')
+    const body = isJson ? await response.json() : await response.text()
+    if (isJson && body && typeof body === 'object' && 'error' in body) {
+      const errorObj = (
+        body as {
+          error?: {
+            code?: string
+            message?: string
+            details?: unknown
+            requestId?: string
+          }
+        }
+      ).error
+      throw new ApiError(response.status, {
+        code: errorObj?.code ?? 'UNKNOWN_ERROR',
+        message: errorObj?.message ?? response.statusText,
+        details: errorObj?.details,
+        requestId: errorObj?.requestId,
+      })
+    }
+    throw new ApiError(response.status, {
+      code: 'HTTP_ERROR',
+      message: typeof body === 'string' && body.length > 0 ? body : response.statusText,
+    })
+  }
+
+  const json = (await response.json()) as ApiResponseEnvelope<T, M>
+  return json
 }
 
 export const apiSend = async <T>(

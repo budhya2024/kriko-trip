@@ -1,150 +1,93 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
-import { SlidersHorizontal, Search, RefreshCw } from "lucide-react";
-import FilterSidebar from "./FilterSidebar";
+import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { SlidersHorizontal, Search, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
+import FilterSidebar, { type FilterOptionItem } from "./FilterSidebar";
 import PackageCard from "./PackageCard";
-import { initialTourPackages } from "./data";
-import { SortOption } from "./types";
+import type { TourPackage, SortOption } from "./types";
 
-export default function TourPackagesContent() {
+interface TourPackagesContentProps {
+  packages: TourPackage[];
+  total: number;
+  page: number;
+  totalPages: number;
+  destinations?: FilterOptionItem[];
+  themes?: FilterOptionItem[];
+  initialTravelType?: string | null;
+  initialTheme?: string | null;
+  initialBudget?: string | null;
+  initialDestination?: string | null;
+  initialSort?: SortOption;
+}
+
+export default function TourPackagesContent({
+  packages,
+  total,
+  page,
+  totalPages,
+  destinations = [],
+  themes = [],
+  initialTravelType = null,
+  initialTheme = null,
+  initialBudget = null,
+  initialDestination = null,
+  initialSort = "popular",
+}: TourPackagesContentProps) {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const urlDestination = searchParams.get("destination");
-  const urlTheme = searchParams.get("theme");
-  const urlType = searchParams.get("type");
-
-  const [selectedTravelType, setSelectedTravelType] = useState<string | null>(null);
-  const [selectedTheme, setSelectedTheme] = useState<string | null>(null);
-  const [selectedBudget, setSelectedBudget] = useState<string | null>(null);
-  const [selectedDestination, setSelectedDestination] = useState<string | null>(null);
-  const [sortBy, setSortBy] = useState<SortOption>("popular");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // Synchronize state when URL query params are present (e.g., clicked from destination cards or mega menu)
-  useEffect(() => {
-    if (urlDestination) {
-      const d = urlDestination.toLowerCase();
-      if (d.includes("andaman")) setSelectedDestination("Andaman");
-      else if (d.includes("kashmir")) setSelectedDestination("Kashmir");
-      else if (
-        d.includes("kerala") ||
-        d.includes("munnar") ||
-        d.includes("alleppey") ||
-        d.includes("ooty")
-      )
-        setSelectedDestination("Kerala");
-      else if (
-        d.includes("rajasthan") ||
-        d.includes("jaipur") ||
-        d.includes("udaipur") ||
-        d.includes("jodhpur") ||
-        d.includes("varanasi")
-      )
-        setSelectedDestination("Rajasthan");
-      else if (d.includes("goa")) setSelectedDestination("Goa");
-      else if (
-        d.includes("himachal") ||
-        d.includes("manali") ||
-        d.includes("shimla") ||
-        d.includes("kullu") ||
-        d.includes("rishikesh")
-      )
-        setSelectedDestination("Himachal");
-      else if (d.includes("ladakh") || d.includes("leh"))
-        setSelectedDestination("Ladakh");
-      else if (d.includes("sundarban")) setSelectedDestination("Sundarban");
-      else setSelectedDestination(urlDestination);
-    }
-    if (urlTheme) {
-      const t = urlTheme.toLowerCase();
-      if (t.includes("beach")) setSelectedTheme("Beaches");
-      else if (t.includes("hill")) setSelectedTheme("Hills");
-      else if (t.includes("heritage")) setSelectedTheme("Heritage");
-      else if (t.includes("nature") || t.includes("wildlife"))
-        setSelectedTheme("Nature");
-      else if (t.includes("honeymoon") || t.includes("romantic"))
-        setSelectedTheme("Honeymoon");
-      else if (t.includes("adventure") || t.includes("snow"))
-        setSelectedTheme("Adventure");
-      else setSelectedTheme(urlTheme);
-    }
-    if (urlType) {
-      setSelectedTravelType(urlType);
-    }
-  }, [urlDestination, urlTheme, urlType]);
+  const selectedTravelType = searchParams.get("type") || initialTravelType;
+  const selectedTheme = searchParams.get("theme") || initialTheme;
+  const selectedBudget = searchParams.get("budget") || initialBudget;
+  const selectedDestination = searchParams.get("destination") || initialDestination;
+  const sortBy = (searchParams.get("sort") as SortOption) || initialSort;
 
-  // Filter and Sort Logic
-  const filteredPackages = useMemo(() => {
-    let result = [...initialTourPackages];
+  const updateFilters = (updates: Record<string, string | null>) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
 
-    // Travel Type Filter
-    if (selectedTravelType) {
-      result = result.filter((p) => p.travelType === selectedTravelType);
-    }
-
-    // Theme Filter
-    if (selectedTheme) {
-      result = result.filter(
-        (p) =>
-          p.theme === selectedTheme ||
-          (selectedTheme === "Beaches" && (p.destination === "Andaman" || p.destination === "Goa")) ||
-          (selectedTheme === "Hills" && (p.destination === "Kashmir" || p.destination === "Himachal")) ||
-          (selectedTheme === "Heritage" && p.destination === "Rajasthan") ||
-          (selectedTheme === "Nature" && (p.destination === "Kerala" || p.destination === "Sundarban")) ||
-          (selectedTheme === "Honeymoon" && p.travelType === "Honeymoon") ||
-          (selectedTheme === "Adventure" && (p.travelType === "Adventure" || p.destination === "Ladakh"))
-      );
-    }
-
-    // Destination Filter
-    if (selectedDestination) {
-      const destLower = selectedDestination.toLowerCase();
-      result = result.filter(
-        (p) =>
-          p.destination.toLowerCase().includes(destLower) ||
-          destLower.includes(p.destination.toLowerCase()) ||
-          p.location.toLowerCase().includes(destLower) ||
-          destLower.includes(p.location.toLowerCase())
-      );
-    }
-
-    // Budget Filter (INR matching reference screenshot)
-    if (selectedBudget) {
-      if (selectedBudget === "0-20k") {
-        result = result.filter((p) => p.price <= 20000);
-      } else if (selectedBudget === "20-40k") {
-        result = result.filter((p) => p.price > 20000 && p.price <= 40000);
-      } else if (selectedBudget === "40-60k") {
-        result = result.filter((p) => p.price > 40000 && p.price <= 60000);
-      } else if (selectedBudget === "60-80k") {
-        result = result.filter((p) => p.price > 60000 && p.price <= 80000);
-      } else if (selectedBudget === "above-80k") {
-        result = result.filter((p) => p.price > 80000);
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === "") {
+        params.delete(key);
+      } else {
+        params.set(key, value);
       }
-    }
+    });
 
-    // Sorting
-    if (sortBy === "price-low") {
-      result.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "price-high") {
-      result.sort((a, b) => b.price - a.price);
-    } else if (sortBy === "duration") {
-      result.sort((a, b) => b.days - a.days);
-    } else {
-      // Popular (rating * reviewsCount)
-      result.sort((a, b) => b.rating * b.reviewsCount - a.rating * a.reviewsCount);
-    }
+    const queryString = params.toString();
+    router.push(queryString ? `/tour-packages?${queryString}` : "/tour-packages");
+  };
 
-    return result;
-  }, [selectedTravelType, selectedBudget, selectedDestination, sortBy]);
+  const handleSelectTravelType = (type: string | null) => {
+    updateFilters({ type });
+  };
+
+  const handleSelectTheme = (theme: string | null) => {
+    updateFilters({ theme });
+  };
+
+  const handleSelectBudget = (budget: string | null) => {
+    updateFilters({ budget });
+  };
+
+  const handleSelectDestination = (dest: string | null) => {
+    updateFilters({ destination: dest });
+  };
+
+  const handleChangeSortBy = (sort: SortOption) => {
+    updateFilters({ sort });
+  };
 
   const handleClearAll = () => {
-    setSelectedTravelType(null);
-    setSelectedTheme(null);
-    setSelectedBudget(null);
-    setSelectedDestination(null);
-    setSortBy("popular");
+    router.push("/tour-packages");
+  };
+
+  const handlePageChange = (newPage: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("page", String(newPage));
+    router.push(`/tour-packages?${params.toString()}`);
   };
 
   const activeFiltersCount =
@@ -152,15 +95,6 @@ export default function TourPackagesContent() {
     (selectedTheme ? 1 : 0) +
     (selectedBudget ? 1 : 0) +
     (selectedDestination ? 1 : 0);
-
-  const themeLabelMap: Record<string, string> = {
-    Beaches: "Beaches & Islands",
-    Hills: "Hills & Mountains",
-    Heritage: "Heritage & Palaces",
-    Nature: "Nature & Wildlife",
-    Honeymoon: "Romantic Escapes",
-    Adventure: "Snow & Adventure",
-  };
 
   const budgetLabelMap: Record<string, string> = {
     "0-20k": "₹0 - ₹20k",
@@ -173,18 +107,19 @@ export default function TourPackagesContent() {
   return (
     <section className="w-full bg-[#f8f9fb] py-10 sm:py-14 lg:py-16">
       <div className="container">
-        {/* ─── Top Bar: Results Count & Mobile Filter Toggle ─── */}
         <div className="flex items-center justify-between gap-4 mb-6">
-          {/* Results Count */}
           <span className="text-xs sm:text-sm font-semibold text-gray-600">
             Showing{" "}
             <strong className="text-gray-950 font-bold">
-              {filteredPackages.length}
+              {packages.length}
+            </strong>{" "}
+            of{" "}
+            <strong className="text-gray-950 font-bold">
+              {total}
             </strong>{" "}
             Packages
           </span>
 
-          {/* Mobile Filter Toggle Button */}
           <button
             type="button"
             onClick={() => setIsMobileFilterOpen(true)}
@@ -200,7 +135,6 @@ export default function TourPackagesContent() {
           </button>
         </div>
 
-        {/* ─── Active Filter Badges ─── */}
         {activeFiltersCount > 0 && (
           <div className="flex flex-wrap items-center gap-2 mb-6 animate-in fade-in">
             <span className="text-xs font-semibold text-gray-400">
@@ -210,8 +144,8 @@ export default function TourPackagesContent() {
             {selectedDestination && (
               <button
                 type="button"
-                onClick={() => setSelectedDestination(null)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                onClick={() => handleSelectDestination(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors cursor-pointer"
               >
                 <span>Dest: {selectedDestination}</span>
                 <span className="text-sm font-bold">×</span>
@@ -221,8 +155,8 @@ export default function TourPackagesContent() {
             {selectedTravelType && (
               <button
                 type="button"
-                onClick={() => setSelectedTravelType(null)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                onClick={() => handleSelectTravelType(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors cursor-pointer"
               >
                 <span>Type: {selectedTravelType}</span>
                 <span className="text-sm font-bold">×</span>
@@ -232,10 +166,10 @@ export default function TourPackagesContent() {
             {selectedTheme && (
               <button
                 type="button"
-                onClick={() => setSelectedTheme(null)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                onClick={() => handleSelectTheme(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors cursor-pointer"
               >
-                <span>Theme: {themeLabelMap[selectedTheme] || selectedTheme}</span>
+                <span>Theme: {selectedTheme}</span>
                 <span className="text-sm font-bold">×</span>
               </button>
             )}
@@ -243,8 +177,8 @@ export default function TourPackagesContent() {
             {selectedBudget && (
               <button
                 type="button"
-                onClick={() => setSelectedBudget(null)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors"
+                onClick={() => handleSelectBudget(null)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-[#1877F2] text-xs font-semibold hover:bg-blue-100 transition-colors cursor-pointer"
               >
                 <span>Budget: {budgetLabelMap[selectedBudget] || selectedBudget}</span>
                 <span className="text-sm font-bold">×</span>
@@ -261,35 +195,74 @@ export default function TourPackagesContent() {
           </div>
         )}
 
-        {/* ─── Main Content Layout: Sidebar + Grid ─── */}
         <div className="flex flex-col lg:flex-row items-start gap-8">
-          {/* Left Sidebar */}
           <FilterSidebar
             selectedTravelType={selectedTravelType}
-            onSelectTravelType={setSelectedTravelType}
+            onSelectTravelType={handleSelectTravelType}
             selectedTheme={selectedTheme}
-            onSelectTheme={setSelectedTheme}
+            onSelectTheme={handleSelectTheme}
             selectedBudget={selectedBudget}
-            onSelectBudget={setSelectedBudget}
+            onSelectBudget={handleSelectBudget}
             selectedDestination={selectedDestination}
-            onSelectDestination={setSelectedDestination}
+            onSelectDestination={handleSelectDestination}
             sortBy={sortBy}
-            onChangeSortBy={setSortBy}
+            onChangeSortBy={handleChangeSortBy}
             onClearAll={handleClearAll}
             isMobileOpen={isMobileFilterOpen}
             onCloseMobile={() => setIsMobileFilterOpen(false)}
+            destinations={destinations}
+            themes={themes}
           />
 
-          {/* Right Main Package Grid (3 Columns on Desktop) */}
           <div className="flex-1 w-full">
-            {filteredPackages.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {filteredPackages.map((pkg) => (
-                  <PackageCard key={pkg.id} pkg={pkg} />
-                ))}
-              </div>
+            {packages.length > 0 ? (
+              <>
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                  {packages.map((pkg) => (
+                    <PackageCard key={pkg.id} pkg={pkg} />
+                  ))}
+                </div>
+
+                {totalPages > 1 && (
+                  <div className="mt-10 flex items-center justify-center gap-2">
+                    <button
+                      type="button"
+                      disabled={page <= 1}
+                      onClick={() => handlePageChange(page - 1)}
+                      className="p-2 rounded-full border border-gray-200 bg-white text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors cursor-pointer"
+                      aria-label="Previous Page"
+                    >
+                      <ChevronLeft className="w-4 h-4" />
+                    </button>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                      <button
+                        key={p}
+                        type="button"
+                        onClick={() => handlePageChange(p)}
+                        className={`w-9 h-9 rounded-full text-xs font-bold transition-colors cursor-pointer ${
+                          p === page
+                            ? "bg-[#1877F2] text-white shadow-xs"
+                            : "bg-white border border-gray-200 text-gray-700 hover:bg-gray-50"
+                        }`}
+                      >
+                        {p}
+                      </button>
+                    ))}
+
+                    <button
+                      type="button"
+                      disabled={page >= totalPages}
+                      onClick={() => handlePageChange(page + 1)}
+                      className="p-2 rounded-full border border-gray-200 bg-white text-gray-700 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors cursor-pointer"
+                      aria-label="Next Page"
+                    >
+                      <ChevronRight className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </>
             ) : (
-              /* Empty State */
               <div className="bg-white rounded-xl p-12 text-center border border-gray-100 shadow-xs max-w-md mx-auto my-12">
                 <div className="w-16 h-16 rounded-full bg-blue-50 text-[#1877F2] flex items-center justify-center mx-auto mb-4">
                   <Search className="w-8 h-8 stroke-[1.8]" />

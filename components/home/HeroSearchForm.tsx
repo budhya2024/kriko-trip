@@ -62,6 +62,9 @@ export default function HeroSearchForm({
     if (selectedTourTypeSlug) {
       params.set("type", selectedTourTypeSlug);
     }
+    if (selectedDate.raw) {
+      params.set("travelDate", selectedDate.raw);
+    }
     const query = params.toString();
     router.push(query ? `/tour-packages?${query}` : "/tour-packages");
   };

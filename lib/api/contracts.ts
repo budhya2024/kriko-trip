@@ -16,3 +16,18 @@ export type Destination =
 
 export type TravelTheme =
   paths['/themes']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type PackageListItem =
+  paths['/packages']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type PackageListResponse =
+  paths['/packages']['get']['responses'][200]['content']['application/json']
+
+export type PackageDetail =
+  paths['/packages/{slug}']['get']['responses'][200]['content']['application/json']['data']
+
+export type RelatedPackagesResponse =
+  paths['/packages/{slug}/related']['get']['responses'][200]['content']['application/json']['data']
+
+export type PackageSlugsResponse =
+  paths['/packages/slugs']['get']['responses'][200]['content']['application/json']['data']

@@ -1584,6 +1584,1371 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/packages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List published tour packages with search, filtering and sorting */
+        get: {
+            parameters: {
+                query: {
+                    q?: string;
+                    destination?: string;
+                    theme?: string;
+                    travelType?: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                    category?: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                    minPrice?: number;
+                    maxPrice?: number;
+                    minDays?: number;
+                    maxDays?: number;
+                    featured?: "true" | "false";
+                    sort: "popular" | "price_asc" | "price_desc" | "duration_desc" | "newest";
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Paginated list of published tour packages */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/packages/slugs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all published package slugs for static path generation */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of published package slugs */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                slug: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/packages/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get published tour package detail by slug */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    slug: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Full tour package details */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                                overview: string;
+                                highlights: string[];
+                                inclusions: string[];
+                                exclusions: string[];
+                                hotel: {
+                                    name: string | null;
+                                    stars: number | null;
+                                    room: string | null;
+                                    amenities: string[];
+                                };
+                                tripFacts?: {
+                                    groupSize?: string;
+                                    languages?: string;
+                                    ageRange?: string;
+                                    bestSeason?: string;
+                                    meals?: string;
+                                    transport?: string;
+                                    departureTime?: string;
+                                } | null;
+                                gallery: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    url: string;
+                                    sortOrder: number;
+                                }[];
+                                itinerary: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    dayNumber: number;
+                                    title: string;
+                                    description: string;
+                                    transport?: string | null;
+                                    meals?: string | null;
+                                    stay?: string | null;
+                                    /** @default [] */
+                                    activities: string[];
+                                    /** @default [] */
+                                    media: {
+                                        /** Format: uuid */
+                                        id: string;
+                                        url: string;
+                                        sortOrder: number;
+                                    }[];
+                                }[];
+                                faqs: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    question: string;
+                                    answer: string;
+                                    /** @default 0 */
+                                    sortOrder: number;
+                                }[];
+                                ratingDistribution: {
+                                    [key: string]: number;
+                                };
+                                seo: {
+                                    title: string | null;
+                                    metaDescription: string | null;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description Package not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/packages/{slug}/related": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get related tour packages for a package */
+        get: {
+            parameters: {
+                query: {
+                    limit: number;
+                };
+                header?: never;
+                path: {
+                    slug: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of related tour packages */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/packages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List tour packages for superadmin with facets */
+        get: {
+            parameters: {
+                query: {
+                    q?: string;
+                    status: "all" | "draft" | "published" | "archived";
+                    destinationId?: string;
+                    category?: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                    travelType?: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of tour packages with status, destination, and category facets */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                /** Format: uuid */
+                                destinationId: string;
+                                destinationName: string;
+                                locationLabel: string;
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                /** @enum {string} */
+                                status: "draft" | "published" | "archived";
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themesCount: number;
+                                itineraryDaysCount: number;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                                facets: {
+                                    [key: string]: {
+                                        [key: string]: number;
+                                    };
+                                };
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create a new tour package */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        slug?: string;
+                        subtitle?: string | null;
+                        /** Format: uuid */
+                        destinationId: string;
+                        locationLabel: string;
+                        /** @default India */
+                        country: string;
+                        days: number;
+                        nights: number;
+                        /** @enum {string} */
+                        travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                        /** @enum {string} */
+                        category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                        pricePaise: number;
+                        originalPricePaise?: number | null;
+                        /** @default 10 */
+                        seatsAvailable: number;
+                        /**
+                         * @default draft
+                         * @enum {string}
+                         */
+                        status: "draft" | "published" | "archived";
+                        /** @default false */
+                        isFeatured: boolean;
+                        featuredRank?: number | null;
+                        badgeLabel?: string | null;
+                        shortDescription: string;
+                        overview: string;
+                        /** @default [] */
+                        highlights: string[];
+                        /** @default [] */
+                        inclusions: string[];
+                        /** @default [] */
+                        exclusions: string[];
+                        hotelName?: string | null;
+                        hotelStars?: number | null;
+                        hotelRoom?: string | null;
+                        /** @default [] */
+                        hotelAmenities: string[];
+                        tripFacts?: {
+                            groupSize?: string;
+                            languages?: string;
+                            ageRange?: string;
+                            bestSeason?: string;
+                            meals?: string;
+                            transport?: string;
+                            departureTime?: string;
+                        } | null;
+                        coverMediaId?: string | null;
+                        /** @default [] */
+                        themeIds: string[];
+                        /** @default [] */
+                        galleryMediaIds: string[];
+                        /** @default [] */
+                        itinerary: {
+                            dayNumber: number;
+                            title: string;
+                            description: string;
+                            transport?: string | null;
+                            meals?: string | null;
+                            stay?: string | null;
+                            /** @default [] */
+                            activities: string[];
+                            /** @default [] */
+                            mediaIds: string[];
+                        }[];
+                        /** @default [] */
+                        faqs: {
+                            question: string;
+                            answer: string;
+                            /** @default 0 */
+                            sortOrder: number;
+                        }[];
+                        seoTitle?: string | null;
+                        metaDescription?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Created tour package */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                                overview: string;
+                                highlights: string[];
+                                inclusions: string[];
+                                exclusions: string[];
+                                hotel: {
+                                    name: string | null;
+                                    stars: number | null;
+                                    room: string | null;
+                                    amenities: string[];
+                                };
+                                tripFacts?: {
+                                    groupSize?: string;
+                                    languages?: string;
+                                    ageRange?: string;
+                                    bestSeason?: string;
+                                    meals?: string;
+                                    transport?: string;
+                                    departureTime?: string;
+                                } | null;
+                                gallery: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    url: string;
+                                    sortOrder: number;
+                                }[];
+                                itinerary: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    dayNumber: number;
+                                    title: string;
+                                    description: string;
+                                    transport?: string | null;
+                                    meals?: string | null;
+                                    stay?: string | null;
+                                    /** @default [] */
+                                    activities: string[];
+                                    /** @default [] */
+                                    media: {
+                                        /** Format: uuid */
+                                        id: string;
+                                        url: string;
+                                        sortOrder: number;
+                                    }[];
+                                }[];
+                                faqs: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    question: string;
+                                    answer: string;
+                                    /** @default 0 */
+                                    sortOrder: number;
+                                }[];
+                                ratingDistribution: {
+                                    [key: string]: number;
+                                };
+                                seo: {
+                                    title: string | null;
+                                    metaDescription: string | null;
+                                };
+                                /** @enum {string} */
+                                status: "draft" | "published" | "archived";
+                                coverMediaId: string | null;
+                                galleryMediaIds: string[];
+                                themeIds: string[];
+                                publishedAt: string | null;
+                                createdByUserId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/packages/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get tour package by id for editing */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Tour package detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                                overview: string;
+                                highlights: string[];
+                                inclusions: string[];
+                                exclusions: string[];
+                                hotel: {
+                                    name: string | null;
+                                    stars: number | null;
+                                    room: string | null;
+                                    amenities: string[];
+                                };
+                                tripFacts?: {
+                                    groupSize?: string;
+                                    languages?: string;
+                                    ageRange?: string;
+                                    bestSeason?: string;
+                                    meals?: string;
+                                    transport?: string;
+                                    departureTime?: string;
+                                } | null;
+                                gallery: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    url: string;
+                                    sortOrder: number;
+                                }[];
+                                itinerary: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    dayNumber: number;
+                                    title: string;
+                                    description: string;
+                                    transport?: string | null;
+                                    meals?: string | null;
+                                    stay?: string | null;
+                                    /** @default [] */
+                                    activities: string[];
+                                    /** @default [] */
+                                    media: {
+                                        /** Format: uuid */
+                                        id: string;
+                                        url: string;
+                                        sortOrder: number;
+                                    }[];
+                                }[];
+                                faqs: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    question: string;
+                                    answer: string;
+                                    /** @default 0 */
+                                    sortOrder: number;
+                                }[];
+                                ratingDistribution: {
+                                    [key: string]: number;
+                                };
+                                seo: {
+                                    title: string | null;
+                                    metaDescription: string | null;
+                                };
+                                /** @enum {string} */
+                                status: "draft" | "published" | "archived";
+                                coverMediaId: string | null;
+                                galleryMediaIds: string[];
+                                themeIds: string[];
+                                publishedAt: string | null;
+                                createdByUserId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Package not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Full update of a tour package including nested collections */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        slug?: string;
+                        subtitle?: string | null;
+                        /** Format: uuid */
+                        destinationId: string;
+                        locationLabel: string;
+                        /** @default India */
+                        country: string;
+                        days: number;
+                        nights: number;
+                        /** @enum {string} */
+                        travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                        /** @enum {string} */
+                        category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                        pricePaise: number;
+                        originalPricePaise?: number | null;
+                        /** @default 10 */
+                        seatsAvailable: number;
+                        /**
+                         * @default draft
+                         * @enum {string}
+                         */
+                        status: "draft" | "published" | "archived";
+                        /** @default false */
+                        isFeatured: boolean;
+                        featuredRank?: number | null;
+                        badgeLabel?: string | null;
+                        shortDescription: string;
+                        overview: string;
+                        /** @default [] */
+                        highlights: string[];
+                        /** @default [] */
+                        inclusions: string[];
+                        /** @default [] */
+                        exclusions: string[];
+                        hotelName?: string | null;
+                        hotelStars?: number | null;
+                        hotelRoom?: string | null;
+                        /** @default [] */
+                        hotelAmenities: string[];
+                        tripFacts?: {
+                            groupSize?: string;
+                            languages?: string;
+                            ageRange?: string;
+                            bestSeason?: string;
+                            meals?: string;
+                            transport?: string;
+                            departureTime?: string;
+                        } | null;
+                        coverMediaId?: string | null;
+                        /** @default [] */
+                        themeIds: string[];
+                        /** @default [] */
+                        galleryMediaIds: string[];
+                        /** @default [] */
+                        itinerary: {
+                            dayNumber: number;
+                            title: string;
+                            description: string;
+                            transport?: string | null;
+                            meals?: string | null;
+                            stay?: string | null;
+                            /** @default [] */
+                            activities: string[];
+                            /** @default [] */
+                            mediaIds: string[];
+                        }[];
+                        /** @default [] */
+                        faqs: {
+                            question: string;
+                            answer: string;
+                            /** @default 0 */
+                            sortOrder: number;
+                        }[];
+                        seoTitle?: string | null;
+                        metaDescription?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated tour package detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                                overview: string;
+                                highlights: string[];
+                                inclusions: string[];
+                                exclusions: string[];
+                                hotel: {
+                                    name: string | null;
+                                    stars: number | null;
+                                    room: string | null;
+                                    amenities: string[];
+                                };
+                                tripFacts?: {
+                                    groupSize?: string;
+                                    languages?: string;
+                                    ageRange?: string;
+                                    bestSeason?: string;
+                                    meals?: string;
+                                    transport?: string;
+                                    departureTime?: string;
+                                } | null;
+                                gallery: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    url: string;
+                                    sortOrder: number;
+                                }[];
+                                itinerary: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    dayNumber: number;
+                                    title: string;
+                                    description: string;
+                                    transport?: string | null;
+                                    meals?: string | null;
+                                    stay?: string | null;
+                                    /** @default [] */
+                                    activities: string[];
+                                    /** @default [] */
+                                    media: {
+                                        /** Format: uuid */
+                                        id: string;
+                                        url: string;
+                                        sortOrder: number;
+                                    }[];
+                                }[];
+                                faqs: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    question: string;
+                                    answer: string;
+                                    /** @default 0 */
+                                    sortOrder: number;
+                                }[];
+                                ratingDistribution: {
+                                    [key: string]: number;
+                                };
+                                seo: {
+                                    title: string | null;
+                                    metaDescription: string | null;
+                                };
+                                /** @enum {string} */
+                                status: "draft" | "published" | "archived";
+                                coverMediaId: string | null;
+                                galleryMediaIds: string[];
+                                themeIds: string[];
+                                publishedAt: string | null;
+                                createdByUserId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Package not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Soft delete a tour package */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Package deleted successfully */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/packages/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update tour package status (draft, published, archived) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "draft" | "published" | "archived";
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated tour package detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                                overview: string;
+                                highlights: string[];
+                                inclusions: string[];
+                                exclusions: string[];
+                                hotel: {
+                                    name: string | null;
+                                    stars: number | null;
+                                    room: string | null;
+                                    amenities: string[];
+                                };
+                                tripFacts?: {
+                                    groupSize?: string;
+                                    languages?: string;
+                                    ageRange?: string;
+                                    bestSeason?: string;
+                                    meals?: string;
+                                    transport?: string;
+                                    departureTime?: string;
+                                } | null;
+                                gallery: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    url: string;
+                                    sortOrder: number;
+                                }[];
+                                itinerary: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    dayNumber: number;
+                                    title: string;
+                                    description: string;
+                                    transport?: string | null;
+                                    meals?: string | null;
+                                    stay?: string | null;
+                                    /** @default [] */
+                                    activities: string[];
+                                    /** @default [] */
+                                    media: {
+                                        /** Format: uuid */
+                                        id: string;
+                                        url: string;
+                                        sortOrder: number;
+                                    }[];
+                                }[];
+                                faqs: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    question: string;
+                                    answer: string;
+                                    /** @default 0 */
+                                    sortOrder: number;
+                                }[];
+                                ratingDistribution: {
+                                    [key: string]: number;
+                                };
+                                seo: {
+                                    title: string | null;
+                                    metaDescription: string | null;
+                                };
+                                /** @enum {string} */
+                                status: "draft" | "published" | "archived";
+                                coverMediaId: string | null;
+                                galleryMediaIds: string[];
+                                themeIds: string[];
+                                publishedAt: string | null;
+                                createdByUserId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/packages/{id}/duplicate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Duplicate an existing tour package as draft */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Duplicated tour package detail */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                subtitle: string | null;
+                                locationLabel: string;
+                                country: string;
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                    region: string;
+                                };
+                                days: number;
+                                nights: number;
+                                /** @enum {string} */
+                                travelType: "couple" | "family" | "honeymoon" | "leisure" | "adventure" | "group";
+                                /** @enum {string} */
+                                category: "adventure" | "luxury" | "honeymoon" | "family" | "cultural";
+                                pricePaise: number;
+                                originalPricePaise: number | null;
+                                seatsAvailable: number;
+                                isFeatured: boolean;
+                                featuredRank: number | null;
+                                badgeLabel: string | null;
+                                shortDescription: string;
+                                coverImageUrl: string | null;
+                                ratingAvg: number;
+                                reviewsCount: number;
+                                themes: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                }[];
+                                overview: string;
+                                highlights: string[];
+                                inclusions: string[];
+                                exclusions: string[];
+                                hotel: {
+                                    name: string | null;
+                                    stars: number | null;
+                                    room: string | null;
+                                    amenities: string[];
+                                };
+                                tripFacts?: {
+                                    groupSize?: string;
+                                    languages?: string;
+                                    ageRange?: string;
+                                    bestSeason?: string;
+                                    meals?: string;
+                                    transport?: string;
+                                    departureTime?: string;
+                                } | null;
+                                gallery: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    url: string;
+                                    sortOrder: number;
+                                }[];
+                                itinerary: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    dayNumber: number;
+                                    title: string;
+                                    description: string;
+                                    transport?: string | null;
+                                    meals?: string | null;
+                                    stay?: string | null;
+                                    /** @default [] */
+                                    activities: string[];
+                                    /** @default [] */
+                                    media: {
+                                        /** Format: uuid */
+                                        id: string;
+                                        url: string;
+                                        sortOrder: number;
+                                    }[];
+                                }[];
+                                faqs: {
+                                    /** Format: uuid */
+                                    id?: string;
+                                    question: string;
+                                    answer: string;
+                                    /** @default 0 */
+                                    sortOrder: number;
+                                }[];
+                                ratingDistribution: {
+                                    [key: string]: number;
+                                };
+                                seo: {
+                                    title: string | null;
+                                    metaDescription: string | null;
+                                };
+                                /** @enum {string} */
+                                status: "draft" | "published" | "archived";
+                                coverMediaId: string | null;
+                                galleryMediaIds: string[];
+                                themeIds: string[];
+                                publishedAt: string | null;
+                                createdByUserId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {

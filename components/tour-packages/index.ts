@@ -4,7 +4,4 @@ export { default as PackageCard } from "./PackageCard";
 export { default as PackageDetailView } from "./PackageDetailView";
 export { default as PackageReviewsSection } from "./PackageReviewsSection";
 export { default as RelevantPackagesSlider } from "./RelevantPackagesSlider";
-export * from "./packageDetailData";
 export * from "./types";
-export * from "./data";
-

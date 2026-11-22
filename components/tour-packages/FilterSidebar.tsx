@@ -15,8 +15,15 @@ import {
   Landmark,
   Trees,
   Compass,
+  type LucideIcon,
 } from "lucide-react";
-import { SortOption } from "./types";
+import type { SortOption } from "./types";
+
+export interface FilterOptionItem {
+  id: string;
+  label: string;
+  slug?: string;
+}
 
 interface FilterSidebarProps {
   selectedTravelType: string | null;
@@ -32,9 +39,11 @@ interface FilterSidebarProps {
   onClearAll: () => void;
   isMobileOpen?: boolean;
   onCloseMobile?: () => void;
+  destinations?: FilterOptionItem[];
+  themes?: FilterOptionItem[];
 }
 
-const travelTypes = [
+const defaultTravelTypes = [
   { id: "Couple", label: "Couple", icon: User },
   { id: "Family", label: "Family", icon: Users },
   { id: "Honeymoon", label: "Honeymoon", icon: Heart },
@@ -43,7 +52,7 @@ const travelTypes = [
   { id: "Group", label: "Group", icon: Users2 },
 ];
 
-const tourThemes = [
+const defaultThemes = [
   { id: "Beaches", label: "Beaches & Islands", icon: Palmtree },
   { id: "Hills", label: "Hills & Mountains", icon: Mountain },
   { id: "Heritage", label: "Heritage & Palaces", icon: Landmark },
@@ -60,7 +69,7 @@ const budgetRanges = [
   { id: "above-80k", label: "Above ₹80k" },
 ];
 
-const destinationsList = [
+const defaultDestinations = [
   { id: "Andaman", label: "Andaman" },
   { id: "Kashmir", label: "Kashmir" },
   { id: "Kerala", label: "Kerala" },
@@ -70,6 +79,16 @@ const destinationsList = [
   { id: "Ladakh", label: "Ladakh" },
   { id: "Sundarban", label: "Sundarban" },
 ];
+
+const getThemeIcon = (name: string): LucideIcon => {
+  const lower = name.toLowerCase();
+  if (lower.includes("beach") || lower.includes("island")) return Palmtree;
+  if (lower.includes("hill") || lower.includes("mountain")) return Mountain;
+  if (lower.includes("heritage") || lower.includes("palace") || lower.includes("culture")) return Landmark;
+  if (lower.includes("nature") || lower.includes("wildlife")) return Trees;
+  if (lower.includes("romantic") || lower.includes("honeymoon")) return Heart;
+  return Compass;
+};
 
 export default function FilterSidebar({
   selectedTravelType,
@@ -85,6 +104,8 @@ export default function FilterSidebar({
   onClearAll,
   isMobileOpen,
   onCloseMobile,
+  destinations,
+  themes,
 }: FilterSidebarProps) {
   const [isTravelTypeOpen, setIsTravelTypeOpen] = useState(true);
   const [isThemeOpen, setIsThemeOpen] = useState(true);
@@ -97,14 +118,27 @@ export default function FilterSidebar({
     "price-low": "Price: Low to High",
     "price-high": "Price: High to Low",
     duration: "Longest Duration",
+    newest: "Newest",
   };
+
+  const activeDestinations =
+    destinations && destinations.length > 0
+      ? destinations.map((d) => ({ id: d.slug || d.label, label: d.label }))
+      : defaultDestinations;
+
+  const activeThemes =
+    themes && themes.length > 0
+      ? themes.map((t) => ({
+          id: t.slug || t.label,
+          label: t.label,
+          icon: getThemeIcon(t.label),
+        }))
+      : defaultThemes;
 
   const content = (
     <div className="bg-white rounded-2xl border border-gray-200/90 shadow-xs p-5 sm:p-6 flex flex-col gap-6">
-      {/* ─── Top Header: Filters & Clear All ─── */}
       <div className="flex items-center justify-between pb-4 border-b border-gray-150">
         <div className="flex items-center gap-2.5">
-          {/* Custom 3-line filter icon matching screenshot */}
           <svg
             className="w-5 h-5 text-gray-800"
             viewBox="0 0 24 24"
@@ -131,7 +165,6 @@ export default function FilterSidebar({
         </button>
       </div>
 
-      {/* ─── Sort By Box with vertical divider ─── */}
       <div className="relative">
         <div className="flex items-center rounded-xl sm:rounded-2xl border border-gray-200 overflow-hidden bg-white text-[14.5px]">
           <div className="px-5 py-3 font-bold text-gray-900 border-r border-gray-200 select-none shrink-0 text-[14px]">
@@ -143,7 +176,7 @@ export default function FilterSidebar({
             className="flex-1 px-4 py-3 flex items-center justify-between text-gray-700 hover:bg-gray-50/50 transition-colors cursor-pointer focus:outline-none"
           >
             <span className="truncate font-medium text-[14px]">
-              {sortLabels[sortBy]}
+              {sortLabels[sortBy] || sortLabels.popular}
             </span>
             <ChevronDown
               className={`w-4 h-4 text-gray-500 transition-transform ${
@@ -153,11 +186,10 @@ export default function FilterSidebar({
           </button>
         </div>
 
-        {/* Dropdown Menu */}
         {isSortOpen && (
           <div className="absolute top-full left-0 right-0 mt-1.5 bg-white border border-gray-200 rounded-xl shadow-xl z-20 py-1.5 animate-in fade-in duration-150">
             {(
-              ["popular", "price-low", "price-high", "duration"] as SortOption[]
+              ["popular", "price-low", "price-high", "duration", "newest"] as SortOption[]
             ).map((option) => (
               <button
                 key={option}
@@ -179,7 +211,6 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Accordion 1: Travel Type ─── */}
       <div>
         <button
           type="button"
@@ -196,8 +227,9 @@ export default function FilterSidebar({
 
         {isTravelTypeOpen && (
           <div className="grid grid-cols-2 gap-2.5">
-            {travelTypes.map((type) => {
-              const isSelected = selectedTravelType === type.id;
+            {defaultTravelTypes.map((type) => {
+              const isSelected =
+                selectedTravelType?.toLowerCase() === type.id.toLowerCase();
               const Icon = type.icon;
               return (
                 <button
@@ -226,7 +258,6 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Divider & Accordion: Tour Theme ─── */}
       <div className="border-t border-gray-150 pt-5">
         <button
           type="button"
@@ -243,8 +274,10 @@ export default function FilterSidebar({
 
         {isThemeOpen && (
           <div className="grid grid-cols-2 gap-2.5">
-            {tourThemes.map((theme) => {
-              const isSelected = selectedTheme === theme.id;
+            {activeThemes.map((theme) => {
+              const isSelected =
+                selectedTheme?.toLowerCase() === theme.id.toLowerCase() ||
+                selectedTheme?.toLowerCase() === theme.label.toLowerCase();
               const Icon = theme.icon;
               return (
                 <button
@@ -273,7 +306,6 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Divider & Accordion 2: Budget (Per Person) ─── */}
       <div className="border-t border-gray-150 pt-5">
         <button
           type="button"
@@ -311,7 +343,6 @@ export default function FilterSidebar({
         )}
       </div>
 
-      {/* ─── Divider & Accordion 3: Destination Filter ─── */}
       <div className="border-t border-gray-150 pt-5">
         <button
           type="button"
@@ -327,9 +358,11 @@ export default function FilterSidebar({
         </button>
 
         {isDestinationOpen && (
-          <div className="grid grid-cols-2 gap-2.5">
-            {destinationsList.map((dest) => {
-              const isSelected = selectedDestination === dest.id;
+          <div className="grid grid-cols-2 gap-2.5 max-h-64 overflow-y-auto pr-1">
+            {activeDestinations.map((dest) => {
+              const isSelected =
+                selectedDestination?.toLowerCase() === dest.id.toLowerCase() ||
+                selectedDestination?.toLowerCase() === dest.label.toLowerCase();
               return (
                 <button
                   key={dest.id}
@@ -360,21 +393,17 @@ export default function FilterSidebar({
 
   return (
     <>
-      {/* Desktop Sticky Sidebar */}
       <aside className="hidden lg:block w-72 xl:w-80 shrink-0 sticky top-28 self-start">
         {content}
       </aside>
 
-      {/* Mobile Drawer Overlay */}
       {isMobileOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
             onClick={onCloseMobile}
           />
 
-          {/* Drawer Body */}
           <div className="relative w-full max-w-xs bg-white h-full overflow-y-auto p-4 z-10 shadow-2xl flex flex-col">
             <div className="flex items-center justify-between pb-3 mb-2 border-b">
               <span className="font-bold text-gray-950 text-base">Filters</span>
