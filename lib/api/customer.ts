@@ -54,3 +54,19 @@ export async function uploadMyAvatar(
 export async function deleteMyAvatar(): Promise<{ success: boolean }> {
   return apiSend<{ success: boolean }>('/api/v1/me/avatar', 'DELETE')
 }
+
+export type LoyaltyEntryType = 'reserve' | 'release' | 'commit' | 'earn' | 'adjust' | 'expire'
+
+export interface LoyaltyTransactionItem {
+  id: string
+  enquiryId: string | null
+  entryType: LoyaltyEntryType
+  points: number
+  balanceAfter: number
+  note: string | null
+  createdAt: string
+}
+
+export async function fetchMyLoyaltyTransactions(): Promise<LoyaltyTransactionItem[]> {
+  return apiGet<LoyaltyTransactionItem[]>('/api/v1/me/loyalty/transactions')
+}

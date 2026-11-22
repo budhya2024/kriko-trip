@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import {
   X,
@@ -25,8 +25,18 @@ import {
   Tag,
   AlertCircle,
   Loader2,
+  Award,
+  Sparkles,
+  RotateCw,
+  ArrowDownLeft,
+  ArrowUpRight,
 } from "lucide-react";
-import { deleteMyAvatar, uploadMyAvatar } from "@/lib/api/customer";
+import {
+  deleteMyAvatar,
+  uploadMyAvatar,
+  fetchMyLoyaltyTransactions,
+  type LoyaltyTransactionItem,
+} from "@/lib/api/customer";
 import { useAuth, TripHistoryItem } from "./AuthContext";
 
 export default function UserProfileDrawer() {
@@ -38,10 +48,35 @@ export default function UserProfileDrawer() {
     logout,
     updateAvatar,
     updateProfile,
+    refreshMe,
   } = useAuth();
 
-  const [activeTab, setActiveTab] = useState<"profile" | "trips">("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "trips" | "loyalty">("profile");
   const [selectedTrip, setSelectedTrip] = useState<TripHistoryItem | null>(null);
+
+  const [transactions, setTransactions] = useState<LoyaltyTransactionItem[]>([]);
+  const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
+  const [transactionsError, setTransactionsError] = useState<string | null>(null);
+
+  const loadTransactions = async () => {
+    setIsLoadingTransactions(true);
+    setTransactionsError(null);
+    try {
+      const data = await fetchMyLoyaltyTransactions();
+      setTransactions(Array.isArray(data) ? data : []);
+    } catch {
+      setTransactionsError("Failed to load loyalty transaction history.");
+    } finally {
+      setIsLoadingTransactions(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isProfileDrawerOpen && activeTab === "loyalty") {
+      void loadTransactions();
+      void refreshMe();
+    }
+  }, [isProfileDrawerOpen, activeTab, refreshMe]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [photoSuccess, setPhotoSuccess] = useState<string | null>(null);
@@ -163,20 +198,20 @@ export default function UserProfileDrawer() {
       className={`fixed inset-0 z-[160] transition-opacity duration-300 ease-in-out ${isProfileDrawerOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         }`}
     >
-      {/* ─── Smooth Backdrop ─── */}
+      
       <div
         className={`fixed inset-0 bg-black/45 backdrop-blur-xs transition-opacity duration-300 ease-in-out ${isProfileDrawerOpen ? "opacity-100" : "opacity-0"
           }`}
         onClick={closeProfileDrawer}
       />
 
-      {/* ─── Slide-Over Panel (Smooth ease-out translation, clean professional styling) ─── */}
+      
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
         <div
           className={`w-screen max-w-[460px] bg-[#F8FAFC] border-l border-gray-200 flex flex-col shadow-2xl transition-transform duration-300 ease-out ${isProfileDrawerOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
-          {/* ─── Drawer Header ─── */}
+          
           <div className="px-5 py-4 border-b border-gray-200 flex items-center justify-between bg-white shrink-0">
             <div>
               <h2 className="text-base font-bold text-gray-900 tracking-tight">
@@ -196,12 +231,12 @@ export default function UserProfileDrawer() {
             </button>
           </div>
 
-          {/* ─── Scrollable Body (Changed to soft modern background) ─── */}
+          
           <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5 bg-[#F8FAFC]">
-            {/* ─── 1. User Profile Header Card (Bg color used per box, no borders, subtle rounded-lg) ─── */}
+            
             <div className="p-4 rounded-lg bg-[#0F172A] text-white relative">
               <div className="flex items-center gap-3.5">
-                {/* Avatar with initial fallback */}
+                
                 <div className="relative shrink-0">
                   <div className="w-16 h-16 rounded-full overflow-hidden bg-[#1E293B] relative flex items-center justify-center">
                     {user.avatar ? (
@@ -219,7 +254,7 @@ export default function UserProfileDrawer() {
                     )}
                   </div>
 
-                  {/* Upload photo trigger */}
+                  
                   <button
                     type="button"
                     disabled={isUploadingAvatar}
@@ -304,11 +339,16 @@ export default function UserProfileDrawer() {
               </div>
             )}
 
-            {/* ─── 2. Loyalty Points Summary Card (Bg color used per box, no border, circle shape icon) ─── */}
-            <div className="p-3.5 rounded-lg bg-amber-50 text-gray-900">
+            <div
+              onClick={() => {
+                setActiveTab("loyalty");
+                setSelectedTrip(null);
+              }}
+              className="p-3.5 rounded-lg bg-amber-50 hover:bg-amber-100/70 text-gray-900 cursor-pointer transition-colors group"
+            >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-full bg-amber-100 flex items-center justify-center text-amber-700 shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-amber-100 group-hover:bg-amber-200/80 flex items-center justify-center text-amber-700 shrink-0 transition-colors">
                     <Crown className="w-4 h-4 text-amber-700 stroke-[2.2]" />
                   </div>
                   <div>
@@ -326,14 +366,13 @@ export default function UserProfileDrawer() {
                   <span className="inline-block px-2.5 py-1 rounded-md bg-amber-200/80 text-amber-950 text-xs font-bold">
                     ₹{user.loyaltyPoints.toLocaleString("en-IN")} Off
                   </span>
-                  <span className="block text-[10px] text-gray-500 mt-0.5">
-                    Valid on all tours
+                  <span className="block text-[10px] text-amber-800 font-medium group-hover:underline mt-0.5">
+                    View History &rarr;
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* ─── 3. Border-Bottom Smooth Tab Bar (Profile Info, Bookings, Password) ─── */}
             <div className="flex items-center border-b border-gray-200">
               <button
                 type="button"
@@ -354,7 +393,10 @@ export default function UserProfileDrawer() {
 
               <button
                 type="button"
-                onClick={() => setActiveTab("trips")}
+                onClick={() => {
+                  setActiveTab("trips");
+                  setSelectedTrip(null);
+                }}
                 className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "trips"
                   ? "text-[#1877F2]"
                   : "text-gray-500 hover:text-gray-800"
@@ -365,9 +407,26 @@ export default function UserProfileDrawer() {
                   <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#1877F2] rounded-full transition-all duration-300" />
                 )}
               </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setActiveTab("loyalty");
+                  setSelectedTrip(null);
+                }}
+                className={`relative pb-3 pt-1 px-4 text-xs sm:text-[13px] font-semibold transition-all duration-200 cursor-pointer outline-none focus:outline-none ${activeTab === "loyalty"
+                  ? "text-[#1877F2]"
+                  : "text-gray-500 hover:text-gray-800"
+                  }`}
+              >
+                <span>Loyalty</span>
+                {activeTab === "loyalty" && (
+                  <span className="absolute bottom-0 inset-x-0 h-0.5 bg-[#1877F2] rounded-full transition-all duration-300" />
+                )}
+              </button>
             </div>
 
-            {/* ─── TAB 1: Edit Profile Form (Per box bg color, no borders) ─── */}
+            
             {activeTab === "profile" && (
               <form onSubmit={handleProfileSubmit} className="space-y-3.5 animate-in fade-in duration-200">
                 {profileMessage && (
@@ -486,13 +545,13 @@ export default function UserProfileDrawer() {
               </form>
             )}
 
-            {/* ─── TAB 2: Trip History (List View & Full Booking Details View) ─── */}
+            
             {activeTab === "trips" && (
               <div className="space-y-3.5 animate-in fade-in duration-200">
                 {selectedTrip ? (
-                  /* ─── FULL BOOKING HISTORY DETAILS VIEW ─── */
+                  
                   <div className="space-y-3.5 animate-in fade-in duration-150">
-                    {/* Back Button */}
+                    
                     <button
                       type="button"
                       onClick={() => setSelectedTrip(null)}
@@ -502,7 +561,7 @@ export default function UserProfileDrawer() {
                       <span>Back to All Bookings</span>
                     </button>
 
-                    {/* Hero Card */}
+                    
                     <div className="relative w-full aspect-[16/9] rounded-lg overflow-hidden bg-slate-900 text-white shadow-2xs">
                       <Image
                         src={selectedTrip.image}
@@ -512,7 +571,7 @@ export default function UserProfileDrawer() {
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent" />
 
-                      {/* Badges on top */}
+                      
                       <div className="absolute top-2.5 inset-x-2.5 flex items-center justify-between">
                         <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-bold bg-black/60 backdrop-blur-xs text-white">
                           #{selectedTrip.bookingId}
@@ -527,7 +586,7 @@ export default function UserProfileDrawer() {
                         </span>
                       </div>
 
-                      {/* Title & destination on bottom */}
+                      
                       <div className="absolute bottom-2.5 left-2.5 right-2.5 text-left">
                         <h3 className="text-sm sm:text-base font-bold text-white leading-snug drop-shadow-sm">
                           {selectedTrip.packageTitle}
@@ -539,7 +598,7 @@ export default function UserProfileDrawer() {
                       </div>
                     </div>
 
-                    {/* Quick Specs Grid (2 columns, subtle rounded-lg) */}
+                    
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <div className="p-2.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-1">
                         <div className="flex items-center gap-1 text-gray-400 text-[10px]">
@@ -582,7 +641,7 @@ export default function UserProfileDrawer() {
                       </div>
                     </div>
 
-                    {/* Hotel Stay & Pickup Box */}
+                    
                     <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2 text-xs">
                       <div>
                         <span className="text-[10px] font-semibold text-gray-400 block uppercase tracking-wider">
@@ -602,7 +661,7 @@ export default function UserProfileDrawer() {
                       </div>
                     </div>
 
-                    {/* Inclusions Checklist */}
+                    
                     <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2">
                       <span className="text-xs font-bold text-gray-900 block">
                         Included in this Booking
@@ -625,7 +684,7 @@ export default function UserProfileDrawer() {
                       </ul>
                     </div>
 
-                    {/* Payment & Rewards Breakdown with Applied Coupon */}
+                    
                     <div className="p-3 rounded-lg bg-white border border-gray-200/80 shadow-2xs space-y-2 text-xs">
                       <span className="text-xs font-bold text-gray-900 block">
                         Payment &amp; Rewards
@@ -642,7 +701,7 @@ export default function UserProfileDrawer() {
                         </span>
                       </div>
 
-                      {/* Display Applied Coupon code and discount amount */}
+                      
                       {selectedTrip.appliedCoupon && (
                         <div className="flex items-center justify-between text-emerald-700 font-semibold bg-emerald-50 px-2.5 py-1.5 rounded-md border border-emerald-200/80">
                           <div className="flex items-center gap-1.5">
@@ -659,7 +718,7 @@ export default function UserProfileDrawer() {
                         </div>
                       )}
 
-                      {/* Display Loyalty Points Redeemed if any */}
+                      
                       {selectedTrip.loyaltyRedeemed && (
                         <div className="flex items-center justify-between text-amber-800 font-semibold bg-amber-50 px-2.5 py-1.5 rounded-md border border-amber-200/80">
                           <div className="flex items-center gap-1.5">
@@ -692,7 +751,7 @@ export default function UserProfileDrawer() {
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
+                    
                     <div className="grid grid-cols-2 gap-2 pt-1">
                       <button
                         type="button"
@@ -718,7 +777,7 @@ export default function UserProfileDrawer() {
                     </div>
                   </div>
                 ) : (
-                  /* ─── BOOKINGS LIST VIEW ─── */
+                  
                   <>
                     <div className="flex items-center justify-between px-0.5 pb-0.5">
                       <span className="text-xs text-gray-800 font-bold tracking-tight">
@@ -737,7 +796,7 @@ export default function UserProfileDrawer() {
                           className="p-3.5 rounded-lg bg-white border border-gray-200/80 shadow-2xs  transition-all cursor-pointer space-y-2.5 group"
                         >
                           <div className="flex items-start gap-3">
-                            {/* Trip Thumbnail */}
+                            
                             <div className="relative w-16 h-16 rounded-md overflow-hidden bg-gray-100 shrink-0">
                               <Image
                                 src={trip.image}
@@ -748,7 +807,7 @@ export default function UserProfileDrawer() {
                               />
                             </div>
 
-                            {/* Details */}
+                            
                             <div className="min-w-0 flex-1">
                               <div className="flex items-center justify-between gap-1">
                                 <span className="text-[10px] font-mono text-gray-400">
@@ -775,7 +834,7 @@ export default function UserProfileDrawer() {
                             </div>
                           </div>
 
-                          {/* Dates, Cost & Clickable Details Row */}
+                          
                           <div className="pt-2 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-600">
                             <div className="flex items-center gap-1 text-gray-500">
                               <Calendar className="w-3 h-3 text-gray-400" />
@@ -797,9 +856,214 @@ export default function UserProfileDrawer() {
                 )}
               </div>
             )}
+
+            {activeTab === "loyalty" && (
+              <div className="space-y-4 animate-in fade-in duration-200">
+                <div className="p-4 rounded-xl bg-gradient-to-br from-[#0F172A] to-[#1E293B] text-white space-y-3 shadow-xs">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-full bg-amber-400/20 text-amber-400 flex items-center justify-center">
+                        <Crown className="w-4 h-4 stroke-[2.2]" />
+                      </div>
+                      <div>
+                        <span className="text-[11px] font-semibold text-gray-300 uppercase tracking-wider block">
+                          Current Tier
+                        </span>
+                        <span className="text-sm font-bold text-amber-400">
+                          {user.tier}
+                        </span>
+                      </div>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full bg-white/10 text-white text-[11px] font-semibold backdrop-blur-xs">
+                      1 Pt = ₹1.00
+                    </span>
+                  </div>
+
+                  <div className="pt-2 border-t border-white/10 flex items-baseline justify-between">
+                    <div>
+                      <span className="text-2xl font-black text-white tracking-tight">
+                        {user.loyaltyPoints.toLocaleString("en-IN")}
+                      </span>
+                      <span className="text-xs text-gray-300 ml-1.5 font-medium">Available Points</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-sm font-bold text-emerald-400">
+                        ₹{user.loyaltyPoints.toLocaleString("en-IN")}
+                      </span>
+                      <span className="text-[11px] text-gray-400 block">Redemption Value</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3.5 rounded-lg bg-white border border-gray-100 shadow-2xs space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-gray-900 uppercase tracking-wide flex items-center gap-1.5">
+                      <Award className="w-3.5 h-3.5 text-blue-600" />
+                      Membership Tiers & Benefits
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                    <div
+                      className={`p-2 rounded-md border ${
+                        user.tier === "Silver Explorer"
+                          ? "border-blue-500 bg-blue-50/60 font-semibold"
+                          : "border-gray-100 bg-gray-50/70"
+                      }`}
+                    >
+                      <span className="block text-[11px] text-gray-800 font-bold truncate">Silver</span>
+                      <span className="text-[10px] text-gray-500 block">0+ Pts</span>
+                      <span className="text-[9px] text-blue-700 font-medium block mt-0.5">1% Earn Rate</span>
+                    </div>
+
+                    <div
+                      className={`p-2 rounded-md border ${
+                        user.tier === "Gold Explorer"
+                          ? "border-amber-500 bg-amber-50/60 font-semibold"
+                          : "border-gray-100 bg-gray-50/70"
+                      }`}
+                    >
+                      <span className="block text-[11px] text-amber-900 font-bold truncate">Gold</span>
+                      <span className="text-[10px] text-gray-500 block">1,000+ Pts</span>
+                      <span className="text-[9px] text-amber-700 font-medium block mt-0.5">Priority Perks</span>
+                    </div>
+
+                    <div
+                      className={`p-2 rounded-md border ${
+                        user.tier === "Platinum Elite"
+                          ? "border-purple-500 bg-purple-50/60 font-semibold"
+                          : "border-gray-100 bg-gray-50/70"
+                      }`}
+                    >
+                      <span className="block text-[11px] text-purple-900 font-bold truncate">Platinum</span>
+                      <span className="text-[10px] text-gray-500 block">5,000+ Pts</span>
+                      <span className="text-[9px] text-purple-700 font-medium block mt-0.5">VIP Travel</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between px-0.5">
+                    <h4 className="text-xs font-bold text-gray-800 uppercase tracking-wide flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-gray-500" />
+                      Points History
+                    </h4>
+                    <button
+                      type="button"
+                      disabled={isLoadingTransactions}
+                      onClick={() => {
+                        void loadTransactions();
+                        void refreshMe();
+                      }}
+                      className="p-1 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors cursor-pointer disabled:opacity-50"
+                      title="Refresh activity"
+                    >
+                      <RotateCw
+                        className={`w-3.5 h-3.5 ${isLoadingTransactions ? "animate-spin" : ""}`}
+                      />
+                    </button>
+                  </div>
+
+                  {isLoadingTransactions && transactions.length === 0 ? (
+                    <div className="p-8 text-center bg-white rounded-lg border border-gray-100">
+                      <Loader2 className="w-5 h-5 text-blue-600 animate-spin mx-auto mb-2" />
+                      <p className="text-xs text-gray-500 font-medium">Loading transaction records...</p>
+                    </div>
+                  ) : transactionsError ? (
+                    <div className="p-4 bg-rose-50 text-rose-800 rounded-lg text-xs space-y-2">
+                      <p className="font-semibold">{transactionsError}</p>
+                      <button
+                        type="button"
+                        onClick={() => void loadTransactions()}
+                        className="px-3 py-1 rounded bg-rose-600 text-white font-medium hover:bg-rose-700 transition-colors"
+                      >
+                        Try Again
+                      </button>
+                    </div>
+                  ) : transactions.length === 0 ? (
+                    <div className="p-6 text-center bg-white rounded-lg border border-gray-100 space-y-1.5">
+                      <Sparkles className="w-6 h-6 text-amber-500 mx-auto" />
+                      <h5 className="text-xs font-bold text-gray-800">No Transactions Yet</h5>
+                      <p className="text-[11px] text-gray-500 max-w-xs mx-auto">
+                        Points earned on completed trips and admin adjustments will appear here.
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-2">
+                      {transactions.map((tx) => {
+                        const isPositive = tx.points > 0;
+                        const labelMap: Record<string, string> = {
+                          earn: "Booking Points Earned",
+                          adjust: "Account Adjustment",
+                          reserve: "Reserved for Booking",
+                          release: "Reservation Released",
+                          commit: "Points Redeemed",
+                          expire: "Points Expired",
+                        };
+                        const label = labelMap[tx.entryType] || "Loyalty Transaction";
+
+                        return (
+                          <div
+                            key={tx.id}
+                            className="p-3 bg-white rounded-lg border border-gray-100/90 shadow-2xs flex items-center justify-between gap-3"
+                          >
+                            <div className="flex items-center gap-2.5 min-w-0">
+                              <div
+                                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
+                                  tx.entryType === "earn"
+                                    ? "bg-emerald-100 text-emerald-700"
+                                    : tx.entryType === "adjust"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : tx.entryType === "release"
+                                    ? "bg-indigo-100 text-indigo-700"
+                                    : "bg-amber-100 text-amber-800"
+                                }`}
+                              >
+                                {isPositive ? (
+                                  <ArrowDownLeft className="w-4 h-4 stroke-[2.2]" />
+                                ) : (
+                                  <ArrowUpRight className="w-4 h-4 stroke-[2.2]" />
+                                )}
+                              </div>
+
+                              <div className="min-w-0">
+                                <h5 className="text-xs font-bold text-gray-900 truncate">{label}</h5>
+                                {tx.note && (
+                                  <p className="text-[11px] text-gray-600 truncate">{tx.note}</p>
+                                )}
+                                <span className="text-[10px] text-gray-400 block">
+                                  {new Date(tx.createdAt).toLocaleDateString("en-IN", {
+                                    day: "numeric",
+                                    month: "short",
+                                    year: "numeric",
+                                  })}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="text-right shrink-0">
+                              <span
+                                className={`text-xs font-bold block ${
+                                  isPositive ? "text-emerald-600" : "text-gray-900"
+                                }`}
+                              >
+                                {isPositive ? `+${tx.points.toLocaleString("en-IN")}` : tx.points.toLocaleString("en-IN")}
+                              </span>
+                              <span className="text-[10px] text-gray-400">
+                                Bal: {tx.balanceAfter.toLocaleString("en-IN")}
+                              </span>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* ─── Drawer Footer: Log Out ─── */}
+          
           <div className="p-4 border-t border-gray-200 bg-gray-50 flex items-center justify-between shrink-0">
             <div className="min-w-0 pr-2">
               <span className="text-xs font-medium text-gray-700 truncate block">
