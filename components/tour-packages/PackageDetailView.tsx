@@ -45,6 +45,8 @@ import RelevantPackagesSlider from "./RelevantPackagesSlider";
 import PackageReviewsSection from "./PackageReviewsSection";
 import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 import { useAuth } from "@/components/shared/AuthContext";
+import { useSiteSettings } from "@/components/shared/SettingsContext";
+import { submitEnquiry, validateCoupon } from "@/lib/api/enquiries";
 
 interface PackageDetailViewProps {
   pkg: TourPackage;
@@ -75,68 +77,77 @@ export default function PackageDetailView({
   const [minDate, setMinDate] = useState<string>("2026-11-01");
   const [mounted, setMounted] = useState(false);
 
-  const { user, isLoggedIn, updateProfile } = useAuth();
+  const settings = useSiteSettings();
+  const { user, isLoggedIn, refreshMe } = useAuth();
   const [applyLoyalty, setApplyLoyalty] = useState(false);
 
   const [couponInput, setCouponInput] = useState("");
   const [couponError, setCouponError] = useState("");
+  const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<{
     code: string;
     discountAmount: number;
     discountText: string;
   } | null>(null);
 
-  const availableLoyaltyPoints = user?.loyaltyPoints ?? 1450;
+  const travellersCount = Math.max(1, parseInt(sidebarForm.travellers || "1", 10) || 1);
+  const baseEstimate = pkg.price * travellersCount;
+  const availableLoyaltyPoints = isLoggedIn && user ? user.loyaltyPoints : 0;
+  const pointValue = (settings.loyaltyDisplay?.pointValuePaise ?? 100) / 100;
 
   const couponDiscount = appliedCoupon ? appliedCoupon.discountAmount : 0;
-  const priceAfterCoupon = Math.max(0, pkg.price - couponDiscount);
+  const priceAfterCoupon = Math.max(0, baseEstimate - couponDiscount);
 
-  const redeemableLoyaltyPoints = Math.min(availableLoyaltyPoints, priceAfterCoupon);
-  const loyaltyDiscount = applyLoyalty ? redeemableLoyaltyPoints : 0;
+  const maxRedeemablePoints = Math.min(
+    availableLoyaltyPoints,
+    Math.floor(priceAfterCoupon / (pointValue || 1))
+  );
+  const loyaltyDiscount = applyLoyalty ? maxRedeemablePoints * pointValue : 0;
 
   const totalSavings = couponDiscount + loyaltyDiscount;
-  const finalPrice = Math.max(0, pkg.price - totalSavings);
+  const finalPrice = Math.max(0, baseEstimate - totalSavings);
 
-  const availableCoupons = [
-    { code: "KRIKO10", discountPercent: 10, discountText: "10% OFF" },
-    { code: "EXPLORE2000", discountFixed: 2000, discountText: "₹2,000 OFF" },
-    { code: "FESTIVE15", discountPercent: 15, discountText: "15% OFF" },
-  ];
+interface PublicCouponChip {
+  code: string;
+  discountPercent?: number;
+  discountAmount?: number;
+}
 
-  const handleApplyCoupon = (codeToApply?: string) => {
+  const publicCoupons = (settings.publicCoupons || []) as PublicCouponChip[];
+
+  const handleApplyCoupon = async (codeToApply?: string) => {
     const raw = (codeToApply || couponInput).trim().toUpperCase();
     if (!raw) {
       setCouponError("Please enter a valid coupon code");
       return;
     }
 
-    const matched = availableCoupons.find((c) => c.code === raw);
-    let discount = 0;
-    let label = "DISCOUNT";
-
-    if (matched) {
-      if (matched.discountPercent) {
-        discount = Math.round((pkg.price * matched.discountPercent) / 100);
-        label = matched.discountText;
-      } else if (matched.discountFixed) {
-        discount = matched.discountFixed;
-        label = matched.discountText;
-      }
-    } else if (raw === "WELCOME" || raw === "TRAVEL" || raw === "HOLIDAY") {
-      discount = Math.round((pkg.price * 10) / 100);
-      label = "10% OFF";
-    } else {
-      setCouponError("Invalid coupon code. Try 'KRIKO10' or 'EXPLORE2000'");
-      return;
-    }
-
-    setAppliedCoupon({
-      code: raw,
-      discountAmount: discount,
-      discountText: label,
-    });
+    setIsValidatingCoupon(true);
     setCouponError("");
-    setCouponInput("");
+
+    try {
+      const res = await validateCoupon({
+        code: raw,
+        packageSlug: pkg.slug,
+        travellers: travellersCount,
+      });
+
+      const discountRupees = Math.round(res.discountPaise / 100);
+      setAppliedCoupon({
+        code: res.code,
+        discountAmount: discountRupees,
+        discountText: res.discountType === "percent" ? "PERCENT OFF" : "FLAT OFF",
+      });
+      setCouponError("");
+      setCouponInput("");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Invalid coupon code";
+      setCouponError(msg);
+      setAppliedCoupon(null);
+    } finally {
+      setIsValidatingCoupon(false);
+    }
   };
 
   const handleRemoveCoupon = () => {
@@ -144,6 +155,16 @@ export default function PackageDetailView({
     setCouponError("");
     setCouponInput("");
   };
+
+  const prevTravellersRef = useRef(travellersCount);
+  useEffect(() => {
+    if (prevTravellersRef.current !== travellersCount) {
+      prevTravellersRef.current = travellersCount;
+      if (appliedCoupon) {
+        void handleApplyCoupon(appliedCoupon.code);
+      }
+    }
+  }, [travellersCount, appliedCoupon]);
 
   useEffect(() => {
     setMounted(true);
@@ -250,33 +271,41 @@ export default function PackageDetailView({
     }
   };
 
-  const handleQuoteSubmit = (e: React.FormEvent) => {
+  const handleQuoteSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!sidebarForm.name.trim() || !sidebarForm.phone.trim()) {
+      setSubmitError("Please fill in your name and phone number.");
+      return;
+    }
+
     setIsQuoteSubmitted(true);
-    setTimeout(() => {
-      setIsQuoteSubmitted(false);
+    setSubmitError("");
 
-      if (applyLoyalty && loyaltyDiscount > 0 && user && isLoggedIn) {
-        updateProfile({
-          loyaltyPoints: Math.max(0, user.loyaltyPoints - loyaltyDiscount),
-        });
-      }
+    try {
+      const idempotencyKey = `enq_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+      const res = await submitEnquiry(
+        {
+          packageSlug: pkg.slug,
+          travellers: travellersCount,
+          travelDate: sidebarForm.travelDate || null,
+          customerName: sidebarForm.name.trim(),
+          customerEmail: sidebarForm.email.trim() || null,
+          phoneCountryCode: countryCode,
+          phone: sidebarForm.phone.trim(),
+          message: sidebarForm.message.trim() || null,
+          pagePath: typeof window !== "undefined" ? window.location.pathname : null,
+          couponCode: appliedCoupon?.code || null,
+          redeemLoyaltyPoints: applyLoyalty,
+        },
+        idempotencyKey,
+      );
 
-      let discountMsg = "";
-      if (totalSavings > 0) {
-        const parts = [];
-        if (couponDiscount > 0 && appliedCoupon) {
-          parts.push(`Coupon (${appliedCoupon.code}): -₹${couponDiscount.toLocaleString("en-IN")}`);
-        }
-        if (loyaltyDiscount > 0) {
-          parts.push(`Loyalty Points (${redeemableLoyaltyPoints} pts): -₹${loyaltyDiscount.toLocaleString("en-IN")}`);
-        }
-        discountMsg = ` Total savings applied: ₹${totalSavings.toLocaleString("en-IN")} (${parts.join(", ")}). Final payable: ₹${finalPrice.toLocaleString("en-IN")}.`;
-      }
+      await refreshMe();
 
       alert(
-        `Thank you ${sidebarForm.name || ""}! Your booking request for "${pkg.title}" has been received.${discountMsg} Our holiday specialist will call you on ${countryCode} ${sidebarForm.phone || ""} shortly.`
+        `Thank you ${sidebarForm.name}! Enquiry ${res.reference} received. Our travel expert will call you shortly on ${countryCode} ${sidebarForm.phone}.`
       );
+
       setSidebarForm({
         name: "",
         phone: "",
@@ -287,7 +316,22 @@ export default function PackageDetailView({
       });
       setApplyLoyalty(false);
       setAppliedCoupon(null);
-    }, 1000);
+    } catch (err: unknown) {
+      if (
+        err instanceof Error &&
+        (err.message.includes("429") ||
+          err.message.toLowerCase().includes("rate limit") ||
+          err.message.toLowerCase().includes("too many"))
+      ) {
+        setSubmitError("Too many requests. Please try again in a few minutes.");
+      } else if (err instanceof Error) {
+        setSubmitError(err.message);
+      } else {
+        setSubmitError("Failed to submit enquiry. Please try again.");
+      }
+    } finally {
+      setIsQuoteSubmitted(false);
+    }
   };
 
   const faqs =
@@ -1083,11 +1127,11 @@ export default function PackageDetailView({
                           />
                           <button
                             type="button"
-                            onClick={() => handleApplyCoupon()}
-                            disabled={!couponInput.trim()}
+                            onClick={() => void handleApplyCoupon()}
+                            disabled={!couponInput.trim() || isValidatingCoupon}
                             className="px-4 py-2 mr-1 my-1 rounded-md bg-[#1877F2] hover:bg-[#00285C] active:scale-95 disabled:opacity-40 disabled:pointer-events-none text-white text-xs font-semibold transition-all cursor-pointer shrink-0"
                           >
-                            Apply
+                            {isValidatingCoupon ? "Validating..." : "Apply"}
                           </button>
                         </div>
 
@@ -1098,20 +1142,27 @@ export default function PackageDetailView({
                           </p>
                         )}
 
-                        <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
-                          <span className="text-[10px] text-gray-400 font-medium">Offers:</span>
-                          {availableCoupons.map((c) => (
-                            <button
-                              key={c.code}
-                              type="button"
-                              onClick={() => handleApplyCoupon(c.code)}
-                              className="text-[10px] font-mono font-semibold text-[#1877F2] bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2 py-0.5 rounded-md transition-colors cursor-pointer flex items-center gap-1"
-                            >
-                              <span>{c.code}</span>
-                              <span className="text-gray-500 font-normal">({c.discountText})</span>
-                            </button>
-                          ))}
-                        </div>
+                        {publicCoupons.length > 0 && (
+                          <div className="flex items-center gap-1.5 flex-wrap pt-0.5">
+                            <span className="text-[10px] text-gray-400 font-medium">Offers:</span>
+                            {publicCoupons.map((c) => (
+                              <button
+                                key={c.code}
+                                type="button"
+                                onClick={() => void handleApplyCoupon(c.code)}
+                                disabled={isValidatingCoupon}
+                                className="text-[10px] font-mono font-semibold text-[#1877F2] bg-blue-50 hover:bg-blue-100 border border-blue-200/80 px-2 py-0.5 rounded-md transition-colors cursor-pointer flex items-center gap-1 disabled:opacity-50"
+                              >
+                                <span>{c.code}</span>
+                                {c.discountPercent ? (
+                                  <span className="text-gray-500 font-normal">({c.discountPercent}% OFF)</span>
+                                ) : c.discountAmount ? (
+                                  <span className="text-gray-500 font-normal">(₹{c.discountAmount} OFF)</span>
+                                ) : null}
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     ) : (
                       <div className="p-2.5 rounded-lg bg-emerald-50/90 border border-emerald-200 flex items-center justify-between text-xs animate-in fade-in duration-200">
@@ -1158,7 +1209,20 @@ export default function PackageDetailView({
                       )}
                     </div>
 
-                    {!applyLoyalty ? (
+                    {!isLoggedIn || !user ? (
+                      <div className="p-2.5 rounded-lg bg-gray-50 border border-gray-200 text-xs text-gray-600 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Crown className="w-4 h-4 text-amber-500 shrink-0" />
+                          <span className="text-[11px]">Sign in to use your loyalty points</span>
+                        </div>
+                        <Link
+                          href="/login"
+                          className="text-[11px] font-semibold text-[#1877F2] hover:underline shrink-0 ml-2"
+                        >
+                          Sign In
+                        </Link>
+                      </div>
+                    ) : !applyLoyalty ? (
                       <div className="p-2.5 rounded-lg bg-amber-50/70 border border-amber-200/80 transition-all">
                         <div className="flex items-center justify-between gap-2">
                           <div className="flex items-center gap-2.5 min-w-0">
@@ -1170,22 +1234,26 @@ export default function PackageDetailView({
                                 <span className="text-xs font-semibold text-gray-900">
                                   {availableLoyaltyPoints.toLocaleString("en-IN")} Points
                                 </span>
-                                <span className="text-[10px] font-semibold text-amber-800 bg-amber-200/80 px-1.5 py-0.2 rounded">
-                                  ₹{availableLoyaltyPoints.toLocaleString("en-IN")} OFF
-                                </span>
+                                {availableLoyaltyPoints > 0 && (
+                                  <span className="text-[10px] font-semibold text-amber-800 bg-amber-200/80 px-1.5 py-0.2 rounded">
+                                    ₹{(availableLoyaltyPoints * pointValue).toLocaleString("en-IN")} OFF
+                                  </span>
+                                )}
                               </div>
                               <p className="text-[10.5px] text-gray-500 truncate">
-                                1 pt = ₹1 instant discount on this booking
+                                1 pt = ₹{pointValue} instant discount on this booking
                               </p>
                             </div>
                           </div>
-                          <button
-                            type="button"
-                            onClick={() => setApplyLoyalty(true)}
-                            className="px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-semibold transition-all cursor-pointer shrink-0 shadow-2xs"
-                          >
-                            Apply
-                          </button>
+                          {availableLoyaltyPoints > 0 && (
+                            <button
+                              type="button"
+                              onClick={() => setApplyLoyalty(true)}
+                              className="px-3 py-1.5 rounded-md bg-amber-500 hover:bg-amber-600 active:scale-95 text-white text-xs font-semibold transition-all cursor-pointer shrink-0 shadow-2xs"
+                            >
+                              Apply
+                            </button>
+                          )}
                         </div>
                       </div>
                     ) : (
@@ -1197,7 +1265,7 @@ export default function PackageDetailView({
                           <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
                               <span className="font-semibold text-amber-950 text-xs">
-                                {redeemableLoyaltyPoints.toLocaleString("en-IN")} Points Redeemed
+                                {maxRedeemablePoints.toLocaleString("en-IN")} Points Redeemed
                               </span>
                             </div>
                             <span className="text-[11px] text-amber-800 font-medium block truncate">
@@ -1219,9 +1287,9 @@ export default function PackageDetailView({
                   {(appliedCoupon || (applyLoyalty && loyaltyDiscount > 0)) && (
                     <div className="p-3 rounded-lg bg-gray-50 border border-gray-200/80 space-y-1.5 text-xs text-gray-700 animate-in fade-in duration-150">
                       <div className="flex items-center justify-between">
-                        <span>Original Price</span>
+                        <span>Price ({travellersCount} {travellersCount === 1 ? "Traveller" : "Travellers"})</span>
                         <span className="font-medium text-gray-500 line-through">
-                          ₹{pkg.price.toLocaleString("en-IN")}
+                          ₹{baseEstimate.toLocaleString("en-IN")}
                         </span>
                       </div>
 
@@ -1239,7 +1307,7 @@ export default function PackageDetailView({
                         <div className="flex items-center justify-between text-amber-800 font-semibold">
                           <span className="flex items-center gap-1">
                             <Crown className="w-3.5 h-3.5 text-amber-600" />
-                            Loyalty Redeemed ({redeemableLoyaltyPoints.toLocaleString("en-IN")} pts)
+                            Loyalty Redeemed ({maxRedeemablePoints.toLocaleString("en-IN")} pts)
                           </span>
                           <span>- ₹{loyaltyDiscount.toLocaleString("en-IN")}</span>
                         </div>
@@ -1260,6 +1328,13 @@ export default function PackageDetailView({
                           ₹{finalPrice.toLocaleString("en-IN")}
                         </span>
                       </div>
+                    </div>
+                  )}
+
+                  {submitError && (
+                    <div className="p-2.5 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700 flex items-center gap-2">
+                      <XCircle className="w-4 h-4 shrink-0 text-red-600" />
+                      <span>{submitError}</span>
                     </div>
                   )}
 

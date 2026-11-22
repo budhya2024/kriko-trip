@@ -7083,6 +7083,3120 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/contact-messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit a contact message from the customer site */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        /** Format: email */
+                        email: string;
+                        /** @default +91 */
+                        phoneCountryCode: string;
+                        phone: string;
+                        subject: string;
+                        message: string;
+                        consent: boolean;
+                        honeypot?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Contact message successfully created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation failed */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/contact-messages": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List contact messages for superadmin */
+        get: {
+            parameters: {
+                query: {
+                    q?: string;
+                    status?: "unread" | "read" | "replied" | "archived" | "all";
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Contact messages list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                                email: string;
+                                phoneCountryCode: string;
+                                phone: string;
+                                subject: string;
+                                message: string;
+                                /** Format: date-time */
+                                consentAt: string;
+                                /** @enum {string} */
+                                status: "unread" | "read" | "replied" | "archived";
+                                readAt: string | null;
+                                lastRepliedAt: string | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                                unreadCount: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/contact-messages/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get contact message detail and conversation thread (marks as read) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Contact message detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                                email: string;
+                                phoneCountryCode: string;
+                                phone: string;
+                                subject: string;
+                                message: string;
+                                /** Format: date-time */
+                                consentAt: string;
+                                /** @enum {string} */
+                                status: "unread" | "read" | "replied" | "archived";
+                                readAt: string | null;
+                                lastRepliedAt: string | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                                replies: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    /** Format: uuid */
+                                    contactMessageId: string;
+                                    body: string;
+                                    sentByUserId: string;
+                                    emailOutboxId: string | null;
+                                    /** Format: date-time */
+                                    createdAt: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Message not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        /** Soft-delete a contact message */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Message deleted */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                success: boolean;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Message not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/contact-messages/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update contact message status */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "unread" | "read" | "replied" | "archived";
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated message */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                                email: string;
+                                phoneCountryCode: string;
+                                phone: string;
+                                subject: string;
+                                message: string;
+                                /** Format: date-time */
+                                consentAt: string;
+                                /** @enum {string} */
+                                status: "unread" | "read" | "replied" | "archived";
+                                readAt: string | null;
+                                lastRepliedAt: string | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                                replies: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    /** Format: uuid */
+                                    contactMessageId: string;
+                                    body: string;
+                                    sentByUserId: string;
+                                    emailOutboxId: string | null;
+                                    /** Format: date-time */
+                                    createdAt: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Message not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/contact-messages/{id}/replies": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Send an email reply to a contact message */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        body: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Reply created and email queued in outbox */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                contactMessageId: string;
+                                body: string;
+                                sentByUserId: string;
+                                emailOutboxId: string | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Message not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/coupons/validate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Validate coupon code for package estimate */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        code: string;
+                        packageSlug: string;
+                        travellers: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Coupon calculation details */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                code: string;
+                                /** @enum {string} */
+                                discountType: "percent" | "fixed";
+                                discountValue: number;
+                                discountPaise: number;
+                                originalEstimatePaise: number;
+                                finalEstimatePaise: number;
+                                maxDiscountPaise: number | null;
+                                minOrderPaise: number | null;
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid or expired coupon */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/coupons": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all coupons with pagination */
+        get: {
+            parameters: {
+                query: {
+                    q?: string;
+                    isActive?: "true" | "false" | "all";
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Coupons list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                code: string;
+                                description: string | null;
+                                /** @enum {string} */
+                                discountType: "percent" | "fixed";
+                                discountValue: number;
+                                maxDiscountPaise: number | null;
+                                minOrderPaise: number | null;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                usageLimit: number | null;
+                                perUserLimit: number | null;
+                                usedCount: number;
+                                isPublic: boolean;
+                                isActive: boolean;
+                                /** @enum {string} */
+                                appliesTo: "all" | "selected_packages";
+                                packageIds: string[];
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create a new coupon */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        code: string;
+                        description?: string | null;
+                        /** @enum {string} */
+                        discountType: "percent" | "fixed";
+                        discountValue: number;
+                        maxDiscountPaise?: number | null;
+                        minOrderPaise?: number | null;
+                        validFrom?: string | null;
+                        validUntil?: string | null;
+                        usageLimit?: number | null;
+                        perUserLimit?: number | null;
+                        /** @default false */
+                        isPublic: boolean;
+                        /** @default true */
+                        isActive: boolean;
+                        /**
+                         * @default all
+                         * @enum {string}
+                         */
+                        appliesTo: "all" | "selected_packages";
+                        /** @default [] */
+                        packageIds: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Created coupon */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                code: string;
+                                description: string | null;
+                                /** @enum {string} */
+                                discountType: "percent" | "fixed";
+                                discountValue: number;
+                                maxDiscountPaise: number | null;
+                                minOrderPaise: number | null;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                usageLimit: number | null;
+                                perUserLimit: number | null;
+                                usedCount: number;
+                                isPublic: boolean;
+                                isActive: boolean;
+                                /** @enum {string} */
+                                appliesTo: "all" | "selected_packages";
+                                packageIds: string[];
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation failed or duplicate code */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/coupons/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get coupon detail */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Coupon detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                code: string;
+                                description: string | null;
+                                /** @enum {string} */
+                                discountType: "percent" | "fixed";
+                                discountValue: number;
+                                maxDiscountPaise: number | null;
+                                minOrderPaise: number | null;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                usageLimit: number | null;
+                                perUserLimit: number | null;
+                                usedCount: number;
+                                isPublic: boolean;
+                                isActive: boolean;
+                                /** @enum {string} */
+                                appliesTo: "all" | "selected_packages";
+                                packageIds: string[];
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Coupon not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Update coupon details */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        code?: string;
+                        description?: string | null;
+                        /** @enum {string} */
+                        discountType?: "percent" | "fixed";
+                        discountValue?: number;
+                        maxDiscountPaise?: number | null;
+                        minOrderPaise?: number | null;
+                        validFrom?: string | null;
+                        validUntil?: string | null;
+                        usageLimit?: number | null;
+                        perUserLimit?: number | null;
+                        isPublic?: boolean;
+                        isActive?: boolean;
+                        /** @enum {string} */
+                        appliesTo?: "all" | "selected_packages";
+                        packageIds?: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated coupon */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                code: string;
+                                description: string | null;
+                                /** @enum {string} */
+                                discountType: "percent" | "fixed";
+                                discountValue: number;
+                                maxDiscountPaise: number | null;
+                                minOrderPaise: number | null;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                usageLimit: number | null;
+                                perUserLimit: number | null;
+                                usedCount: number;
+                                isPublic: boolean;
+                                isActive: boolean;
+                                /** @enum {string} */
+                                appliesTo: "all" | "selected_packages";
+                                packageIds: string[];
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Coupon not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Soft-delete a coupon */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Coupon deleted */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                success: boolean;
+                            };
+                        };
+                    };
+                };
+                /** @description Coupon not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/coupons/{id}/active": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Toggle coupon active status */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        isActive: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated coupon active status */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                code: string;
+                                description: string | null;
+                                /** @enum {string} */
+                                discountType: "percent" | "fixed";
+                                discountValue: number;
+                                maxDiscountPaise: number | null;
+                                minOrderPaise: number | null;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                usageLimit: number | null;
+                                perUserLimit: number | null;
+                                usedCount: number;
+                                isPublic: boolean;
+                                isActive: boolean;
+                                /** @enum {string} */
+                                appliesTo: "all" | "selected_packages";
+                                packageIds: string[];
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Coupon not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/coupons/{id}/redemptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List redemptions for a specific coupon */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Redemptions list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                couponId: string;
+                                enquiryId: string | null;
+                                customerUserId: string | null;
+                                discountPaise: number;
+                                /** @enum {string} */
+                                status: "reserved" | "committed" | "released";
+                                /** Format: date-time */
+                                createdAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Coupon not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/loyalty/transactions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List customer loyalty points ledger transactions */
+        get: {
+            parameters: {
+                query: {
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Loyalty ledger transactions */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                customerUserId: string;
+                                enquiryId: string | null;
+                                /** @enum {string} */
+                                entryType: "reserve" | "release" | "commit" | "earn" | "adjust" | "expire";
+                                points: number;
+                                balanceAfter: number;
+                                note: string | null;
+                                createdByUserId: string | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/customers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List customers with loyalty summaries and search filters */
+        get: {
+            parameters: {
+                query: {
+                    q?: string;
+                    tier?: "all" | "silver_explorer" | "gold_explorer" | "platinum_elite";
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Customers list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                                email: string;
+                                phone: string | null;
+                                location: string | null;
+                                avatarUrl: string | null;
+                                pointsBalance: number;
+                                pointsLifetime: number;
+                                /** @enum {string} */
+                                tier: "silver_explorer" | "gold_explorer" | "platinum_elite";
+                                totalBookings: number;
+                                /** Format: date-time */
+                                createdAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/customers/{userId}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get customer detail with loyalty ledger history */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Customer detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                                email: string;
+                                phone: string | null;
+                                location: string | null;
+                                bio: string | null;
+                                avatarUrl: string | null;
+                                marketingOptIn: boolean;
+                                pointsBalance: number;
+                                pointsLifetime: number;
+                                /** @enum {string} */
+                                tier: "silver_explorer" | "gold_explorer" | "platinum_elite";
+                                totalBookings: number;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                                recentTransactions: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    /** Format: uuid */
+                                    customerUserId: string;
+                                    enquiryId: string | null;
+                                    /** @enum {string} */
+                                    entryType: "reserve" | "release" | "commit" | "earn" | "adjust" | "expire";
+                                    points: number;
+                                    balanceAfter: number;
+                                    note: string | null;
+                                    createdByUserId: string | null;
+                                    /** Format: date-time */
+                                    createdAt: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Customer not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/customers/{userId}/loyalty-adjustments": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Adjust customer loyalty points balance */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    userId: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        points: number;
+                        note: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated customer detail after loyalty adjustment */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                name: string;
+                                email: string;
+                                phone: string | null;
+                                location: string | null;
+                                bio: string | null;
+                                avatarUrl: string | null;
+                                marketingOptIn: boolean;
+                                pointsBalance: number;
+                                pointsLifetime: number;
+                                /** @enum {string} */
+                                tier: "silver_explorer" | "gold_explorer" | "platinum_elite";
+                                totalBookings: number;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                                recentTransactions: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    /** Format: uuid */
+                                    customerUserId: string;
+                                    enquiryId: string | null;
+                                    /** @enum {string} */
+                                    entryType: "reserve" | "release" | "commit" | "earn" | "adjust" | "expire";
+                                    points: number;
+                                    balanceAfter: number;
+                                    note: string | null;
+                                    createdByUserId: string | null;
+                                    /** Format: date-time */
+                                    createdAt: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Invalid adjustment amount or negative balance result */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Customer not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/newsletter/subscriptions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Subscribe to newsletter from public site */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: email */
+                        email: string;
+                        source?: string;
+                        honeypot?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Subscription acknowledged */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                success: boolean;
+                                message: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation failed */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Rate limit exceeded */
+                429: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/newsletter/unsubscribe": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Unsubscribe from newsletter */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        token?: string;
+                        /** Format: email */
+                        email?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Unsubscription acknowledged */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                success: boolean;
+                                message: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/newsletter-subscribers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List newsletter subscribers */
+        get: {
+            parameters: {
+                query: {
+                    q?: string;
+                    status?: "subscribed" | "unsubscribed" | "all";
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Newsletter subscribers list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                email: string;
+                                /** @enum {string} */
+                                status: "subscribed" | "unsubscribed";
+                                source: string | null;
+                                unsubscribeToken: string;
+                                /** Format: date-time */
+                                subscribedAt: string;
+                                unsubscribedAt: string | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                                /** Format: date-time */
+                                updatedAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/newsletter-subscribers/export.csv": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Export subscribers as CSV */
+        get: {
+            parameters: {
+                query?: {
+                    status?: "subscribed" | "unsubscribed" | "all";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description CSV file download */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: string;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/notifications": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List admin notifications */
+        get: {
+            parameters: {
+                query: {
+                    page: number;
+                    limit: number;
+                    unreadOnly?: "0" | "1" | "true" | "false";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of admin notifications */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                type: "booking" | "review" | "vendor" | "contact";
+                                title: string;
+                                body: string;
+                                entityType: string | null;
+                                entityId: string | null;
+                                targetTab: string | null;
+                                readAt: string | null;
+                                /** Format: date-time */
+                                createdAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/notifications/unread-count": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get count of unread admin notifications */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Unread notifications count */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                unreadCount: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/notifications/{id}/read": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Mark an admin notification as read */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Notification marked as read */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: date-time */
+                                readAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Notification not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/notifications/read-all": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Mark all admin notifications as read */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description All notifications marked as read */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                updatedCount: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/enquiries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit a new tour package enquiry or booking */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        packageSlug: string;
+                        /** @default 1 */
+                        travellers: number;
+                        travelDate?: string | null;
+                        customerName: string;
+                        customerEmail?: string | null;
+                        /** @default +91 */
+                        phoneCountryCode: string;
+                        phone: string;
+                        message?: string | null;
+                        pagePath?: string | null;
+                        couponCode?: string | null;
+                        /** @default false */
+                        redeemLoyaltyPoints: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Enquiry created successfully */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                reference: string;
+                                /** @enum {string} */
+                                status: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                unitPricePaise: number | null;
+                                estimatePaise: number | null;
+                                couponDiscountPaise: number;
+                                loyaltyPointsReserved: number;
+                                loyaltyDiscountPaise: number;
+                                finalPricePaise: number | null;
+                                message: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error or invalid coupon/package */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Package not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/callback-requests": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Submit a fast callback request */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        customerName: string;
+                        /** @default +91 */
+                        phoneCountryCode: string;
+                        phone: string;
+                        pagePath?: string | null;
+                        packageSlug?: string | null;
+                        message?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Callback request received */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                reference: string;
+                                message: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/bookings": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List bookings and tour history for signed-in customer */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Customer bookings list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                bookingId: string;
+                                reference: string;
+                                packageTitle: string;
+                                destination: string;
+                                duration: string;
+                                dates: string;
+                                /** @enum {string} */
+                                status: "Confirmed" | "Completed" | "Cancelled" | "Pending" | "In Progress" | "New";
+                                /** @enum {string} */
+                                rawStatus: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                amount: number;
+                                finalPricePaise: number | null;
+                                estimatePaise: number | null;
+                                pointsEarned: number;
+                                image: string;
+                                travellers?: string;
+                                hotelCategory?: string;
+                                mealPlan?: string;
+                                pickupPoint?: string;
+                                inclusions?: string[];
+                                paymentMode?: string;
+                                /** @enum {string} */
+                                paymentStatus: "unpaid" | "partially_paid" | "paid" | "refunded";
+                                appliedCoupon?: {
+                                    code: string;
+                                    discountAmount: number;
+                                };
+                                loyaltyRedeemed?: {
+                                    points: number;
+                                    discountAmount: number;
+                                };
+                                createdAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/me/bookings/{reference}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get details of a specific customer booking */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Booking detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                bookingId: string;
+                                reference: string;
+                                packageTitle: string;
+                                destination: string;
+                                duration: string;
+                                dates: string;
+                                /** @enum {string} */
+                                status: "Confirmed" | "Completed" | "Cancelled" | "Pending" | "In Progress" | "New";
+                                /** @enum {string} */
+                                rawStatus: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                amount: number;
+                                finalPricePaise: number | null;
+                                estimatePaise: number | null;
+                                pointsEarned: number;
+                                image: string;
+                                travellers?: string;
+                                hotelCategory?: string;
+                                mealPlan?: string;
+                                pickupPoint?: string;
+                                inclusions?: string[];
+                                paymentMode?: string;
+                                /** @enum {string} */
+                                paymentStatus: "unpaid" | "partially_paid" | "paid" | "refunded";
+                                appliedCoupon?: {
+                                    code: string;
+                                    discountAmount: number;
+                                };
+                                loyaltyRedeemed?: {
+                                    points: number;
+                                    discountAmount: number;
+                                };
+                                createdAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Booking not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/enquiries": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List enquiries and bookings with status facets and filters */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Enquiries list with facets */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                reference: string;
+                                /** @enum {string} */
+                                source: "package_booking" | "callback_request" | "hero_search" | "admin" | "chatbot";
+                                packageId: string | null;
+                                packageTitle: string | null;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                customerName: string;
+                                customerEmail: string | null;
+                                phoneCountryCode: string;
+                                phone: string;
+                                travelDate: string | null;
+                                travellers: number;
+                                /** @enum {string} */
+                                status: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                /** @enum {string} */
+                                paymentStatus: "unpaid" | "partially_paid" | "paid" | "refunded";
+                                unitPricePaise: number | null;
+                                estimatePaise: number | null;
+                                couponDiscountPaise: number;
+                                loyaltyPointsReserved: number;
+                                loyaltyDiscountPaise: number;
+                                baseCostPaise: number | null;
+                                markupPercent: number | null;
+                                taxPercent: number | null;
+                                discountPaise: number;
+                                finalPricePaise: number | null;
+                                vendorPayoutPaise: number | null;
+                                agencyMarginPaise: number | null;
+                                amountPaidPaise: number;
+                                paymentMode: string | null;
+                                hotelCategory: string | null;
+                                mealPlan: string | null;
+                                pickupPoint: string | null;
+                                assignedVendorId: string | null;
+                                vendorLeadStatus: string;
+                                confirmedAt: string | null;
+                                completedAt: string | null;
+                                cancelledAt: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                            facets: {
+                                byStatus: {
+                                    [key: string]: number;
+                                };
+                                total: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/enquiries/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get full enquiry details with transitions and history */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Enquiry details */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                reference: string;
+                                /** @enum {string} */
+                                source: "package_booking" | "callback_request" | "hero_search" | "admin" | "chatbot";
+                                packageId: string | null;
+                                packageTitle: string | null;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                customerName: string;
+                                customerEmail: string | null;
+                                phoneCountryCode: string;
+                                phone: string;
+                                travelDate: string | null;
+                                travellers: number;
+                                /** @enum {string} */
+                                status: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                /** @enum {string} */
+                                paymentStatus: "unpaid" | "partially_paid" | "paid" | "refunded";
+                                unitPricePaise: number | null;
+                                estimatePaise: number | null;
+                                couponDiscountPaise: number;
+                                loyaltyPointsReserved: number;
+                                loyaltyDiscountPaise: number;
+                                baseCostPaise: number | null;
+                                markupPercent: number | null;
+                                taxPercent: number | null;
+                                discountPaise: number;
+                                finalPricePaise: number | null;
+                                vendorPayoutPaise: number | null;
+                                agencyMarginPaise: number | null;
+                                amountPaidPaise: number;
+                                paymentMode: string | null;
+                                hotelCategory: string | null;
+                                mealPlan: string | null;
+                                pickupPoint: string | null;
+                                assignedVendorId: string | null;
+                                vendorLeadStatus: string;
+                                confirmedAt: string | null;
+                                completedAt: string | null;
+                                cancelledAt: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                                message: string | null;
+                                pagePath: string | null;
+                                adminNotes: string | null;
+                                cancelReason: string | null;
+                                inclusionsSnapshot: string[] | null;
+                                allowedTransitions: ("new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled")[];
+                                couponRedemption: {
+                                    code: string;
+                                    discountPaise: number;
+                                    status: string;
+                                } | null;
+                                statusHistory: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    fromStatus: ("new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled") | null;
+                                    /** @enum {string} */
+                                    toStatus: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                    actorType: string;
+                                    actorUserId: string | null;
+                                    note: string | null;
+                                    createdAt: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+                /** @description Enquiry not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/enquiries/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Transition enquiry status with side effects */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                        note?: string | null;
+                        cancelReason?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated enquiry detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                reference: string;
+                                /** @enum {string} */
+                                source: "package_booking" | "callback_request" | "hero_search" | "admin" | "chatbot";
+                                packageId: string | null;
+                                packageTitle: string | null;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                customerName: string;
+                                customerEmail: string | null;
+                                phoneCountryCode: string;
+                                phone: string;
+                                travelDate: string | null;
+                                travellers: number;
+                                /** @enum {string} */
+                                status: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                /** @enum {string} */
+                                paymentStatus: "unpaid" | "partially_paid" | "paid" | "refunded";
+                                unitPricePaise: number | null;
+                                estimatePaise: number | null;
+                                couponDiscountPaise: number;
+                                loyaltyPointsReserved: number;
+                                loyaltyDiscountPaise: number;
+                                baseCostPaise: number | null;
+                                markupPercent: number | null;
+                                taxPercent: number | null;
+                                discountPaise: number;
+                                finalPricePaise: number | null;
+                                vendorPayoutPaise: number | null;
+                                agencyMarginPaise: number | null;
+                                amountPaidPaise: number;
+                                paymentMode: string | null;
+                                hotelCategory: string | null;
+                                mealPlan: string | null;
+                                pickupPoint: string | null;
+                                assignedVendorId: string | null;
+                                vendorLeadStatus: string;
+                                confirmedAt: string | null;
+                                completedAt: string | null;
+                                cancelledAt: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                                message: string | null;
+                                pagePath: string | null;
+                                adminNotes: string | null;
+                                cancelReason: string | null;
+                                inclusionsSnapshot: string[] | null;
+                                allowedTransitions: ("new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled")[];
+                                couponRedemption: {
+                                    code: string;
+                                    discountPaise: number;
+                                    status: string;
+                                } | null;
+                                statusHistory: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    fromStatus: ("new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled") | null;
+                                    /** @enum {string} */
+                                    toStatus: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                    actorType: string;
+                                    actorUserId: string | null;
+                                    note: string | null;
+                                    createdAt: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/enquiries/{id}/pricing": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set admin quote pricing calculation on enquiry */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        baseCostPaise: number;
+                        markupPercent: number;
+                        taxPercent: number;
+                        /** @default 0 */
+                        discountPaise: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Updated enquiry with calculated prices */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                reference: string;
+                                /** @enum {string} */
+                                source: "package_booking" | "callback_request" | "hero_search" | "admin" | "chatbot";
+                                packageId: string | null;
+                                packageTitle: string | null;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                customerName: string;
+                                customerEmail: string | null;
+                                phoneCountryCode: string;
+                                phone: string;
+                                travelDate: string | null;
+                                travellers: number;
+                                /** @enum {string} */
+                                status: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                /** @enum {string} */
+                                paymentStatus: "unpaid" | "partially_paid" | "paid" | "refunded";
+                                unitPricePaise: number | null;
+                                estimatePaise: number | null;
+                                couponDiscountPaise: number;
+                                loyaltyPointsReserved: number;
+                                loyaltyDiscountPaise: number;
+                                baseCostPaise: number | null;
+                                markupPercent: number | null;
+                                taxPercent: number | null;
+                                discountPaise: number;
+                                finalPricePaise: number | null;
+                                vendorPayoutPaise: number | null;
+                                agencyMarginPaise: number | null;
+                                amountPaidPaise: number;
+                                paymentMode: string | null;
+                                hotelCategory: string | null;
+                                mealPlan: string | null;
+                                pickupPoint: string | null;
+                                assignedVendorId: string | null;
+                                vendorLeadStatus: string;
+                                confirmedAt: string | null;
+                                completedAt: string | null;
+                                cancelledAt: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                                message: string | null;
+                                pagePath: string | null;
+                                adminNotes: string | null;
+                                cancelReason: string | null;
+                                inclusionsSnapshot: string[] | null;
+                                allowedTransitions: ("new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled")[];
+                                couponRedemption: {
+                                    code: string;
+                                    discountPaise: number;
+                                    status: string;
+                                } | null;
+                                statusHistory: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    fromStatus: ("new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled") | null;
+                                    /** @enum {string} */
+                                    toStatus: "new" | "pending" | "in_progress" | "confirmed" | "completed" | "cancelled";
+                                    actorType: string;
+                                    actorUserId: string | null;
+                                    note: string | null;
+                                    createdAt: string;
+                                }[];
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {

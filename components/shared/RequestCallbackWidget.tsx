@@ -11,20 +11,22 @@ import {
   Sparkles,
   CheckCircle2,
   Send,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
 import CountryPhoneSelect from "./CountryPhoneSelect";
 import { useAuth } from "./AuthContext";
+import { submitCallbackRequest } from "@/lib/api/enquiries";
 
-/**
- * Site-wide bottom floating "Request a Call Back" CTA with an "Instant 30% OFF"
- * badge that opens a focused callback lead form modal.
- */
 export default function RequestCallbackWidget() {
   const pathname = usePathname();
   const { user, isLoggedIn } = useAuth();
 
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
+  const [submittedReference, setSubmittedReference] = useState("");
   const [countryCode, setCountryCode] = useState("+91");
   const [formData, setFormData] = useState({
     name: "",
@@ -33,7 +35,6 @@ export default function RequestCallbackWidget() {
     destination: "",
   });
 
-  // Pre-fill lead fields from authenticated user profile when opening
   const handleOpenModal = () => {
     if (isLoggedIn && user) {
       setFormData((prev) => ({
@@ -44,6 +45,7 @@ export default function RequestCallbackWidget() {
       }));
     }
     setIsSubmitted(false);
+    setSubmitError("");
     setIsOpen(true);
   };
 
@@ -51,7 +53,6 @@ export default function RequestCallbackWidget() {
     setIsOpen(false);
   };
 
-  // Close modal on Escape & lock body scroll while open
   useEffect(() => {
     if (!isOpen) return;
 
@@ -69,7 +70,6 @@ export default function RequestCallbackWidget() {
     };
   }, [isOpen]);
 
-  // Keep auth pages clean and distraction-free
   if (pathname === "/login" || pathname === "/register") {
     return null;
   }
@@ -80,14 +80,49 @@ export default function RequestCallbackWidget() {
       pathname !== "/tour-packages"
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const packageSlug = isPackageDetailPage
+    ? pathname.replace(/^\/tour-packages\//, "").split("/")[0]
+    : null;
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.name.trim() || !formData.phone.trim()) return;
-    setIsSubmitted(true);
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      const messageParts = [];
+      if (formData.destination.trim()) {
+        messageParts.push(`Destination / Query: ${formData.destination.trim()}`);
+      }
+      if (formData.email.trim()) {
+        messageParts.push(`Email: ${formData.email.trim()}`);
+      }
+
+      const res = await submitCallbackRequest({
+        customerName: formData.name.trim(),
+        phoneCountryCode: countryCode,
+        phone: formData.phone.trim(),
+        pagePath: pathname,
+        packageSlug,
+        message: messageParts.length > 0 ? messageParts.join(" | ") : null,
+      });
+
+      setSubmittedReference(res.reference);
+      setIsSubmitted(true);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to submit callback request. Please try again.";
+      setSubmitError(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleResetAndClose = () => {
     setIsSubmitted(false);
+    setSubmitError("");
+    setSubmittedReference("");
     setFormData({
       name: "",
       phone: "",
@@ -99,7 +134,6 @@ export default function RequestCallbackWidget() {
 
   return (
     <>
-      {/* ─── Site-Wide Floating Bottom Button + Instant 30% OFF Badge ─── */}
       <div
         className={`fixed right-4 sm:right-6 z-[85] flex flex-col items-end ${
           isPackageDetailPage ? "bottom-[96px] lg:bottom-6" : "bottom-4 sm:bottom-6"
@@ -111,13 +145,11 @@ export default function RequestCallbackWidget() {
           aria-label="Request a Call Back - Instant 30% Off"
           className="group relative flex flex-col items-end cursor-pointer focus:outline-none"
         >
-          {/* Floating Instant 30% OFF Tag */}
           <span className="badge-shine inline-flex items-center gap-1 px-2.5 py-0.5 mb-1 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#EA580C] text-white text-[10.5px] sm:text-[11px] font-medium shadow-md border border-white/40 tracking-wide">
             <Sparkles className="w-3 h-3 shrink-0" />
             <span>Instant 30% OFF</span>
           </span>
 
-          {/* Main Request a Call Back Button */}
           <span className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 sm:py-3 rounded-full bg-[#00285C] group-hover:bg-[#1877F2] text-white text-xs sm:text-sm font-medium shadow-[0_8px_24px_rgba(0,40,92,0.28)] border border-white/15 transition-all duration-200 group-active:scale-95">
             <span className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center shrink-0">
               <PhoneCall className="w-3.5 h-3.5 text-[#03ADFF] group-hover:text-white transition-colors" />
@@ -127,7 +159,6 @@ export default function RequestCallbackWidget() {
         </button>
       </div>
 
-      {/* ─── Lead Form Modal ─── */}
       {isOpen && (
         <div
           className="fixed inset-0 z-[135] flex items-center justify-center p-4"
@@ -135,15 +166,12 @@ export default function RequestCallbackWidget() {
           aria-modal="true"
           aria-labelledby="callback-lead-modal-title"
         >
-          {/* Backdrop */}
           <div
             className="fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity"
             onClick={handleCloseModal}
           />
 
-          {/* Modal Card */}
           <div className="relative w-full max-w-[430px] bg-white rounded-xl border border-gray-200 shadow-2xl overflow-hidden z-10 max-h-[92vh] flex flex-col animate-in fade-in duration-150">
-            {/* Header */}
             <div className="px-5 py-4 flex items-start justify-between border-b border-gray-100 bg-[#F8FAFC]">
               <div className="min-w-0 pr-3">
                 <span className="badge-shine inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-gradient-to-r from-[#F59E0B] to-[#EA580C] text-white text-[10.5px] font-medium mb-1.5 shadow-2xs">
@@ -171,7 +199,6 @@ export default function RequestCallbackWidget() {
             </div>
 
             {isSubmitted ? (
-              /* Success Confirmation */
               <div className="p-6 text-center space-y-3.5">
                 <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center mx-auto">
                   <CheckCircle2 className="w-6 h-6" />
@@ -180,6 +207,11 @@ export default function RequestCallbackWidget() {
                   <h4 className="text-base font-semibold text-gray-900">
                     Callback Request Received!
                   </h4>
+                  {submittedReference && (
+                    <div className="inline-block px-3 py-1 bg-blue-50 border border-blue-200 rounded-md text-xs font-mono font-semibold text-[#1877F2]">
+                      Ref: {submittedReference}
+                    </div>
+                  )}
                   <p className="text-xs sm:text-sm text-gray-500 leading-relaxed">
                     Thank you, {formData.name}. Our travel advisor will call you shortly on{" "}
                     <span className="text-gray-800 font-medium">
@@ -199,12 +231,17 @@ export default function RequestCallbackWidget() {
                 </div>
               </div>
             ) : (
-              /* Minimal Lead Form */
               <form
                 onSubmit={handleSubmit}
                 className="p-5 space-y-3.5 overflow-y-auto"
               >
-                {/* Full Name */}
+                {submitError && (
+                  <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700 flex items-center gap-2">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>{submitError}</span>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Full Name <span className="text-red-500">*</span>
@@ -224,7 +261,6 @@ export default function RequestCallbackWidget() {
                   </div>
                 </div>
 
-                {/* Phone Number */}
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Phone Number <span className="text-red-500">*</span>
@@ -248,7 +284,6 @@ export default function RequestCallbackWidget() {
                   </div>
                 </div>
 
-                {/* Email (Optional) */}
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Email Address <span className="text-gray-400 font-normal">(Optional)</span>
@@ -267,7 +302,6 @@ export default function RequestCallbackWidget() {
                   </div>
                 </div>
 
-                {/* Destination / Package Interest (Optional) */}
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">
                     Destination / Query <span className="text-gray-400 font-normal">(Optional)</span>
@@ -286,13 +320,22 @@ export default function RequestCallbackWidget() {
                   </div>
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] text-white text-xs sm:text-sm font-medium shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer mt-1"
+                  disabled={isSubmitting}
+                  className="w-full py-3 rounded-lg bg-[#1877F2] hover:bg-[#00285C] active:scale-[0.99] disabled:opacity-60 text-white text-xs sm:text-sm font-medium shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer mt-1"
                 >
-                  <Send className="w-3.5 h-3.5" />
-                  <span>Get Instant 30% OFF Callback</span>
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                      <span>Submitting Request...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-3.5 h-3.5" />
+                      <span>Get Instant 30% OFF Callback</span>
+                    </>
+                  )}
                 </button>
               </form>
             )}
@@ -302,4 +345,3 @@ export default function RequestCallbackWidget() {
     </>
   );
 }
-

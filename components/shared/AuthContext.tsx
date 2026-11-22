@@ -23,7 +23,7 @@ export interface TripHistoryItem {
   destination: string
   duration: string
   dates: string
-  status: 'Confirmed' | 'Completed' | 'Cancelled'
+  status: 'Confirmed' | 'Completed' | 'Cancelled' | 'Pending' | 'In Progress' | 'New'
   amount: number
   pointsEarned: number
   image: string
