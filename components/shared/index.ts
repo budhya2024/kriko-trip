@@ -7,3 +7,4 @@ export { default as GeneralQuestionsFAQ } from "./GeneralQuestionsFAQ";
 export { default as UserProfileDrawer } from "./UserProfileDrawer";
 export { default as RequestCallbackWidget } from "./RequestCallbackWidget";
 export { AuthProvider, useAuth } from "./AuthContext";
+export { SettingsProvider, useSiteSettings } from "./SettingsContext";

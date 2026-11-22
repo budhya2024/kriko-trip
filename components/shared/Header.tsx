@@ -172,13 +172,27 @@ const navItems = [
   },
 ];
 
-// ─── Header Component ───────────────────────────────────────────────────────
 import AuthModal from "./AuthModal";
 import SearchModal from "./SearchModal";
 import UserProfileDrawer from "./UserProfileDrawer";
 import { useAuth } from "./AuthContext";
+import { useSiteSettings, DEFAULT_SITE_SETTINGS } from "./SettingsContext";
+import type { SiteSettings } from "@/lib/api/contracts";
 
-export default function Header() {
+export interface HeaderProps {
+  settings?: SiteSettings;
+}
+
+export default function Header({ settings }: HeaderProps = {}) {
+  const contextSettings = useSiteSettings();
+  const currentSettings = settings ?? contextSettings ?? DEFAULT_SITE_SETTINGS;
+  const supportPhone = currentSettings.supportPhone;
+  const supportEmail = currentSettings.contactEmail;
+  const whatsappNumber = currentSettings.whatsappNumber || currentSettings.supportPhone;
+  const telHref = "tel:" + supportPhone.replace(/\s+/g, "");
+  const whatsappHref = "https://wa.me/" + whatsappNumber.replace(/[^0-9]/g, "");
+  const mailHref = "mailto:" + supportEmail;
+
   const { user, isLoggedIn, openProfileDrawer } = useAuth();
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
@@ -468,16 +482,14 @@ export default function Header() {
                   </svg>
                 </div>
 
-                {/* WhatsApp Text */}
                 <div className="flex flex-col text-left">
                   <span className="text-[12px] font-medium text-gray-500 leading-none">
                     WhatsApp
                   </span>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="text-[15px] font-bold text-gray-900 leading-tight tracking-tight">
-                      +91 8250338715
+                      {supportPhone}
                     </span>
-                    {/* Exact solid down triangle dropdown icon */}
                     <svg
                       viewBox="0 0 10 6"
                       fill="currentColor"
@@ -490,7 +502,6 @@ export default function Header() {
                 </div>
               </button>
 
-              {/* Floating Contact Support Card with Smooth Bottom Opening */}
               <div
                 className={`absolute right-0 top-full pt-1.5 z-50 transition-all duration-300 ease-out origin-top ${isSupportDropdownOpen
                   ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
@@ -498,14 +509,11 @@ export default function Header() {
                   }`}
               >
                 <div className="w-[280px] bg-white rounded-none shadow-[0_15px_35px_rgba(0,0,0,0.14)] border border-gray-100 p-4 flex flex-col gap-3.5">
-
-                  {/* Mail Support Option */}
                   <a
-                    href="mailto:info@krikotrips.com"
+                    href={mailHref}
                     className="flex items-center gap-3.5 p-1 rounded-none hover:bg-gray-50/80 transition-colors group"
                   >
                     <div className="w-11 h-11 rounded-full bg-white shadow-xs border border-gray-100 flex items-center justify-center shrink-0">
-                      {/* Exact Mail Support Icon: yellow envelope with letter & lines */}
                       <svg viewBox="0 0 32 32" fill="none" className="w-6 h-6">
                         <rect x="4" y="10" width="24" height="16" rx="2" fill="#FBBF24" stroke="#1F2937" strokeWidth="1.5" />
                         <rect x="7" y="5" width="18" height="10" rx="1.5" fill="white" stroke="#1F2937" strokeWidth="1.5" />
@@ -521,18 +529,16 @@ export default function Header() {
                         Mail Support
                       </span>
                       <span className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors mt-1">
-                        info@krikotrips.com
+                        {supportEmail}
                       </span>
                     </div>
                   </a>
 
-                  {/* More Inquiry Option */}
                   <a
-                    href="tel:+918250338715"
+                    href={telHref}
                     className="flex items-center gap-3.5 p-1 rounded-none hover:bg-gray-50/80 transition-colors group"
                   >
                     <div className="w-11 h-11 rounded-full bg-white shadow-xs border border-gray-100 flex items-center justify-center shrink-0">
-                      {/* Exact More Inquery Icon: red LIVE chat bubble */}
                       <svg viewBox="0 0 32 32" fill="none" className="w-6 h-6">
                         <rect x="3" y="6" width="26" height="16" rx="3.5" fill="#EF4444" />
                         <path d="M7 22L5 27L12 22H7Z" fill="#EF4444" />
@@ -555,7 +561,7 @@ export default function Header() {
                         More Inquery
                       </span>
                       <span className="text-[15px] font-bold text-gray-900 group-hover:text-blue-600 transition-colors mt-1">
-                        +91 8250338715
+                        {supportPhone}
                       </span>
                     </div>
                   </a>
@@ -823,7 +829,7 @@ export default function Header() {
                   WhatsApp Support
                 </span>
                 <span className="text-[15px] font-bold text-gray-900 leading-tight mt-0.5">
-                  +91 8250338715
+                  {supportPhone}
                 </span>
               </div>
             </div>
@@ -842,7 +848,7 @@ export default function Header() {
             <div className="mt-2 bg-white rounded-lg border border-gray-100 p-2.5 space-y-1.5 shadow-sm animate-in fade-in duration-200">
               {/* WhatsApp direct chat */}
               <a
-                href="https://wa.me/918250338715"
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsMobileDrawerOpen(false)}
@@ -863,9 +869,8 @@ export default function Header() {
                 </div>
               </a>
 
-              {/* Mail Support Option */}
               <a
-                href="mailto:info@krikotrips.com"
+                href={mailHref}
                 onClick={() => setIsMobileDrawerOpen(false)}
                 className="flex items-center gap-3 p-2 rounded-md hover:bg-amber-50/60 transition-colors group"
               >
@@ -885,14 +890,13 @@ export default function Header() {
                     Mail Support
                   </span>
                   <span className="text-sm font-bold text-gray-900 group-hover:text-blue-600 transition-colors mt-0.5">
-                    info@krikotrips.com
+                    {supportEmail}
                   </span>
                 </div>
               </a>
 
-              {/* More Inquiry / Call Option */}
               <a
-                href="tel:+918250338715"
+                href={telHref}
                 onClick={() => setIsMobileDrawerOpen(false)}
                 className="flex items-center gap-3 p-2 rounded-md hover:bg-red-50/60 transition-colors group"
               >
@@ -919,7 +923,7 @@ export default function Header() {
                     More Inquiry
                   </span>
                   <span className="text-sm font-bold text-gray-900 group-hover:text-red-600 transition-colors mt-0.5">
-                    +91 8250338715
+                    {supportPhone}
                   </span>
                 </div>
               </a>

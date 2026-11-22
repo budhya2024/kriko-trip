@@ -13,8 +13,15 @@ import {
   ExternalLink,
 } from "lucide-react";
 import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
+import { useSiteSettings, DEFAULT_SITE_SETTINGS } from "@/components/shared/SettingsContext";
 
 export default function ContactFormSection() {
+  const contextSettings = useSiteSettings();
+  const settings = contextSettings ?? DEFAULT_SITE_SETTINGS;
+  const address = settings.address || DEFAULT_SITE_SETTINGS.address || "";
+  const mapEmbedUrl = settings.mapEmbedUrl || DEFAULT_SITE_SETTINGS.mapEmbedUrl || "";
+  const openMapUrl = "https://maps.google.com/?q=" + encodeURIComponent(address || "Sonarpur Kolkata 700103");
+
   const [countryCode, setCountryCode] = useState("+91");
   const [formData, setFormData] = useState({
     name: "",
@@ -266,7 +273,7 @@ export default function ContactFormSection() {
                 </span>
               </div>
               <a
-                href="https://maps.google.com/?q=Sonarpur+Kolkata+700103"
+                href={openMapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs font-semibold text-[#1877F2] hover:underline inline-flex items-center gap-1"
@@ -276,11 +283,10 @@ export default function ContactFormSection() {
               </a>
             </div>
 
-            {/* Responsive Google Maps Embed Iframe (Expands to match exact form height) */}
             <div className="w-full flex-1 min-h-[380px] sm:min-h-[420px] bg-gray-100 flex flex-col">
               <iframe
                 title="KrikoTrip Location Map"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14748.241355447664!2d88.4239!3d22.4419!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a02720d440939fb%3A0xb35a396e6255776a!2sSonarpur%2C%20Kolkata%2C%20West%20Bengal%20700103!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
+                src={mapEmbedUrl}
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: "380px" }}
@@ -291,13 +297,9 @@ export default function ContactFormSection() {
               />
             </div>
 
-            {/* Map Footer Bar */}
             <div className="p-3.5 bg-gray-50/60 text-xs text-gray-600 flex items-center justify-between border-t border-gray-100 shrink-0">
               <span className="truncate">
-                BL-A Shop-GLP/5 676 Green Land Park, Sonarpur
-              </span>
-              <span className="font-semibold text-gray-800 shrink-0 ml-2">
-                Kolkata 700103
+                {address}
               </span>
             </div>
           </div>

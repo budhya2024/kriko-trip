@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useSiteSettings, DEFAULT_SITE_SETTINGS } from "@/components/shared/SettingsContext";
 
 interface StatItem {
   id: string;
@@ -10,13 +11,19 @@ interface StatItem {
 }
 
 export default function StatsBar() {
+  const contextSettings = useSiteSettings();
+  const settings = contextSettings ?? DEFAULT_SITE_SETTINGS;
+  const homeStats =
+    settings.homeStats && settings.homeStats.length > 0
+      ? settings.homeStats
+      : DEFAULT_SITE_SETTINGS.homeStats;
+
   const stats: StatItem[] = [
     {
       id: "tours",
-      number: "1000+",
-      label: "Tour Completed",
+      number: homeStats[0]?.value || homeStats[0]?.number || "1000+",
+      label: homeStats[0]?.label || "Tour Completed",
       icon: (
-        // Globe + Airplane + Traveler Avatar SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 45 45"
@@ -32,10 +39,9 @@ export default function StatsBar() {
     },
     {
       id: "experience",
-      number: "10+",
-      label: "Travel Experience",
+      number: homeStats[1]?.value || homeStats[1]?.number || "10+",
+      label: homeStats[1]?.label || "Travel Experience",
       icon: (
-        // Backpacker with Cap SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
@@ -46,19 +52,14 @@ export default function StatsBar() {
           strokeLinejoin="round"
           className="w-10 h-10 sm:w-11 sm:h-11 shrink-0"
         >
-          {/* Cap */}
           <path d="M16 19c0-4.8 3.6-8.5 8-8.5s8 3.7 8 8.5" />
           <path d="M13.5 19h21c1.4 0 2.3.9 2 2.3l-.8 2.2H12.3l-.8-2.2c-.3-1.4.6-2.3 2-2.3z" />
-          {/* Head & Neck */}
           <path d="M17.5 21.5v2.5c0 3.6 2.9 6.5 6.5 6.5s6.5-2.9 6.5-6.5v-2.5" />
           <path d="M21 30.5v3h6v-3" />
-          {/* Shoulders & Body */}
           <path d="M12 43v-3.5c0-3.3 2.7-6 6-6h12c3.3 0 6 2.7 6 6V43" />
-          {/* Backpack Straps */}
           <path d="M19 33.5v9.5" />
           <path d="M29 33.5v9.5" />
           <path d="M19 39.5h10" />
-          {/* Backpack sides */}
           <path d="M12 36.5c-2.2 0-3.5 1.5-3.5 3.5V43" />
           <path d="M36 36.5c2.2 0 3.5 1.5 3.5 3.5V43" />
         </svg>
@@ -66,10 +67,9 @@ export default function StatsBar() {
     },
     {
       id: "travelers",
-      number: "1+",
-      label: "Happy Traveler",
+      number: homeStats[2]?.value || homeStats[2]?.number || "1+",
+      label: homeStats[2]?.label || "Happy Traveler",
       icon: (
-        // Safari/Bucket Hat with chin strap SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
@@ -80,17 +80,13 @@ export default function StatsBar() {
           strokeLinejoin="round"
           className="w-10 h-10 sm:w-11 sm:h-11 shrink-0"
         >
-          {/* Hat Crown */}
           <path d="M16.5 22L18.5 11.5C18.7 10 20 9 21.5 9H26.5C28 9 29.3 10 29.5 11.5L31.5 22" />
           <path d="M18 15h12" />
           <path d="M17 19h14" />
-          {/* Wide Brim */}
           <path d="M10 22C10 22 14.5 26 24 26C33.5 26 38 22 38 22" />
           <path d="M8 22c0 0 4.5 5 16 5s16-5 16-5" />
-          {/* Chin Strap */}
           <path d="M16 26.5l7 11.5" />
           <path d="M32 26.5l-7 11.5" />
-          {/* Toggle Loop */}
           <circle cx="24" cy="40.5" r="2.2" />
           <path d="M24 42.7v2" />
         </svg>
@@ -98,10 +94,9 @@ export default function StatsBar() {
     },
     {
       id: "retention",
-      number: "10%",
-      label: "Retention Rate",
+      number: homeStats[3]?.value || homeStats[3]?.number || "98%",
+      label: homeStats[3]?.label || "Retention Rate",
       icon: (
-        // Smiling Guide with Hat & Pack SVG
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
@@ -112,21 +107,16 @@ export default function StatsBar() {
           strokeLinejoin="round"
           className="w-10 h-10 sm:w-11 sm:h-11 shrink-0"
         >
-          {/* Safari Hat */}
           <path d="M18 15c0-3.8 2.7-5.5 6-5.5s6 1.7 6 5.5" />
           <path d="M13 15.5c0 0 3 3.5 11 3.5s11-3.5 11-3.5" />
           <path d="M11 15.5c0 0 3.5 4.5 13 4.5s13-4.5 13-4.5" />
-          {/* Face & Smile */}
           <path d="M17.5 19v2.5c0 3.6 2.9 6.5 6.5 6.5s6.5-2.9 6.5-6.5V19" />
           <circle cx="21" cy="22.5" r="1" fill="#1877F2" />
           <circle cx="27" cy="22.5" r="1" fill="#1877F2" />
           <path d="M21.5 25c.7.9 1.5 1.4 2.5 1.4s1.8-.5 2.5-1.4" />
-          {/* Bedroll / Side Backpack tubes */}
           <rect x="8" y="30" width="5.5" height="10" rx="2.5" />
           <rect x="34.5" y="30" width="5.5" height="10" rx="2.5" />
-          {/* Shoulders & Body */}
           <path d="M13.5 43v-3.5c0-3.3 2.7-6 6-6h9c3.3 0 6 2.7 6 6V43" />
-          {/* Backpack Straps */}
           <path d="M20 33.5v9.5" />
           <path d="M28 33.5v9.5" />
           <path d="M20 39.5h8" />
@@ -151,12 +141,10 @@ export default function StatsBar() {
                 }`}
             >
               <div className="flex items-center gap-2.5 sm:gap-4 transition-transform duration-200">
-                {/* Blue Icon */}
                 <div className="shrink-0 transition-transform duration-200 scale-90 sm:scale-100">
                   {item.icon}
                 </div>
 
-                {/* Number & Text */}
                 <div className="flex flex-col text-left min-w-0">
                   <span className="text-xl sm:text-3xl lg:text-4xl font-semibold text-black tracking-tight leading-none">
                     {item.number}
@@ -173,4 +161,3 @@ export default function StatsBar() {
     </section>
   );
 }
-

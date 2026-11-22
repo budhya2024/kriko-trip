@@ -31,3 +31,6 @@ export type RelatedPackagesResponse =
 
 export type PackageSlugsResponse =
   paths['/packages/slugs']['get']['responses'][200]['content']['application/json']['data']
+
+export type SiteSettings =
+  paths['/site/settings']['get']['responses'][200]['content']['application/json']['data']

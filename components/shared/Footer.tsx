@@ -11,6 +11,12 @@ import {
 import Image from "next/image";
 import footerBg from "@/public/assets/images/footer-bg-1-2-2.webp";
 import { Phone, Mail } from "lucide-react";
+import { useSiteSettings, DEFAULT_SITE_SETTINGS } from "./SettingsContext";
+import type { SiteSettings } from "@/lib/api/contracts";
+
+export interface FooterProps {
+  settings?: SiteSettings;
+}
 
 const topDestinations = [
   "Andaman & Nicobar Tour",
@@ -52,7 +58,17 @@ const resources = [
   "Sitemap",
 ];
 
-export default function Footer() {
+export default function Footer({ settings }: FooterProps = {}) {
+  const contextSettings = useSiteSettings();
+  const currentSettings = settings ?? contextSettings ?? DEFAULT_SITE_SETTINGS;
+  const supportPhone = currentSettings.supportPhone;
+  const supportEmail = currentSettings.contactEmail;
+  const agencyName = currentSettings.agencyName;
+  const address = currentSettings.address || "BL-A Shop-GLP/5 676 Green Land Park, Sonarpur, Kolkata - 700103";
+  const telHref = "tel:" + supportPhone.replace(/\s+/g, "");
+  const mailHref = "mailto:" + supportEmail;
+  const socials = currentSettings.socialLinks ?? {};
+
   return (
     <footer className="w-full bg-[#073571] text-white relative overflow-hidden pt-8 md:pt-16 pb-6 md:pb-12">
       {/* Decorative Background Pattern */}
@@ -84,38 +100,37 @@ export default function Footer() {
               />
             </Link>
 
-            {/* Agency Title & Address */}
             <div className="text-left space-y-1.5 mb-6 text-sm text-white/80 leading-relaxed font-medium">
               <p className="font-bold text-white text-[15px]">
-                KrikoTrip Travel Agency
+                {agencyName}
               </p>
-              <p>BL-A Shop-GLP/5 676 Green Land Park</p>
-              <p>Sonarpur, Kolkata - 700103</p>
+              <p>{address}</p>
               <p className="pt-1.5 flex items-center gap-2 text-white/90">
                 <Phone className="w-3.5 h-3.5 text-[#03ADFF] shrink-0" />
-                <a href="tel:+918250338715" className="hover:text-white transition-colors">
-                  +91 8250338715
+                <a href={telHref} className="hover:text-white transition-colors">
+                  {supportPhone}
                 </a>
               </p>
               <p className="flex items-center gap-2 text-white/90">
                 <Mail className="w-3.5 h-3.5 text-[#03ADFF] shrink-0" />
-                <a href="mailto:info@krikotrips.com" className="hover:text-white transition-colors break-all">
-                  info@krikotrips.com
+                <a href={mailHref} className="hover:text-white transition-colors break-all">
+                  {supportEmail}
                 </a>
               </p>
             </div>
 
-            {/* Social Icons */}
             <div className="flex items-center gap-2.5 mb-6">
               {[
-                { icon: FaFacebookF, href: "#", label: "Facebook" },
-                { icon: FaInstagram, href: "#", label: "Instagram" },
-                { icon: FaYoutube, href: "#", label: "YouTube" },
-                { icon: FaPinterestP, href: "#", label: "Pinterest" },
+                { icon: FaFacebookF, href: socials.facebook || "https://facebook.com/krikotrip", label: "Facebook" },
+                { icon: FaInstagram, href: socials.instagram || "https://instagram.com/krikotrip", label: "Instagram" },
+                { icon: FaYoutube, href: socials.youtube || "https://youtube.com/@krikotrip", label: "YouTube" },
+                { icon: FaPinterestP, href: socials.pinterest || "https://pinterest.com/krikotrip", label: "Pinterest" },
               ].map((s) => (
                 <Link
                   key={s.label}
                   href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label={s.label}
                   className="w-9 h-9 rounded-full bg-white/10 hover:bg-[#1877F2] text-white/90 hover:text-white flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95 shadow-sm"
                 >

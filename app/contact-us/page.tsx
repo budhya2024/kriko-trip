@@ -6,6 +6,7 @@ import {
   GeneralQuestionsFAQ,
 } from "@/components/shared";
 import { ContactFormSection } from "@/components/contact-us";
+import { getSettings } from "@/lib/api/server/settings";
 
 export const metadata = {
   title: "Contact Us | KrikoTrip Travel Agency",
@@ -13,30 +14,26 @@ export const metadata = {
     "Get in touch with KrikoTrip Travel Agency. Contact our travel experts, find our office location on the map, or send a trip inquiry.",
 };
 
-export default function ContactUsPage() {
+export default async function ContactUsPage() {
+  const settings = await getSettings();
+
   return (
     <div className="min-h-screen bg-white flex flex-col font-sans">
-      {/* Global Header */}
-      <Header />
+      <Header settings={settings} />
 
-      {/* Main Page Content */}
       <main className="flex-1">
-        {/* Left-Aligned Subpage Hero & Breadcrumbs with Background Image */}
         <PageHeader
           title="Contact Us"
           subtitle="Get in touch with our certified destination planners for bookings, customized itineraries, and 24/7 travel assistance."
           bgImage="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=2000&q=80"
         />
 
-        {/* Form & Google Map Section */}
         <ContactFormSection />
 
-        {/* General Questions FAQ (Matching Reference Design) */}
         <GeneralQuestionsFAQ />
       </main>
 
-      {/* Global Footer */}
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

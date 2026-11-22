@@ -3,6 +3,8 @@ import { Suspense } from "react";
 import { Poppins } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/shared/AuthContext";
+import { SettingsProvider } from "@/components/shared/SettingsContext";
+import { getSettings } from "@/lib/api/server/settings";
 import RequestCallbackWidget from "@/components/shared/RequestCallbackWidget";
 
 const poppins = Poppins({
@@ -17,11 +19,13 @@ export const metadata: Metadata = {
   description: "Find Your Perfect Tour Package with KrikoTrip",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSettings();
+
   return (
     <html
       lang="en"
@@ -29,10 +33,12 @@ export default function RootLayout({
     >
       <body className={`${poppins.className} min-h-full flex flex-col font-sans antialiased`}>
         <AuthProvider>
-          {children}
-          <Suspense fallback={null}>
-            <RequestCallbackWidget />
-          </Suspense>
+          <SettingsProvider settings={settings}>
+            {children}
+            <Suspense fallback={null}>
+              <RequestCallbackWidget />
+            </Suspense>
+          </SettingsProvider>
         </AuthProvider>
       </body>
     </html>
