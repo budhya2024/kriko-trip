@@ -3270,6 +3270,1383 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/offers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List active promotional offers for customer site */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Active offers within validity window */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                badgeLabel: string | null;
+                                photoUrl: string | null;
+                                /** Format: uuid */
+                                photoMediaId: string;
+                                linkUrl: string;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                displayOrder: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/offers": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all promotional offers (admin) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of offers */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                badgeLabel: string | null;
+                                /** Format: uuid */
+                                photoMediaId: string;
+                                photoUrl: string | null;
+                                linkUrl: string;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create promotional offer (admin) */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        badgeLabel?: string | null;
+                        /** Format: uuid */
+                        photoMediaId: string;
+                        linkUrl: string;
+                        validFrom?: string | null;
+                        validUntil?: string | null;
+                        /** @default 0 */
+                        displayOrder: number;
+                        /** @default true */
+                        isActive: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Offer created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                badgeLabel: string | null;
+                                /** Format: uuid */
+                                photoMediaId: string;
+                                photoUrl: string | null;
+                                linkUrl: string;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/offers/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get offer detail (admin) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Offer detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                badgeLabel: string | null;
+                                /** Format: uuid */
+                                photoMediaId: string;
+                                photoUrl: string | null;
+                                linkUrl: string;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Offer not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Update offer (admin) */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title?: string;
+                        badgeLabel?: string | null;
+                        /** Format: uuid */
+                        photoMediaId?: string;
+                        linkUrl?: string;
+                        validFrom?: string | null;
+                        validUntil?: string | null;
+                        displayOrder?: number;
+                        isActive?: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Offer updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                badgeLabel: string | null;
+                                /** Format: uuid */
+                                photoMediaId: string;
+                                photoUrl: string | null;
+                                linkUrl: string;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Offer not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Delete offer (admin) */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Offer deleted */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/offers/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Toggle offer active status (admin) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        isActive: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Offer status updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                badgeLabel: string | null;
+                                /** Format: uuid */
+                                photoMediaId: string;
+                                photoUrl: string | null;
+                                linkUrl: string;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/offers/reorder": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Reorder offers (admin) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        ids: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Offers reordered */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                badgeLabel: string | null;
+                                /** Format: uuid */
+                                photoMediaId: string;
+                                photoUrl: string | null;
+                                linkUrl: string;
+                                validFrom: string | null;
+                                validUntil: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List active trending travel videos */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Active trending videos */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                videoUrl: string | null;
+                                thumbnailUrl: string | null;
+                                durationSeconds: number | null;
+                                viewsLabel: string | null;
+                                displayOrder: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/videos": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all trending videos (admin) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of trending videos */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                videoMediaId: string | null;
+                                videoUrl: string | null;
+                                thumbnailMediaId: string | null;
+                                thumbnailUrl: string | null;
+                                durationSeconds: number | null;
+                                viewsLabel: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create trending video (admin) */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        destinationId?: string | null;
+                        videoMediaId?: string | null;
+                        videoUrl?: string | null;
+                        thumbnailMediaId?: string | null;
+                        thumbnailUrl?: string | null;
+                        durationSeconds?: number | null;
+                        viewsLabel?: string | null;
+                        /** @default 0 */
+                        displayOrder: number;
+                        /** @default true */
+                        isActive: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Video created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                videoMediaId: string | null;
+                                videoUrl: string | null;
+                                thumbnailMediaId: string | null;
+                                thumbnailUrl: string | null;
+                                durationSeconds: number | null;
+                                viewsLabel: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/videos/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get trending video detail (admin) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Video detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                videoMediaId: string | null;
+                                videoUrl: string | null;
+                                thumbnailMediaId: string | null;
+                                thumbnailUrl: string | null;
+                                durationSeconds: number | null;
+                                viewsLabel: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Video not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Update trending video (admin) */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title?: string;
+                        destinationId?: string | null;
+                        videoMediaId?: string | null;
+                        videoUrl?: string | null;
+                        thumbnailMediaId?: string | null;
+                        thumbnailUrl?: string | null;
+                        durationSeconds?: number | null;
+                        viewsLabel?: string | null;
+                        displayOrder?: number;
+                        isActive?: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Video updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                videoMediaId: string | null;
+                                videoUrl: string | null;
+                                thumbnailMediaId: string | null;
+                                thumbnailUrl: string | null;
+                                durationSeconds: number | null;
+                                viewsLabel: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Video not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Delete trending video (admin) */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Video deleted */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/videos/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Toggle video active status (admin) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        isActive: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Video status updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                videoMediaId: string | null;
+                                videoUrl: string | null;
+                                thumbnailMediaId: string | null;
+                                thumbnailUrl: string | null;
+                                durationSeconds: number | null;
+                                viewsLabel: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/videos/reorder": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Reorder trending videos (admin) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        ids: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Videos reordered */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                title: string;
+                                destinationId: string | null;
+                                destinationName: string | null;
+                                videoMediaId: string | null;
+                                videoUrl: string | null;
+                                thumbnailMediaId: string | null;
+                                thumbnailUrl: string | null;
+                                durationSeconds: number | null;
+                                viewsLabel: string | null;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/faqs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List active FAQs for customer site */
+        get: {
+            parameters: {
+                query: {
+                    scope: "general" | "contact";
+                    category?: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Active FAQs matching scope and category */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                scope: "general" | "contact";
+                                /** @enum {string} */
+                                category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                                question: string;
+                                answer: string;
+                                displayOrder: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/faqs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List FAQs (admin) */
+        get: {
+            parameters: {
+                query?: {
+                    q?: string;
+                    scope?: "general" | "contact";
+                    category?: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                    isActive?: "true" | "false";
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of FAQs */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                scope: "general" | "contact";
+                                /** @enum {string} */
+                                category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                                question: string;
+                                answer: string;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create FAQ (admin) */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /**
+                         * @default general
+                         * @enum {string}
+                         */
+                        scope: "general" | "contact";
+                        /**
+                         * @default general
+                         * @enum {string}
+                         */
+                        category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                        question: string;
+                        answer: string;
+                        /** @default 0 */
+                        displayOrder: number;
+                        /** @default true */
+                        isActive: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description FAQ created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                scope: "general" | "contact";
+                                /** @enum {string} */
+                                category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                                question: string;
+                                answer: string;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/faqs/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get FAQ detail (admin) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description FAQ detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                scope: "general" | "contact";
+                                /** @enum {string} */
+                                category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                                question: string;
+                                answer: string;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description FAQ not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Update FAQ (admin) */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        scope?: "general" | "contact";
+                        /** @enum {string} */
+                        category?: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                        question?: string;
+                        answer?: string;
+                        displayOrder?: number;
+                        isActive?: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description FAQ updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                scope: "general" | "contact";
+                                /** @enum {string} */
+                                category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                                question: string;
+                                answer: string;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description FAQ not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Delete FAQ (admin) */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description FAQ deleted */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/faqs/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Toggle FAQ active status (admin) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        isActive: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description FAQ status updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                scope: "general" | "contact";
+                                /** @enum {string} */
+                                category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                                question: string;
+                                answer: string;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/faqs/reorder": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Reorder FAQs (admin) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        ids: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description FAQs reordered */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** @enum {string} */
+                                scope: "general" | "contact";
+                                /** @enum {string} */
+                                category: "general" | "booking_payments" | "cancellation_refund" | "permits_guidelines";
+                                question: string;
+                                answer: string;
+                                displayOrder: number;
+                                isActive: boolean;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import { Header, Footer, GeneralQuestionsFAQ } from "@/components/shared";
+import { Header, Footer } from "@/components/shared";
+import GeneralQuestionsFAQ from "@/components/shared/GeneralQuestionsFAQ";
 import {
   HeroSection,
   StatsBar,

@@ -2,7 +2,8 @@
 
 import React, { Suspense, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Header, Footer } from '@/components/shared'
+import Header from '@/components/shared/Header'
+import Footer from '@/components/shared/Footer'
 import AuthFlow from '@/components/shared/AuthFlow'
 import { useAuth } from '@/components/shared/AuthContext'
 

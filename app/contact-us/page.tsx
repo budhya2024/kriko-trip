@@ -3,8 +3,8 @@ import {
   Header,
   Footer,
   PageHeader,
-  GeneralQuestionsFAQ,
 } from "@/components/shared";
+import GeneralQuestionsFAQ from "@/components/shared/GeneralQuestionsFAQ";
 import { ContactFormSection } from "@/components/contact-us";
 import { getSettings } from "@/lib/api/server/settings";
 
@@ -30,7 +30,7 @@ export default async function ContactUsPage() {
 
         <ContactFormSection />
 
-        <GeneralQuestionsFAQ />
+        <GeneralQuestionsFAQ scope="contact" />
       </main>
 
       <Footer settings={settings} />

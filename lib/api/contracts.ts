@@ -34,3 +34,11 @@ export type PackageSlugsResponse =
 
 export type SiteSettings =
   paths['/site/settings']['get']['responses'][200]['content']['application/json']['data']
+
+export type OfferItem =
+  paths['/offers']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type FaqItem =
+  paths['/faqs']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type FaqScope = 'general' | 'contact'
