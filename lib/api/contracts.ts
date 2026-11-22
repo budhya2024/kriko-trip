@@ -42,3 +42,9 @@ export type FaqItem =
   paths['/faqs']['get']['responses'][200]['content']['application/json']['data'][number]
 
 export type FaqScope = 'general' | 'contact'
+
+export type GalleryItem =
+  paths['/gallery']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type GalleryCategory =
+  paths['/gallery/categories']['get']['responses'][200]['content']['application/json']['data'][number]

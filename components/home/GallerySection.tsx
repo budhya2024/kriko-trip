@@ -1,24 +1,30 @@
-"use client";
+import React from "react"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
+import { getGalleryItems } from "@/lib/api/server/gallery"
 
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import gallery1 from "@/public/assets/images/gallery-img1-3-2.webp"
+import gallery2 from "@/public/assets/images/gallery-img2-3-2.webp"
+import gallery3 from "@/public/assets/images/gallery-img3-3-2.webp"
+import gallery4 from "@/public/assets/images/gallery-img4-3-2.webp"
+import gallery5 from "@/public/assets/images/gallery-img5-3-2.webp"
+import gallery6 from "@/public/assets/images/gallery-img6-3-2.webp"
 
-import gallery1 from "@/public/assets/images/gallery-img1-3-2.webp";
-import gallery2 from "@/public/assets/images/gallery-img2-3-2.webp";
-import gallery3 from "@/public/assets/images/gallery-img3-3-2.webp";
-import gallery4 from "@/public/assets/images/gallery-img4-3-2.webp";
-import gallery5 from "@/public/assets/images/gallery-img5-3-2.webp";
-import gallery6 from "@/public/assets/images/gallery-img6-3-2.webp";
+export default async function GallerySection() {
+  const items = await getGalleryItems({ limit: 6 })
 
-export default function GallerySection() {
+  const img1 = items[0]?.imageUrl || gallery1
+  const img2 = items[1]?.imageUrl || gallery2
+  const img3 = items[2]?.imageUrl || gallery3
+  const img4 = items[3]?.imageUrl || gallery4
+  const img5 = items[4]?.imageUrl || gallery5
+  const img6 = items[5]?.imageUrl || gallery6
+
   return (
     <section className="w-full bg-white py-8 md:py-16 relative overflow-hidden">
       <div className="container relative">
         <div className="flex flex-col lg:flex-row items-start gap-8 lg:gap-8 xl:gap-12">
-
-          {/* ─── Left Header & CTA Block ─── */}
           <div className="w-full lg:w-[32%] xl:w-[30%] shrink-0 pt-2 lg:pt-8 text-left">
             <h2 className="section-title">
               KrikoTrip Gallery
@@ -28,7 +34,6 @@ export default function GallerySection() {
               experiences that match your dreams!
             </p>
 
-            {/* Desktop View: Follow Gallery Button with Normal Color and Liquid Water Color Change Effect */}
             <Link
               href="/gallery"
               className="btn-water-fill btn-water-fill-blue hidden lg:inline-flex items-center gap-2 px-7 py-3.5 mt-8 rounded-full bg-[#111827] text-white text-[15px] font-semibold shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer group active:scale-95"
@@ -38,51 +43,46 @@ export default function GallerySection() {
             </Link>
           </div>
 
-          {/* ─── Right Collage Block (Reduced Inner Gaps) ─── */}
           <div className="w-full lg:w-[68%] xl:w-[70%] relative">
             <div className="flex gap-1.5 sm:gap-2.5 items-start relative">
-
-              {/* ── Left Sub-Cluster (64% of collage width) ── */}
               <div className="w-[64%] sm:w-[65%] flex flex-col gap-1.5 sm:gap-2.5">
-
-                {/* Top Row: Blossom (gallery1) & Tall Bridge (gallery4) */}
                 <div className="flex items-end gap-1.5 sm:gap-2.5">
-                  {/* gallery1: Cherry blossom woman in red */}
-                  <div className="w-[52%] overflow-hidden shadow-xs group">
+                  <div className="relative w-[52%] aspect-[4/3] overflow-hidden shadow-xs group">
                     <Image
-                      src={gallery1}
-                      alt="Cherry blossom travel"
-                      className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                      src={img1}
+                      alt={items[0]?.title || "Cherry blossom travel"}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 30vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       priority
                     />
                   </div>
 
-                  {/* gallery4: Tall Bridge - sticks up higher than rest */}
-                  <div className="w-[48%] overflow-hidden shadow-xs -mt-8 sm:-mt-12 lg:-mt-14 group">
+                  <div className="relative w-[48%] aspect-[4/5] overflow-hidden shadow-xs -mt-8 sm:-mt-12 lg:-mt-14 group">
                     <Image
-                      src={gallery4}
-                      alt="Golden bridge Da Nang"
-                      className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                      src={img4}
+                      alt={items[3]?.title || "Golden bridge Da Nang"}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 30vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       priority
                     />
                   </div>
                 </div>
 
-                {/* Middle: Wide Panoramic Longtail Boats (gallery2) */}
-                <div className="w-full overflow-hidden shadow-xs group">
+                <div className="relative w-full aspect-[21/9] overflow-hidden shadow-xs group">
                   <Image
-                    src={gallery2}
-                    alt="Andaman coastal boats on turquoise ocean"
-                    className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                    src={img2}
+                    alt={items[1]?.title || "Andaman coastal boats on turquoise ocean"}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 50vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     priority
                   />
                 </div>
 
-                {/* Bottom Row: 2K+ Counter + Friends with Guitar (gallery3) */}
                 <div className="flex items-center gap-1.5 sm:gap-2.5 pt-0.5">
-                  {/* 2K+ Tour Completed Stat Widget */}
                   <div className="w-[42%] sm:w-[42%] flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-                    {/* Exact Traveler & Globe Icon */}
                     <div className="shrink-0 text-gray-950 scale-75 xs:scale-90 sm:scale-100 origin-left">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -108,43 +108,43 @@ export default function GallerySection() {
                     </div>
                   </div>
 
-                  {/* gallery3: Friends with guitar */}
-                  <div className="w-[58%] sm:w-[58%] overflow-hidden shadow-xs group">
+                  <div className="relative w-[58%] sm:w-[58%] aspect-[4/3] overflow-hidden shadow-xs group">
                     <Image
-                      src={gallery3}
-                      alt="Friends travel with guitar"
-                      className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                      src={img3}
+                      alt={items[2]?.title || "Friends travel with guitar"}
+                      fill
+                      sizes="(max-width: 640px) 50vw, 30vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                       priority
                     />
                   </div>
                 </div>
-
               </div>
 
-              {/* ── Right Sub-Cluster (36% of collage width) ── */}
               <div className="w-[36%] sm:w-[35%] flex flex-col gap-1.5 sm:gap-2.5">
-                {/* Top: gallery5 Group Selfie */}
-                <div className="w-full overflow-hidden shadow-xs mt-3 sm:mt-6 lg:mt-8 group">
+                <div className="relative w-full aspect-[4/3] overflow-hidden shadow-xs mt-3 sm:mt-6 lg:mt-8 group">
                   <Image
-                    src={gallery5}
-                    alt="Travelers group selfie"
-                    className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-105"
+                    src={img5}
+                    alt={items[4]?.title || "Travelers group selfie"}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 30vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     priority
                   />
                 </div>
 
-                {/* Bottom: gallery6 Indian Heritage Monument */}
-                <div className="w-full overflow-hidden shadow-xs group flex-1">
+                <div className="relative w-full aspect-[4/3] sm:aspect-auto overflow-hidden shadow-xs group flex-1 min-h-[140px]">
                   <Image
-                    src={gallery6}
-                    alt="Indian Heritage Monument"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    src={img6}
+                    alt={items[5]?.title || "Indian Heritage Monument"}
+                    fill
+                    sizes="(max-width: 640px) 50vw, 30vw"
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
                     priority
                   />
                 </div>
               </div>
 
-              {/* ─── Exact Center Floating Circular Passport Badge ─── */}
               <div className="absolute top-[37%] sm:top-[35%] left-[64%] sm:left-[65%] -translate-x-1/2 -translate-y-1/2 z-30 pointer-events-none">
                 <div className="w-10 h-10 xs:w-12 xs:h-12 sm:w-16 sm:h-16 rounded-full bg-[#1877F2] text-white flex items-center justify-center shadow-xl border-[2px] sm:border-[4px] border-white transition-transform duration-300 hover:scale-110">
                   <svg
@@ -152,7 +152,6 @@ export default function GallerySection() {
                     viewBox="0 0 28 28"
                     fill="none"
                   >
-                    {/* Back passport booklet */}
                     <rect
                       x="4"
                       y="3"
@@ -169,7 +168,6 @@ export default function GallerySection() {
                     <line x1="8" y1="16" x2="15" y2="16" stroke="white" strokeWidth="1.3" />
                     <line x1="8" y1="18.5" x2="13" y2="18.5" stroke="white" strokeWidth="1.3" />
 
-                    {/* Front passport booklet */}
                     <rect
                       x="9"
                       y="6"
@@ -204,10 +202,8 @@ export default function GallerySection() {
                   </svg>
                 </div>
               </div>
-
             </div>
 
-            {/* ─── Mobile View Only: Follow Gallery Button at Bottom ─── */}
             <div className="mt-6 flex justify-center lg:hidden w-full">
               <Link
                 href="/gallery"
@@ -218,9 +214,8 @@ export default function GallerySection() {
               </Link>
             </div>
           </div>
-
         </div>
       </div>
     </section>
-  );
+  )
 }

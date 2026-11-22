@@ -41,7 +41,9 @@ export default function Home() {
           <PopularPackages />
         </Suspense>
 
-        <GallerySection />
+        <Suspense fallback={null}>
+          <GallerySection />
+        </Suspense>
         <TestimonialsSection />
 
         <GeneralQuestionsFAQ />
