@@ -68,6 +68,33 @@ const parseResponse = async <T>(response: Response): Promise<T> => {
   return body as T
 }
 
+export const apiGetRaw = async <T>(path: string, options?: RequestInit): Promise<T> => {
+  const baseUrl = getBaseUrl()
+  const cleanPath = path.startsWith('/') ? path : `/${path}`
+  const targetUrl = `${baseUrl}${cleanPath}`
+
+  const headers = new Headers(options?.headers)
+  if (!headers.has('Accept')) {
+    headers.set('Accept', 'application/json')
+  }
+
+  const response = await fetch(targetUrl, {
+    ...options,
+    method: 'GET',
+    headers,
+    signal: options?.signal ?? AbortSignal.timeout(15_000),
+  })
+
+  if (!response.ok) {
+    throw new ApiError(response.status, {
+      code: 'HTTP_ERROR',
+      message: response.statusText,
+    })
+  }
+
+  return response.json() as Promise<T>
+}
+
 export const apiGet = async <T>(path: string, options?: RequestInit): Promise<T> => {
   const baseUrl = getBaseUrl()
   const cleanPath = path.startsWith('/') ? path : `/${path}`

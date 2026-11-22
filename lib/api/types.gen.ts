@@ -5706,6 +5706,1383 @@ export interface paths {
         };
         trace?: never;
     };
+    "/blogs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List published blog articles for customer site */
+        get: {
+            parameters: {
+                query: {
+                    category?: string;
+                    tag?: string;
+                    destinationId?: string;
+                    search?: string;
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Paginated list of published blog articles */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blogs/categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List blog categories for customer site */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Blog categories ordered by display order */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                name: string;
+                                displayOrder: number;
+                                postCount?: number;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blogs/{slug}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get single published blog article detail by slug */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    slug: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Blog article detail with related and recent posts */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                                contentMarkdown: string;
+                                seoTitle: string | null;
+                                metaDescription: string | null;
+                                canonicalUrl: string | null;
+                                focusKeywords: string[];
+                            };
+                            related: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                            }[];
+                            recent: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                            }[];
+                        };
+                    };
+                };
+                /** @description Blog article not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/blogs/{slug}/views": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Increment blog view counter */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    slug: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Blog view counter incremented */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                success: boolean;
+                                viewsCount: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Blog article not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/blogs": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all blog articles (admin) */
+        get: {
+            parameters: {
+                query: {
+                    q?: string;
+                    status?: "draft" | "scheduled" | "published";
+                    categoryId?: string;
+                    destinationId?: string;
+                    page: number;
+                    limit: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Paginated list of blog articles */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                                /** @enum {string} */
+                                status: "draft" | "scheduled" | "published";
+                                /** Format: uuid */
+                                categoryId: string;
+                                destinationId: string | null;
+                                /** Format: uuid */
+                                coverMediaId: string;
+                                authorAvatarMediaId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create blog article (admin) */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        slug?: string;
+                        excerpt: string;
+                        contentMarkdown: string;
+                        /** Format: uuid */
+                        coverMediaId: string;
+                        coverAlt?: string | null;
+                        /** Format: uuid */
+                        categoryId: string;
+                        destinationId?: string | null;
+                        locationLabel?: string | null;
+                        badgeLabel?: string | null;
+                        /** @default [] */
+                        tags: string[];
+                        /** @default Admin */
+                        authorName: string;
+                        /** @default Editor */
+                        authorRole: string;
+                        authorAvatarMediaId?: string | null;
+                        /**
+                         * @default draft
+                         * @enum {string}
+                         */
+                        status: "draft" | "scheduled" | "published";
+                        publishedAt?: string | null;
+                        seoTitle?: string | null;
+                        metaDescription?: string | null;
+                        canonicalUrl?: string | null;
+                        /** @default [] */
+                        focusKeywords: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Blog article created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                                contentMarkdown: string;
+                                seoTitle: string | null;
+                                metaDescription: string | null;
+                                canonicalUrl: string | null;
+                                focusKeywords: string[];
+                                /** @enum {string} */
+                                status: "draft" | "scheduled" | "published";
+                                /** Format: uuid */
+                                categoryId: string;
+                                destinationId: string | null;
+                                /** Format: uuid */
+                                coverMediaId: string;
+                                authorAvatarMediaId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/blogs/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get blog article detail (admin) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Blog article detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                                contentMarkdown: string;
+                                seoTitle: string | null;
+                                metaDescription: string | null;
+                                canonicalUrl: string | null;
+                                focusKeywords: string[];
+                                /** @enum {string} */
+                                status: "draft" | "scheduled" | "published";
+                                /** Format: uuid */
+                                categoryId: string;
+                                destinationId: string | null;
+                                /** Format: uuid */
+                                coverMediaId: string;
+                                authorAvatarMediaId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Blog article not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        /** Update blog article (admin) */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        slug?: string;
+                        excerpt: string;
+                        contentMarkdown: string;
+                        /** Format: uuid */
+                        coverMediaId: string;
+                        coverAlt?: string | null;
+                        /** Format: uuid */
+                        categoryId: string;
+                        destinationId?: string | null;
+                        locationLabel?: string | null;
+                        badgeLabel?: string | null;
+                        /** @default [] */
+                        tags: string[];
+                        /** @default Admin */
+                        authorName: string;
+                        /** @default Editor */
+                        authorRole: string;
+                        authorAvatarMediaId?: string | null;
+                        /**
+                         * @default draft
+                         * @enum {string}
+                         */
+                        status: "draft" | "scheduled" | "published";
+                        publishedAt?: string | null;
+                        seoTitle?: string | null;
+                        metaDescription?: string | null;
+                        canonicalUrl?: string | null;
+                        /** @default [] */
+                        focusKeywords: string[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Blog article updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                                contentMarkdown: string;
+                                seoTitle: string | null;
+                                metaDescription: string | null;
+                                canonicalUrl: string | null;
+                                focusKeywords: string[];
+                                /** @enum {string} */
+                                status: "draft" | "scheduled" | "published";
+                                /** Format: uuid */
+                                categoryId: string;
+                                destinationId: string | null;
+                                /** Format: uuid */
+                                coverMediaId: string;
+                                authorAvatarMediaId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Blog article not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Delete blog article (admin) */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Blog article deleted */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Blog article not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/blogs/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update blog article status (admin) */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "draft" | "scheduled" | "published";
+                        publishedAt?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Blog article status updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                title: string;
+                                excerpt: string;
+                                coverUrl: string;
+                                coverAlt: string | null;
+                                category: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                };
+                                destination: {
+                                    /** Format: uuid */
+                                    id: string;
+                                    slug: string;
+                                    name: string;
+                                } | null;
+                                locationLabel: string | null;
+                                badgeLabel: string | null;
+                                tags: string[];
+                                author: {
+                                    name: string;
+                                    role: string;
+                                    avatarUrl: string | null;
+                                };
+                                readTimeMinutes: number;
+                                publishedAt: string | null;
+                                viewsCount: number;
+                                contentMarkdown: string;
+                                seoTitle: string | null;
+                                metaDescription: string | null;
+                                canonicalUrl: string | null;
+                                focusKeywords: string[];
+                                /** @enum {string} */
+                                status: "draft" | "scheduled" | "published";
+                                /** Format: uuid */
+                                categoryId: string;
+                                destinationId: string | null;
+                                /** Format: uuid */
+                                coverMediaId: string;
+                                authorAvatarMediaId: string | null;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Blog article not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/blog-categories": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List all blog categories (admin) */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description List of blog categories */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                name: string;
+                                displayOrder: number;
+                                postCount?: number;
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create blog category (admin) */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        slug?: string;
+                        /** @default 0 */
+                        displayOrder: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Blog category created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                name: string;
+                                displayOrder: number;
+                                postCount?: number;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/blog-categories/reorder": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Reorder blog categories (admin) */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        items: {
+                            /** Format: uuid */
+                            id: string;
+                            displayOrder: number;
+                        }[];
+                    };
+                };
+            };
+            responses: {
+                /** @description Blog categories reordered */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                success: boolean;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/blog-categories/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Update blog category (admin) */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        name: string;
+                        slug?: string;
+                        /** @default 0 */
+                        displayOrder: number;
+                    };
+                };
+            };
+            responses: {
+                /** @description Blog category updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                slug: string;
+                                name: string;
+                                displayOrder: number;
+                                postCount?: number;
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Blog category not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        /** Delete blog category (admin) */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Blog category deleted */
+                204: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                /** @description Cannot delete category with associated blog articles */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Blog category not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {

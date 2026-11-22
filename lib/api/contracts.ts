@@ -48,3 +48,21 @@ export type GalleryItem =
 
 export type GalleryCategory =
   paths['/gallery/categories']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type BlogListItem =
+  paths['/blogs']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type BlogListResponse =
+  paths['/blogs']['get']['responses'][200]['content']['application/json']
+
+export type BlogDetail =
+  paths['/blogs/{slug}']['get']['responses'][200]['content']['application/json']['data']
+
+export type BlogDetailResponse =
+  paths['/blogs/{slug}']['get']['responses'][200]['content']['application/json']
+
+export type BlogCategory =
+  paths['/blogs/categories']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type BlogViewPingResponse =
+  paths['/blogs/{slug}/views']['post']['responses'][200]['content']['application/json']['data']
