@@ -42,3 +42,15 @@ export async function updateMyProfile(
 ): Promise<CustomerProfileData> {
   return apiSend<CustomerProfileData>('/api/v1/me', 'PATCH', payload)
 }
+
+export async function uploadMyAvatar(
+  file: File,
+): Promise<{ avatarMediaId: string; avatarUrl: string }> {
+  const formData = new FormData()
+  formData.append('file', file)
+  return apiSend<{ avatarMediaId: string; avatarUrl: string }>('/api/v1/me/avatar', 'PUT', formData)
+}
+
+export async function deleteMyAvatar(): Promise<{ success: boolean }> {
+  return apiSend<{ success: boolean }>('/api/v1/me/avatar', 'DELETE')
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import {
   X,
@@ -21,10 +21,12 @@ import {
   Users,
   Utensils,
   Download,
-  ShieldCheck,
   Check,
   Tag,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
+import { deleteMyAvatar, uploadMyAvatar } from "@/lib/api/customer";
 import { useAuth, TripHistoryItem } from "./AuthContext";
 
 export default function UserProfileDrawer() {
@@ -41,77 +43,115 @@ export default function UserProfileDrawer() {
   const [activeTab, setActiveTab] = useState<"profile" | "trips">("profile");
   const [selectedTrip, setSelectedTrip] = useState<TripHistoryItem | null>(null);
 
-  // Photo upload ref
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [photoSuccess, setPhotoSuccess] = useState<string | null>(null);
+  const [photoError, setPhotoError] = useState<string | null>(null);
+  const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
 
-  // Reset selected trip when drawer closes or tab switches
-  useEffect(() => {
-    if (!isProfileDrawerOpen) {
+  const [prevOpen, setPrevOpen] = useState(isProfileDrawerOpen);
+  if (prevOpen !== isProfileDrawerOpen) {
+    setPrevOpen(isProfileDrawerOpen);
+    if (!isProfileDrawerOpen && selectedTrip !== null) {
       setSelectedTrip(null);
     }
-  }, [isProfileDrawerOpen]);
+  }
 
-  // Profile edit state
   const [editName, setEditName] = useState(user?.name || "");
   const [editPhone, setEditPhone] = useState(user?.phone || "");
-  const [editEmail, setEditEmail] = useState(user?.email || "");
   const [editLocation, setEditLocation] = useState(user?.location || "");
   const [editBio, setEditBio] = useState(user?.bio || "");
   const [profileMessage, setProfileMessage] = useState<string | null>(null);
+  const [profileError, setProfileError] = useState<string | null>(null);
+  const [isSavingProfile, setIsSavingProfile] = useState(false);
 
-  // Synchronize state when user changes or drawer opens
-  useEffect(() => {
+  const [prevUser, setPrevUser] = useState(user);
+  if (prevUser !== user) {
+    setPrevUser(user);
     if (user) {
       setEditName(user.name || "");
       setEditPhone(user.phone || "");
-      setEditEmail(user.email || "");
-      setEditLocation(user.location || "Kolkata, West Bengal");
-      setEditBio(
-        user.bio || "Passionate traveler & nature lover. Exploring the world one trip at a time."
-      );
+      setEditLocation(user.location || "");
+      setEditBio(user.bio || "");
     }
-  }, [user]);
+  }
 
-  // Handle Photo Upload
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        alert("Image must be smaller than 5MB");
-        return;
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      setPhotoError("Image must be smaller than 5MB");
+      setTimeout(() => setPhotoError(null), 3000);
+      return;
+    }
+
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      setPhotoError("Please select a JPEG, PNG, or WebP image");
+      setTimeout(() => setPhotoError(null), 3000);
+      return;
+    }
+
+    setIsUploadingAvatar(true);
+    setPhotoError(null);
+
+    try {
+      const res = await uploadMyAvatar(file);
+      updateAvatar(res.avatarUrl);
+      setPhotoSuccess("Profile photo updated successfully!");
+      setTimeout(() => setPhotoSuccess(null), 2500);
+    } catch {
+      setPhotoError("Failed to upload avatar. Please try again.");
+      setTimeout(() => setPhotoError(null), 3000);
+    } finally {
+      setIsUploadingAvatar(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          updateAvatar(reader.result);
-          setPhotoSuccess("Profile photo updated successfully!");
-          setTimeout(() => setPhotoSuccess(null), 2500);
-        }
-      };
-      reader.readAsDataURL(file);
     }
   };
 
-  // Handle Remove Photo
-  const handleRemovePhoto = () => {
-    updateAvatar("");
-    setPhotoSuccess("Profile photo removed. Initial letter is now shown.");
-    setTimeout(() => setPhotoSuccess(null), 2500);
+  const handleRemovePhoto = async () => {
+    setIsUploadingAvatar(true);
+    setPhotoError(null);
+    try {
+      await deleteMyAvatar();
+      updateAvatar("");
+      setPhotoSuccess("Profile photo removed. Initial letter is now shown.");
+      setTimeout(() => setPhotoSuccess(null), 2500);
+    } catch {
+      setPhotoError("Failed to remove avatar. Please try again.");
+      setTimeout(() => setPhotoError(null), 3000);
+    } finally {
+      setIsUploadingAvatar(false);
+    }
   };
 
-  // Handle Profile Update
-  const handleProfileSubmit = (e: React.FormEvent) => {
+  const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    updateProfile({
-      name: editName,
-      phone: editPhone,
-      email: editEmail,
-      location: editLocation,
-      bio: editBio,
-    });
-    setProfileMessage("Personal profile details saved successfully!");
-    setTimeout(() => setProfileMessage(null), 3000);
+    setProfileError(null);
+    setProfileMessage(null);
+
+    if (!editName.trim()) {
+      setProfileError("Full name is required.");
+      return;
+    }
+
+    setIsSavingProfile(true);
+    try {
+      await updateProfile({
+        name: editName.trim(),
+        phone: editPhone.trim(),
+        location: editLocation.trim(),
+        bio: editBio.trim(),
+      });
+      setProfileMessage("Personal profile details saved successfully!");
+      setTimeout(() => setProfileMessage(null), 3000);
+    } catch {
+      setProfileError("Failed to save profile changes. Please try again.");
+    } finally {
+      setIsSavingProfile(false);
+    }
   };
 
   if (!isLoggedIn || !user) return null;
@@ -182,24 +222,28 @@ export default function UserProfileDrawer() {
                   {/* Upload photo trigger */}
                   <button
                     type="button"
+                    disabled={isUploadingAvatar}
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs"
+                    className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-[#1877F2] hover:bg-blue-600 text-white flex items-center justify-center transition-colors cursor-pointer shadow-xs disabled:opacity-50"
                     title="Upload profile photo"
                     aria-label="Upload profile photo"
                   >
-                    <Camera className="w-3 h-3 stroke-[2.2]" />
+                    {isUploadingAvatar ? (
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                    ) : (
+                      <Camera className="w-3 h-3 stroke-[2.2]" />
+                    )}
                   </button>
 
                   <input
                     ref={fileInputRef}
                     type="file"
-                    accept="image/*"
+                    accept="image/png,image/jpeg,image/webp"
                     onChange={handlePhotoUpload}
                     className="hidden"
                   />
                 </div>
 
-                {/* Info & Badges */}
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-base font-bold text-white truncate">
@@ -218,21 +262,26 @@ export default function UserProfileDrawer() {
                 </div>
               </div>
 
-              {/* Photo Actions Row */}
               <div className="mt-3 pt-2.5 border-t border-gray-800/80 flex items-center justify-between text-xs text-gray-300">
                 <button
                   type="button"
+                  disabled={isUploadingAvatar}
                   onClick={() => fileInputRef.current?.click()}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
+                  className="inline-flex items-center gap-1.5 text-xs font-medium text-blue-400 hover:text-blue-300 transition-colors cursor-pointer disabled:opacity-50"
                 >
-                  <Camera className="w-3.5 h-3.5" />
+                  {isUploadingAvatar ? (
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  ) : (
+                    <Camera className="w-3.5 h-3.5" />
+                  )}
                   <span>Change Photo</span>
                 </button>
                 {user.avatar && (
                   <button
                     type="button"
+                    disabled={isUploadingAvatar}
                     onClick={handleRemovePhoto}
-                    className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-red-400 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1 text-xs text-gray-400 hover:text-red-400 transition-colors cursor-pointer disabled:opacity-50"
                   >
                     <Trash2 className="w-3 h-3" />
                     <span>Use Letter Avatar</span>
@@ -241,11 +290,17 @@ export default function UserProfileDrawer() {
               </div>
             </div>
 
-            {/* Notification alert */}
             {photoSuccess && (
               <div className="px-3.5 py-2.5 rounded-lg bg-emerald-50 text-emerald-800 text-xs font-medium flex items-center gap-2 animate-in fade-in duration-200">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 <span>{photoSuccess}</span>
+              </div>
+            )}
+
+            {photoError && (
+              <div className="px-3.5 py-2.5 rounded-lg bg-rose-50 text-rose-800 text-xs font-medium flex items-center gap-2 animate-in fade-in duration-200">
+                <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                <span>{photoError}</span>
               </div>
             )}
 
@@ -322,7 +377,13 @@ export default function UserProfileDrawer() {
                   </div>
                 )}
 
-                {/* Full Name */}
+                {profileError && (
+                  <div className="p-3 rounded-lg text-xs font-medium bg-rose-50 text-rose-800 flex items-center gap-2 animate-in fade-in duration-150">
+                    <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
+                    <span>{profileError}</span>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Full Name
@@ -340,25 +401,25 @@ export default function UserProfileDrawer() {
                   </div>
                 </div>
 
-                {/* Email Address */}
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
-                    Email Address
-                  </label>
-                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-white border border-gray-200/90 focus-within:border-[#1877F2] transition-colors">
+                  <div className="flex items-center justify-between mb-1">
+                    <label className="block text-xs font-semibold text-gray-700">
+                      Email Address
+                    </label>
+                    <span className="text-[10px] text-gray-400">Read-only</span>
+                  </div>
+                  <div className="flex items-center gap-2 px-3 py-2.5 rounded-lg bg-gray-100 border border-gray-200 text-gray-500 cursor-not-allowed">
                     <Mail className="w-4 h-4 text-gray-400 shrink-0" />
                     <input
                       type="email"
-                      required
-                      value={editEmail}
-                      onChange={(e) => setEditEmail(e.target.value)}
-                      placeholder="Enter email address"
-                      className="w-full text-xs sm:text-sm text-gray-900 bg-transparent outline-none focus:outline-none ring-0 focus:ring-0 font-normal"
+                      readOnly
+                      disabled
+                      value={user.email}
+                      className="w-full text-xs sm:text-sm text-gray-500 bg-transparent outline-none cursor-not-allowed font-normal"
                     />
                   </div>
                 </div>
 
-                {/* Phone Number */}
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Phone Number
@@ -376,7 +437,6 @@ export default function UserProfileDrawer() {
                   </div>
                 </div>
 
-                {/* City / Location */}
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     City / Location
@@ -393,7 +453,6 @@ export default function UserProfileDrawer() {
                   </div>
                 </div>
 
-                {/* Bio / Preferences */}
                 <div>
                   <label className="block text-xs font-semibold text-gray-700 mb-1">
                     Travel Preferences / Bio
@@ -410,12 +469,19 @@ export default function UserProfileDrawer() {
                   </div>
                 </div>
 
-                {/* Save Button */}
                 <button
                   type="submit"
-                  className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer outline-none focus:outline-none"
+                  disabled={isSavingProfile}
+                  className="w-full py-2.5 rounded-lg bg-[#1877F2] hover:bg-[#00285C] text-white font-semibold text-xs sm:text-sm shadow-xs transition-colors cursor-pointer outline-none focus:outline-none flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  Save Profile Changes
+                  {isSavingProfile ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span>Saving Profile...</span>
+                    </>
+                  ) : (
+                    <span>Save Profile Changes</span>
+                  )}
                 </button>
               </form>
             )}

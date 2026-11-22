@@ -26,6 +26,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "br-dawn-dust-bdv2bs7b.storage.c-8.us-east-2.aws.neon.tech",
+        pathname: "/krikotrip-public/**",
+      },
+      {
+        protocol: "https",
         hostname: "images.unsplash.com",
       },
       {

@@ -154,19 +154,44 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  useEffect(() => {
-    if (session.isPending) {
-      return
-    }
-
-    if (session.data?.user) {
-      void loadProfile()
-    } else {
+  const [prevSessionUser, setPrevSessionUser] = useState(session.data?.user)
+  if (prevSessionUser !== session.data?.user) {
+    setPrevSessionUser(session.data?.user)
+    if (!session.data?.user && user !== null) {
       setUser(null)
       setProfileComplete(false)
       setIsAuthLoading(false)
     }
-  }, [session.isPending, session.data?.user, loadProfile])
+  }
+
+  useEffect(() => {
+    let isCancelled = false
+
+    if (!session.isPending && session.data?.user) {
+      void (async () => {
+        try {
+          const profile = await fetchMyProfile()
+          if (!isCancelled) {
+            setUser(mapProfileToUser(profile))
+            setProfileComplete(profile.profileComplete)
+          }
+        } catch {
+          if (!isCancelled) {
+            setUser(null)
+            setProfileComplete(false)
+          }
+        } finally {
+          if (!isCancelled) {
+            setIsAuthLoading(false)
+          }
+        }
+      })()
+    }
+
+    return () => {
+      isCancelled = true
+    }
+  }, [session.isPending, session.data?.user])
 
   const openProfileDrawer = useCallback(() => setIsProfileDrawerOpen(true), [])
   const closeProfileDrawer = useCallback(() => setIsProfileDrawerOpen(false), [])
@@ -250,6 +275,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const payload: UpdateCustomerProfilePayload = {}
       if (updates.name !== undefined) {
         payload.name = updates.name
+      }
+      if (updates.phone !== undefined) {
+        payload.phone = updates.phone
       }
       if (updates.location !== undefined) {
         payload.location = updates.location
