@@ -15,14 +15,12 @@ import {
 export default function Home() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      {/* Top Header */}
       <Header />
 
-      {/* Main Content */}
       <main className="flex-1">
-
-        <HeroSection />
-
+        <Suspense fallback={null}>
+          <HeroSection />
+        </Suspense>
 
         <StatsBar />
 
@@ -30,13 +28,18 @@ export default function Home() {
           <SpecialOffers />
         </Suspense>
 
-        <FeaturedDestinations />
+        <Suspense fallback={null}>
+          <FeaturedDestinations />
+        </Suspense>
 
-        <TravelThemesSection />
+        <Suspense fallback={null}>
+          <TravelThemesSection />
+        </Suspense>
 
         <Suspense fallback={null}>
           <PopularPackages />
         </Suspense>
+
         <GallerySection />
         <TestimonialsSection />
 
@@ -45,7 +48,6 @@ export default function Home() {
         <TravelInspirations />
       </main>
 
-      {/* Global Footer */}
       <Footer />
     </div>
   );

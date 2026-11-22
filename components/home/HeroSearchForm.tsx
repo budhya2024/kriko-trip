@@ -2,17 +2,39 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Search, Check } from "lucide-react";
-import { FaSuitcaseRolling, FaBed, FaPassport } from "react-icons/fa";
+import { FaSuitcaseRolling, FaBed } from "react-icons/fa";
 import BankingDatePicker from "@/components/shared/DateTimePicker";
 
-export default function HeroSearchForm() {
+export interface HeroSearchDestination {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+export interface HeroSearchTheme {
+  id: string;
+  name: string;
+  slug: string;
+}
+
+interface HeroSearchFormProps {
+  destinations?: HeroSearchDestination[];
+  themes?: HeroSearchTheme[];
+}
+
+export default function HeroSearchForm({
+  destinations = [],
+  themes = [],
+}: HeroSearchFormProps) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"tours" | "hotels" | "visa" | "experience">("tours");
 
-  // Field states
   const [selectedDestination, setSelectedDestination] = useState<string>("Select");
+  const [selectedDestinationSlug, setSelectedDestinationSlug] = useState<string>("");
   const [isDestinationOpen, setIsDestinationOpen] = useState(false);
+
   const [selectedDate, setSelectedDate] = useState<{
     day: string;
     year: string;
@@ -23,55 +45,27 @@ export default function HeroSearchForm() {
     raw: "",
   });
   const [isDateOpen, setIsDateOpen] = useState(false);
+
   const [selectedTourType, setSelectedTourType] = useState<string>("Select");
+  const [selectedTourTypeSlug, setSelectedTourTypeSlug] = useState<string>("");
   const [isTourTypeOpen, setIsTourTypeOpen] = useState(false);
-  const [minDate, setMinDate] = useState<string>("2026-11-01");
-
-  useEffect(() => {
-    const today = new Date();
-    const y = today.getFullYear();
-    const m = String(today.getMonth() + 1).padStart(2, "0");
-    const d = String(today.getDate()).padStart(2, "0");
-    setMinDate(`${y}-${m}-${d}`);
-  }, []);
-
-  const handleSearch = () => {
-    const params = new URLSearchParams();
-    if (selectedDestination && selectedDestination !== "Select") {
-      const dest = selectedDestination.split(" ")[0].replace(/[^a-zA-Z]/g, "");
-      params.set("destination", dest);
-    }
-    if (selectedTourType && selectedTourType !== "Select") {
-      params.set("type", selectedTourType);
-    }
-    const query = params.toString();
-    router.push(query ? `/tour-packages?${query}` : "/tour-packages");
-  };
-
-  const destinations = [
-    "Andaman & Nicobar Islands",
-    "Kashmir & Ladakh",
-    "Goa Coastal Beaches",
-    "Kerala Backwaters (Alleppey)",
-    "Rajasthan (Jaipur & Udaipur)",
-    "Himachal Pradesh (Manali & Shimla)",
-    "Sundarban Tiger Reserve",
-  ];
-
-  const tourTypes = [
-    "Adventure & Trekking",
-    "Beach & Island Tour",
-    "Cultural & Historic",
-    "Honeymoon Special",
-    "Luxury Cruise",
-    "Wildlife Safari",
-  ];
 
   const destinationRef = useRef<HTMLDivElement>(null);
   const dateRef = useRef<HTMLDivElement>(null);
   const tourTypeRef = useRef<HTMLDivElement>(null);
 
-  // Click / Touch outside handler to dismiss any open dropdown
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (selectedDestinationSlug) {
+      params.set("destination", selectedDestinationSlug);
+    }
+    if (selectedTourTypeSlug) {
+      params.set("type", selectedTourTypeSlug);
+    }
+    const query = params.toString();
+    router.push(query ? `/tour-packages?${query}` : "/tour-packages");
+  };
+
   useEffect(() => {
     function handleClickOutside(e: MouseEvent | TouchEvent) {
       if (
@@ -104,46 +98,42 @@ export default function HeroSearchForm() {
 
   return (
     <div className="w-full max-w-[1280px] mx-auto">
-      {/* Category Tabs: Smooth scroll on mobile without awkward wrapping */}
       <div className="flex items-center gap-2 sm:gap-2.5 px-2 sm:px-6 -mb-3 relative z-30 overflow-x-auto scrollbar-none pb-1">
-        {/* Tours Tab */}
         <button
           type="button"
           onClick={() => setActiveTab("tours")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "tours"
-            ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
-            : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
+          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${
+            activeTab === "tours"
+              ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
+              : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
+          }`}
         >
           <FaSuitcaseRolling className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
           <span>Tours</span>
         </button>
 
-        {/* Hotels Tab */}
         <button
           type="button"
           onClick={() => setActiveTab("hotels")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "hotels"
-            ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
-            : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
+          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${
+            activeTab === "hotels"
+              ? "bg-[#1877F2] text-white shadow-md shadow-blue-500/20"
+              : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
+          }`}
         >
           <FaBed className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#C5943A]" />
           <span>Hotels</span>
         </button>
 
-
-
-        {/* Experience Tab */}
         <button
           type="button"
           onClick={() => setActiveTab("experience")}
-          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${activeTab === "experience"
-            ? "bg-brand-primary text-white shadow-md shadow-blue-500/20"
-            : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
-            }`}
+          className={`shrink-0 flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full font-semibold text-xs sm:text-[15px] transition-all duration-200 cursor-pointer ${
+            activeTab === "experience"
+              ? "bg-brand-primary text-white shadow-md shadow-blue-500/20"
+              : "bg-white text-gray-800 hover:bg-gray-50 shadow-sm"
+          }`}
         >
-          {/* Deep Red Badge with Wave/Activity */}
           <span className="w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-deep-red flex items-center justify-center text-white shrink-0 shadow-xs">
             <svg
               className="w-2.5 h-2.5 sm:w-3.5 sm:h-3.5"
@@ -161,11 +151,8 @@ export default function HeroSearchForm() {
         </button>
       </div>
 
-      {/* Main White Search Box Container */}
       <div className="bg-white rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.12)] p-4 sm:pt-6 sm:pb-5 sm:px-7 border border-gray-100 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-2.5 sm:gap-3.5 items-center">
-
-          {/* Field 1: Destination */}
           <div ref={destinationRef} className="relative md:col-span-4">
             <button
               type="button"
@@ -175,7 +162,6 @@ export default function HeroSearchForm() {
               }}
               className="w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
             >
-              {/* Target / Crosshair Icon */}
               <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors">
                 <svg
                   className="w-5 h-5"
@@ -205,21 +191,21 @@ export default function HeroSearchForm() {
               </div>
             </button>
 
-            {/* Destination Dropdown Menu */}
             {isDestinationOpen && (
-              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
+              <div className="absolute left-0 top-[calc(100%+6px)] w-full max-h-60 overflow-y-auto bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
                 {destinations.map((dest) => (
                   <button
-                    key={dest}
+                    key={dest.id}
                     type="button"
                     onClick={() => {
-                      setSelectedDestination(dest);
+                      setSelectedDestination(dest.name);
+                      setSelectedDestinationSlug(dest.slug);
                       setIsDestinationOpen(false);
                     }}
                     className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-between cursor-pointer"
                   >
-                    <span>{dest}</span>
-                    {selectedDestination === dest && (
+                    <span>{dest.name}</span>
+                    {selectedDestinationSlug === dest.slug && (
                       <Check className="w-4 h-4 text-[#1877F2]" />
                     )}
                   </button>
@@ -228,7 +214,6 @@ export default function HeroSearchForm() {
             )}
           </div>
 
-          {/* Field 2: Date (Slice & Axis Banking Style) */}
           <div ref={dateRef} className="relative md:col-span-3">
             <button
               type="button"
@@ -239,7 +224,6 @@ export default function HeroSearchForm() {
               }}
               className="w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
             >
-              {/* Calendar with "8" inside icon */}
               <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors pointer-events-none">
                 <svg
                   className="w-5 h-5"
@@ -279,7 +263,6 @@ export default function HeroSearchForm() {
               </div>
             </button>
 
-            {/* Calendar Popover */}
             {isDateOpen && (
               <>
                 <div
@@ -323,7 +306,6 @@ export default function HeroSearchForm() {
             )}
           </div>
 
-          {/* Field 3: Tour Types */}
           <div ref={tourTypeRef} className="relative md:col-span-3">
             <button
               type="button"
@@ -333,7 +315,6 @@ export default function HeroSearchForm() {
               }}
               className="w-full h-[60px] sm:h-[72px] flex items-center gap-3.5 px-3.5 sm:px-4 rounded-lg border border-gray-200/90 hover:border-blue-400 focus:border-[#1877F2] bg-white transition-all text-left group cursor-pointer"
             >
-              {/* List with 3 bullets & lines icon */}
               <div className="shrink-0 text-gray-700 group-hover:text-[#1877F2] transition-colors">
                 <svg
                   className="w-5 h-5"
@@ -363,21 +344,21 @@ export default function HeroSearchForm() {
               </div>
             </button>
 
-            {/* Tour Types Dropdown Menu */}
             {isTourTypeOpen && (
-              <div className="absolute left-0 top-[calc(100%+6px)] w-full bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
-                {tourTypes.map((type) => (
+              <div className="absolute left-0 top-[calc(100%+6px)] w-full max-h-60 overflow-y-auto bg-white rounded-lg shadow-xl border border-gray-100 py-2 z-50 animate-in fade-in duration-150">
+                {themes.map((theme) => (
                   <button
-                    key={type}
+                    key={theme.id}
                     type="button"
                     onClick={() => {
-                      setSelectedTourType(type);
+                      setSelectedTourType(theme.name);
+                      setSelectedTourTypeSlug(theme.slug);
                       setIsTourTypeOpen(false);
                     }}
                     className="w-full text-left px-4 py-2.5 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors flex items-center justify-between cursor-pointer"
                   >
-                    <span>{type}</span>
-                    {selectedTourType === type && (
+                    <span>{theme.name}</span>
+                    {selectedTourTypeSlug === theme.slug && (
                       <Check className="w-4 h-4 text-[#1877F2]" />
                     )}
                   </button>
@@ -386,7 +367,6 @@ export default function HeroSearchForm() {
             )}
           </div>
 
-          {/* Field 4: Search Button with Liquid Water Fill Effect */}
           <div className="md:col-span-2">
             <button
               type="button"
@@ -397,19 +377,17 @@ export default function HeroSearchForm() {
               <span className="relative z-10">SEARCH</span>
             </button>
           </div>
-
         </div>
 
-        {/* Bottom Custom Itinerary Note */}
         <div className="mt-4 pt-1 text-left">
           <p className="text-sm text-gray-600">
             Can&apos;t find what you&apos;re looking for? create your{" "}
-            <a
-              href="#custom-itinerary"
+            <Link
+              href="/contact-us"
               className="text-[#1877F2] font-semibold hover:underline cursor-pointer"
             >
               Custom Itinerary
-            </a>
+            </Link>
           </p>
         </div>
       </div>

@@ -1,12 +1,16 @@
-"use client";
-
 import React from "react";
 import HeroSearchForm from "./HeroSearchForm";
+import { getAllDestinations } from "@/lib/api/server/destinations";
+import { getTravelThemes } from "@/lib/api/server/themes";
 
-export default function HeroSection() {
+export default async function HeroSection() {
+  const [destinations, themes] = await Promise.all([
+    getAllDestinations(),
+    getTravelThemes(),
+  ]);
+
   return (
     <section className="relative w-full min-h-[440px] sm:min-h-[480px] lg:min-h-[520px] flex flex-col justify-between overflow-visible bg-[#092c42]">
-      {/* Background Video: home2-banner-video-3-2.mp4 */}
       <div className="absolute inset-0 overflow-hidden">
         <video
           autoPlay
@@ -17,11 +21,9 @@ export default function HeroSection() {
         >
           <source src="/assets/video/home2-banner-video-3-2.mp4" type="video/mp4" />
         </video>
-        {/* Soft natural tint overlay to maintain text readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-black/40 to-black/65" />
       </div>
 
-      {/* Main Hero Header Text (Vertically Centered in Middle on Left Side) */}
       <div className="relative z-10 container my-auto pt-16 pb-8 sm:pt-20 sm:pb-10 lg:pt-20 lg:pb-12 text-left">
         <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold text-white tracking-tight leading-[1.18] drop-shadow-md">
           All-in-one Travel Booking
@@ -31,9 +33,8 @@ export default function HeroSection() {
         </p>
       </div>
 
-
       <div className="relative z-30 container translate-y-6 sm:translate-y-10 md:translate-y-1/2">
-        <HeroSearchForm />
+        <HeroSearchForm destinations={destinations} themes={themes} />
       </div>
     </section>
   );

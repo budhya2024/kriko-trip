@@ -10,3 +10,9 @@ export type SessionResponse =
 
 export type ApiErrorResponse =
   paths['/session']['get']['responses'][401]['content']['application/json']['error']
+
+export type Destination =
+  paths['/destinations']['get']['responses'][200]['content']['application/json']['data'][number]
+
+export type TravelTheme =
+  paths['/themes']['get']['responses'][200]['content']['application/json']['data'][number]
