@@ -5,15 +5,17 @@ import Link from "next/link";
 import {
   User,
   Mail,
-  Phone,
   FileText,
   MessageSquare,
   CheckCircle2,
+  AlertCircle,
   MapPin,
   ExternalLink,
 } from "lucide-react";
 import CountryPhoneSelect from "@/components/shared/CountryPhoneSelect";
 import { useSiteSettings, DEFAULT_SITE_SETTINGS } from "@/components/shared/SettingsContext";
+import { apiSend } from "@/lib/api/http";
+import { newIdempotencyKey } from "@/lib/idempotency";
 
 export default function ContactFormSection() {
   const contextSettings = useSiteSettings();
@@ -31,17 +33,44 @@ export default function ContactFormSection() {
     message: "",
   });
   const [agreed, setAgreed] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    if (!agreed) {
+      setErrorMessage("Please accept the terms and privacy policy to continue.");
+      return;
+    }
 
-    // Simulate quick submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const idempotencyKey = newIdempotencyKey();
+      await apiSend(
+        "/contact-messages",
+        "POST",
+        {
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phoneCountryCode: countryCode,
+          phone: formData.phone.trim(),
+          subject: formData.subject.trim(),
+          message: formData.message.trim(),
+          consent: agreed,
+          honeypot: honeypot || undefined,
+        },
+        {
+          headers: {
+            "Idempotency-Key": idempotencyKey,
+          },
+        },
+      );
+
       setIsSubmitted(true);
       setFormData({
         name: "",
@@ -51,16 +80,19 @@ export default function ContactFormSection() {
         message: "",
       });
       setAgreed(false);
-    }, 800);
+      setHoneypot("");
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Failed to send message. Please try again.";
+      setErrorMessage(msg);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <section className="w-full pt-8 lg:pt-16 bg-white">
       <div className="container">
-
-        {/* Equal Height Grid for Form and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* ─── Left Column: Contact Form ─── */}
           <div className="lg:col-span-7 bg-white rounded-md border border-gray-200/90 shadow-xs p-6 sm:p-7 flex flex-col justify-between h-full">
             <div>
               <div className="mb-6">
@@ -91,8 +123,25 @@ export default function ContactFormSection() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
+                  <div style={{ display: "none" }} aria-hidden="true">
+                    <input
+                      type="text"
+                      name="site_feedback_verification"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                    />
+                  </div>
+
+                  {errorMessage && (
+                    <div className="p-3 rounded-md bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      <span>{errorMessage}</span>
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Full Name */}
                     <div>
                       <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Full Name <span className="text-red-500">*</span>
@@ -114,7 +163,6 @@ export default function ContactFormSection() {
                       </div>
                     </div>
 
-                    {/* Email Address */}
                     <div>
                       <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Email Address <span className="text-red-500">*</span>
@@ -138,20 +186,17 @@ export default function ContactFormSection() {
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Phone Number with Country Code Dropdown */}
                     <div>
                       <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Phone Number <span className="text-red-500">*</span>
                       </label>
                       <div className="relative flex items-center rounded-md border border-gray-200 bg-gray-50/50 focus-within:border-[#03ADFF] focus-within:bg-white transition-colors">
-                        {/* Country Dropdown with Search & Flags */}
                         <CountryPhoneSelect
                           value={countryCode}
                           onChange={(code) => setCountryCode(code)}
                           buttonClassName="rounded-l-md"
                         />
 
-                        {/* Phone Input */}
                         <input
                           type="tel"
                           required
@@ -165,7 +210,6 @@ export default function ContactFormSection() {
                       </div>
                     </div>
 
-                    {/* Subject Input Field */}
                     <div>
                       <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                         Subject <span className="text-red-500">*</span>
@@ -188,7 +232,6 @@ export default function ContactFormSection() {
                     </div>
                   </div>
 
-                  {/* Message Textarea */}
                   <div>
                     <label className="block text-xs font-semibold text-gray-800 uppercase tracking-wider mb-1.5">
                       Your Requirements / Message <span className="text-red-500">*</span>
@@ -210,7 +253,6 @@ export default function ContactFormSection() {
                     </div>
                   </div>
 
-                  {/* Checkbox Above Submit Button */}
                   <div className="pt-1 flex items-start sm:items-center justify-start gap-2.5">
                     <input
                       type="checkbox"
@@ -236,7 +278,6 @@ export default function ContactFormSection() {
                     </label>
                   </div>
 
-                  {/* Center-Aligned Submit Button with Liquid Water Fill Effect */}
                   <div className="pt-3 flex justify-center">
                     <button
                       type="submit"
@@ -262,9 +303,7 @@ export default function ContactFormSection() {
             </div>
           </div>
 
-          {/* ─── Right Column: Interactive Google Map (Same Height as Form) ─── */}
           <div className="lg:col-span-5 bg-white rounded-md border border-gray-200/90 shadow-xs overflow-hidden flex flex-col h-full">
-            {/* Map Header */}
             <div className="px-4 py-3 border-b border-gray-150 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-[#03ADFF]" />

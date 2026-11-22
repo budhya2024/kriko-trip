@@ -17,6 +17,7 @@ import {
 import { FaFacebookF, FaWhatsapp, FaXTwitter } from 'react-icons/fa6'
 import { Footer, Header } from '@/components/shared'
 import BlogViewTracker from '@/components/blogs/BlogViewTracker'
+import NewsletterForm from '@/components/blogs/NewsletterForm'
 import {
   getBlogBySlug,
   getBlogCategories,
@@ -415,27 +416,7 @@ export default async function BlogDetailsPage({ params }: BlogDetailsPageProps) 
                 </div>
               </div>
 
-              <div className="bg-[#00285C] text-white rounded-xl p-5 shadow-sm text-left">
-                <h4 className="text-sm sm:text-base font-semibold text-white mb-1.5">
-                  Subscribe to Our Newsletter
-                </h4>
-                <p className="text-xs text-blue-100/90 font-normal leading-relaxed mb-3.5">
-                  Get the latest updates and travel guides right in your inbox.
-                </p>
-                <div className="space-y-2.5">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="w-full px-3 py-3 rounded-md bg-[#083570] border border-white/20 text-white placeholder:text-blue-100 text-xs focus:outline-none focus:bg-[#0a4187] transition-colors font-normal"
-                  />
-                  <button
-                    type="button"
-                    className="w-full py-3 rounded-md bg-[#03ADFF] hover:bg-[#0092db] text-white text-xs font-semibold uppercase tracking-wider transition-colors shadow-sm cursor-pointer"
-                  >
-                    SUBSCRIBE
-                  </button>
-                </div>
-              </div>
+              <NewsletterForm source="blog_sidebar" />
             </aside>
           </div>
         </div>
