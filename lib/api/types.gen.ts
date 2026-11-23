@@ -10197,6 +10197,968 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/packages/{slug}/reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List approved reviews and aggregate summary for a tour package */
+        get: {
+            parameters: {
+                query?: {
+                    page?: number;
+                    limit?: number;
+                    rating?: number;
+                };
+                header?: never;
+                path: {
+                    slug: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Package reviews with rating summary */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                title: string | null;
+                                comment: string;
+                                rating: number;
+                                helpfulCount: number;
+                                verifiedBooking: boolean;
+                                adminReply: string | null;
+                                adminRepliedAt: string | null;
+                                createdAt: string;
+                                hasVotedHelpful?: boolean;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                            summary: {
+                                ratingAvg: string;
+                                reviewsCount: number;
+                                ratingDistribution: {
+                                    [key: string]: number;
+                                };
+                            };
+                        };
+                    };
+                };
+                /** @description Package not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Submit a new customer review for a tour package */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    slug: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        rating: number;
+                        comment: string;
+                        title?: string | null;
+                        tripType?: ("couple" | "family" | "friends" | "solo") | null;
+                        authorLocation?: string | null;
+                    };
+                };
+            };
+            responses: {
+                /** @description Review submitted successfully */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                title: string | null;
+                                comment: string;
+                                rating: number;
+                                helpfulCount: number;
+                                verifiedBooking: boolean;
+                                adminReply: string | null;
+                                adminRepliedAt: string | null;
+                                createdAt: string;
+                                hasVotedHelpful?: boolean;
+                            };
+                            /** @enum {string} */
+                            status: "pending" | "approved" | "hidden";
+                            message: string;
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Package not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Duplicate review for package */
+                409: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/reviews/{id}/helpful": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Toggle helpful vote on a review */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Helpful vote toggled */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                helpful: boolean;
+                                helpfulCount: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Review not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/testimonials": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List featured testimonials for home page */
+        get: {
+            parameters: {
+                query?: {
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Testimonials list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                packageTitle: string;
+                                packageSlug: string;
+                                destinationName: string | null;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                rating: number;
+                                comment: string;
+                                title: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                createdAt: string;
+                            }[];
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/reviews": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List reviews with filters and facets for super admin */
+        get: {
+            parameters: {
+                query?: {
+                    q?: string;
+                    destinationId?: string;
+                    packageId?: string;
+                    rating?: number;
+                    status?: "pending" | "approved" | "hidden";
+                    page?: number;
+                    limit?: number;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Admin reviews list */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                packageTitle: string;
+                                packageSlug: string;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                enquiryId: string | null;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                title: string | null;
+                                comment: string;
+                                rating: number;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "hidden";
+                                showOnPackage: boolean;
+                                showOnHome: boolean;
+                                verifiedBooking: boolean;
+                                adminReply: string | null;
+                                adminRepliedAt: string | null;
+                                helpfulCount: number;
+                                /** @enum {string} */
+                                createdBy: "customer" | "admin";
+                                allowedTransitions: ("pending" | "approved" | "hidden")[];
+                                createdAt: string;
+                                updatedAt: string;
+                            }[];
+                            meta: {
+                                page: number;
+                                limit: number;
+                                total: number;
+                                totalPages: number;
+                            };
+                            facets: {
+                                byStatus: {
+                                    [key: string]: number;
+                                };
+                                total: number;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Forbidden */
+                403: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        /** Create a review as super admin */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** Format: uuid */
+                        packageId: string;
+                        authorName: string;
+                        authorLocation?: string | null;
+                        rating: number;
+                        comment: string;
+                        title?: string | null;
+                        tripType?: ("couple" | "family" | "friends" | "solo") | null;
+                        /**
+                         * @default approved
+                         * @enum {string}
+                         */
+                        status: "pending" | "approved" | "hidden";
+                        /** @default true */
+                        showOnPackage: boolean;
+                        /** @default false */
+                        showOnHome: boolean;
+                        /** @default false */
+                        verifiedBooking: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Review created */
+                201: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                packageTitle: string;
+                                packageSlug: string;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                enquiryId: string | null;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                title: string | null;
+                                comment: string;
+                                rating: number;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "hidden";
+                                showOnPackage: boolean;
+                                showOnHome: boolean;
+                                verifiedBooking: boolean;
+                                adminReply: string | null;
+                                adminRepliedAt: string | null;
+                                helpfulCount: number;
+                                /** @enum {string} */
+                                createdBy: "customer" | "admin";
+                                allowedTransitions: ("pending" | "approved" | "hidden")[];
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/reviews/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get review detail for super admin */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Admin review detail */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                packageTitle: string;
+                                packageSlug: string;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                enquiryId: string | null;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                title: string | null;
+                                comment: string;
+                                rating: number;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "hidden";
+                                showOnPackage: boolean;
+                                showOnHome: boolean;
+                                verifiedBooking: boolean;
+                                adminReply: string | null;
+                                adminRepliedAt: string | null;
+                                helpfulCount: number;
+                                /** @enum {string} */
+                                createdBy: "customer" | "admin";
+                                allowedTransitions: ("pending" | "approved" | "hidden")[];
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Review not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        put?: never;
+        post?: never;
+        /** Soft delete a review */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description Review deleted */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            success: boolean;
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Review not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/reviews/{id}/status": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /** Update review moderation status and display settings */
+        patch: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        /** @enum {string} */
+                        status: "pending" | "approved" | "hidden";
+                        showOnPackage?: boolean;
+                        showOnHome?: boolean;
+                    };
+                };
+            };
+            responses: {
+                /** @description Review status updated */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                packageTitle: string;
+                                packageSlug: string;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                enquiryId: string | null;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                title: string | null;
+                                comment: string;
+                                rating: number;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "hidden";
+                                showOnPackage: boolean;
+                                showOnHome: boolean;
+                                verifiedBooking: boolean;
+                                adminReply: string | null;
+                                adminRepliedAt: string | null;
+                                helpfulCount: number;
+                                /** @enum {string} */
+                                createdBy: "customer" | "admin";
+                                allowedTransitions: ("pending" | "approved" | "hidden")[];
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Validation error or invalid status transition */
+                400: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Review not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        trace?: never;
+    };
+    "/admin/reviews/{id}/reply": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /** Set or update admin reply on a review */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: string;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        reply: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description Admin reply saved */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            data: {
+                                /** Format: uuid */
+                                id: string;
+                                /** Format: uuid */
+                                packageId: string;
+                                packageTitle: string;
+                                packageSlug: string;
+                                destinationName: string | null;
+                                customerUserId: string | null;
+                                enquiryId: string | null;
+                                authorName: string;
+                                authorLocation: string | null;
+                                authorAvatarUrl: string | null;
+                                tripType: ("couple" | "family" | "friends" | "solo") | null;
+                                title: string | null;
+                                comment: string;
+                                rating: number;
+                                /** @enum {string} */
+                                status: "pending" | "approved" | "hidden";
+                                showOnPackage: boolean;
+                                showOnHome: boolean;
+                                verifiedBooking: boolean;
+                                adminReply: string | null;
+                                adminRepliedAt: string | null;
+                                helpfulCount: number;
+                                /** @enum {string} */
+                                createdBy: "customer" | "admin";
+                                allowedTransitions: ("pending" | "approved" | "hidden")[];
+                                createdAt: string;
+                                updatedAt: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Unauthorized */
+                401: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+                /** @description Review not found */
+                404: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content: {
+                        "application/json": {
+                            error: {
+                                code: string;
+                                message: string;
+                                details?: unknown;
+                                requestId?: string;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {

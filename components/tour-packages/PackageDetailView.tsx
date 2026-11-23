@@ -900,6 +900,7 @@ interface PublicCouponChip {
                 destination={pkg.destination || pkg.location}
                 rating={pkg.rating}
                 reviewsCount={pkg.reviewsCount}
+                packageSlug={pkg.slug}
               />
             </div>
 
