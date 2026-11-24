@@ -134,7 +134,11 @@ export async function getPackageSlugs(): Promise<string[]> {
   cacheTag('packages')
 
   try {
-    return await apiGet<string[]>('/api/v1/packages/slugs')
+    const raw = await apiGet<Array<string | { slug: string }>>('/api/v1/packages/slugs')
+    if (Array.isArray(raw)) {
+      return raw.map((item) => (typeof item === 'string' ? item : item.slug)).filter(Boolean)
+    }
+    return []
   } catch {
     return []
   }
