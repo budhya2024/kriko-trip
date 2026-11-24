@@ -74,6 +74,7 @@ export default function PackageDetailView({
     message: "",
   });
   const [isQuoteSubmitted, setIsQuoteSubmitted] = useState(false);
+  const [submittedReference, setSubmittedReference] = useState<string | null>(null);
   const [minDate, setMinDate] = useState<string>("2026-11-01");
   const [mounted, setMounted] = useState(false);
 
@@ -302,9 +303,7 @@ interface PublicCouponChip {
 
       await refreshMe();
 
-      alert(
-        `Thank you ${sidebarForm.name}! Enquiry ${res.reference} received. Our travel expert will call you shortly on ${countryCode} ${sidebarForm.phone}.`
-      );
+      setSubmittedReference(res.reference);
 
       setSidebarForm({
         name: "",
@@ -992,6 +991,25 @@ interface PublicCouponChip {
                 <p className="text-xs sm:text-sm font-medium text-gray-700 mb-3.5">
                   Share your details and we&apos;ll contact you shortly.
                 </p>
+
+                {submittedReference && (
+                  <div className="p-3.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-1.5 my-3">
+                    <div className="flex items-center gap-2 font-bold text-sm text-emerald-800">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                      <span>Enquiry Received!</span>
+                    </div>
+                    <p className="text-xs text-emerald-700">
+                      Reference: <strong className="font-mono">{submittedReference}</strong>. Our travel specialist will call you shortly with your quotation.
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setSubmittedReference(null)}
+                      className="text-xs text-emerald-800 font-semibold underline block"
+                    >
+                      Submit another enquiry
+                    </button>
+                  </div>
+                )}
 
                 <form onSubmit={handleQuoteSubmit} className="space-y-3">
                   <div>

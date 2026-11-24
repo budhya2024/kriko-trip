@@ -91,6 +91,7 @@ export default function UserProfileDrawer() {
 
   const [activeTab, setActiveTab] = useState<"profile" | "trips" | "loyalty">("profile");
   const [selectedTrip, setSelectedTrip] = useState<TripHistoryItem | null>(null);
+  const [voucherNotice, setVoucherNotice] = useState<string | null>(null);
 
   const [trips, setTrips] = useState<TripHistoryItem[]>([]);
   const [isLoadingTrips, setIsLoadingTrips] = useState(false);
@@ -823,10 +824,25 @@ export default function UserProfileDrawer() {
                       )}
                     </div>
 
+                    {voucherNotice && (
+                      <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-200 text-blue-800 text-xs flex items-center justify-between">
+                        <span>{voucherNotice}</span>
+                        <button
+                          type="button"
+                          onClick={() => setVoucherNotice(null)}
+                          className="font-bold ml-2 text-blue-600 hover:text-blue-900"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    )}
+
                     <div className="grid grid-cols-2 gap-2 pt-1">
                       <button
                         type="button"
-                        onClick={() => alert("Voucher will be emailed after confirmation.")}
+                        onClick={() =>
+                          setVoucherNotice("Booking voucher will be emailed upon confirmation.")
+                        }
                         className="py-2.5 px-3 rounded-lg bg-white border border-gray-300 hover:bg-gray-50 text-gray-800 text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                       >
                         <Download className="w-3.5 h-3.5 text-gray-600" />
